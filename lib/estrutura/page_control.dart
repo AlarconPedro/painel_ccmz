@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmz/estrutura/estrutura.dart';
+import 'package:painel_ccmz/pages/pages.dart';
 
 class PageControl extends StatefulWidget {
   const PageControl({super.key});
@@ -14,18 +15,22 @@ class _PageControlState extends State<PageControl> {
     return PageView(
       controller: Rotas.navController,
       children: [
+        const CadastroPessoas(),
         // const DashBoard(),
         // const OrdemServico(),
         // const Clientes(),
         // const Produtos(),
-        Container(
-          color: CupertinoColors.systemBlue,
-        ),
+        // Container(
+        //   color: CupertinoColors.systemBlue,
+        // ),
         Container(
           color: CupertinoColors.systemRed,
         ),
         Container(
           color: CupertinoColors.systemGreen,
+        ),
+        Container(
+          color: CupertinoColors.systemYellow,
         ),
       ],
     );

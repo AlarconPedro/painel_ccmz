@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 
 class Cores {
-  static Color preto = const Color(0xFF000000);
-  static Color branco = const Color(0xFFFFFFFF);
+  static const preto = Color(0xFF000000);
+  static const branco = Color(0xFFFFFFFF);
 
-  static Color cinzaEscuro = const Color(0xFF212121);
-  static Color cinzaMedio = const Color(0xFF424242);
-  static Color cinzaClaro = const Color(0xFF616161);
+  static const cinzaClaro = Color(0xFFE0E0E0);
+  static const cinzaMedio = Color(0xFF757575);
+  static const cinzaEscuro = Color(0xFF333333);
 
-  static Color azulEscuro = const Color(0xFF0D47A1);
-  static Color azulMedio = const Color(0xFF1976D2);
-  static Color azulClaro = const Color(0xFF2196F3);
+  static const azulEscuro = Color(0xFF0D47A1);
+  static const azulMedio = Color(0xFF1976D2);
+  static const azulClaro = Color(0xFF2196F3);
 
-  static Color vermelhoEscuro = const Color(0xFFB71C1C);
-  static Color vermelhoMedio = const Color(0xFFD32F2F);
-  static Color vermelhoClaro = const Color(0xFFE53935);
+  static const vermelhoEscuro = Color(0xFFB71C1C);
+  static const vermelhoMedio = Color(0xFFD32F2F);
+  static const vermelhoClaro = Color(0xFFE53935);
 
-  static Color verdeEscuro = const Color(0xFF1B5E20);
-  static Color verdeMedio = const Color(0xFF388E3C);
-  static Color verdeClaro = const Color(0xFF43A047);
+  static const verdeEscuro = Color(0xFF1B5E20);
+  static const verdeMedio = Color(0xFF388E3C);
+  static const verdeClaro = Color(0xFF43A047);
 
-  static Color amareloEscuro = const Color(0xFFF57F17);
-  static Color amareloMedio = const Color(0xFFFFA000);
-  static Color amareloClaro = const Color(0xFFFFC107);
+  static const amareloEscuro = Color(0xFFF57F17);
+  static const amareloMedio = Color(0xFFFFA000);
+  static const amareloClaro = Color(0xFFFFC107);
 
-  static Color laranjaEscuro = const Color(0xFFE65100);
-  static Color laranjaMedio = const Color(0xFFF57C00);
-  static Color laranjaClaro = const Color(0xFFFF9800);
+  static const laranjaEscuro = Color(0xFFE65100);
+  static const laranjaMedio = Color(0xFFF57C00);
+  static const laranjaClaro = Color(0xFFFF9800);
 }

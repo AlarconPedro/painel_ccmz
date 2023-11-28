@@ -37,36 +37,36 @@ class NavState extends State<Nav> {
   Widget build(BuildContext context) {
     List<SideMenuItem> items = [
       SideMenuItem(
-        title: 'Dashboard',
+        title: 'Pessoas',
         onTap: (index, sideMenu) {
           sideMenu.changePage(index);
         },
-        icon: const Icon(CupertinoIcons.chart_pie_fill),
+        icon: const Icon(CupertinoIcons.person),
         // badgeContent: const Text(
         //   '3',
         //   style: TextStyle(color: Colors.white),
         // ),
       ),
       SideMenuItem(
-        title: 'OS',
+        title: 'Comunidades',
         onTap: (index, sideMenu) {
           sideMenu.changePage(index);
         },
-        icon: const Icon(CupertinoIcons.doc_plaintext),
+        icon: const Icon(CupertinoIcons.person_3),
       ),
       SideMenuItem(
-        title: 'Clientes',
+        title: 'Quartos',
         onTap: (index, sideMenu) {
           sideMenu.changePage(index);
         },
-        icon: const Icon(CupertinoIcons.person),
+        icon: const Icon(CupertinoIcons.bed_double),
       ),
       SideMenuItem(
-        title: 'Produtos',
+        title: 'Eventos',
         onTap: (index, sideMenu) {
           sideMenu.changePage(index);
         },
-        icon: const Icon(Icons.shopping_bag_outlined),
+        icon: const Icon(CupertinoIcons.calendar),
       ),
       // SideMenuItem(
       //   title: 'Cadastro',
