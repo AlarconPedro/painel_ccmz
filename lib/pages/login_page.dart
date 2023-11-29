@@ -14,8 +14,8 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  String _errorMessage = '';
-  String _suceessMessage = '';
+  final String _errorMessage = '';
+  final String _suceessMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +27,12 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: Container(
           margin: const EdgeInsets.only(bottom: 180),
-          width: largura / 3,
-          height: altura / 2,
-          decoration: BoxDecoration(
+          width: 550,
+          height: 500,
+          decoration: const BoxDecoration(
             color: Cores.branco,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            boxShadow: const [
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
               BoxShadow(
                 color: Colors.black12,
                 blurRadius: 10,
@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                 margin: const EdgeInsets.only(top: 25),
                 width: largura,
                 height: 100,
-                child: Text(
+                child: const Text(
                   'Painel CCMZ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             enableSuggestions: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'E-mail',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Cores.cinzaEscuro,
                                 ),
                               ),
-                              errorBorder: const OutlineInputBorder(
+                              errorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.red,
                                 ),
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                             obscureText: true,
                             textInputAction: TextInputAction.next,
                             enableSuggestions: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Senha',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Cores.cinzaEscuro,
                                 ),
                               ),
-                              errorBorder: const OutlineInputBorder(
+                              errorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.red,
                                 ),

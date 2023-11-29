@@ -15,7 +15,7 @@ class _PageControlState extends State<PageControl> {
     return PageView(
       controller: Rotas.navController,
       children: [
-        const CadastroPessoas(),
+        const Pessoas(),
         // const DashBoard(),
         // const OrdemServico(),
         // const Clientes(),
