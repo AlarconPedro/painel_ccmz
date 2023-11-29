@@ -113,7 +113,7 @@ class _PessoasState extends State<Pessoas> {
                         child: ListView.builder(
                           itemCount: 10,
                           itemBuilder: (context, index) {
-                            return CardPessoa();
+                            return const CardPessoa();
                             // return ListTile(
                             //   title: Text('Item $index'),
                             // );

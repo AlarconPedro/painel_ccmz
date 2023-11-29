@@ -7,16 +7,51 @@ class CardPessoa extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        color: Cores.branco,
-        child: const Row(
-          children: [
-            Icon(CupertinoIcons.person),
-            Text("Nome da Pessoa"),
-          ],
-        ),
+    return Container(
+      color: Colors.transparent,
+      child: Row(
+        children: [
+          Expanded(
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Container(
+                height: 55,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Cores.branco,
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      Icon(CupertinoIcons.person),
+                      SizedBox(width: 10),
+                      Text("Nome da Pessoa"),
+                      Spacer(),
+                      Icon(CupertinoIcons.ellipsis_vertical),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            elevation: 5,
+            child: CupertinoButton(
+              child: const Icon(
+                CupertinoIcons.trash,
+                color: Cores.vermelhoMedio,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ],
       ),
     );
   }
