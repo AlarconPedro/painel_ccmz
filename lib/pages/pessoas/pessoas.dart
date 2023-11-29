@@ -113,10 +113,13 @@ class _PessoasState extends State<Pessoas> {
                         child: ListView.builder(
                           itemCount: 10,
                           itemBuilder: (context, index) {
-                            return const CardPessoa();
-                            // return ListTile(
-                            //   title: Text('Item $index'),
-                            // );
+                            return MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: const CardPessoa(),
+                              ),
+                            );
                           },
                         ),
                       ),
