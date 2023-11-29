@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/cores.dart';
 
@@ -112,9 +113,10 @@ class _PessoasState extends State<Pessoas> {
                         child: ListView.builder(
                           itemCount: 10,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text('Item $index'),
-                            );
+                            return CardPessoa();
+                            // return ListTile(
+                            //   title: Text('Item $index'),
+                            // );
                           },
                         ),
                       ),
