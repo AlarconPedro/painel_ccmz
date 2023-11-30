@@ -12,6 +12,12 @@ class Pessoas extends StatefulWidget {
 }
 
 class _PessoasState extends State<Pessoas> {
+  bool carregando = false;
+
+  buscarPessoas() async {}
+
+  excluirPessoa() async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
