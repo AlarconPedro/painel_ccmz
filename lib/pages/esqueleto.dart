@@ -5,7 +5,10 @@ import 'package:painel_ccmz/pages/pages.dart';
 import '../classes/classes.dart';
 
 class Esqueleto extends StatelessWidget {
-  Esqueleto({super.key});
+  String tituloPagina;
+  String tituloBoto;
+
+  Esqueleto({super.key, required this.tituloBoto, required this.tituloPagina});
 
   @override
   Widget build(BuildContext context) {
