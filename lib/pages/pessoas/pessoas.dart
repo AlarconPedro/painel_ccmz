@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/pages/pages.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/cores.dart';
@@ -135,7 +136,17 @@ class _PessoasState extends State<Pessoas> {
                             vertical: 5,
                             horizontal: 30,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              CupertinoDialogRoute(
+                                builder: (context) {
+                                  return const CadastroPessoas();
+                                },
+                                context: context,
+                              ),
+                            );
+                          },
                           child: const Text("Nova Pessoa"),
                         ),
                       ]),

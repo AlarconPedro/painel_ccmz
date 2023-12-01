@@ -16,6 +16,7 @@ class _PageControlState extends State<PageControl> {
       controller: Rotas.navController,
       children: [
         const Pessoas(),
+        const Comunidade(),
         // const DashBoard(),
         // const OrdemServico(),
         // const Clientes(),
@@ -23,9 +24,6 @@ class _PageControlState extends State<PageControl> {
         // Container(
         //   color: CupertinoColors.systemBlue,
         // ),
-        Container(
-          color: CupertinoColors.systemRed,
-        ),
         Container(
           color: CupertinoColors.systemGreen,
         ),
