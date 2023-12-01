@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/cores.dart';
+import '../../data/data.dart';
 
 class Pessoas extends StatefulWidget {
   const Pessoas({super.key});
@@ -14,9 +17,41 @@ class Pessoas extends StatefulWidget {
 class _PessoasState extends State<Pessoas> {
   bool carregando = false;
 
-  buscarPessoas() async {}
+  List<Pessoa> pessoas = [];
+
+  buscarPessoas() async {
+    setState(() {
+      carregando = true;
+    });
+    var retorno = await ApiPessoas().getPessoas();
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          pessoas.add(Pessoa.fromJson(item));
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer pessoas !"),
+        ),
+      );
+    }
+    setState(() {
+      carregando = false;
+    });
+  }
 
   excluirPessoa() async {}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarPessoas();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,24 +147,65 @@ class _PessoasState extends State<Pessoas> {
                         color: Cores.preto,
                       ),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        child: ListView.builder(
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: const CardPessoa(),
-                              ),
-                            );
-                          },
-                        ),
+                    const Row(children: [
+                      SizedBox(width: 55),
+                      Expanded(
+                        flex: 4,
+                        child: Text("Nome",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
-                    ),
+                      Expanded(
+                        flex: 2,
+                        child: Text("Sexo",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(width: 50),
+                      Expanded(
+                        flex: 2,
+                        child: Text("Comuniade",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(width: 50),
+                      Expanded(
+                        flex: 2,
+                        child: Text("Responsável",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text("Catequista",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text("Salmista",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Text("Excluir",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      SizedBox(width: 25),
+                    ]),
+                    carregando
+                        ? const Expanded(
+                            child: Center(child: CarregamentoIOS()))
+                        : Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              child: ListView.builder(
+                                itemCount: pessoas.length,
+                                itemBuilder: (context, index) {
+                                  return MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: CardPessoa(pessoa: pessoas[index]),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),

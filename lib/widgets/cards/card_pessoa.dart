@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/classes/cores.dart';
 
+import '../../data/data.dart';
+
 class CardPessoa extends StatelessWidget {
-  const CardPessoa({super.key});
+  Pessoa pessoa;
+
+  CardPessoa({super.key, required this.pessoa});
 
   @override
   Widget build(BuildContext context) {
@@ -23,25 +27,44 @@ class CardPessoa extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: Cores.branco,
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
-                      Icon(CupertinoIcons.person),
-                      SizedBox(width: 10),
-                      Text("Nome da Pessoa"),
-                      Spacer(),
-                      Text("Sexo"),
-                      Spacer(),
-                      Text("Comunidade"),
-                      Spacer(),
-                      Text("Responsável"),
-                      Spacer(),
-                      Text("Catequista"),
-                      Spacer(),
-                      Text("Salmista"),
-                      Spacer(),
-                      Icon(CupertinoIcons.chevron_right),
+                      const Icon(CupertinoIcons.person),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        flex: 4,
+                        child: Text(pessoa.pesNome),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(pessoa.pesGenero),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(pessoa.comunidade),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: CupertinoCheckbox(
+                            value: pessoa.pesResponsavel == "S" ? true : false,
+                            onChanged: (value) {}),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: CupertinoCheckbox(
+                            value: pessoa.pesCatequista == "S" ? true : false,
+                            onChanged: (value) {}),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: CupertinoCheckbox(
+                            value: pessoa.pesSalmista == "S" ? true : false,
+                            onChanged: (value) {}),
+                      ),
+                      const SizedBox(width: 30),
+                      const Icon(CupertinoIcons.chevron_right),
                     ],
                   ),
                 ),

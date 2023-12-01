@@ -2,6 +2,7 @@ class Pessoa {
   int pesCodigo;
   String pesNome;
   String pesGenero;
+  String comunidade;
   int comCodigo;
   String pesResponsavel;
   String pesCatequista;
@@ -12,6 +13,7 @@ class Pessoa {
     required this.pesCodigo,
     required this.pesNome,
     required this.pesGenero,
+    required this.comunidade,
     required this.comCodigo,
     required this.pesResponsavel,
     required this.pesCatequista,
@@ -24,6 +26,7 @@ class Pessoa {
       pesCodigo: json['pesCodigo'] ?? 0,
       pesNome: json['pesNome'] ?? "",
       pesGenero: json['pesGenero'] ?? "",
+      comunidade: json['comunidade'] ?? "",
       comCodigo: json['comCodigo'] ?? 0,
       pesResponsavel: json['pesResponsavel'] ?? "",
       pesCatequista: json['pesCatequista'] ?? "",
