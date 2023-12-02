@@ -7,7 +7,9 @@ import '../../data/data.dart';
 class CardPessoa extends StatelessWidget {
   PessoaModel pessoa;
 
-  CardPessoa({super.key, required this.pessoa});
+  Function() excluir;
+
+  CardPessoa({super.key, required this.pessoa, required this.excluir});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,35 @@ class CardPessoa extends StatelessWidget {
                 CupertinoIcons.trash,
                 color: Cores.vermelhoMedio,
               ),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CupertinoAlertDialog(
+                      title: const Text("Excluir Pessoa"),
+                      content:
+                          const Text("Deseja realmente excluir esta pessoa ?"),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: const Text("Não",
+                              style: TextStyle(color: Cores.vermelhoMedio)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: const Text("Sim",
+                              style: TextStyle(color: Cores.verdeMedio)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            excluir();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],

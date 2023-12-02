@@ -26,6 +26,7 @@ class _PessoasState extends State<Pessoas> {
     });
     var retorno = await ApiPessoas().getPessoas();
     if (retorno.statusCode == 200) {
+      pessoas.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
@@ -45,7 +46,31 @@ class _PessoasState extends State<Pessoas> {
     });
   }
 
-  excluirPessoa() async {}
+  excluirPessoa(int codigoPessoa) async {
+    setState(() {
+      carregando = true;
+    });
+    var retorno = await ApiPessoas().deletePessoa(codigoPessoa);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Pessoa excluída com sucesso !"),
+        ),
+      );
+      buscarPessoas();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao excluir pessoa !"),
+        ),
+      );
+    }
+    setState(() {
+      carregando = false;
+    });
+  }
 
   @override
   void initState() {
@@ -136,8 +161,8 @@ class _PessoasState extends State<Pessoas> {
                             vertical: 5,
                             horizontal: 30,
                           ),
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            await Navigator.push(
                               context,
                               CupertinoDialogRoute(
                                 builder: (context) {
@@ -146,6 +171,7 @@ class _PessoasState extends State<Pessoas> {
                                 context: context,
                               ),
                             );
+                            buscarPessoas();
                           },
                           child: const Text("Nova Pessoa"),
                         ),
@@ -210,7 +236,13 @@ class _PessoasState extends State<Pessoas> {
                                     cursor: SystemMouseCursors.click,
                                     child: GestureDetector(
                                       onTap: () {},
-                                      child: CardPessoa(pessoa: pessoas[index]),
+                                      child: CardPessoa(
+                                        pessoa: pessoas[index],
+                                        excluir: () {
+                                          excluirPessoa(
+                                              pessoas[index].pesCodigo);
+                                        },
+                                      ),
                                     ),
                                   );
                                 },
