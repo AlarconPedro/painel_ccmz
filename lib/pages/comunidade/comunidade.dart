@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/data.dart';
@@ -17,10 +19,15 @@ class Comunidade extends StatefulWidget {
 class _ComunidadeState extends State<Comunidade> {
   List<ComunidadeModel> comunidades = [];
 
+  bool carregando = false;
+
   buscarComunidades() async {
+    setState(() {
+      carregando = true;
+    });
     var retorno = await ApiComunidade().getComunidades();
     if (retorno.statusCode == 200) {
-      var decoded = retorno.body;
+      var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
           comunidades.add(ComunidadeModel.fromJson(item));
@@ -34,6 +41,16 @@ class _ComunidadeState extends State<Comunidade> {
         ),
       );
     }
+    setState(() {
+      carregando = false;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarComunidades();
   }
 
   @override
@@ -71,19 +88,27 @@ class _ComunidadeState extends State<Comunidade> {
           ),
         ),
         const SizedBox(height: 10),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: ListView.builder(
-              itemCount: comunidades.length,
-              itemBuilder: (context, index) {
-                return CardComunidade(
-                  comunidade: comunidades[index],
-                );
-              },
-            ),
-          ),
-        ),
+        carregando
+            ? const Expanded(child: Center(child: CarregamentoIOS()))
+            : Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ListView.builder(
+                    itemCount: comunidades.length,
+                    itemBuilder: (context, index) {
+                      return MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: CardComunidade(
+                            comunidade: comunidades[index],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
       ],
     );
   }
