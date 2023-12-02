@@ -29,5 +29,20 @@ class ApiPessoas {
     return await _request
         .getJson(_urlGetPessoaDetalhe + codigoPessoa.toString());
   }
+
   //POST
+  Future<dynamic> addPessoa(PessoaModel pessoa) async {
+    return await _request.postJson(_urlAddPessoa, pessoa.toJson());
+  }
+
+  //UPDATE
+  Future<dynamic> updatePessoa(PessoaModel pessoa) async {
+    return await _request.putJson(_urlUpdatePessoa, pessoa.toJson());
+  }
+
+  //DELETE
+  Future<dynamic> deletePessoa(int codigoPessoa) async {
+    return await _request
+        .deleteJson(_urlDeletePessoa + codigoPessoa.toString());
+  }
 }
