@@ -18,7 +18,7 @@ class Pessoas extends StatefulWidget {
 class _PessoasState extends State<Pessoas> {
   bool carregando = false;
 
-  List<Pessoa> pessoas = [];
+  List<PessoaModel> pessoas = [];
 
   buscarPessoas() async {
     setState(() {
@@ -29,7 +29,7 @@ class _PessoasState extends State<Pessoas> {
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
-          pessoas.add(Pessoa.fromJson(item));
+          pessoas.add(PessoaModel.fromJson(item));
         });
       }
     } else {

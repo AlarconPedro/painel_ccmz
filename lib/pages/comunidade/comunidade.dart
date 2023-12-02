@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmz/data/models/comunidade_model.dart';
 import 'package:painel_ccmz/pages/pages.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
@@ -13,7 +15,26 @@ class Comunidade extends StatefulWidget {
 }
 
 class _ComunidadeState extends State<Comunidade> {
-  List<Comunidade> comunidades = [];
+  List<ComunidadeModel> comunidades = [];
+
+  buscarComunidades() async {
+    var retorno = await ApiComunidade().getComunidades();
+    if (retorno.statusCode == 200) {
+      var decoded = retorno.body;
+      for (var item in decoded) {
+        setState(() {
+          comunidades.add(ComunidadeModel.fromJson(item));
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer comunidades !"),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

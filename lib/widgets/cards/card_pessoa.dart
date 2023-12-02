@@ -5,7 +5,7 @@ import 'package:painel_ccmz/classes/cores.dart';
 import '../../data/data.dart';
 
 class CardPessoa extends StatelessWidget {
-  Pessoa pessoa;
+  PessoaModel pessoa;
 
   CardPessoa({super.key, required this.pessoa});
 
