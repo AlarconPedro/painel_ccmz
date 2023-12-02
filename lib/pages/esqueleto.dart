@@ -8,7 +8,17 @@ class Esqueleto extends StatelessWidget {
   String tituloPagina;
   String tituloBoto;
 
-  Esqueleto({super.key, required this.tituloBoto, required this.tituloPagina});
+  Function() abrirTelaCadastro;
+
+  List<Widget> corpo;
+
+  Esqueleto({
+    super.key,
+    required this.tituloBoto,
+    required this.tituloPagina,
+    required this.abrirTelaCadastro,
+    required this.corpo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +88,9 @@ class Esqueleto extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(children: [
-                        const Text(
-                          'Pessoas',
-                          style: TextStyle(
+                        Text(
+                          tituloPagina,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -93,17 +103,18 @@ class Esqueleto extends StatelessWidget {
                             horizontal: 30,
                           ),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              CupertinoDialogRoute(
-                                builder: (context) {
-                                  return const CadastroPessoas();
-                                },
-                                context: context,
-                              ),
-                            );
+                            abrirTelaCadastro();
+                            // Navigator.push(
+                            //   context,
+                            //   CupertinoDialogRoute(
+                            //     builder: (context) {
+                            //       return const CadastroPessoas();
+                            //     },
+                            //     context: context,
+                            //   ),
+                            // );
                           },
-                          child: const Text("Nova Pessoa"),
+                          child: Text(tituloBoto),
                         ),
                       ]),
                     ),
@@ -114,6 +125,7 @@ class Esqueleto extends StatelessWidget {
                         color: Cores.preto,
                       ),
                     ),
+                    ...corpo,
                   ],
                 ),
               ),
