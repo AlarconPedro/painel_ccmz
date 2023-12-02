@@ -27,6 +27,7 @@ class _ComunidadeState extends State<Comunidade> {
     });
     var retorno = await ApiComunidade().getComunidades();
     if (retorno.statusCode == 200) {
+      comunidades.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
@@ -38,6 +39,32 @@ class _ComunidadeState extends State<Comunidade> {
         const SnackBar(
           backgroundColor: Cores.vermelhoMedio,
           content: Text("Erro ao trazer comunidades !"),
+        ),
+      );
+    }
+    setState(() {
+      carregando = false;
+    });
+  }
+
+  deleteComunidade(int codigoComunidade) async {
+    setState(() {
+      carregando = true;
+    });
+    var retorno = await ApiComunidade().deleteComunidade(codigoComunidade);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Comunidade excluida com sucesso !"),
+        ),
+      );
+      buscarComunidades();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao excluir comunidade !"),
         ),
       );
     }
@@ -58,8 +85,8 @@ class _ComunidadeState extends State<Comunidade> {
     return Esqueleto(
       tituloBoto: "Nova Comunidade",
       tituloPagina: "Comunidade",
-      abrirTelaCadastro: () {
-        Navigator.push(
+      abrirTelaCadastro: () async {
+        await Navigator.push(
           context,
           CupertinoDialogRoute(
             builder: (context) {
@@ -68,6 +95,7 @@ class _ComunidadeState extends State<Comunidade> {
             context: context,
           ),
         );
+        buscarComunidades();
       },
       corpo: [
         const Padding(
@@ -102,6 +130,9 @@ class _ComunidadeState extends State<Comunidade> {
                           onTap: () {},
                           child: CardComunidade(
                             comunidade: comunidades[index],
+                            excluir: () {
+                              deleteComunidade(comunidades[index].comCodigo);
+                            },
                           ),
                         ),
                       );

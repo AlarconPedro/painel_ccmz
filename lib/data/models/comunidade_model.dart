@@ -18,8 +18,17 @@ class ComunidadeModel {
       comCodigo: json['comCodigo'] ?? 0,
       comNome: json['comNome'] ?? "",
       comCidade: json['comCidade'] ?? "",
-      comUF: json['comUF'] ?? "",
+      comUF: json['comUf'] ?? "",
       qtdPessoas: json['qtdPessoas'] ?? 0,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'comCodigo': comCodigo,
+      'comNome': comNome,
+      'comCidade': comCidade,
+      'comUF': comUF,
+    };
   }
 }
