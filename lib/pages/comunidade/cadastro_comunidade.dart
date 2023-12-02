@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/data/data.dart';
 
 import '../../classes/classes.dart';
 
@@ -11,6 +12,50 @@ class CadastroComunidade extends StatefulWidget {
 }
 
 class _CadastroComunidadeState extends State<CadastroComunidade> {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController cidadeController = TextEditingController();
+  TextEditingController ufController = TextEditingController();
+
+  bool carregando = false;
+
+  preparaDados() {
+    return ComunidadeModel(
+      comCodigo: 0,
+      comNome: nomeController.text,
+      comCidade: cidadeController.text,
+      comUF: ufController.text,
+      qtdPessoas: 0,
+    );
+  }
+
+  gravarComunidade() async {
+    setState(() {
+      carregando = true;
+    });
+    var retorno = await ApiComunidade().addComunidade(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Comunidade cadastrada com sucesso !"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao cadastrar comunidade !"),
+        ),
+      );
+    }
+    setState(() {
+      carregando = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,175 +74,178 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height / 4.5,
               width: MediaQuery.of(context).size.width / 2,
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Cadastro de comunidade:",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )
-                      ],
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Cadastro de comunidade:",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 10,
-                          ),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Nome da comunidade',
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Por favor, digite o nome da comunidade';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 10,
-                          ),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Cidade',
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Por favor, digite o nome da cidade da comunidade';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 10,
-                          ),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'UF',
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Por favor, digite o UF comunidade';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Row(
-                  //   children: [
-                  //     TextFormField(
-                  //       decoration: const InputDecoration(
-                  //         labelText: 'Nome da comunidade',
-                  //         border: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.all(
-                  //             Radius.circular(10),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       validator: (value) {
-                  //         if (value == null || value.isEmpty) {
-                  //           return 'Por favor, digite o nome da comunidade';
-                  //         }
-                  //         return null;
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
-                    child: Row(
+                    Row(
                       children: [
-                        CupertinoButton(
-                          onPressed: () {},
-                          color: Cores.vermelhoMedio,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 30,
+                        Expanded(
+                          flex: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 10,
+                            ),
+                            child: TextFormField(
+                              controller: nomeController,
+                              decoration: const InputDecoration(
+                                labelText: 'Nome da comunidade',
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Por favor, digite o nome da comunidade';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
-                          child: const Text("Cancelar"),
                         ),
-                        const Spacer(),
-                        CupertinoButton(
-                          onPressed: () {},
-                          color: Cores.verdeMedio,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 30,
+                        Expanded(
+                          flex: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 10,
+                            ),
+                            child: TextFormField(
+                              controller: cidadeController,
+                              decoration: const InputDecoration(
+                                labelText: 'Cidade',
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Por favor, digite o nome da cidade da comunidade';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
-                          child: const Text("Salvar"),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 10,
+                            ),
+                            child: TextFormField(
+                              controller: ufController,
+                              decoration: const InputDecoration(
+                                labelText: 'UF',
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Por favor, digite o UF comunidade';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      child: Row(
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            color: Cores.vermelhoMedio,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 5,
+                              horizontal: 30,
+                            ),
+                            child: const Text("Cancelar"),
+                          ),
+                          const Spacer(),
+                          CupertinoButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                gravarComunidade();
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Cores.vermelhoMedio,
+                                    content: Text(
+                                      'Preencha os campos corretamente',
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            color: Cores.verdeMedio,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 5,
+                              horizontal: 30,
+                            ),
+                            child: const Text("Salvar"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

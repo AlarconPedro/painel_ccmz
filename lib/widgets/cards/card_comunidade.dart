@@ -6,7 +6,10 @@ import '../../classes/classes.dart';
 
 class CardComunidade extends StatelessWidget {
   ComunidadeModel comunidade;
-  CardComunidade({super.key, required this.comunidade});
+
+  Function() excluir;
+
+  CardComunidade({super.key, required this.comunidade, required this.excluir});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,44 @@ class CardComunidade extends StatelessWidget {
                 CupertinoIcons.trash,
                 color: Cores.vermelhoMedio,
               ),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CupertinoAlertDialog(
+                      title: const Text("Excluir Comunidade"),
+                      content: const Text(
+                          "Deseja realmente excluir esta comunidade ?"),
+                      actions: [
+                        //  CupertinoButton(
+                        //   color: Cores.vermelhoMedio,
+                        //   padding: const EdgeInsets.symmetric(
+                        //       horizontal: 20, vertical: 5),
+                        //   onPressed: () {
+                        //     Navigator.pop(context);
+                        //   },
+                        //   child: const Text("Não"),
+                        // ),
+                        CupertinoDialogAction(
+                          child: const Text("Não",
+                              style: TextStyle(color: Cores.vermelhoMedio)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: const Text("Sim",
+                              style: TextStyle(color: Cores.verdeMedio)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            excluir();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],
