@@ -26,13 +26,13 @@ class ApiComunidade {
   }
 
   //POST
-  Future<dynamic> addComunidade(Map<String, dynamic> comunidade) async {
-    return await _request.postJson(_urlAddComunidade, comunidade);
+  Future<dynamic> addComunidade(ComunidadeModel comunidade) async {
+    return await _request.postJson(_urlAddComunidade, comunidade.toMap());
   }
 
   //UPDATE
-  Future<dynamic> updateComunidade(Map<String, dynamic> comunidade) async {
-    return await _request.putJson(_urlUpdateComunidade, comunidade);
+  Future<dynamic> updateComunidade(ComunidadeModel comunidade) async {
+    return await _request.putJson(_urlUpdateComunidade, comunidade.toMap());
   }
 
   //DELETE
