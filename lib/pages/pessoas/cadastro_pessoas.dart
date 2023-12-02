@@ -1,4 +1,10 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmz/pages/esqueleto/cadastro_form.dart';
+import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
 
@@ -10,28 +16,222 @@ class CadastroPessoas extends StatefulWidget {
 }
 
 class _CadastroPessoasState extends State<CadastroPessoas> {
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController nomeController = TextEditingController();
+
+  int comunidadeSelecionada = 0;
+  int sexoSelecionado = 0;
+
+  List<DropdownMenuItem> listaSexo = [
+    const DropdownMenuItem(
+      value: 1,
+      child: Text("Masculino"),
+    ),
+    const DropdownMenuItem(
+      value: 2,
+      child: Text("Feminino"),
+    ),
+  ];
+
+  List<DropdownMenuItem> listaComunidade = [];
+
+  bool carregando = false;
+
+  preparaDados() {
+    return PessoaModel(
+      pesCodigo: 0,
+      pesNome: nomeController.text,
+      comCodigo: comunidadeSelecionada,
+      pesGenero: sexoSelecionado == 1 ? "M" : "F",
+      comunidade: "",
+      pesCatequista: false ? "S" : "N",
+      pesResponsavel: false ? "S" : "N",
+      pesSalmista: false ? "S" : "N",
+      pesObservacao: "",
+    );
+  }
+
+  buscarComunidade() async {
+    setState(() {
+      carregando = true;
+    });
+    var retorno = await ApiComunidade().getComunidades();
+    if (retorno.statusCode == 200) {
+      listaComunidade.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          listaComunidade.add(
+            DropdownMenuItem(
+              value: item['comCodigo'],
+              child: Text(item['comNome']),
+            ),
+          );
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer comunidades !"),
+        ),
+      );
+    }
+    setState(() {
+      carregando = false;
+    });
+  }
+
+  gravarPessoa() async {
+    setState(() {
+      carregando = true;
+    });
+    var retorno = await ApiPessoas().addPessoa(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Pessoa cadastrada com sucesso !"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao cadastrar pessoa !"),
+        ),
+      );
+    }
+    setState(() {
+      carregando = false;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarComunidade();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Center(
-          child: Card(
-            color: Cores.branco,
-            elevation: 10,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
+    return CadastroForm(
+      formKey: _formKey,
+      titulo: "Cadastro de Pessoas",
+      campos: [
+        Row(
+          children: [
+            Expanded(
+              flex: 5,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: TextFormField(
+                  controller: nomeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nome',
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      borderSide: BorderSide(
+                        color: Cores.cinzaEscuro,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, digite o nome da pessoa';
+                    }
+                    return null;
+                  },
+                ),
               ),
             ),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-              width: MediaQuery.of(context).size.width / 2,
+            carregando
+                ? const Expanded(
+                    flex: 4,
+                    child: Center(child: CarregamentoIOS()),
+                  )
+                : Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: DropdownButtonFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Comunidade',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            borderSide: BorderSide(
+                              color: Cores.cinzaEscuro,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                        ),
+                        items: listaComunidade,
+                        onChanged: (value) {
+                          setState(() {
+                            comunidadeSelecionada = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: DropdownButtonFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Sexo',
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      borderSide: BorderSide(
+                        color: Cores.cinzaEscuro,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  items: listaSexo,
+                  onChanged: (value) {
+                    setState(() {
+                      sexoSelecionado = value;
+                    });
+                  },
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-      ),
+      ],
+      gravar: () {
+        gravarPessoa();
+      },
+      cancelar: () {
+        Navigator.pop(context);
+      },
     );
   }
 }
