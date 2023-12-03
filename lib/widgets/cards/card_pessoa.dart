@@ -62,8 +62,9 @@ class CardPessoa extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: CupertinoCheckbox(
-                            value: pessoa.pesSalmista == "S" ? true : false,
-                            onChanged: (value) {}),
+                          value: pessoa.pesSalmista == "S" ? true : false,
+                          onChanged: (value) {},
+                        ),
                       ),
                       const SizedBox(width: 30),
                       const Icon(CupertinoIcons.chevron_right),
@@ -79,10 +80,8 @@ class CardPessoa extends StatelessWidget {
             ),
             elevation: 5,
             child: CupertinoButton(
-              child: const Icon(
-                CupertinoIcons.trash,
-                color: Cores.vermelhoMedio,
-              ),
+              child:
+                  const Icon(CupertinoIcons.trash, color: Cores.vermelhoMedio),
               onPressed: () {
                 showDialog(
                   context: context,
