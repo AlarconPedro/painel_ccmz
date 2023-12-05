@@ -29,11 +29,13 @@ class _BlocoState extends State<Bloco> {
             children: [
               Text("Nome", style: TextStyle(fontWeight: FontWeight.bold)),
               Spacer(),
-              Text("Cidade", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("Qtd. Quartos",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               Spacer(),
-              Text("UF", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("Qtd. Livres",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               Spacer(),
-              Text("Qtd. Pessoas",
+              Text("Qtd. Ocupados",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               Spacer(),
               Text("Excluir", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -53,11 +55,9 @@ class _BlocoState extends State<Bloco> {
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
                           onTap: () {},
-                          child: CardComunidade(
-                            comunidade: blocos[index],
-                            excluir: () {
-                              deleteComunidade(blocos[index].bloCodigo);
-                            },
+                          child: CardBloco(
+                            bloco: blocos[index],
+                            excluir: () {},
                           ),
                         ),
                       );
