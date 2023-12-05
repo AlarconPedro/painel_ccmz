@@ -55,6 +55,13 @@ class NavState extends State<Nav> {
         icon: const Icon(CupertinoIcons.person_3),
       ),
       SideMenuItem(
+        title: 'Bloco',
+        onTap: (index, sideMenu) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(CupertinoIcons.building_2_fill),
+      ),
+      SideMenuItem(
         title: 'Quartos',
         onTap: (index, sideMenu) {
           sideMenu.changePage(index);

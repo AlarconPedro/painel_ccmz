@@ -17,6 +17,7 @@ class _PageControlState extends State<PageControl> {
       children: [
         const Pessoas(),
         const Comunidade(),
+        const Bloco(),
         // const DashBoard(),
         // const OrdemServico(),
         // const Clientes(),
@@ -24,9 +25,9 @@ class _PageControlState extends State<PageControl> {
         // Container(
         //   color: CupertinoColors.systemBlue,
         // ),
-        Container(
-          color: CupertinoColors.systemGreen,
-        ),
+        // Container(
+        //   color: CupertinoColors.systemGreen,
+        // ),
         Container(
           color: CupertinoColors.systemYellow,
         ),
