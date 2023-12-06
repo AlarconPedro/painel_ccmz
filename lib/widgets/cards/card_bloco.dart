@@ -38,7 +38,7 @@ class CardBloco extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
-                      const Icon(CupertinoIcons.person_3),
+                      const Icon(CupertinoIcons.building_2_fill),
                       const SizedBox(width: 10),
                       Expanded(
                         flex: 4,

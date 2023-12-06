@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:painel_ccmz/pages/pages.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
+import '../../classes/classes.dart';
 import '../../data/data.dart';
 
 class Bloco extends StatefulWidget {
@@ -15,6 +19,33 @@ class _BlocoState extends State<Bloco> {
   bool carregando = false;
 
   List<BlocoModel> blocos = [];
+
+  buscarBlocos() async {
+    setState(() => carregando = true);
+    var retorno = await ApiBloco().getBlocos();
+    if (retorno.statusCode == 200) {
+      blocos.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() => blocos.add(BlocoModel.fromJson(item)));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer blocos !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarBlocos();
+  }
 
   @override
   Widget build(BuildContext context) {
