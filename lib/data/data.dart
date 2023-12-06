@@ -7,3 +7,4 @@ export 'api/api_bloco.dart';
 export 'models/pessoa_model.dart';
 export 'models/comunidade_model.dart';
 export 'models/bloco_model.dart';
+export 'models/quarto_model.dart';
