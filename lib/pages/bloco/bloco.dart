@@ -40,6 +40,28 @@ class _BlocoState extends State<Bloco> {
     setState(() => carregando = false);
   }
 
+  deletarBloco(int codigoBloco) async {
+    setState(() => carregando = true);
+    var retorno = await ApiBloco().deleteBloco(codigoBloco);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Bloco excluido com sucesso !"),
+        ),
+      );
+      buscarBlocos();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao excluir bloco !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -52,7 +74,20 @@ class _BlocoState extends State<Bloco> {
     return Esqueleto(
       tituloBoto: "Novo Bloco",
       tituloPagina: "Blocos",
-      abrirTelaCadastro: () {},
+      abrirTelaCadastro: () async {
+        await Navigator.push(
+          context,
+          CupertinoDialogRoute(
+            builder: (context) {
+              return CadastroBloco(
+                bloco: null,
+              );
+            },
+            context: context,
+          ),
+        );
+        buscarBlocos();
+      },
       corpo: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -85,10 +120,24 @@ class _BlocoState extends State<Bloco> {
                       return MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoDialogRoute(
+                                builder: (context) {
+                                  return CadastroBloco(
+                                    bloco: blocos[index],
+                                  );
+                                },
+                                context: context,
+                              ),
+                            );
+                          },
                           child: CardBloco(
                             bloco: blocos[index],
-                            excluir: () {},
+                            excluir: () {
+                              deletarBloco(blocos[index].bloCodigo);
+                            },
                           ),
                         ),
                       );
