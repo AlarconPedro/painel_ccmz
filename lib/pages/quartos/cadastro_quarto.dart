@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/data.dart';
@@ -35,14 +37,77 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
     );
   }
 
-  gravarQuartos() async {}
+  gravarQuartos() async {
+    setState(() => carregando = true);
+    var retorno = await ApiQuarto().addQuarto(preparaDados());
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Quarto cadastrado com sucesso !"),
+        ),
+      );
+      Navigator.of(context).pop();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao cadastrar quarto !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarBlocos() async {
+    setState(() => carregando = true);
+    var retorno = await ApiBloco().getBlocos();
+    if (retorno.statusCode == 200) {
+      listaBlocos.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() => listaBlocos.add(
+              DropdownMenuItem(
+                value: item['bloCodigo'],
+                child: Text(item['bloNome']),
+              ),
+            ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer blocos !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarBlocos();
+  }
 
   @override
   Widget build(BuildContext context) {
     return CadastroForm(
       formKey: formKey,
       titulo: 'Quartos',
-      gravar: () {},
+      gravar: () {
+        if (formKey.currentState!.validate()) {
+          gravarQuartos();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Cores.vermelhoMedio,
+              content: Text("Por favor, preencha os campos obrigatórios !"),
+            ),
+          );
+        }
+      },
       cancelar: () {},
       campos: [
         Row(
@@ -119,7 +184,7 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
                           });
                         },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value < 1) {
                             return 'Por favor, selecione um bloco';
                           }
                           return null;
