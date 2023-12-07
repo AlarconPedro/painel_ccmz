@@ -7,6 +7,7 @@ export 'bloco/bloco.dart';
 export 'bloco/cadastro_bloco.dart';
 
 export 'quartos/quartos.dart';
+export 'quartos/cadastro_quarto.dart';
 
 export 'comunidade/comunidade.dart';
 export 'comunidade/cadastro_comunidade.dart';

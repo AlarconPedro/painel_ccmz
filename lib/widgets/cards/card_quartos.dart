@@ -33,7 +33,7 @@ class CardQuartos extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
-                      const Icon(CupertinoIcons.building_2_fill),
+                      const Icon(CupertinoIcons.bed_double),
                       const SizedBox(width: 10),
                       Expanded(
                         flex: 4,

@@ -74,7 +74,18 @@ class _QuartosState extends State<Quartos> {
     return Esqueleto(
       tituloBoto: "Novo Quarto",
       tituloPagina: "Quartos",
-      abrirTelaCadastro: () {},
+      abrirTelaCadastro: () async {
+        await Navigator.push(
+          context,
+          CupertinoDialogRoute(
+            builder: (context) {
+              return const CadastroQuarto();
+            },
+            context: context,
+          ),
+        );
+        buscarQuartos();
+      },
       corpo: [
         const Row(children: [
           SizedBox(width: 55),
