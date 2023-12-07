@@ -1,22 +1,25 @@
 class QuartoModel {
   int quaCodigo;
   String quaNome;
+  String bloco;
   int bloCodigo;
   int quaQtdCamas;
 
   QuartoModel({
     required this.quaCodigo,
     required this.quaNome,
+    required this.bloco,
     required this.bloCodigo,
     required this.quaQtdCamas,
   });
 
   factory QuartoModel.fromJson(Map<String, dynamic> json) {
     return QuartoModel(
-      quaCodigo: json['quaCodigo'],
-      quaNome: json['quaNome'],
-      bloCodigo: json['bloCodigo'],
-      quaQtdCamas: json['quaQtdCamas'],
+      quaCodigo: json['quaCodigo'] ?? 0,
+      quaNome: json['quaNome'] ?? '',
+      bloco: json['bloco'] ?? '',
+      bloCodigo: json['bloCodigo'] ?? 0,
+      quaQtdCamas: json['quaQtdCamas'] ?? 0,
     );
   }
 

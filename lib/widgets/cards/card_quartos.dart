@@ -41,6 +41,10 @@ class CardQuartos extends StatelessWidget {
                       ),
                       Expanded(
                         flex: 2,
+                        child: Text(quarto.bloco),
+                      ),
+                      Expanded(
+                        flex: 2,
                         child: Text(quarto.quaQtdCamas.toString()),
                       ),
                       const SizedBox(width: 30),
