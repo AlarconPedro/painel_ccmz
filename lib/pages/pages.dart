@@ -1,5 +1,7 @@
 export 'login/login_page.dart';
 
+export 'dashboard/dashboard.dart';
+
 export 'pessoas/pessoas.dart';
 export 'pessoas/cadastro_pessoas.dart';
 
@@ -17,3 +19,5 @@ export 'esqueleto/cadastro_form.dart';
 
 export 'evento/evento.dart';
 export 'evento/cadastro_evento.dart';
+
+export 'alocacao/alocacao.dart';
