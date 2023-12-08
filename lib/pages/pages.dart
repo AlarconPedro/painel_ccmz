@@ -14,3 +14,6 @@ export 'comunidade/cadastro_comunidade.dart';
 
 export 'esqueleto/esqueleto.dart';
 export 'esqueleto/cadastro_form.dart';
+
+export 'evento/evento.dart';
+export 'evento/cadastro_evento.dart';
