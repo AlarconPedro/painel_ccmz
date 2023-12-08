@@ -41,6 +41,28 @@ class _EventoState extends State<Evento> {
     setState(() => carregando = false);
   }
 
+  deleteEvento(int codigoEvento) async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().deleteEvento(codigoEvento);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Evento excluido com sucesso !"),
+        ),
+      );
+      buscarEventos();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao excluir evento !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -53,7 +75,18 @@ class _EventoState extends State<Evento> {
     return Esqueleto(
       tituloBoto: "Novo Evento",
       tituloPagina: "Eventos",
-      abrirTelaCadastro: () {},
+      abrirTelaCadastro: () async {
+        await Navigator.push(
+          context,
+          CupertinoDialogRoute(
+            builder: (context) {
+              return CadastroEvento();
+            },
+            context: context,
+          ),
+        );
+        buscarEventos();
+      },
       corpo: [
         const Row(children: [
           SizedBox(width: 55),
@@ -93,10 +126,23 @@ class _EventoState extends State<Evento> {
                       return MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              CupertinoDialogRoute(
+                                builder: (context) {
+                                  return CadastroEvento(evento: eventos[index]);
+                                },
+                                context: context,
+                              ),
+                            );
+                            buscarEventos();
+                          },
                           child: CardEvento(
                             evento: eventos[index],
-                            excluir: () {},
+                            excluir: () {
+                              deleteEvento(eventos[index].eveCodigo);
+                            },
                           ),
                         ),
                       );
