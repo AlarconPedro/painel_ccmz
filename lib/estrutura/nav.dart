@@ -37,6 +37,13 @@ class NavState extends State<Nav> {
   Widget build(BuildContext context) {
     List<SideMenuItem> items = [
       SideMenuItem(
+        title: 'Dashboard',
+        onTap: (index, sideMenu) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(CupertinoIcons.chart_pie_fill),
+      ),
+      SideMenuItem(
         title: 'Pessoas',
         onTap: (index, sideMenu) {
           sideMenu.changePage(index);
@@ -74,6 +81,13 @@ class NavState extends State<Nav> {
           sideMenu.changePage(index);
         },
         icon: const Icon(CupertinoIcons.calendar),
+      ),
+      SideMenuItem(
+        title: 'Alocação',
+        onTap: (index, sideMenu) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(CupertinoIcons.home),
       ),
       // SideMenuItem(
       //   title: 'Cadastro',
