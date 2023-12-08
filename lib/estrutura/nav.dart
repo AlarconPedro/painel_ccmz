@@ -124,9 +124,9 @@ class NavState extends State<Nav> {
           Container(
             width: widget.widthNav,
             height: 100,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Cores.branco,
-              image: const DecorationImage(
+              image: DecorationImage(
                 image: AssetImage("images/logo.png"),
                 fit: BoxFit.cover,
               ),
@@ -143,7 +143,7 @@ class NavState extends State<Nav> {
         width: widget.widthNav,
         height: 56,
         color: Cores.branco,
-        child: Center(
+        child: const Center(
           child: Text(
             'Pedro H. Alarcon',
             style: TextStyle(color: Cores.cinzaEscuro),
@@ -153,7 +153,7 @@ class NavState extends State<Nav> {
       style: SideMenuStyle(
         backgroundColor: Cores.branco,
         hoverColor: Cores.cinzaClaro,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(
             right: BorderSide(
               color: Cores.cinzaClaro,
@@ -162,10 +162,10 @@ class NavState extends State<Nav> {
           ),
         ),
         selectedColor: Cores.cinzaEscuro,
-        selectedTitleTextStyle: TextStyle(color: Cores.branco),
+        selectedTitleTextStyle: const TextStyle(color: Cores.branco),
         selectedIconColor: Cores.branco,
         unselectedIconColor: Cores.cinzaEscuro,
-        unselectedTitleTextStyle: TextStyle(color: Cores.cinzaEscuro),
+        unselectedTitleTextStyle: const TextStyle(color: Cores.cinzaEscuro),
       ),
     );
   }

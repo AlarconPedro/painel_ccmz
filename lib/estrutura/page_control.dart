@@ -14,11 +14,12 @@ class _PageControlState extends State<PageControl> {
   Widget build(BuildContext context) {
     return PageView(
       controller: Rotas.navController,
-      children: [
-        const Pessoas(),
-        const Comunidade(),
-        const Bloco(),
-        const Quartos(),
+      children: const [
+        Pessoas(),
+        Comunidade(),
+        Bloco(),
+        Quartos(),
+        Evento(),
         // const DashBoard(),
         // const OrdemServico(),
         // const Clientes(),
@@ -29,9 +30,9 @@ class _PageControlState extends State<PageControl> {
         // Container(
         //   color: CupertinoColors.systemGreen,
         // ),
-        Container(
-          color: CupertinoColors.systemYellow,
-        ),
+        // Container(
+        //   color: CupertinoColors.systemYellow,
+        // ),
       ],
     );
   }
