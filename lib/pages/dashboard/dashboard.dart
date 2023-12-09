@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/widgets/cards/card_corpo_tela.dart';
 
@@ -110,11 +111,45 @@ class _DashBoardState extends State<DashBoard> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: CardCorpoTela(child: const Column()),
+                      child: CardCorpoTela(
+                          child: const Column(
+                        children: [],
+                      )),
                     ),
                     SizedBox(
                       width: 250,
-                      child: CardCorpoTela(child: const Column()),
+                      child: CardCorpoTela(
+                          child: const Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 5,
+                                ),
+                                child: Text(
+                                  "Eventos",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Icon(CupertinoIcons.add),
+                              Icon(CupertinoIcons.add),
+                            ],
+                          )
+                        ],
+                      )),
                     ),
                   ],
                 ),
