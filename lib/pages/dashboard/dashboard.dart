@@ -146,6 +146,8 @@ class _DashBoardState extends State<DashBoard> {
                             children: [
                               Icon(CupertinoIcons.add),
                               Icon(CupertinoIcons.add),
+                              Icon(CupertinoIcons.add),
+                              Icon(CupertinoIcons.add),
                             ],
                           )
                         ],
