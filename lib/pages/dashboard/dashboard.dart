@@ -142,12 +142,31 @@ class _DashBoardState extends State<DashBoard> {
                           Wrap(
                             direction: Axis.horizontal,
                             alignment: WrapAlignment.center,
+                            verticalDirection: VerticalDirection.down,
+                            runSpacing: 10,
+                            spacing: 10,
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              Icon(CupertinoIcons.add),
-                              Icon(CupertinoIcons.add),
-                              Icon(CupertinoIcons.add),
-                              Icon(CupertinoIcons.add),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 20),
+                                child: Icon(CupertinoIcons.add),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 20),
+                                child: Icon(CupertinoIcons.add),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 20),
+                                child: Icon(CupertinoIcons.add),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 20),
+                                child: Icon(CupertinoIcons.add),
+                              ),
                             ],
                           )
                         ],

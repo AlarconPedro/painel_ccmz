@@ -16,7 +16,7 @@ void main() {
         primarySwatch: Colors.blue,
       ),
       // home: LoginPage(),
-      home: EstruturaPage(),
+      home: const EstruturaPage(),
     ),
   );
 }
