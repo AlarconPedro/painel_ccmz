@@ -7,6 +7,7 @@ import 'package:painel_ccmz/pages/pages.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
+import '../../estrutura/estrutura.dart';
 
 class Evento extends StatefulWidget {
   const Evento({super.key});
@@ -142,6 +143,39 @@ class _EventoState extends State<Evento> {
                             evento: eventos[index],
                             excluir: () {
                               deleteEvento(eventos[index].eveCodigo);
+                            },
+                            quartos: () {
+                              Navigator.push(
+                                context,
+                                CupertinoDialogRoute(
+                                  builder: (context) {
+                                    return const QuartosEvento(
+                                        // evento: eventos[index],
+                                        );
+                                  },
+                                  context: context,
+                                ),
+                              );
+                            },
+                            pessoas: () {
+                              Navigator.push(
+                                context,
+                                CupertinoDialogRoute(
+                                  builder: (context) {
+                                    return const PessoasEvento(
+                                        // evento: eventos[index],
+                                        );
+                                  },
+                                  context: context,
+                                ),
+                              );
+                            },
+                            alocacao: () {
+                              Rotas.navController.animateToPage(
+                                6,
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                              );
                             },
                           ),
                         ),
