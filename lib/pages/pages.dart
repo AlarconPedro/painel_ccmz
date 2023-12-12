@@ -19,5 +19,7 @@ export 'esqueleto/cadastro_form.dart';
 
 export 'evento/evento.dart';
 export 'evento/cadastro_evento.dart';
+export 'evento/quartos_evento.dart';
+export 'evento/pessoas_evento.dart';
 
 export 'alocacao/alocacao.dart';

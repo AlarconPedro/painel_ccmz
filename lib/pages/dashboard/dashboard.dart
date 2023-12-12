@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/widgets/cards/card_corpo_tela.dart';
 
 import '../../classes/classes.dart';
+import '../../widgets/widgets.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
