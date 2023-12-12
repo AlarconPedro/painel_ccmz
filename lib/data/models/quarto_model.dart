@@ -19,7 +19,7 @@ class QuartoModel {
       quaNome: json['quaNome'] ?? '',
       bloco: json['bloco'] ?? '',
       bloCodigo: json['bloCodigo'] ?? 0,
-      quaQtdCamas: json['quaQtdCamas'] ?? 0,
+      quaQtdCamas: json['quaQtdcamas'] ?? 0,
     );
   }
 
