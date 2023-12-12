@@ -20,7 +20,7 @@ class _QuartosEventoState extends State<QuartosEvento> {
   List<QuartoModel> quartos = [];
 
   int blocoSelecionado = 0;
-  int quartosSelecionados = 0;
+  List<int> quartosSelecionados = [];
 
   bool carregando = true;
 
@@ -49,9 +49,9 @@ class _QuartosEventoState extends State<QuartosEvento> {
     setState(() => carregando = false);
   }
 
-  buscarQuartosPavilhao() async {
+  buscarQuartosPavilhao(int value) async {
     setState(() => carregando = true);
-    var retorno = await ApiEvento().getQuartosPavilhao(blocoSelecionado);
+    var retorno = await ApiEvento().getQuartosPavilhao(value);
     if (retorno.statusCode == 200) {
       quartos.clear();
       var decoded = json.decode(retorno.body);
@@ -126,9 +126,9 @@ class _QuartosEventoState extends State<QuartosEvento> {
                               ),
                             ),
                             items: listaBlocos,
-                            onChanged: (value) {
+                            onChanged: (value) async {
+                              await buscarQuartosPavilhao(value);
                               setState(() => blocoSelecionado = value);
-                              buscarQuartosPavilhao();
                             },
                           ),
                         ),
@@ -136,7 +136,7 @@ class _QuartosEventoState extends State<QuartosEvento> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
-                              "Quartos Selecionados: $quartosSelecionados",
+                              "Quartos Selecionados: ${quartosSelecionados.length}",
                               textAlign: TextAlign.end,
                               style: const TextStyle(
                                 fontSize: 20,
@@ -164,7 +164,30 @@ class _QuartosEventoState extends State<QuartosEvento> {
                             : Wrap(
                                 children: [
                                   for (var quarto in quartos)
-                                    CardQuartosEvento(quarto: quarto),
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            if (quartosSelecionados
+                                                .contains(quarto.quaCodigo)) {
+                                              quartosSelecionados
+                                                  .remove(quarto.quaCodigo);
+                                            } else {
+                                              quartosSelecionados
+                                                  .add(quarto.quaCodigo);
+                                            }
+                                          });
+                                        },
+                                        child: CardQuartosEvento(
+                                          quarto: quarto,
+                                          quartosSelecionados:
+                                              quartosSelecionados,
+                                          selecionado: quartosSelecionados
+                                              .contains(quarto.quaCodigo),
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                   ),

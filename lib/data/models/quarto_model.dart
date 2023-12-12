@@ -4,6 +4,7 @@ class QuartoModel {
   String bloco;
   int bloCodigo;
   int quaQtdCamas;
+  int quaQtdCamaslivres;
 
   QuartoModel({
     required this.quaCodigo,
@@ -11,6 +12,7 @@ class QuartoModel {
     required this.bloco,
     required this.bloCodigo,
     required this.quaQtdCamas,
+    required this.quaQtdCamaslivres,
   });
 
   factory QuartoModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class QuartoModel {
       bloco: json['bloco'] ?? '',
       bloCodigo: json['bloCodigo'] ?? 0,
       quaQtdCamas: json['quaQtdcamas'] ?? 0,
+      quaQtdCamaslivres: json['quaQtdcamasdisponiveis'] ?? 0,
     );
   }
 

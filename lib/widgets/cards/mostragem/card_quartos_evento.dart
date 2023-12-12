@@ -6,14 +6,21 @@ import '../../../classes/classes.dart';
 
 class CardQuartosEvento extends StatelessWidget {
   QuartoModel quarto;
+  List<int> quartosSelecionados;
+  bool selecionado;
 
-  CardQuartosEvento({super.key, required this.quarto});
+  CardQuartosEvento({
+    super.key,
+    required this.quarto,
+    required this.quartosSelecionados,
+    required this.selecionado,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      color: Cores.branco,
+      color: selecionado ? Cores.azulClaro : Cores.branco,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
@@ -22,7 +29,7 @@ class CardQuartosEvento extends StatelessWidget {
         height: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Cores.branco,
+          color: selecionado ? Cores.azulClaro : Cores.branco,
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -30,45 +37,61 @@ class CardQuartosEvento extends StatelessWidget {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text(quarto.quaNome)],
+                children: [
+                  Text(
+                    quarto.quaNome,
+                    style: TextStyle(
+                      color: selecionado ? Cores.branco : Cores.cinzaEscuro,
+                    ),
+                  )
+                ],
               ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text(quarto.quaQtdCamas.toString())],
+                children: [
+                  Text(
+                    "Camas: ${quarto.quaQtdCamas}",
+                    style: TextStyle(
+                      color: selecionado ? Cores.branco : Cores.cinzaEscuro,
+                    ),
+                  ),
+                ],
               ),
-              const Divider(
-                color: Cores.cinzaEscuro,
+              Divider(
+                color: selecionado ? Cores.branco : Cores.cinzaEscuro,
                 thickness: 1,
                 indent: 10,
                 endIndent: 10,
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: 4,
+                  itemCount: quarto.quaQtdCamaslivres,
                   itemBuilder: (context, index) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(
+                        Icon(
                           CupertinoIcons.bed_double,
-                          color: Cores.cinzaEscuro,
+                          color: selecionado ? Cores.branco : Cores.cinzaEscuro,
                           size: 18,
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
-                            "Pessoa ${index + 1}",
-                            style: const TextStyle(
+                            "Livre",
+                            style: TextStyle(
                               fontSize: 15,
-                              color: Cores.cinzaEscuro,
+                              color: selecionado
+                                  ? Cores.branco
+                                  : Cores.cinzaEscuro,
                             ),
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const Icon(
+                        Icon(
                           CupertinoIcons.checkmark_alt,
-                          color: Cores.verdeMedio,
+                          color: selecionado ? Cores.branco : Cores.verdeMedio,
                           size: 18,
                         ),
                       ],

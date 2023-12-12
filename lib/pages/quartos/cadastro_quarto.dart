@@ -34,6 +34,7 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
       bloCodigo: blocoSelecionada,
       bloco: "",
       quaQtdCamas: int.parse(camasController.text),
+      quaQtdCamaslivres: 0,
     );
   }
 
