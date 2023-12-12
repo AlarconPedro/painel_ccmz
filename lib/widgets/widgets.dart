@@ -1,9 +1,11 @@
-export 'cards/card_pessoa.dart';
-export 'cards/card_comunidade.dart';
-export 'cards/card_bloco.dart';
-export 'cards/card_quartos.dart';
-export 'cards/card_evento.dart';
-export 'cards/card_corpo_tela.dart';
+export 'cards/listagem/card_pessoa.dart';
+export 'cards/listagem/card_comunidade.dart';
+export 'cards/listagem/card_bloco.dart';
+export 'cards/listagem/card_quartos.dart';
+export 'cards/listagem/card_evento.dart';
+export 'cards/listagem/card_corpo_tela.dart';
+
+export 'cards/mostragem/card_quartos_evento.dart';
 
 export 'loading/carregamento_ios.dart';
 

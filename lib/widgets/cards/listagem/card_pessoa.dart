@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmz/classes/cores.dart';
 
-import '../../classes/classes.dart';
+import '../../../data/data.dart';
 
-class CardQuartos extends StatelessWidget {
-  QuartoModel quarto;
+class CardPessoa extends StatelessWidget {
+  PessoaModel pessoa;
 
-  Function excluir;
+  Function() excluir;
 
-  CardQuartos({super.key, required this.quarto, required this.excluir});
+  CardPessoa({super.key, required this.pessoa, required this.excluir});
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +33,38 @@ class CardQuartos extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
-                      const Icon(CupertinoIcons.bed_double),
+                      const Icon(CupertinoIcons.person),
                       const SizedBox(width: 10),
                       Expanded(
                         flex: 4,
-                        child: Text(quarto.quaNome),
+                        child: Text(pessoa.pesNome),
                       ),
                       Expanded(
                         flex: 2,
-                        child: Text(quarto.bloco),
+                        child: Text(pessoa.pesGenero),
                       ),
                       Expanded(
                         flex: 2,
-                        child: Text(quarto.quaQtdCamas.toString()),
+                        child: Text(pessoa.comunidade),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: CupertinoCheckbox(
+                            value: pessoa.pesResponsavel == "S" ? true : false,
+                            onChanged: (value) {}),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: CupertinoCheckbox(
+                            value: pessoa.pesCatequista == "S" ? true : false,
+                            onChanged: (value) {}),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: CupertinoCheckbox(
+                          value: pessoa.pesSalmista == "S" ? true : false,
+                          onChanged: (value) {},
+                        ),
                       ),
                       const SizedBox(width: 30),
                       const Icon(CupertinoIcons.chevron_right),
@@ -61,18 +80,16 @@ class CardQuartos extends StatelessWidget {
             ),
             elevation: 5,
             child: CupertinoButton(
-              child: const Icon(
-                CupertinoIcons.trash,
-                color: Cores.vermelhoMedio,
-              ),
+              child:
+                  const Icon(CupertinoIcons.trash, color: Cores.vermelhoMedio),
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (context) {
                     return CupertinoAlertDialog(
-                      title: const Text("Excluir Quarto"),
+                      title: const Text("Excluir Pessoa"),
                       content:
-                          const Text("Deseja realmente excluir este quarto ?"),
+                          const Text("Deseja realmente excluir esta pessoa ?"),
                       actions: [
                         CupertinoDialogAction(
                           child: const Text("Não",

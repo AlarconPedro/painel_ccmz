@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/data.dart';
 
-import '../../classes/classes.dart';
+import '../../../classes/classes.dart';
 
 class CardComunidade extends StatelessWidget {
   ComunidadeModel comunidade;

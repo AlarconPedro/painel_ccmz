@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../classes/classes.dart';
+import '../../../classes/classes.dart';
 
 class CardCorpoTela extends StatelessWidget {
   Widget child;

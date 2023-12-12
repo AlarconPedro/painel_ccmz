@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/data.dart';
 import 'package:painel_ccmz/pages/pages.dart';
 
-import '../../classes/classes.dart';
+import '../../../classes/classes.dart';
 
 class CardBloco extends StatelessWidget {
   BlocoModel bloco;
