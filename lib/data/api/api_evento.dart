@@ -9,7 +9,7 @@ class ApiEvento {
   final String _urlGetEvento = "${Globais.urlBase}evento/";
   final String _urlGetQuartosPavilhao = "${Globais.urlBase}evento/quartos/";
   final String _urlGetQuartosAlocados =
-      "${Globais.urlBase}evento/quartos/alocados/";
+      "${Globais.urlBase}evento/quartos/alocados";
   //POST
   final String _urlAddEvento = "${Globais.urlBase}evento";
   final String _urlAddQuartoEvento = "${Globais.urlBase}evento/quartos/";
@@ -33,9 +33,9 @@ class ApiEvento {
         .getJson(_urlGetQuartosPavilhao + codigoEvento.toString());
   }
 
-  Future<dynamic> getQuartosAlocados(int codigoEvento) async {
+  Future<dynamic> getQuartosAlocados(int codigoBloco, int codigoEvento) async {
     return await _request
-        .getJson(_urlGetQuartosAlocados + codigoEvento.toString());
+        .getJson("$_urlGetQuartosAlocados/$codigoBloco/$codigoEvento");
   }
 
   //POST
@@ -44,9 +44,9 @@ class ApiEvento {
   }
 
   Future<dynamic> addQuartoEvento(
-      EventoQuartoModel quarto, int codigoBloco) async {
-    return await _request.postJson(
-        _urlAddQuartoEvento + codigoBloco.toString(), quarto.toJson());
+      List<EventoQuartoModel> quarto, int codigoBloco) async {
+    return await _request.postListJson(
+        _urlAddQuartoEvento + codigoBloco.toString(), quarto);
   }
 
   //PUT
