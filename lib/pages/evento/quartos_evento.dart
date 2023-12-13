@@ -9,7 +9,8 @@ import 'package:painel_ccmz/widgets/widgets.dart';
 import '../../classes/classes.dart';
 
 class QuartosEvento extends StatefulWidget {
-  const QuartosEvento({super.key});
+  int codigoEvento;
+  QuartosEvento({super.key, required this.codigoEvento});
 
   @override
   State<QuartosEvento> createState() => _QuartosEventoState();
@@ -63,6 +64,41 @@ class _QuartosEventoState extends State<QuartosEvento> {
         const SnackBar(
           backgroundColor: Cores.vermelhoMedio,
           content: Text("Erro ao trazer quartos !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  preparaDados() {
+    List<EventoQuartoModel> lista = [];
+    for (var item in quartosSelecionados) {
+      lista.add(EventoQuartoModel(
+        evqCodigo: 0,
+        quaCodigo: item,
+        eveCodigo: widget.codigoEvento,
+      ));
+    }
+    return lista;
+  }
+
+  salvarQuartos() async {
+    setState(() => carregando = true);
+    var retorno =
+        await ApiEvento().addQuartoEvento(preparaDados(), blocoSelecionado);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeMedio,
+          content: Text("Quartos adicionados com sucesso !"),
+        ),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao adicionar quartos !"),
         ),
       );
     }
