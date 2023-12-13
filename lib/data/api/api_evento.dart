@@ -12,6 +12,7 @@ class ApiEvento {
       "${Globais.urlBase}evento/quartos/alocados/";
   //POST
   final String _urlAddEvento = "${Globais.urlBase}evento";
+  final String _urlAddQuartoEvento = "${Globais.urlBase}evento/quartos/";
   //PUT
   final String _urlUpdateEvento = "${Globais.urlBase}evento";
   //DELETE
@@ -40,6 +41,12 @@ class ApiEvento {
   //POST
   Future<dynamic> addEvento(EventoModel evento) async {
     return await _request.postJson(_urlAddEvento, evento.toJson());
+  }
+
+  Future<dynamic> addQuartoEvento(
+      EventoQuartoModel quarto, int codigoBloco) async {
+    return await _request.postJson(
+        _urlAddQuartoEvento + codigoBloco.toString(), quarto.toJson());
   }
 
   //PUT
