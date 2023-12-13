@@ -149,9 +149,10 @@ class _EventoState extends State<Evento> {
                                 context,
                                 CupertinoDialogRoute(
                                   builder: (context) {
-                                    return const QuartosEvento(
-                                        // evento: eventos[index],
-                                        );
+                                    return QuartosEvento(
+                                      codigoEvento: eventos[index].eveCodigo,
+                                      // evento: eventos[index],
+                                    );
                                   },
                                   context: context,
                                 ),
