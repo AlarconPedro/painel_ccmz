@@ -22,6 +22,7 @@ class _QuartosEventoState extends State<QuartosEvento> {
 
   int blocoSelecionado = 0;
   List<int> quartosSelecionados = [];
+  int camasSelecionadas = 0;
 
   bool carregando = true;
 
@@ -58,6 +59,27 @@ class _QuartosEventoState extends State<QuartosEvento> {
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() => quartos.add(QuartoModel.fromJson(item)));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer quartos !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarQuartosAlocados(int bloco) async {
+    setState(() => carregando = true);
+    var retorno =
+        await ApiEvento().getQuartosAlocados(bloco, widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      quartosSelecionados.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() => quartosSelecionados.add(item["quaCodigo"]));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -144,40 +166,66 @@ class _QuartosEventoState extends State<QuartosEvento> {
                       // mainAxisAlignment: ,
                       children: [
                         Expanded(
-                          child: DropdownButtonFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Blocos',
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
+                          child: carregando
+                              ? const CarregamentoIOS()
+                              : DropdownButtonFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Blocos',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Cores.cinzaEscuro,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  items: listaBlocos,
+                                  onChanged: (value) async {
+                                    await buscarQuartosAlocados(value);
+                                    await buscarQuartosPavilhao(value);
+                                    setState(() {
+                                      for (var item in quartos) {
+                                        if (quartosSelecionados
+                                            .contains(item.quaCodigo)) {
+                                          camasSelecionadas +=
+                                              item.quaQtdCamaslivres;
+                                        }
+                                      }
+                                      blocoSelecionado = value;
+                                    });
+                                  },
                                 ),
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                            ),
-                            items: listaBlocos,
-                            onChanged: (value) async {
-                              await buscarQuartosPavilhao(value);
-                              setState(() => blocoSelecionado = value);
-                            },
-                          ),
                         ),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              "Quartos Selecionados: ${quartosSelecionados.length}",
-                              textAlign: TextAlign.end,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Quartos Selecionados: ${quartosSelecionados.length}",
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "Camas Selecionadas: $camasSelecionadas",
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -209,9 +257,13 @@ class _QuartosEventoState extends State<QuartosEvento> {
                                                 .contains(quarto.quaCodigo)) {
                                               quartosSelecionados
                                                   .remove(quarto.quaCodigo);
+                                              camasSelecionadas -=
+                                                  quarto.quaQtdCamaslivres;
                                             } else {
                                               quartosSelecionados
                                                   .add(quarto.quaCodigo);
+                                              camasSelecionadas +=
+                                                  quarto.quaQtdCamaslivres;
                                             }
                                           });
                                         },
@@ -250,7 +302,9 @@ class _QuartosEventoState extends State<QuartosEvento> {
                         ),
                         child: CupertinoButton(
                           color: Cores.verdeMedio,
-                          onPressed: () {},
+                          onPressed: () {
+                            salvarQuartos();
+                          },
                           child: const Text("Gravar"),
                         ),
                       ),
