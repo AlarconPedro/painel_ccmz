@@ -11,9 +11,9 @@ class EventoQuartoModel {
 
   factory EventoQuartoModel.fromJson(Map<String, dynamic> json) {
     return EventoQuartoModel(
-      evqCodigo: json['evqCodigo'],
-      quaCodigo: json['quaCodigo'],
-      eveCodigo: json['eveCodigo'],
+      evqCodigo: json['evqCodigo'] ?? 0,
+      quaCodigo: json['quaCodigo'] ?? 0,
+      eveCodigo: json['eveCodigo'] ?? 0,
     );
   }
 
