@@ -185,11 +185,15 @@ class _QuartosEventoState extends State<QuartosEvento> {
                                       ),
                                     ),
                                   ),
+                                  value: blocoSelecionado == 0
+                                      ? null
+                                      : blocoSelecionado,
                                   items: listaBlocos,
                                   onChanged: (value) async {
                                     await buscarQuartosAlocados(value);
                                     await buscarQuartosPavilhao(value);
                                     setState(() {
+                                      camasSelecionadas = 0;
                                       for (var item in quartos) {
                                         if (quartosSelecionados
                                             .contains(item.quaCodigo)) {
@@ -206,7 +210,7 @@ class _QuartosEventoState extends State<QuartosEvento> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   "Quartos Selecionados: ${quartosSelecionados.length}",
@@ -229,6 +233,48 @@ class _QuartosEventoState extends State<QuartosEvento> {
                             ),
                           ),
                         ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text("Selecionar Todos",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(width: 10),
+                              SizedBox(
+                                  child: CupertinoButton(
+                                color: Cores.verdeMedio,
+                                padding: const EdgeInsets.all(15),
+                                onPressed: () {
+                                  if (quartosSelecionados.length <
+                                      quartos.length) {
+                                    setState(() {
+                                      camasSelecionadas = 0;
+                                      quartosSelecionados = quartos
+                                          .map((e) => e.quaCodigo)
+                                          .toList();
+                                      for (var item in quartos) {
+                                        camasSelecionadas +=
+                                            item.quaQtdCamaslivres;
+                                      }
+                                    });
+                                  } else {
+                                    setState(() {
+                                      camasSelecionadas = 0;
+                                      quartosSelecionados.clear();
+                                    });
+                                  }
+                                },
+                                child: const Icon(
+                                  CupertinoIcons.checkmark_square,
+                                  color: Cores.branco,
+                                ),
+                              )),
+                              const SizedBox(height: 30),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -243,41 +289,41 @@ class _QuartosEventoState extends State<QuartosEvento> {
                         ? const Center(
                             child: Text("Selecione um bloco"),
                           )
-                        : carregando
-                            ? const Expanded(child: CarregamentoIOS())
-                            : Wrap(
-                                children: [
-                                  for (var quarto in quartos)
-                                    MouseRegion(
-                                      cursor: SystemMouseCursors.click,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            if (quartosSelecionados
-                                                .contains(quarto.quaCodigo)) {
-                                              quartosSelecionados
-                                                  .remove(quarto.quaCodigo);
-                                              camasSelecionadas -=
-                                                  quarto.quaQtdCamaslivres;
-                                            } else {
-                                              quartosSelecionados
-                                                  .add(quarto.quaCodigo);
-                                              camasSelecionadas +=
-                                                  quarto.quaQtdCamaslivres;
-                                            }
-                                          });
-                                        },
-                                        child: CardQuartosEvento(
-                                          quarto: quarto,
-                                          quartosSelecionados:
-                                              quartosSelecionados,
-                                          selecionado: quartosSelecionados
-                                              .contains(quarto.quaCodigo),
+                        : Wrap(
+                            children: [
+                              for (var quarto in quartos)
+                                carregando
+                                    ? const Expanded(child: CarregamentoIOS())
+                                    : MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (quartosSelecionados
+                                                  .contains(quarto.quaCodigo)) {
+                                                quartosSelecionados
+                                                    .remove(quarto.quaCodigo);
+                                                camasSelecionadas -=
+                                                    quarto.quaQtdCamaslivres;
+                                              } else {
+                                                quartosSelecionados
+                                                    .add(quarto.quaCodigo);
+                                                camasSelecionadas +=
+                                                    quarto.quaQtdCamaslivres;
+                                              }
+                                            });
+                                          },
+                                          child: CardQuartosEvento(
+                                            quarto: quarto,
+                                            quartosSelecionados:
+                                                quartosSelecionados,
+                                            selecionado: quartosSelecionados
+                                                .contains(quarto.quaCodigo),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                ],
-                              ),
+                            ],
+                          ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
