@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
 
@@ -11,6 +15,80 @@ class PessoasEvento extends StatefulWidget {
 }
 
 class _PessoasEventoState extends State<PessoasEvento> {
+  bool carregando = false;
+
+  List<PessoaModel> pessoas = [];
+  List<ComunidadeModel> comunidades = [];
+
+  int comunidadeSelecionada = 0;
+
+  List<int> pessoasSelecionadas = [];
+
+  List<DropdownMenuItem<int>> listaComunidades = [];
+
+  buscarPessoas() async {
+    setState(() => carregando = true);
+    var retorno = await ApiPessoas().getPessoas();
+    if (retorno.statusCode == 200) {
+      pessoas.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() => pessoas.add(PessoaModel.fromJson(item)));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarComunidades() async {
+    setState(() => carregando = true);
+    var retorno = await ApiComunidade().getComunidades();
+    if (retorno.statusCode == 200) {
+      comunidades.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() => comunidades.add(ComunidadeModel.fromJson(item)));
+      }
+      listaComunidades.clear();
+      // listaComunidades.add(
+      //   const DropdownMenuItem(
+      //     value: 0,
+      //     child: Text("Selecione uma comunidade"),
+      //   ),
+      // );
+      for (var item in comunidades) {
+        listaComunidades.add(
+          DropdownMenuItem(
+            value: item.comCodigo,
+            child: Text(item.comNome),
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer comunidades !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarPessoas();
+    buscarComunidades();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +107,234 @@ class _PessoasEventoState extends State<PessoasEvento> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height / 1.1,
               width: MediaQuery.of(context).size.width / 1.5,
-              child: const Column(
-                children: [],
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  const Center(
+                      child: Text("Pessoas do Evento",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold))),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: carregando
+                              ? const CarregamentoIOS()
+                              : DropdownButtonFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Comunidades',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Cores.cinzaEscuro,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  value: comunidadeSelecionada == 0
+                                      ? null
+                                      : comunidadeSelecionada,
+                                  items: listaComunidades,
+                                  onChanged: (value) async {
+                                    await buscarPessoas();
+                                    setState(() {
+                                      pessoasSelecionadas.clear();
+                                      comunidadeSelecionada = value!;
+                                    });
+                                    // await buscarQuartosAlocados(value);
+                                    // await buscarQuartosPavilhao(value);
+                                    // setState(() {
+                                    //   camasSelecionadas = 0;
+                                    //   for (var item in quartos) {
+                                    //     if (quartosSelecionados
+                                    //         .contains(item.quaCodigo)) {
+                                    //       camasSelecionadas +=
+                                    //           item.quaQtdCamaslivres;
+                                    //     }
+                                    //   }
+                                    //   comunidadeSelecionada = value;
+                                    // });
+                                  },
+                                ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Pessoas Selecionadas: ${pessoasSelecionadas.length}",
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                // Text(
+                                //   "Camas Selecionadas: $camasSelecionadas",
+                                //   textAlign: TextAlign.end,
+                                //   style: const TextStyle(
+                                //     fontSize: 16,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text("Selecionar Todos",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(width: 10),
+                              SizedBox(
+                                  child: CupertinoButton(
+                                color: Cores.verdeMedio,
+                                padding: const EdgeInsets.all(15),
+                                onPressed: () {
+                                  // if (pessoasSelecionadas.length <
+                                  //     quartos.length) {
+                                  //   setState(() {
+                                  //     camasSelecionadas = 0;
+                                  //     pessoasSelecionadas = quartos
+                                  //         .map((e) => e.quaCodigo)
+                                  //         .toList();
+                                  //     for (var item in quartos) {
+                                  //       camasSelecionadas +=
+                                  //           item.quaQtdCamaslivres;
+                                  //     }
+                                  //   });
+                                  // } else {
+                                  //   setState(() {
+                                  //     camasSelecionadas = 0;
+                                  //     pessoasSelecionadas.clear();
+                                  //   });
+                                  // }
+                                  if (pessoasSelecionadas.length <
+                                      pessoas.length) {
+                                    setState(() {
+                                      pessoasSelecionadas = pessoas
+                                          .map((e) => e.pesCodigo)
+                                          .toList();
+                                    });
+                                  } else {
+                                    setState(() {
+                                      pessoasSelecionadas.clear();
+                                    });
+                                  }
+                                },
+                                child: const Icon(
+                                  CupertinoIcons.checkmark_square,
+                                  color: Cores.branco,
+                                ),
+                              )),
+                              const SizedBox(height: 30),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: Cores.cinzaEscuro,
+                    thickness: 1,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                  Expanded(
+                    child: comunidadeSelecionada == 0
+                        ? const Center(
+                            child: Text("Selecione uma comunidade"),
+                          )
+                        : Wrap(
+                            children: [
+                              for (var pessoa in pessoas)
+                                carregando
+                                    ? const Expanded(child: CarregamentoIOS())
+                                    : MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (pessoasSelecionadas
+                                                  .contains(pessoa.pesCodigo)) {
+                                                pessoasSelecionadas
+                                                    .remove(pessoa.pesCodigo);
+                                                // camasSelecionadas -=
+                                                //     pessoa.quaQtdCamaslivres;
+                                              } else {
+                                                pessoasSelecionadas
+                                                    .add(pessoa.pesCodigo);
+                                                // camasSelecionadas +=
+                                                //     pessoa.quaQtdCamaslivres;
+                                              }
+                                            });
+                                          },
+                                          child: CardPessoasEvento(
+                                            pessoa: pessoa,
+                                            pessoasSelecionadas:
+                                                pessoasSelecionadas,
+                                            selecionado: pessoasSelecionadas
+                                                .contains(pessoa.pesCodigo),
+                                          ),
+                                          // child: CardQuartosEvento(
+                                          //   quarto: pessoa,
+                                          //   quartosSelecionados:
+                                          //       pessoasSelecionadas,
+                                          //   selecionado: pessoasSelecionadas
+                                          //       .contains(pessoa.quaCodigo),
+                                          // ),
+                                        ),
+                                      ),
+                            ],
+                          ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 10,
+                        ),
+                        child: CupertinoButton(
+                          color: Cores.vermelhoMedio,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Cancelar"),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 10,
+                        ),
+                        child: CupertinoButton(
+                          color: Cores.verdeMedio,
+                          onPressed: () {
+                            // salvarQuartos();
+                          },
+                          child: const Text("Gravar"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
