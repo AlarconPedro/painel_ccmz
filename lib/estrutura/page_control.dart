@@ -31,7 +31,7 @@ class _PageControlState extends State<PageControl> {
         //   color: CupertinoColors.systemBlue,
         // ),
         // Container(
-        //   color: CupertinoColors.systemGreen,
+        //   color: CupertinoColors.systemGreen,'
         // ),
         // Container(
         //   color: CupertinoColors.systemYellow,

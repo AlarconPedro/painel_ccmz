@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/data/api/api_evento.dart';
+import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmz/widgets/loading/carregamento_ios.dart';
 
 import '../../classes/classes.dart';
 
@@ -11,6 +16,52 @@ class Alocacao extends StatefulWidget {
 }
 
 class _AlocacaoState extends State<Alocacao> {
+  bool carregando = false;
+
+  List<DropdownMenuItem> eventos = [];
+  List<QuartoModel> quartos = [];
+
+  int eventoSelecionado = 0;
+
+  buscarQuartos(int codigoEvento) async {
+    setState(() => carregando = true);
+
+    setState(() => carregando = false);
+  }
+
+  buscarEventos() async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().getEventoNomes();
+    if (retorno.statusCode == 200) {
+      eventos.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          eventos.add(
+            DropdownMenuItem(
+              value: item["eveCodigo"],
+              child: Text(item["eveNome"]),
+            ),
+          );
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar eventos!"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  initState() {
+    super.initState();
+    buscarEventos();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,8 +132,16 @@ class _AlocacaoState extends State<Alocacao> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          const Text(
+                            "Quartos",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Expanded(child: SizedBox()),
                           SizedBox(
-                            width: 300,
+                            width: 500,
                             height: 60,
                             child: DropdownButtonFormField(
                               decoration: const InputDecoration(
@@ -101,42 +160,18 @@ class _AlocacaoState extends State<Alocacao> {
                                   ),
                                 ),
                               ),
-                              items: [],
+                              items: eventos,
+                              value: eventoSelecionado != 0
+                                  ? eventoSelecionado
+                                  : null,
                               onChanged: (value) {
                                 setState(() {
-                                  // comunidadeSelecionada = value;
+                                  eventoSelecionado = value;
                                 });
+                                buscarQuartos(value);
                               },
                             ),
                           ),
-                          const Expanded(child: SizedBox()),
-                          const Text(
-                            "Quartos",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          // CupertinoButton(
-                          //   color: Cores.verdeMedio,
-                          //   padding: const EdgeInsets.symmetric(
-                          //     vertical: 5,
-                          //     horizontal: 30,
-                          //   ),
-                          //   onPressed: () {
-                          //     abrirTelaCadastro();
-                          //     // Navigator.push(
-                          //     //   context,
-                          //     //   CupertinoDialogRoute(
-                          //     //     builder: (context) {
-                          //     //       return const CadastroPessoas();
-                          //     //     },
-                          //     //     context: context,
-                          //     //   ),
-                          //     // );
-                          //   },
-                          //   child: Text(tituloBoto),
-                          // ),
                         ],
                       ),
                     ),
@@ -147,7 +182,24 @@ class _AlocacaoState extends State<Alocacao> {
                         color: Cores.preto,
                       ),
                     ),
-                    ///////////////////////////////
+                    carregando
+                        ? const Expanded(
+                            child: Center(child: CarregamentoIOS()))
+                        : Expanded(
+                            child: ListView.builder(
+                              itemCount: 10,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text("Quarto ${index + 1}"),
+                                  subtitle: const Text("Comunidade"),
+                                );
+                                // return ListTile(
+                                //   title: Text(eventos[index].eveNome),
+                                //   subtitle: Text(eventos[index].eveNome),
+                                // );
+                              },
+                            ),
+                          ),
                   ],
                 ),
               ),
