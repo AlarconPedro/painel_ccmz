@@ -14,6 +14,7 @@ class _PageControlState extends State<PageControl> {
   Widget build(BuildContext context) {
     return PageView(
       controller: Rotas.navController,
+      physics: const NeverScrollableScrollPhysics(),
       children: const [
         DashBoard(),
         Pessoas(),
