@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/api/api_evento.dart';
 import 'package:painel_ccmz/data/data.dart';
 import 'package:painel_ccmz/estrutura/estrutura.dart';
+import 'package:painel_ccmz/pages/pages.dart';
 import 'package:painel_ccmz/widgets/loading/carregamento_ios.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
@@ -235,20 +236,40 @@ class _AlocacaoState extends State<Alocacao> {
                         : Expanded(
                             child: PageView(
                               controller: Rotas.alocacaoPageController,
+                              physics: const NeverScrollableScrollPhysics(),
                               children: [
                                 Expanded(
                                   child: ListView.builder(
                                     itemCount: blocos.length,
                                     itemBuilder: (context, index) {
-                                      return CardBlocoAlocacao(
-                                          blocos: blocos[index]);
+                                      return MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              codigoBloco =
+                                                  blocos[index].bloCodigo;
+                                              Rotas.alocacaoPageController
+                                                  .animateToPage(
+                                                1,
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                curve: Curves.easeInOut,
+                                              );
+                                            });
+                                            // buscarQuartos(eventoSelecionado);
+                                          },
+                                          child: CardBlocoAlocacao(
+                                            blocos: blocos[index],
+                                          ),
+                                        ),
+                                      );
                                     },
                                   ),
                                 ),
                                 Expanded(
-                                  child: Container(
-                                    color: Cores.azulClaro,
-                                  ),
+                                  child:
+                                      AlocacaoQuartos(codigoBloco: codigoBloco),
                                 ),
                               ],
                             ),
