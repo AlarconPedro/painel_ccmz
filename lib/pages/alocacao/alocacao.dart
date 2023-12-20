@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/api/api_evento.dart';
 import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmz/estrutura/estrutura.dart';
 import 'package:painel_ccmz/widgets/loading/carregamento_ios.dart';
+import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
 
@@ -20,14 +22,10 @@ class _AlocacaoState extends State<Alocacao> {
 
   List<DropdownMenuItem> eventos = [];
   List<QuartoModel> quartos = [];
+  List<BlocoModel> blocos = [];
 
   int eventoSelecionado = 0;
-
-  buscarQuartos(int codigoEvento) async {
-    setState(() => carregando = true);
-
-    setState(() => carregando = false);
-  }
+  int codigoBloco = 0;
 
   buscarEventos() async {
     setState(() => carregando = true);
@@ -49,6 +47,55 @@ class _AlocacaoState extends State<Alocacao> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Erro ao buscar eventos!"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarBlocos() async {
+    setState(() => carregando = true);
+    var retorno = await ApiAlocacao().getAlocacaoBlocos(eventoSelecionado);
+    if (retorno.statusCode == 200) {
+      blocos.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          blocos.add(
+            BlocoModel.fromJson(item),
+          );
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar blocos!"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarQuartos(int codigoEvento) async {
+    setState(() => carregando = true);
+    var retorno =
+        await ApiAlocacao().getQuartosEvento(codigoEvento, codigoBloco);
+    if (retorno.statusCode == 200) {
+      quartos.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          quartos.add(
+            QuartoModel.fromJson(item),
+          );
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar quartos!"),
           backgroundColor: Cores.vermelhoMedio,
         ),
       );
@@ -133,7 +180,7 @@ class _AlocacaoState extends State<Alocacao> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Quartos",
+                            "Alocação",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -168,7 +215,7 @@ class _AlocacaoState extends State<Alocacao> {
                                 setState(() {
                                   eventoSelecionado = value;
                                 });
-                                buscarQuartos(value);
+                                buscarBlocos();
                               },
                             ),
                           ),
@@ -186,18 +233,24 @@ class _AlocacaoState extends State<Alocacao> {
                         ? const Expanded(
                             child: Center(child: CarregamentoIOS()))
                         : Expanded(
-                            child: ListView.builder(
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  title: Text("Quarto ${index + 1}"),
-                                  subtitle: const Text("Comunidade"),
-                                );
-                                // return ListTile(
-                                //   title: Text(eventos[index].eveNome),
-                                //   subtitle: Text(eventos[index].eveNome),
-                                // );
-                              },
+                            child: PageView(
+                              controller: Rotas.alocacaoPageController,
+                              children: [
+                                Expanded(
+                                  child: ListView.builder(
+                                    itemCount: blocos.length,
+                                    itemBuilder: (context, index) {
+                                      return CardBlocoAlocacao(
+                                          blocos: blocos[index]);
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    color: Cores.azulClaro,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                   ],
