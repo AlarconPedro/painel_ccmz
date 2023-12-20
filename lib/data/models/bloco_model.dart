@@ -14,11 +14,11 @@ class BlocoModel {
   });
 
   factory BlocoModel.fromJson(Map<String, dynamic> json) => BlocoModel(
-        bloCodigo: json["bloCodigo"],
-        bloNome: json["bloNome"],
-        qtdQuartos: json["qtdQuartos"],
-        qtdLivres: json["qtdLivres"],
-        qtdOcupados: json["qtdOcupados"],
+        bloCodigo: json["bloCodigo"] ?? 0,
+        bloNome: json["bloNome"] ?? "",
+        qtdQuartos: json["qtdQuartos"] ?? 0,
+        qtdLivres: json["qtdLivres"] ?? 0,
+        qtdOcupados: json["qtdOcupados"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
