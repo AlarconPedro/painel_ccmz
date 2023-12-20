@@ -8,7 +8,8 @@ export 'cards/listagem/card_corpo_tela.dart';
 export 'cards/mostragem/card_quartos_evento.dart';
 export 'cards/mostragem/card_pessoas_evento.dart';
 
-export 'cards/alocacao/card_bloco.dart';
+export 'cards/alocacao/card_bloco_alocacao.dart';
+export 'cards/alocacao/card_quarto_alocacao.dart';
 
 export 'cards/dashboard/card_dashboard.dart';
 
