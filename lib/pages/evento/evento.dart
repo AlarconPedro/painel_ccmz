@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmz/pages/evento/alocacao_evento.dart';
 import 'package:painel_ccmz/pages/pages.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
@@ -172,11 +173,20 @@ class _EventoState extends State<Evento> {
                               );
                             },
                             alocacao: () {
-                              Rotas.navController.animateToPage(
-                                6,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeInOut,
+                              Navigator.push(
+                                context,
+                                CupertinoDialogRoute(
+                                  builder: (context) {
+                                    return AlocacaoEvento();
+                                  },
+                                  context: context,
+                                ),
                               );
+                              // Rotas.navController.animateToPage(
+                              //   6,
+                              //   duration: const Duration(milliseconds: 500),
+                              //   curve: Curves.easeInOut,
+                              // );
                             },
                           ),
                         ),

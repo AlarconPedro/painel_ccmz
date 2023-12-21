@@ -83,11 +83,12 @@ class NavState extends State<Nav> {
         icon: const Icon(CupertinoIcons.calendar),
       ),
       SideMenuItem(
-        title: 'Alocação',
+        title: 'Check-In',
         onTap: (index, sideMenu) {
           sideMenu.changePage(index);
         },
-        icon: const Icon(CupertinoIcons.home),
+        // icon: const Icon(CupertinoIcons.tag_fill),
+        icon: const Icon(CupertinoIcons.checkmark_alt_circle),
       ),
       // SideMenuItem(
       //   title: 'Cadastro',
