@@ -21,6 +21,7 @@ class CardQuartoAlocacao extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
+          // color: Cores.amareloClaro.withOpacity(0.2),
           color: Cores.branco,
         ),
         width: 300,
