@@ -15,4 +15,6 @@ export 'cards/dashboard/card_dashboard.dart';
 
 export 'loading/carregamento_ios.dart';
 
+export 'form/dropdown_form.dart';
+
 export 'scrol/scroll_list.dart';
