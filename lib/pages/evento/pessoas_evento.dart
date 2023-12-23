@@ -8,7 +8,8 @@ import 'package:painel_ccmz/widgets/widgets.dart';
 import '../../classes/classes.dart';
 
 class PessoasEvento extends StatefulWidget {
-  const PessoasEvento({super.key});
+  int codigoEvento;
+  PessoasEvento({super.key, required this.codigoEvento});
 
   @override
   State<PessoasEvento> createState() => _PessoasEventoState();
@@ -28,7 +29,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
 
   buscarPessoas() async {
     setState(() => carregando = true);
-    var retorno = await ApiPessoas().getPessoas();
+    var retorno = await ApiEvento().getPessoasEvento(comunidadeSelecionada);
     if (retorno.statusCode == 200) {
       pessoas.clear();
       var decoded = json.decode(retorno.body);
@@ -75,6 +76,47 @@ class _PessoasEventoState extends State<PessoasEvento> {
         const SnackBar(
           backgroundColor: Cores.vermelhoMedio,
           content: Text("Erro ao trazer comunidades !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  preparaDados() {
+    List<EventoPessoasModel> pessoasEvento = [];
+    for (var item in pessoasSelecionadas) {
+      pessoasEvento.add(
+        EventoPessoasModel(
+          evpCodigo: 0,
+          eveCodigo: widget.codigoEvento,
+          pesCodigo: item,
+          evpPagante: false,
+          evpCobrante: false,
+        ),
+      );
+    }
+    return pessoasEvento;
+  }
+
+  salvarPessoas(List<EventoPessoasModel> pessoas) async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().addPessoasEvento(
+      preparaDados(),
+      comunidadeSelecionada,
+    );
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Pessoas gravadas com sucesso !"),
+        ),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao gravar pessoas !"),
         ),
       );
     }
@@ -274,13 +316,9 @@ class _PessoasEventoState extends State<PessoasEvento> {
                                                   .contains(pessoa.pesCodigo)) {
                                                 pessoasSelecionadas
                                                     .remove(pessoa.pesCodigo);
-                                                // camasSelecionadas -=
-                                                //     pessoa.quaQtdCamaslivres;
                                               } else {
                                                 pessoasSelecionadas
                                                     .add(pessoa.pesCodigo);
-                                                // camasSelecionadas +=
-                                                //     pessoa.quaQtdCamaslivres;
                                               }
                                             });
                                           },
@@ -291,13 +329,6 @@ class _PessoasEventoState extends State<PessoasEvento> {
                                             selecionado: pessoasSelecionadas
                                                 .contains(pessoa.pesCodigo),
                                           ),
-                                          // child: CardQuartosEvento(
-                                          //   quarto: pessoa,
-                                          //   quartosSelecionados:
-                                          //       pessoasSelecionadas,
-                                          //   selecionado: pessoasSelecionadas
-                                          //       .contains(pessoa.quaCodigo),
-                                          // ),
                                         ),
                                       ),
                             ],
