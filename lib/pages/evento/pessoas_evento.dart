@@ -47,6 +47,27 @@ class _PessoasEventoState extends State<PessoasEvento> {
     setState(() => carregando = false);
   }
 
+  buscarPessoasAlocadas() async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento()
+        .getPessoasAlocadas(comunidadeSelecionada, widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      pessoasSelecionadas.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() => pessoasSelecionadas.add(item["pesCodigo"]));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   buscarComunidades() async {
     setState(() => carregando = true);
     var retorno = await ApiComunidade().getComunidades();
@@ -90,15 +111,15 @@ class _PessoasEventoState extends State<PessoasEvento> {
           evpCodigo: 0,
           eveCodigo: widget.codigoEvento,
           pesCodigo: item,
-          evpPagante: false,
-          evpCobrante: false,
+          evpPagante: true,
+          evpCobrante: true,
         ),
       );
     }
     return pessoasEvento;
   }
 
-  salvarPessoas(List<EventoPessoasModel> pessoas) async {
+  salvarPessoas() async {
     setState(() => carregando = true);
     var retorno = await ApiEvento().addPessoasEvento(
       preparaDados(),
@@ -186,24 +207,12 @@ class _PessoasEventoState extends State<PessoasEvento> {
                                       : comunidadeSelecionada,
                                   items: listaComunidades,
                                   onChanged: (value) async {
-                                    await buscarPessoas();
                                     setState(() {
                                       pessoasSelecionadas.clear();
                                       comunidadeSelecionada = value!;
                                     });
-                                    // await buscarQuartosAlocados(value);
-                                    // await buscarQuartosPavilhao(value);
-                                    // setState(() {
-                                    //   camasSelecionadas = 0;
-                                    //   for (var item in quartos) {
-                                    //     if (quartosSelecionados
-                                    //         .contains(item.quaCodigo)) {
-                                    //       camasSelecionadas +=
-                                    //           item.quaQtdCamaslivres;
-                                    //     }
-                                    //   }
-                                    //   comunidadeSelecionada = value;
-                                    // });
+                                    await buscarPessoasAlocadas();
+                                    await buscarPessoas();
                                   },
                                 ),
                         ),
@@ -222,14 +231,6 @@ class _PessoasEventoState extends State<PessoasEvento> {
                                   ),
                                 ),
                                 const SizedBox(height: 10),
-                                // Text(
-                                //   "Camas Selecionadas: $camasSelecionadas",
-                                //   textAlign: TextAlign.end,
-                                //   style: const TextStyle(
-                                //     fontSize: 16,
-                                //     fontWeight: FontWeight.bold,
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
@@ -248,24 +249,6 @@ class _PessoasEventoState extends State<PessoasEvento> {
                                 color: Cores.verdeMedio,
                                 padding: const EdgeInsets.all(15),
                                 onPressed: () {
-                                  // if (pessoasSelecionadas.length <
-                                  //     quartos.length) {
-                                  //   setState(() {
-                                  //     camasSelecionadas = 0;
-                                  //     pessoasSelecionadas = quartos
-                                  //         .map((e) => e.quaCodigo)
-                                  //         .toList();
-                                  //     for (var item in quartos) {
-                                  //       camasSelecionadas +=
-                                  //           item.quaQtdCamaslivres;
-                                  //     }
-                                  //   });
-                                  // } else {
-                                  //   setState(() {
-                                  //     camasSelecionadas = 0;
-                                  //     pessoasSelecionadas.clear();
-                                  //   });
-                                  // }
                                   if (pessoasSelecionadas.length <
                                       pessoas.length) {
                                     setState(() {
@@ -358,7 +341,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
                         child: CupertinoButton(
                           color: Cores.verdeMedio,
                           onPressed: () {
-                            // salvarQuartos();
+                            salvarPessoas();
                           },
                           child: const Text("Gravar"),
                         ),
