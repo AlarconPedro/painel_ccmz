@@ -31,10 +31,8 @@ class ApiAlocacao {
         .getJson(_urlGetAlocacaoBlocos + codigoEvento.toString());
   }
 
-  Future<dynamic> getAlocacaoComunidades(
-      int codigoEvento, int codigoBloco) async {
-    return await _request
-        .getJson("$_urlGetAlocacaoComunidades$codigoEvento/$codigoBloco");
+  Future<dynamic> getAlocacaoComunidades(int codigoEvento) async {
+    return await _request.getJson("$_urlGetAlocacaoComunidades$codigoEvento");
   }
 
   Future<dynamic> getPessoasComunidade(
