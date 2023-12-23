@@ -10,6 +10,7 @@ export 'cards/mostragem/card_pessoas_evento.dart';
 
 export 'cards/alocacao/card_bloco_alocacao.dart';
 export 'cards/alocacao/card_quarto_alocacao.dart';
+export 'cards/alocacao/card_evento_quarto.dart';
 
 export 'cards/dashboard/card_dashboard.dart';
 

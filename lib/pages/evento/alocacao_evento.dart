@@ -452,7 +452,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                                                     direction: Axis.horizontal,
                                                     children: [
                                                       for (var item in quartos)
-                                                        CardQuartoAlocacao(),
+                                                        const CardEventoQuarto()
                                                     ],
                                                   )),
                                                 ),
