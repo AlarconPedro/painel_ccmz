@@ -179,7 +179,9 @@ class _PessoasEventoState extends State<PessoasEvento> {
                               fontSize: 20, fontWeight: FontWeight.bold))),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 10),
+                      vertical: 15,
+                      horizontal: 10,
+                    ),
                     child: Row(
                       children: [
                         Expanded(
