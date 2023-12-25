@@ -247,28 +247,29 @@ class _PessoasEventoState extends State<PessoasEvento> {
                                       fontWeight: FontWeight.bold)),
                               const SizedBox(width: 10),
                               SizedBox(
-                                  child: CupertinoButton(
-                                color: Cores.verdeMedio,
-                                padding: const EdgeInsets.all(15),
-                                onPressed: () {
-                                  if (pessoasSelecionadas.length <
-                                      pessoas.length) {
-                                    setState(() {
-                                      pessoasSelecionadas = pessoas
-                                          .map((e) => e.pesCodigo)
-                                          .toList();
-                                    });
-                                  } else {
-                                    setState(() {
-                                      pessoasSelecionadas.clear();
-                                    });
-                                  }
-                                },
-                                child: const Icon(
-                                  CupertinoIcons.checkmark_square,
-                                  color: Cores.branco,
+                                child: CupertinoButton(
+                                  color: Cores.verdeMedio,
+                                  padding: const EdgeInsets.all(15),
+                                  onPressed: () {
+                                    if (pessoasSelecionadas.length <
+                                        pessoas.length) {
+                                      setState(() {
+                                        pessoasSelecionadas = pessoas
+                                            .map((e) => e.pesCodigo)
+                                            .toList();
+                                      });
+                                    } else {
+                                      setState(() {
+                                        pessoasSelecionadas.clear();
+                                      });
+                                    }
+                                  },
+                                  child: const Icon(
+                                    CupertinoIcons.checkmark_square,
+                                    color: Cores.branco,
+                                  ),
                                 ),
-                              )),
+                              ),
                               const SizedBox(height: 30),
                             ],
                           ),
