@@ -192,17 +192,19 @@ class _QuartosEventoState extends State<QuartosEvento> {
                                   onChanged: (value) async {
                                     await buscarQuartosAlocados(value);
                                     await buscarQuartosPavilhao(value);
-                                    setState(() {
-                                      camasSelecionadas = 0;
-                                      for (var item in quartos) {
-                                        if (quartosSelecionados
-                                            .contains(item.quaCodigo)) {
-                                          camasSelecionadas +=
-                                              item.quaQtdCamaslivres;
+                                    setState(
+                                      () {
+                                        camasSelecionadas = 0;
+                                        for (var item in quartos) {
+                                          if (quartosSelecionados
+                                              .contains(item.quaCodigo)) {
+                                            camasSelecionadas +=
+                                                item.quaQtdCamaslivres;
+                                          }
                                         }
-                                      }
-                                      blocoSelecionado = value;
-                                    });
+                                        blocoSelecionado = value;
+                                      },
+                                    );
                                   },
                                 ),
                         ),
