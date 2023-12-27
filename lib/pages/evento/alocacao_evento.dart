@@ -20,6 +20,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   TextEditingController nomeController = TextEditingController();
 
+  PageController alocacaoController = PageController();
+
   bool exibirBlocos = false;
   bool carregando = false;
 
@@ -432,31 +434,77 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                                             ),
                                           ),
                                           Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: Cores.cinzaClaro,
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 5,
-                                                  vertical: 5,
+                                            child: PageView(
+                                              scrollDirection: Axis.horizontal,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              controller: alocacaoController,
+                                              children: [
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: Cores.cinzaClaro,
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: 5,
+                                                      vertical: 5,
+                                                    ),
+                                                    child: Expanded(
+                                                      child:
+                                                          SingleChildScrollView(
+                                                              child: Wrap(
+                                                        alignment: WrapAlignment
+                                                            .center,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                        children: [
+                                                          for (var item
+                                                              in quartos)
+                                                            MouseRegion(
+                                                              cursor:
+                                                                  SystemMouseCursors
+                                                                      .click,
+                                                              child:
+                                                                  GestureDetector(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    alocacaoController
+                                                                        .animateToPage(
+                                                                      1,
+                                                                      duration:
+                                                                          const Duration(
+                                                                        milliseconds:
+                                                                            500,
+                                                                      ),
+                                                                      curve: Curves
+                                                                          .ease,
+                                                                    );
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const CardEventoQuarto(),
+                                                              ),
+                                                            )
+                                                        ],
+                                                      )),
+                                                    ),
+                                                  ),
                                                 ),
-                                                child: Expanded(
-                                                  child: SingleChildScrollView(
-                                                      child: Wrap(
-                                                    alignment:
-                                                        WrapAlignment.center,
-                                                    direction: Axis.horizontal,
-                                                    children: [
-                                                      for (var item in quartos)
-                                                        const CardEventoQuarto()
-                                                    ],
-                                                  )),
+                                                Container(
+                                                  child: const Center(
+                                                    child: Text(
+                                                      "Alocação de Pessoas",
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
                                           )
                                         ],
@@ -464,33 +512,6 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                                     ),
                                   ),
                                 ),
-                                // Expanded(
-                                //   flex: 3,
-                                //   child: Padding(
-                                //     padding: const EdgeInsets.all(10),
-                                //     child: Container(
-                                //       decoration: BoxDecoration(
-                                //         borderRadius: BorderRadius.circular(10),
-                                //         color: Cores.cinzaClaro,
-                                //       ),
-                                //       child: const Expanded(
-                                //         child: Wrap(
-                                //           alignment: WrapAlignment.center,
-                                //           direction: Axis.horizontal,
-                                //           children: [
-                                //             CardQuartoAlocacao(),
-                                //             CardQuartoAlocacao(),
-                                //             CardQuartoAlocacao(),
-                                //             CardQuartoAlocacao(),
-                                //             CardQuartoAlocacao(),
-                                //             CardQuartoAlocacao(),
-                                //             CardQuartoAlocacao(),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
@@ -505,39 +526,17 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                       ),
                       child: Row(
                         children: [
-                          CupertinoButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            color: Cores.vermelhoMedio,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 30,
-                            ),
-                            child: const Text("Cancelar"),
-                          ),
                           const Spacer(),
                           CupertinoButton(
                             onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                // gravar();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    backgroundColor: Cores.vermelhoMedio,
-                                    content: Text(
-                                      'Preencha os campos corretamente',
-                                    ),
-                                  ),
-                                );
-                              }
+                              Navigator.pop(context);
                             },
                             color: Cores.verdeMedio,
                             padding: const EdgeInsets.symmetric(
                               vertical: 5,
                               horizontal: 30,
                             ),
-                            child: const Text("Salvar"),
+                            child: const Text("Fechar"),
                           ),
                         ],
                       ),
