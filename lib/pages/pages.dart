@@ -23,6 +23,7 @@ export 'evento/quartos_evento.dart';
 export 'evento/pessoas_evento.dart';
 export 'evento/alocacao_evento.dart';
 export 'evento/alocacao_evento_pessoas.dart';
+export 'evento/estrutura_alocacao_evento.dart';
 
 export 'alocacao/alocacao.dart';
 export 'alocacao/alocacao_quartos.dart';

@@ -3,6 +3,7 @@ import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/pages/pages.dart';
 
 import '../../classes/classes.dart';
 import '../../data/data.dart';
@@ -23,6 +24,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
   PageController alocacaoController = PageController();
 
   bool exibirBlocos = false;
+  bool exibirVoltar = false;
   bool carregando = false;
 
   int eventoSelecionado = 0;
@@ -174,378 +176,227 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Center(
-          child: Card(
-            color: Cores.branco,
-            elevation: 10,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
+    return EstruturaAlocacaoEvento(
+      formKey: formKey,
+      comboEvento: Expanded(
+        child: SizedBox(
+          height: 60,
+          child: DropDownForm(
+            label: 'Evento',
+            itens: eventos,
+            selecionado: 0,
+            onChange: (value) {
+              setState(() {
+                if (value != 0) {
+                  exibirBlocos = true;
+                } else {
+                  exibirBlocos = false;
+                }
+                eventoSelecionado = value;
+              });
+              buscarBlocos();
+              buscarComunidades();
+            },
+          ),
+        ),
+      ),
+      comboPessoas: Expanded(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Cores.cinzaClaro,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 5,
+              vertical: 5,
             ),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height / 1.1,
-              width: MediaQuery.of(context).size.width / 1.1,
-              child: Form(
-                key: formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Pessoas Evento",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
+            child: ListView.builder(
+              itemCount: pessoas.length,
+              itemBuilder: (context, index) {
+                return MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        // pessoas[index]
+                        //         .pesSelecionado =
+                        //     !pessoas[index]
+                        //         .pesSelecionado;
+                      });
+                    },
+                    child: Card(
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(
+                          pessoas[index].pesNome,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Alocação de Evento",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                        ),
+                        subtitle: Text(
+                          pessoas[index].pesGenero,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: const Icon(CupertinoIcons.chevron_forward),
                       ),
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 10,
-                                            left: 2,
-                                            right: 2,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  height: 55,
-                                                  child: CupertinoTextField(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(10),
-                                                      ),
-                                                      border: Border.all(
-                                                        color:
-                                                            Cores.cinzaEscuro,
-                                                      ),
-                                                    ),
-                                                    placeholder: 'Pesquisar',
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 10),
-                                              CupertinoButton(
-                                                color: Cores.preto,
-                                                onPressed: () {},
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  vertical: 16,
-                                                  horizontal: 16,
-                                                ),
-                                                child: const Icon(
-                                                    CupertinoIcons.search),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 60,
-                                          child: DropDownForm(
-                                            label: 'Comunidade',
-                                            itens: comunidades,
-                                            selecionado: 0,
-                                            onChange: (value) {
-                                              setState(() {
-                                                comunidadeSelecionada = value;
-                                              });
-                                              buscarPessoasComunidade(value);
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: Cores.cinzaClaro,
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 5,
-                                                vertical: 5,
-                                              ),
-                                              child: ListView.builder(
-                                                itemCount: pessoas.length,
-                                                itemBuilder: (context, index) {
-                                                  return MouseRegion(
-                                                    cursor: SystemMouseCursors
-                                                        .click,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          // pessoas[index]
-                                                          //         .pesSelecionado =
-                                                          //     !pessoas[index]
-                                                          //         .pesSelecionado;
-                                                        });
-                                                      },
-                                                      child: Card(
-                                                        elevation: 5,
-                                                        child: ListTile(
-                                                          title: Text(
-                                                            pessoas[index]
-                                                                .pesNome,
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                          subtitle: Text(
-                                                            pessoas[index]
-                                                                .pesGenero,
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                          trailing: const Icon(
-                                                              CupertinoIcons
-                                                                  .chevron_forward),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Expanded(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 10,
-                                              left: 2,
-                                              right: 2,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: SizedBox(
-                                                    height: 60,
-                                                    child: DropDownForm(
-                                                      label: 'Evento',
-                                                      itens: eventos,
-                                                      selecionado: 0,
-                                                      onChange: (value) {
-                                                        setState(() {
-                                                          if (value != 0) {
-                                                            exibirBlocos = true;
-                                                          } else {
-                                                            exibirBlocos =
-                                                                false;
-                                                          }
-                                                          eventoSelecionado =
-                                                              value;
-                                                        });
-                                                        buscarBlocos();
-                                                        buscarComunidades();
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 10),
-                                                Visibility(
-                                                  visible: exibirBlocos,
-                                                  child: Expanded(
-                                                    child: SizedBox(
-                                                      height: 60,
-                                                      child: DropDownForm(
-                                                        label: 'Bloco',
-                                                        itens: blocos,
-                                                        selecionado: 0,
-                                                        onChange: (value) {
-                                                          setState(() {
-                                                            blocoSelecionado =
-                                                                value;
-                                                          });
-                                                          buscarQuartos(value);
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: PageView(
-                                              scrollDirection: Axis.horizontal,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              controller: alocacaoController,
-                                              children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    color: Cores.cinzaClaro,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 5,
-                                                      vertical: 5,
-                                                    ),
-                                                    child: Expanded(
-                                                      child:
-                                                          SingleChildScrollView(
-                                                              child: Wrap(
-                                                        alignment: WrapAlignment
-                                                            .center,
-                                                        direction:
-                                                            Axis.horizontal,
-                                                        children: [
-                                                          for (var item
-                                                              in quartos)
-                                                            MouseRegion(
-                                                              cursor:
-                                                                  SystemMouseCursors
-                                                                      .click,
-                                                              child:
-                                                                  GestureDetector(
-                                                                onTap: () {
-                                                                  setState(() {
-                                                                    alocacaoController
-                                                                        .animateToPage(
-                                                                      1,
-                                                                      duration:
-                                                                          const Duration(
-                                                                        milliseconds:
-                                                                            500,
-                                                                      ),
-                                                                      curve: Curves
-                                                                          .ease,
-                                                                    );
-                                                                  });
-                                                                },
-                                                                child:
-                                                                    const CardEventoQuarto(),
-                                                              ),
-                                                            )
-                                                        ],
-                                                      )),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: const Center(
-                                                    child: Text(
-                                                      "Alocação de Pessoas",
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 10,
-                      ),
-                      child: Row(
-                        children: [
-                          const Spacer(),
-                          CupertinoButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            color: Cores.verdeMedio,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 30,
-                            ),
-                            child: const Text("Fechar"),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
+        ),
+      ),
+      comboComunidade: SizedBox(
+        height: 60,
+        child: DropDownForm(
+          label: 'Comunidade',
+          itens: comunidades,
+          selecionado: 0,
+          onChange: (value) {
+            setState(() {
+              comunidadeSelecionada = value;
+            });
+            buscarPessoasComunidade(value);
+          },
+        ),
+      ),
+      comboBloco: Visibility(
+        visible: exibirBlocos,
+        child: Expanded(
+          child: SizedBox(
+            height: 60,
+            child: DropDownForm(
+              label: 'Bloco',
+              itens: blocos,
+              selecionado: 0,
+              onChange: (value) {
+                setState(() {
+                  blocoSelecionado = value;
+                });
+                buscarQuartos(value);
+              },
+            ),
+          ),
+        ),
+      ),
+      pageView: Expanded(
+        child: Container(
+          color: Cores.branco,
+          child: PageView(
+            scrollDirection: Axis.horizontal,
+            physics: const NeverScrollableScrollPhysics(),
+            controller: alocacaoController,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Cores.cinzaClaro,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5,
+                    vertical: 5,
+                  ),
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                        child: Wrap(
+                      alignment: WrapAlignment.center,
+                      direction: Axis.horizontal,
+                      children: [
+                        for (var item in quartos)
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  alocacaoController.animateToPage(
+                                    1,
+                                    duration: const Duration(
+                                      milliseconds: 500,
+                                    ),
+                                    curve: Curves.ease,
+                                  );
+                                  exibirVoltar = true;
+                                });
+                              },
+                              child: const CardEventoQuarto(),
+                            ),
+                          )
+                      ],
+                    )),
+                  ),
+                ),
+              ),
+              const AlocacaoEventoPessoas(),
+            ],
+          ),
+        ),
+      ),
+      botaoSalvar: Visibility(
+        visible: exibirVoltar,
+        child: CupertinoButton(
+          onPressed: () {
+            setState(() {
+              alocacaoController.animateToPage(
+                0,
+                duration: const Duration(
+                  milliseconds: 500,
+                ),
+                curve: Curves.ease,
+              );
+              exibirVoltar = false;
+            });
+          },
+          color: Cores.verdeMedio,
+          padding: const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 30,
+          ),
+          child: const Text("Salvar"),
+        ),
+      ),
+      botaoVoltar: Visibility(
+        visible: exibirVoltar,
+        child: CupertinoButton(
+          onPressed: () {
+            setState(() {
+              alocacaoController.animateToPage(
+                0,
+                duration: const Duration(
+                  milliseconds: 500,
+                ),
+                curve: Curves.ease,
+              );
+              exibirVoltar = false;
+            });
+          },
+          color: Cores.vermelhoMedio,
+          padding: const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 30,
+          ),
+          child: const Text("Voltar"),
+        ),
+      ),
+      botaoFechar: Visibility(
+        visible: !exibirVoltar,
+        child: CupertinoButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Cores.verdeMedio,
+          padding: const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 30,
+          ),
+          child: const Text("Fechar"),
         ),
       ),
     );
