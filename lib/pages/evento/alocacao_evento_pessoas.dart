@@ -23,9 +23,9 @@ class AlocacaoEventoPessoas extends StatelessWidget {
           ),
         ],
       ),
-      child: const Column(
+      child: Column(
         children: [
-          Center(
+          const Center(
             child: Padding(
               padding: EdgeInsets.all(10),
               child: Text(
@@ -39,10 +39,35 @@ class AlocacaoEventoPessoas extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    child: Expanded(
+                      child: Container(
+                        child: const Row(
+                          children: [
+                            Icon(CupertinoIcons.add, color: Cores.verdeEscuro),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                "Pessoa 1",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Icon(CupertinoIcons.trash,
+                                color: Cores.vermelhoMedio),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Padding(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     child: Expanded(
                       child: Row(
@@ -64,29 +89,7 @@ class AlocacaoEventoPessoas extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                    child: Expanded(
-                      child: Row(
-                        children: [
-                          Icon(CupertinoIcons.add, color: Cores.verdeEscuro),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              "Pessoa 1",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Icon(CupertinoIcons.trash,
-                              color: Cores.vermelhoMedio),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     child: Expanded(
                       child: Row(
