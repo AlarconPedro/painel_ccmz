@@ -108,8 +108,10 @@ class AlocacaoEventoPessoas extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Icon(CupertinoIcons.trash,
-                              color: Cores.vermelhoMedio),
+                          Icon(
+                            CupertinoIcons.trash,
+                            color: Cores.vermelhoMedio,
+                          ),
                         ],
                       ),
                     ),
