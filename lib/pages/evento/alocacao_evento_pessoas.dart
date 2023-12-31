@@ -94,7 +94,10 @@ class AlocacaoEventoPessoas extends StatelessWidget {
                     child: Expanded(
                       child: Row(
                         children: [
-                          Icon(CupertinoIcons.add, color: Cores.verdeEscuro),
+                          Icon(
+                            CupertinoIcons.add,
+                            color: Cores.verdeEscuro,
+                          ),
                           SizedBox(width: 10),
                           Expanded(
                             child: Text(
