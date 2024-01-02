@@ -139,7 +139,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Row(
                             children: [
                               Text(
