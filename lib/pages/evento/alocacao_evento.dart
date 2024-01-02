@@ -32,6 +32,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
   int blocoSelecionado = 0;
   int comunidadeSelecionada = 0;
 
+  int ocupadas = 0;
+
   List<DropdownMenuItem> eventos = [];
   List<DropdownMenuItem> blocos = [];
   List<DropdownMenuItem> comunidades = [];
@@ -39,6 +41,10 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
   List<PessoaModel> pessoas = [];
 
   List<PessoaModel> pessoasSelecionadas = [];
+
+  List<Widget> vagasQuarto = [];
+
+  List<String> pessoasQuarto = [];
 
   QuartoModel quarto = QuartoModel(
     quaCodigo: 0,
@@ -179,10 +185,210 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     setState(() => carregando = false);
   }
 
+  buscarPessoasAlocadas() async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().getPessoasQuarto(quarto.quaCodigo);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          pessoasQuarto.add(PessoaModel.fromJson(item).pesNome);
+          ocupadas++;
+        });
+      }
+      for (var pessoa in pessoasQuarto) {
+        vagasQuarto.add(
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Cores.verdeMedio.withOpacity(0.2),
+                    border: Border.all(
+                      // color: Cores.verdeMedio.withOpacity(0.2),
+                      color: Cores.preto,
+                      width: 2,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        const Icon(CupertinoIcons.person),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            pessoa,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () {
+                  () {};
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Cores.vermelhoMedio,
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Cores.verdeMedio.withOpacity(0.2),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Icon(
+                        CupertinoIcons.trash,
+                        color: Cores.branco,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+    setState(() => carregando = false);
+  }
+
+  alimentarPessoasSelecionadas() async {
+    setState(() => carregando = true);
+    if (pessoasSelecionadas != []) {
+      for (var pessoa in pessoasSelecionadas) {
+        setState(() {
+          ocupadas++;
+        });
+        vagasQuarto.add(
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Cores.verdeMedio.withOpacity(0.2),
+                    border: Border.all(
+                      // color: Cores.verdeMedio.withOpacity(0.2),
+                      color: Cores.preto,
+                      width: 2,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        const Icon(CupertinoIcons.person),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            pessoa.pesNome,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () {
+                  () {};
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Cores.vermelhoMedio,
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Cores.verdeMedio.withOpacity(0.2),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Icon(
+                        CupertinoIcons.trash,
+                        color: Cores.branco,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+    setState(() => carregando = false);
+  }
+
+  alimentarCamasVazias() async {
+    setState(() => carregando = true);
+    int camasVazias = quarto.quaQtdCamas - vagasQuarto.length;
+    for (var i = 0; i < camasVazias; i++) {
+      vagasQuarto.add(
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            // color: Cores.verdeMedio.withOpacity(0.2),
+            border: Border.all(
+              // color: Cores.verdeMedio.withOpacity(0.2),
+              color: Cores.preto,
+              width: 2,
+            ),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Icon(CupertinoIcons.bed_double),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Vazio",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  criarVagas() async {
+    vagasQuarto.clear();
+    pessoasQuarto.clear();
+    await buscarPessoasAlocadas();
+    await alimentarPessoasSelecionadas();
+    await alimentarCamasVazias();
+  }
+
   @override
   initState() {
     super.initState();
     buscarEventos();
+    criarVagas();
   }
 
   @override
@@ -206,7 +412,6 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 eventoSelecionado = value;
               });
               buscarBlocos();
-              buscarComunidades();
             },
           ),
         ),
@@ -223,40 +428,27 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
               vertical: 5,
             ),
             child: ListView.builder(
-              itemCount: pessoas.length,
+              itemCount: comunidades.isNotEmpty ? pessoas.length : 0,
               itemBuilder: (context, index) {
-                return MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        // pessoas[index]
-                        //         .pesSelecionado =
-                        //     !pessoas[index]
-                        //         .pesSelecionado;
-                      });
-                    },
-                    child: Card(
-                      elevation: 5,
-                      child: ListTile(
-                        title: Text(
-                          pessoas[index].pesNome,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text(
-                          pessoas[index].pesGenero,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        trailing: const Icon(CupertinoIcons.chevron_forward),
-                      ),
-                    ),
-                  ),
+                return CardPessoasAlocacao(
+                  pessoa: pessoas[index],
+                  ocupadas: ocupadas,
+                  vagas: quarto.quaQtdCamas,
+                  selecionado: pessoasSelecionadas.contains(pessoas[index]),
+                  addPessoa: () {
+                    setState(() {
+                      pessoasSelecionadas.add(pessoas[index]);
+                      ocupadas++;
+                    });
+                    criarVagas();
+                  },
+                  removePessoa: () {
+                    setState(() {
+                      pessoasSelecionadas.remove(pessoas[index]);
+                      ocupadas--;
+                    });
+                    criarVagas();
+                  },
                 );
               },
             ),
@@ -274,6 +466,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
               comunidadeSelecionada = value;
             });
             buscarPessoasComunidade(value);
+            pessoasSelecionadas.clear();
+            criarVagas();
           },
         ),
       ),
@@ -291,6 +485,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                   blocoSelecionado = value;
                 });
                 buscarQuartos();
+                criarVagas();
               },
             ),
           ),
@@ -337,6 +532,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                                   );
                                   exibirVoltar = true;
                                 });
+                                buscarComunidades();
+                                criarVagas();
                               },
                               child: CardEventoQuarto(
                                 quarto: item,
@@ -355,6 +552,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                     pessoasSelecionadas.remove(pessoa);
                   });
                 },
+                vagasQuarto: vagasQuarto,
+                // pessoas: pessoasSelecionadas.map((e) => e.pesNome).toList(),
               ),
             ],
           ),
@@ -397,6 +596,9 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
               );
               exibirVoltar = false;
             });
+            comunidades.clear();
+            vagasQuarto.clear();
+            pessoasQuarto.clear();
           },
           color: Cores.vermelhoMedio,
           padding: const EdgeInsets.symmetric(
@@ -411,6 +613,9 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
         child: CupertinoButton(
           onPressed: () {
             Navigator.pop(context);
+            comunidades.clear();
+            vagasQuarto.clear();
+            pessoasQuarto.clear();
           },
           color: Cores.verdeMedio,
           padding: const EdgeInsets.symmetric(
