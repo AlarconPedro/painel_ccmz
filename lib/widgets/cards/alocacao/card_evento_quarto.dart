@@ -1,10 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/data/data.dart';
 
 import '../../../classes/classes.dart';
 
 class CardEventoQuarto extends StatelessWidget {
-  const CardEventoQuarto({super.key});
+  QuartoModel quarto;
+  // PessoaModel pessoa;
+
+  CardEventoQuarto({
+    super.key,
+    required this.quarto,
+    // required this.pessoa,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +34,19 @@ class CardEventoQuarto extends StatelessWidget {
         ),
         width: 300,
         height: 200,
-        child: const Column(
+        child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 20,
                   ),
                   child: Text(
-                    "Quarto 1",
-                    style: TextStyle(
+                    quarto.quaNome,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -48,68 +56,48 @@ class CardEventoQuarto extends StatelessWidget {
             ),
             Expanded(
                 child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Icon(CupertinoIcons.person),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "Sabrina Eduarda Pistori Lumardoni",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(CupertinoIcons.person),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "Vazio",
-                          style: TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(CupertinoIcons.person),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "Vazio",
-                          style: TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: quarto.quaQtdCamas,
+                      itemBuilder: (context, index) {
+                        return const Row(
+                          children: [
+                            Icon(CupertinoIcons.person),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                // quarto.quaNome,
+                                "Vazio",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
             )),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 5,
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Vagas: 2",
-                      style: TextStyle(
+                      "Vagas: ${quarto.quaQtdCamaslivres}",
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
