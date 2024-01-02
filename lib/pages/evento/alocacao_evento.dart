@@ -38,6 +38,17 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
   List<QuartoModel> quartos = [];
   List<PessoaModel> pessoas = [];
 
+  List<PessoaModel> pessoasSelecionadas = [];
+
+  QuartoModel quarto = QuartoModel(
+    quaCodigo: 0,
+    quaNome: "",
+    bloCodigo: 0,
+    bloco: "",
+    quaQtdCamas: 0,
+    quaQtdCamaslivres: 0,
+  );
+
   buscarEventos() async {
     setState(() => carregando = true);
     var retorno = await ApiEvento().getEventoNomes();
@@ -316,6 +327,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
+                                  quarto = item;
                                   alocacaoController.animateToPage(
                                     1,
                                     duration: const Duration(
@@ -326,7 +338,9 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                                   exibirVoltar = true;
                                 });
                               },
-                              child: const CardEventoQuarto(),
+                              child: CardEventoQuarto(
+                                quarto: item,
+                              ),
                             ),
                           )
                       ],
@@ -334,7 +348,14 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                   ),
                 ),
               ),
-              const AlocacaoEventoPessoas(),
+              AlocacaoEventoPessoas(
+                quarto: quarto,
+                removePessoa: (int pessoa) {
+                  setState(() {
+                    pessoasSelecionadas.remove(pessoa);
+                  });
+                },
+              ),
             ],
           ),
         ),
