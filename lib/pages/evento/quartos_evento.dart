@@ -156,9 +156,14 @@ class _QuartosEventoState extends State<QuartosEvento> {
                 children: [
                   const SizedBox(height: 10),
                   const Center(
-                      child: Text("Quartos do Evento",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold))),
+                    child: Text(
+                      "Quartos do Evento",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 10),
