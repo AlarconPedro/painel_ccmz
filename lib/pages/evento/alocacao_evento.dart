@@ -106,8 +106,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   buscarQuartos() async {
     setState(() => carregando = true);
-    var retorno = await ApiAlocacao()
-        .getQuartosEvento(eventoSelecionado, blocoSelecionado);
+    var retorno = await ApiEvento()
+        .getQuartosAlocados(blocoSelecionado, eventoSelecionado);
     if (retorno.statusCode == 200) {
       quartos.clear();
       var decoded = json.decode(retorno.body);
