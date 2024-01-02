@@ -43,26 +43,58 @@ class _AlocacaoEventoPessoasState extends State<AlocacaoEventoPessoas> {
         vagasQuarto.add(
           Row(
             children: [
-              const Icon(CupertinoIcons.person),
-              const SizedBox(width: 10),
               Expanded(
-                child: Text(
-                  pessoa,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Cores.verdeMedio.withOpacity(0.2),
+                    border: Border.all(
+                      // color: Cores.verdeMedio.withOpacity(0.2),
+                      color: Cores.preto,
+                      width: 2,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        const Icon(CupertinoIcons.person),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            pessoa,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
                   widget.removePessoa(pessoa);
                 },
-                child: const MouseRegion(
+                child: MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  child: Icon(
-                    CupertinoIcons.trash,
-                    color: Cores.vermelhoMedio,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Cores.vermelhoMedio,
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Cores.verdeMedio.withOpacity(0.2),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Icon(
+                        CupertinoIcons.trash,
+                        color: Cores.branco,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -79,32 +111,47 @@ class _AlocacaoEventoPessoasState extends State<AlocacaoEventoPessoas> {
     if (widget.pessoas != null) {
       for (var pessoa in widget.pessoas!) {
         vagasQuarto.add(
-          Row(
-            children: [
-              const Icon(CupertinoIcons.person),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  pessoa,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              // color: Cores.verdeMedio.withOpacity(0.2),
+              border: Border.all(
+                // color: Cores.verdeMedio.withOpacity(0.2),
+                color: Cores.preto,
+                width: 2,
               ),
-              GestureDetector(
-                onTap: () {
-                  widget.removePessoa(pessoa);
-                },
-                child: const MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Icon(
-                    CupertinoIcons.trash,
-                    color: Cores.vermelhoMedio,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  const Icon(CupertinoIcons.person),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      pessoa,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                      widget.removePessoa(pessoa);
+                    },
+                    child: const MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Icon(
+                        CupertinoIcons.trash,
+                        color: Cores.vermelhoMedio,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       }
@@ -114,22 +161,38 @@ class _AlocacaoEventoPessoasState extends State<AlocacaoEventoPessoas> {
 
   alimentarCamasVazias() async {
     setState(() => carregando = true);
-    for (var i = 0; i < widget.quarto.quaQtdCamas - vagasQuarto.length; i++) {
+    int camasVazias = widget.quarto.quaQtdCamas - vagasQuarto.length;
+    for (var i = 0; i < camasVazias; i++) {
       vagasQuarto.add(
-        const Row(
-          children: [
-            Icon(CupertinoIcons.bed_double),
-            SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                "Vazio",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            // color: Cores.verdeMedio.withOpacity(0.2),
+            border: Border.all(
+              // color: Cores.verdeMedio.withOpacity(0.2),
+              color: Cores.preto,
+              width: 2,
             ),
-          ],
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Icon(CupertinoIcons.bed_double),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Vazio",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       );
     }
@@ -152,8 +215,8 @@ class _AlocacaoEventoPessoasState extends State<AlocacaoEventoPessoas> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 100,
+        vertical: 150,
+        horizontal: 200,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -180,72 +243,81 @@ class _AlocacaoEventoPessoasState extends State<AlocacaoEventoPessoas> {
               ),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  ...vagasQuarto,
-                  // widget.pessoas != null
-                  //     ? Expanded(
-                  //         child: ListView.builder(
-                  //           itemCount: widget.pessoas!.length,
-                  //           itemBuilder: (context, index) {
-                  //             return Row(
-                  //               children: [
-                  //                 const Icon(CupertinoIcons.person),
-                  //                 const SizedBox(width: 10),
-                  //                 Expanded(
-                  //                   child: Text(
-                  //                     widget.pessoas![index],
-                  //                     style: const TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 GestureDetector(
-                  //                   onTap: () {
-                  //                     widget
-                  //                         .removePessoa(widget.pessoas![index]);
-                  //                   },
-                  //                   child: const MouseRegion(
-                  //                     cursor: SystemMouseCursors.click,
-                  //                     child: Icon(
-                  //                       CupertinoIcons.trash,
-                  //                       color: Cores.vermelhoMedio,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             );
-                  //           },
-                  //         ),
-                  //       )
-                  //     : const SizedBox(),
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     itemCount: widget.quarto.quaQtdCamaslivres,
-                  //     itemBuilder: (context, index) {
-                  //       return const Row(
-                  //         children: [
-                  //           Icon(CupertinoIcons.bed_double),
-                  //           SizedBox(width: 10),
-                  //           Expanded(
-                  //             child: Text(
-                  //               "Vazio",
-                  //               style: TextStyle(
-                  //                 fontSize: 16,
-                  //                 fontWeight: FontWeight.bold,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-                ],
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                // color: Cores.verdeMedio.withOpacity(0.2),
+              ),
+              child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      ...vagasQuarto,
+                      // widget.pessoas != null
+                      //     ? Expanded(
+                      //         child: ListView.builder(
+                      //           itemCount: widget.pessoas!.length,
+                      //           itemBuilder: (context, index) {
+                      //             return Row(
+                      //               children: [
+                      //                 const Icon(CupertinoIcons.person),
+                      //                 const SizedBox(width: 10),
+                      //                 Expanded(
+                      //                   child: Text(
+                      //                     widget.pessoas![index],
+                      //                     style: const TextStyle(
+                      //                       fontSize: 16,
+                      //                       fontWeight: FontWeight.bold,
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //                 GestureDetector(
+                      //                   onTap: () {
+                      //                     widget
+                      //                         .removePessoa(widget.pessoas![index]);
+                      //                   },
+                      //                   child: const MouseRegion(
+                      //                     cursor: SystemMouseCursors.click,
+                      //                     child: Icon(
+                      //                       CupertinoIcons.trash,
+                      //                       color: Cores.vermelhoMedio,
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             );
+                      //           },
+                      //         ),
+                      //       )
+                      //     : const SizedBox(),
+                      // Expanded(
+                      //   child: ListView.builder(
+                      //     itemCount: widget.quarto.quaQtdCamaslivres,
+                      //     itemBuilder: (context, index) {
+                      //       return const Row(
+                      //         children: [
+                      //           Icon(CupertinoIcons.bed_double),
+                      //           SizedBox(width: 10),
+                      //           Expanded(
+                      //             child: Text(
+                      //               "Vazio",
+                      //               style: TextStyle(
+                      //                 fontSize: 16,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
