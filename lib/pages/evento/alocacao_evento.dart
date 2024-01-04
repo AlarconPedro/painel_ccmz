@@ -44,7 +44,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   List<Widget> vagasQuarto = [];
 
-  List<String> pessoasQuarto = [];
+  List<PessoaModel> pessoasQuarto = [];
 
   QuartoModel quarto = QuartoModel(
     quaCodigo: 0,
@@ -192,7 +192,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
-          pessoasQuarto.add(PessoaModel.fromJson(item).pesNome);
+          pessoasQuarto.add(PessoaModel.fromJson(item));
           ocupadas++;
         });
       }
@@ -220,7 +220,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
-                            pessoa,
+                            pessoa.pesNome,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -235,7 +235,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
-                  () {};
+                  removerPessoaQuarto(pessoa.pesCodigo);
                 },
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
@@ -424,8 +424,29 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     setState(() => carregando = false);
   }
 
-  removerPessoaQuarto() async {
+  removerPessoaQuarto(int codigoPessoa) async {
     setState(() => carregando = true);
+    var retorno = await ApiAlocacao().deletePessoaQuarto(codigoPessoa);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Pessoa removida com sucesso!"),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+      setState(() {
+        pessoasSelecionadas.clear();
+      });
+      criarVagas();
+      buscarPessoasComunidade(comunidadeSelecionada);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao remover pessoa!"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
     setState(() => carregando = false);
   }
 
@@ -592,11 +613,12 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
               ),
               AlocacaoEventoPessoas(
                 quarto: quarto,
-                removePessoa: (int pessoa) {
-                  setState(() {
-                    pessoasSelecionadas.remove(pessoa);
-                  });
-                },
+                // removePessoa: (int pessoa) {
+                //   setState(() {
+                //     pessoasSelecionadas.remove(pessoa);
+                //   });
+                //   removerPessoaQuarto(pessoa);
+                // },
                 vagasQuarto: vagasQuarto,
                 // pessoas: pessoasSelecionadas.map((e) => e.pesNome).toList(),
               ),

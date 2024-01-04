@@ -10,13 +10,10 @@ class AlocacaoEventoPessoas extends StatelessWidget {
 
   List<Widget> vagasQuarto;
 
-  Function removePessoa;
-
   AlocacaoEventoPessoas({
     super.key,
     required this.quarto,
     required this.vagasQuarto,
-    required this.removePessoa,
   });
 
   bool carregando = false;
