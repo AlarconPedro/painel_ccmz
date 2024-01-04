@@ -384,6 +384,51 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     await alimentarCamasVazias();
   }
 
+  adicionarPessoaQuarto(int codigoPessoa) async {
+    setState(() => carregando = true);
+    var retorno = await ApiAlocacao().addPessoaQuarto(
+      AlocacaoModel(
+        pesCodigo: codigoPessoa,
+        quaCodigo: quarto.quaCodigo,
+        qupCodigo: 0,
+      ),
+    );
+
+    if (retorno.statusCode == 200) {
+      criarVagas();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Pessoa adicionada com sucesso!"),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+      setState(() {
+        pessoasSelecionadas.clear();
+      });
+      buscarPessoasComunidade(comunidadeSelecionada);
+      // alocacaoController.animateToPage(
+      //   0,
+      //   duration: const Duration(
+      //     milliseconds: 500,
+      //   ),
+      //   curve: Curves.ease,
+      // );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao adicionar pessoa!"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  removerPessoaQuarto() async {
+    setState(() => carregando = true);
+    setState(() => carregando = false);
+  }
+
   @override
   initState() {
     super.initState();
@@ -440,7 +485,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                       pessoasSelecionadas.add(pessoas[index]);
                       ocupadas++;
                     });
-                    criarVagas();
+                    adicionarPessoaQuarto(pessoas[index].pesCodigo);
                   },
                   removePessoa: () {
                     setState(() {
