@@ -53,6 +53,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     bloco: "",
     quaQtdCamas: 0,
     quaQtdCamaslivres: 0,
+    pessoas: [],
   );
 
   buscarEventos() async {
@@ -396,12 +397,12 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
     if (retorno.statusCode == 200) {
       criarVagas();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Pessoa adicionada com sucesso!"),
-          backgroundColor: Cores.verdeMedio,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Pessoa adicionada com sucesso!"),
+      //     backgroundColor: Cores.verdeMedio,
+      //   ),
+      // );
       setState(() {
         pessoasSelecionadas.clear();
       });
@@ -666,6 +667,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
             comunidades.clear();
             vagasQuarto.clear();
             pessoasQuarto.clear();
+            buscarQuartos();
           },
           color: Cores.vermelhoMedio,
           padding: const EdgeInsets.symmetric(
@@ -683,6 +685,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
             comunidades.clear();
             vagasQuarto.clear();
             pessoasQuarto.clear();
+            buscarQuartos();
           },
           color: Cores.verdeMedio,
           padding: const EdgeInsets.symmetric(

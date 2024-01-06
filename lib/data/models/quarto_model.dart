@@ -1,3 +1,5 @@
+import 'package:painel_ccmz/data/data.dart';
+
 class QuartoModel {
   int quaCodigo;
   String quaNome;
@@ -5,6 +7,7 @@ class QuartoModel {
   int bloCodigo;
   int quaQtdCamas;
   int quaQtdCamaslivres;
+  List<PessoaModel> pessoas;
 
   QuartoModel({
     required this.quaCodigo,
@@ -13,6 +16,7 @@ class QuartoModel {
     required this.bloCodigo,
     required this.quaQtdCamas,
     required this.quaQtdCamaslivres,
+    required this.pessoas,
   });
 
   factory QuartoModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +27,9 @@ class QuartoModel {
       bloCodigo: json['bloCodigo'] ?? 0,
       quaQtdCamas: json['quaQtdcamas'] ?? 0,
       quaQtdCamaslivres: json['quaQtdcamasdisponiveis'] ?? 0,
+      pessoas: json['pessoasQuarto'] != []
+          ? (json['pessoasQuarto']).map((e) => PessoaModel.fromJson(e)).toList()
+          : [],
     );
   }
 

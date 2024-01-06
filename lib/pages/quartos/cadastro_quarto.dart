@@ -35,6 +35,7 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
       bloco: "",
       quaQtdCamas: int.parse(camasController.text),
       quaQtdCamaslivres: 0,
+      pessoas: [],
     );
   }
 

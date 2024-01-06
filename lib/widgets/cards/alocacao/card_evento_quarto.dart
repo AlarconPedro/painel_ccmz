@@ -4,7 +4,7 @@ import 'package:painel_ccmz/data/data.dart';
 
 import '../../../classes/classes.dart';
 
-class CardEventoQuarto extends StatelessWidget {
+class CardEventoQuarto extends StatefulWidget {
   QuartoModel quarto;
   // PessoaModel pessoa;
 
@@ -15,7 +15,81 @@ class CardEventoQuarto extends StatelessWidget {
   });
 
   @override
+  State<CardEventoQuarto> createState() => _CardEventoQuartoState();
+}
+
+class _CardEventoQuartoState extends State<CardEventoQuarto> {
+  List<Widget> alocacaoQuarto = [];
+
+  int quantidadeCamasOcupadas = 0;
+
+  criarVagas() async {
+    await alimentarCamasOcupadas();
+    await alimentarCamasVazias();
+  }
+
+  alimentarCamasOcupadas() {
+    for (var i = 0; i < widget.quarto.pessoas.length; i++) {
+      alocacaoQuarto.add(
+        Row(
+          children: [
+            Icon(
+              widget.quarto.pessoas[i].pesGenero == "F"
+                  ? Icons.female_rounded
+                  : Icons.male_rounded,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                // quarto.quaNome,
+                widget.quarto.pessoas[i].pesNome,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+      quantidadeCamasOcupadas++;
+    }
+  }
+
+  alimentarCamasVazias() {
+    for (var i = 0;
+        i < widget.quarto.quaQtdCamas - quantidadeCamasOcupadas;
+        i++) {
+      alocacaoQuarto.add(
+        const Row(
+          children: [
+            Icon(CupertinoIcons.person),
+            SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                "Vazio",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    criarVagas();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    int quatidadeCamas = widget.quarto.quaQtdCamas;
     return Card(
       elevation: 5,
       shape: const RoundedRectangleBorder(
@@ -45,7 +119,7 @@ class CardEventoQuarto extends StatelessWidget {
                     horizontal: 20,
                   ),
                   child: Text(
-                    quarto.quaNome,
+                    widget.quarto.quaNome,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -59,29 +133,30 @@ class CardEventoQuarto extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: quarto.quaQtdCamas,
-                      itemBuilder: (context, index) {
-                        return const Row(
-                          children: [
-                            Icon(CupertinoIcons.person),
-                            SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                // quarto.quaNome,
-                                "Vazio",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
+                  ...alocacaoQuarto,
+                  // Expanded(
+                  //   child: ListView.builder(
+                  //     itemCount: quarto.quaQtdCamas,
+                  //     itemBuilder: (context, index) {
+                  //       return const Row(
+                  //         children: [
+                  //           Icon(CupertinoIcons.person),
+                  //           SizedBox(width: 10),
+                  //           Expanded(
+                  //             child: Text(
+                  //               // quarto.quaNome,
+                  //               "Vazio",
+                  //               overflow: TextOverflow.ellipsis,
+                  //               style: TextStyle(
+                  //                 fontSize: 14,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             )),
@@ -96,7 +171,7 @@ class CardEventoQuarto extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Vagas: ${quarto.quaQtdCamaslivres}",
+                      "Vagas: ${widget.quarto.quaQtdCamaslivres}",
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
