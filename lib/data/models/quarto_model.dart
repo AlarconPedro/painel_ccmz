@@ -7,7 +7,7 @@ class QuartoModel {
   int bloCodigo;
   int quaQtdCamas;
   int quaQtdCamaslivres;
-  List<PessoaModel> pessoas;
+  List<PessoaModel> pessoas = [];
 
   QuartoModel({
     required this.quaCodigo,
@@ -27,10 +27,11 @@ class QuartoModel {
       bloCodigo: json['bloCodigo'] ?? 0,
       quaQtdCamas: json['quaQtdcamas'] ?? 0,
       quaQtdCamaslivres: json['quaQtdcamasdisponiveis'] ?? 0,
-      pessoas: (json['pessoasQuarto'] as List)
+      pessoas: json['pessoasQuarto'] == null
+          ? []
+          : (json['pessoasQuarto'] as List)
               .map((e) => PessoaModel.fromJson(e))
-              .toList() ??
-          [],
+              .toList(),
     );
   }
 

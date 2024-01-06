@@ -24,21 +24,24 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
   int quantidadeCamasOcupadas = 0;
 
   criarVagas() async {
+    // if (widget.quarto.pessoas != null) {
+    // widget.quarto.pessoas!.sort((a, b) => a.pesNome.compareTo(b.pesNome));
     await alimentarCamasOcupadas();
+    // }
     await alimentarCamasVazias();
   }
 
   alimentarCamasOcupadas() {
-    for (var i = 0; i < widget.quarto.pessoas.length; i++) {
+    for (var i = 0; i < widget.quarto.pessoas!.length; i++) {
       setState(() {
         alocacaoQuarto.add(
           Row(
             children: [
               Icon(
-                widget.quarto.pessoas[i].pesGenero == "F"
+                widget.quarto.pessoas![i].pesGenero == "F"
                     ? Icons.female_rounded
                     : Icons.male_rounded,
-                color: widget.quarto.pessoas[i].pesGenero == "F"
+                color: widget.quarto.pessoas![i].pesGenero == "F"
                     ? Cores.rosaEscuro
                     : Cores.azulMedio,
               ),
@@ -46,7 +49,7 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
               Expanded(
                 child: Text(
                   // quarto.quaNome,
-                  widget.quarto.pessoas[i].pesNome,
+                  widget.quarto.pessoas![i].pesNome,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 14,
