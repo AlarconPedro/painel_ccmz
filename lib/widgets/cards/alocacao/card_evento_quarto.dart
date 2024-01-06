@@ -30,28 +30,33 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
 
   alimentarCamasOcupadas() {
     for (var i = 0; i < widget.quarto.pessoas.length; i++) {
-      alocacaoQuarto.add(
-        Row(
-          children: [
-            Icon(
-              widget.quarto.pessoas[i].pesGenero == "F"
-                  ? Icons.female_rounded
-                  : Icons.male_rounded,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                // quarto.quaNome,
-                widget.quarto.pessoas[i].pesNome,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 14,
+      setState(() {
+        alocacaoQuarto.add(
+          Row(
+            children: [
+              Icon(
+                widget.quarto.pessoas[i].pesGenero == "F"
+                    ? Icons.female_rounded
+                    : Icons.male_rounded,
+                color: widget.quarto.pessoas[i].pesGenero == "F"
+                    ? Cores.rosaEscuro
+                    : Cores.azulMedio,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  // quarto.quaNome,
+                  widget.quarto.pessoas[i].pesNome,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
+            ],
+          ),
+        );
+      });
       quantidadeCamasOcupadas++;
     }
   }
@@ -60,23 +65,25 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
     for (var i = 0;
         i < widget.quarto.quaQtdCamas - quantidadeCamasOcupadas;
         i++) {
-      alocacaoQuarto.add(
-        const Row(
-          children: [
-            Icon(CupertinoIcons.person),
-            SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                "Vazio",
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 14,
+      setState(() {
+        alocacaoQuarto.add(
+          const Row(
+            children: [
+              Icon(CupertinoIcons.person),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  "Vazio",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
+            ],
+          ),
+        );
+      });
     }
   }
 

@@ -27,9 +27,10 @@ class QuartoModel {
       bloCodigo: json['bloCodigo'] ?? 0,
       quaQtdCamas: json['quaQtdcamas'] ?? 0,
       quaQtdCamaslivres: json['quaQtdcamasdisponiveis'] ?? 0,
-      pessoas: json['pessoasQuarto'] != []
-          ? (json['pessoasQuarto']).map((e) => PessoaModel.fromJson(e)).toList()
-          : [],
+      pessoas: (json['pessoasQuarto'] as List)
+              .map((e) => PessoaModel.fromJson(e))
+              .toList() ??
+          [],
     );
   }
 

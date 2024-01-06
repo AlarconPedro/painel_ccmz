@@ -24,6 +24,10 @@ class Cores {
   static const vermelhoMedio = Color(0xFFC62828);
   static const vermelhoEscuro = Color(0xFFB71C1C);
 
+  static const rosaClaro = Color(0xFFFFCDD2);
+  static const rosaMedio = Color(0xFFF8BBD0);
+  static const rosaEscuro = Color(0xFFF06292);
+
   // static const cinzaClaro = Color(0xFFE0E0E0);
   // static const cinzaMedio = Color(0xFF757575);
   // static const cinzaEscuro = Color(0xFF333333);
