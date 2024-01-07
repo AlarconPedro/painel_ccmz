@@ -27,7 +27,9 @@ class _QuartosState extends State<Quartos> {
       quartos.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
-        setState(() => quartos.add(QuartoModel.fromJson(item)));
+        setState(
+          () => quartos.add(QuartoModel.fromJson(item)),
+        );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
