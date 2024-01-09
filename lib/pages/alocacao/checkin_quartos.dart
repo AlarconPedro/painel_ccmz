@@ -4,15 +4,15 @@ import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
 
-class AlocacaoQuartos extends StatefulWidget {
+class CheckinQuartos extends StatefulWidget {
   int codigoBloco;
-  AlocacaoQuartos({super.key, required this.codigoBloco});
+  CheckinQuartos({super.key, required this.codigoBloco});
 
   @override
-  State<AlocacaoQuartos> createState() => _AlocacaoQuartosState();
+  State<CheckinQuartos> createState() => _CheckinQuartosState();
 }
 
-class _AlocacaoQuartosState extends State<AlocacaoQuartos> {
+class _CheckinQuartosState extends State<CheckinQuartos> {
   bool carregando = false;
 
   buscarQuartos() async {}

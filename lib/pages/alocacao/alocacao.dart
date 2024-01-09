@@ -181,7 +181,7 @@ class _AlocacaoState extends State<Alocacao> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Alocação",
+                            "Check-In",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -232,7 +232,8 @@ class _AlocacaoState extends State<Alocacao> {
                     ),
                     carregando
                         ? const Expanded(
-                            child: Center(child: CarregamentoIOS()))
+                            child: Center(child: CarregamentoIOS()),
+                          )
                         : Expanded(
                             child: PageView(
                               controller: Rotas.alocacaoPageController,
@@ -269,7 +270,7 @@ class _AlocacaoState extends State<Alocacao> {
                                 ),
                                 Expanded(
                                   child:
-                                      AlocacaoQuartos(codigoBloco: codigoBloco),
+                                      CheckinQuartos(codigoBloco: codigoBloco),
                                 ),
                               ],
                             ),
