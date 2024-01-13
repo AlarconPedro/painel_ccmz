@@ -12,6 +12,8 @@ class EstruturaPage extends StatefulWidget {
 }
 
 class _EstruturaPageState extends State<EstruturaPage> {
+  Color cor = Colors.red;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

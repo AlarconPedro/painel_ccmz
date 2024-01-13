@@ -269,8 +269,10 @@ class _AlocacaoState extends State<Alocacao> {
                                   ),
                                 ),
                                 Expanded(
-                                  child:
-                                      CheckinQuartos(codigoBloco: codigoBloco),
+                                  child: CheckinQuartos(
+                                    codigoBloco: codigoBloco,
+                                    codigoEvento: eventoSelecionado,
+                                  ),
                                 ),
                               ],
                             ),

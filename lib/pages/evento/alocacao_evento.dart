@@ -392,6 +392,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
         pesCodigo: codigoPessoa,
         quaCodigo: quarto.quaCodigo,
         qupCodigo: 0,
+        pesChave: false,
+        pesCheckin: false,
       ),
     );
 

@@ -6,6 +6,7 @@ export 'api/api_bloco.dart';
 export 'api/api_quarto.dart';
 export 'api/api_evento.dart';
 export 'api/api_alocacao.dart';
+export 'api/api_checkin.dart';
 
 export 'models/pessoa_model.dart';
 export 'models/comunidade_model.dart';
