@@ -14,10 +14,10 @@ class CheckinModel {
   });
 
   factory CheckinModel.fromJson(Map<String, dynamic> json) => CheckinModel(
-        qupCodigo: json["qupCodigo"],
-        pesCodigo: json["pesCodigo"],
-        pesChave: json["pesChave"],
-        pesCheckin: json["pesCheckin"],
-        pesNome: json["pesNome"],
+        qupCodigo: json["qupCodigo"] ?? 0,
+        pesCodigo: json["pesCodigo"] ?? 0,
+        pesChave: json["pesChave"] ?? false,
+        pesCheckin: json["pesCheckin"] ?? false,
+        pesNome: json["pesNome"] ?? "",
       );
 }

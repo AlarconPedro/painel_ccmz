@@ -11,6 +11,6 @@ class ApiCheckin {
   //GET
   Future<dynamic> getCheckinQuartos(int codigoBloco, int codigoEvento) async {
     return await _request
-        .getJson("$_urlGetCheckinQuartos/$codigoBloco/$codigoEvento");
+        .getJson("$_urlGetCheckinQuartos$codigoBloco/$codigoEvento");
   }
 }

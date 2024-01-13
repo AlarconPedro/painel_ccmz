@@ -15,10 +15,13 @@ class QuartoPessoasModel {
 
   factory QuartoPessoasModel.fromJson(Map<String, dynamic> json) =>
       QuartoPessoasModel(
-        quaCodigo: json["quaCodigo"],
-        quaNome: json["quaNome"],
-        bloCodigo: json["bloCodigo"],
-        pessoasQuarto: List<CheckinModel>.from(
-            json["pessoasQuarto"].map((x) => CheckinModel.fromJson(x))),
+        quaCodigo: json["quaCodigo"] ?? 0,
+        quaNome: json["quaNome"] ?? "",
+        bloCodigo: json["bloCodigo"] ?? 0,
+        pessoasQuarto: json["pessoasQuarto"] == null
+            ? []
+            : (json["pessoasQuarto"] as List)
+                .map((x) => CheckinModel.fromJson(x))
+                .toList(),
       );
 }
