@@ -63,7 +63,7 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
       body: carregando
           ? const Center(child: CarregamentoIOS())
           : Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Wrap(
                 direction: Axis.horizontal,
                 children: [
@@ -71,6 +71,18 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                     CardQuartoAlocacao(
                       quarto: quarto,
                     ),
+                  // Expanded(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.symmetric(
+                  //         vertical: 10, horizontal: 10),
+                  //     child: ListView.builder(
+                  //       itemCount: quartos.length,
+                  //       itemBuilder: (context, index) {
+                  // return
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

@@ -3,10 +3,43 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/models/quarto_pessoas_model.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/models/checkin_model.dart';
 
 class CardQuartoAlocacao extends StatelessWidget {
   QuartoPessoasModel quarto;
   CardQuartoAlocacao({super.key, required this.quarto});
+
+  carregarPessoas(CheckinModel pessoaChekin) {
+    return Row(children: [
+      const Icon(CupertinoIcons.person),
+      const SizedBox(width: 10),
+      Expanded(
+        child: Text(
+          pessoaChekin.pesNome,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ),
+      pessoaChekin.pesCheckin
+          ? const Icon(
+              CupertinoIcons.check_mark_circled,
+              color: Cores.verdeMedio,
+            )
+          : const Icon(
+              CupertinoIcons.xmark_circle,
+              color: Cores.cinzaMedio,
+            ),
+      const SizedBox(width: 5),
+      pessoaChekin.pesChave
+          ? const Icon(
+              Icons.vpn_key_rounded,
+              color: Cores.amareloMedio,
+            )
+          : const SizedBox(width: 29),
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +61,19 @@ class CardQuartoAlocacao extends StatelessWidget {
         ),
         width: 300,
         height: 200,
-        child: const Column(
+        child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 20,
                   ),
                   child: Text(
-                    "Quarto 1",
-                    style: TextStyle(
+                    quarto.quaNome,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -50,69 +83,15 @@ class CardQuartoAlocacao extends StatelessWidget {
             ),
             Expanded(
                 child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 children: [
-                  Row(children: [
-                    Icon(CupertinoIcons.person),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        "Sabrina Eduarda Pistori Lumardoni",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      CupertinoIcons.check_mark_circled,
-                      color: Cores.verdeMedio,
-                    ),
-                    SizedBox(width: 5),
-                    Icon(
-                      Icons.vpn_key_rounded,
-                      color: Cores.amareloMedio,
-                    ),
-                  ]),
-                  Row(children: [
-                    Icon(CupertinoIcons.bed_double),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        "Vazio",
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      CupertinoIcons.xmark_circle,
-                      color: Cores.cinzaMedio,
-                    ),
-                    SizedBox(width: 29),
-                  ]),
-                  Row(children: [
-                    Icon(CupertinoIcons.bed_double),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        "Vazio",
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      CupertinoIcons.xmark_circle,
-                      color: Cores.cinzaMedio,
-                    ),
-                    SizedBox(width: 29),
-                  ]),
+                  for (var pessoa in quarto.pessoasQuarto)
+                    carregarPessoas(pessoa),
                 ],
               ),
             )),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 5,
