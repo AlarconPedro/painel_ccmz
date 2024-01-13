@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/data/models/quarto_pessoas_model.dart';
 
 import '../../../classes/classes.dart';
 
 class CardQuartoAlocacao extends StatelessWidget {
-  const CardQuartoAlocacao({super.key});
+  QuartoPessoasModel quarto;
+  CardQuartoAlocacao({super.key, required this.quarto});
 
   @override
   Widget build(BuildContext context) {

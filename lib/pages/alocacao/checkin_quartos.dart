@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
 import '../../data/data.dart';
+import '../../data/models/quarto_pessoas_model.dart';
 
 class CheckinQuartos extends StatefulWidget {
   int codigoBloco;
@@ -20,14 +23,38 @@ class CheckinQuartos extends StatefulWidget {
 class _CheckinQuartosState extends State<CheckinQuartos> {
   bool carregando = false;
 
+  List<QuartoPessoasModel> quartos = [];
+
   buscarQuartos() async {
     setState(() => carregando = true);
     var retorno = await ApiCheckin().getCheckinQuartos(
       widget.codigoBloco,
       widget.codigoEvento,
     );
-    if (retorno.statusCode == 200) {}
+    if (retorno.statusCode == 200) {
+      quartos.clear();
+      var dados = json.decode(retorno.body);
+      for (var dado in dados) {
+        setState(() {
+          quartos.add(QuartoPessoasModel.fromJson(dado));
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer quartos !"),
+        ),
+      );
+    }
     setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarQuartos();
   }
 
   @override
@@ -35,12 +62,15 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
     return Scaffold(
       body: carregando
           ? const Center(child: CarregamentoIOS())
-          : const Padding(
+          : Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Wrap(
                 direction: Axis.horizontal,
                 children: [
-                  CardQuartoAlocacao(),
+                  for (var quarto in quartos)
+                    CardQuartoAlocacao(
+                      quarto: quarto,
+                    ),
                 ],
               ),
             ),
