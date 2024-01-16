@@ -9,15 +9,15 @@ import '../../data/data.dart';
 import '../../data/models/quarto_pessoas_model.dart';
 
 class CheckinQuartos extends StatefulWidget {
+  int codigoBloco;
+  int codigoEvento;
   Function() abrirQuarto;
-  Function() voltar;
-  QuartoPessoasModel quarto;
 
   CheckinQuartos({
     super.key,
+    required this.codigoBloco,
+    required this.codigoEvento,
     required this.abrirQuarto,
-    required this.voltar,
-    required this.quarto,
   });
 
   @override
@@ -26,6 +26,40 @@ class CheckinQuartos extends StatefulWidget {
 
 class _CheckinQuartosState extends State<CheckinQuartos> {
   bool carregando = false;
+
+  List<QuartoPessoasModel> quartos = [];
+
+  buscarQuartos() async {
+    setState(() => carregando = true);
+    var retorno = await ApiCheckin().getCheckinQuartos(
+      widget.codigoBloco,
+      widget.codigoEvento,
+    );
+    if (retorno.statusCode == 200) {
+      quartos.clear();
+      var dados = json.decode(retorno.body);
+      for (var dado in dados) {
+        setState(() {
+          quartos.add(QuartoPessoasModel.fromJson(dado));
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer quartos !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarQuartos();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +75,18 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                     child: Wrap(
                       direction: Axis.horizontal,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            widget.abrirQuarto();
-                          },
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: CardQuartoAlocacao(
-                              quarto: widget.quarto,
+                        for (var quarto in quartos)
+                          GestureDetector(
+                            onTap: () {
+                              widget.abrirQuarto();
+                            },
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: CardQuartoAlocacao(
+                                quarto: quarto,
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -62,9 +97,7 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                             vertical: 5, horizontal: 30),
                         color: Cores.vermelhoMedio,
                         child: const Text("Voltar"),
-                        onPressed: () {
-                          widget.voltar();
-                        },
+                        onPressed: () {},
                       )
                     ],
                   ),
