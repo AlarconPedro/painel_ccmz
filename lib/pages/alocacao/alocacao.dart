@@ -10,6 +10,7 @@ import 'package:painel_ccmz/widgets/loading/carregamento_ios.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
+import '../../data/models/quarto_pessoas_model.dart';
 
 class Alocacao extends StatefulWidget {
   const Alocacao({super.key});
@@ -23,6 +24,7 @@ class _AlocacaoState extends State<Alocacao> {
 
   List<DropdownMenuItem> eventos = [];
   List<QuartoModel> quartos = [];
+  List<QuartoPessoasModel> quartosPessoas = [];
   List<BlocoModel> blocos = [];
 
   int eventoSelecionado = 0;
@@ -98,6 +100,31 @@ class _AlocacaoState extends State<Alocacao> {
         const SnackBar(
           content: Text("Erro ao buscar quartos!"),
           backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarQuartoPessoas() async {
+    setState(() => carregando = true);
+    var retorno = await ApiCheckin().getCheckinQuartos(
+      codigoBloco,
+      eventoSelecionado,
+    );
+    if (retorno.statusCode == 200) {
+      quartosPessoas.clear();
+      var dados = json.decode(retorno.body);
+      for (var dado in dados) {
+        setState(() {
+          quartosPessoas.add(QuartoPessoasModel.fromJson(dado));
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer quartos !"),
         ),
       );
     }
@@ -258,7 +285,7 @@ class _AlocacaoState extends State<Alocacao> {
                                                 curve: Curves.easeInOut,
                                               );
                                             });
-                                            // buscarQuartos(eventoSelecionado);
+                                            buscarQuartoPessoas();
                                           },
                                           child: CardBlocoAlocacao(
                                             blocos: blocos[index],
@@ -269,10 +296,69 @@ class _AlocacaoState extends State<Alocacao> {
                                   ),
                                 ),
                                 Expanded(
-                                  child: CheckinQuartos(
-                                    codigoBloco: codigoBloco,
-                                    codigoEvento: eventoSelecionado,
-                                  ),
+                                  child: carregando
+                                      ? const Center(child: CarregamentoIOS())
+                                      : Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: Wrap(
+                                                  direction: Axis.horizontal,
+                                                  children: [
+                                                    for (var quarto
+                                                        in quartosPessoas)
+                                                      GestureDetector(
+                                                        onTap: () {},
+                                                        child: MouseRegion(
+                                                          cursor:
+                                                              SystemMouseCursors
+                                                                  .click,
+                                                          child: CheckinQuartos(
+                                                            quarto: quarto,
+                                                            abrirQuarto:
+                                                                () async {
+                                                              await Navigator
+                                                                  .push(
+                                                                context,
+                                                                CupertinoDialogRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                    return EditarCheckin(
+                                                                      dadosQuarto:
+                                                                          quarto,
+                                                                    );
+                                                                  },
+                                                                  context:
+                                                                      context,
+                                                                ),
+                                                              );
+                                                            },
+                                                            voltar: () {
+                                                              Rotas
+                                                                  .alocacaoPageController
+                                                                  .animateToPage(
+                                                                0,
+                                                                duration:
+                                                                    const Duration(
+                                                                        milliseconds:
+                                                                            500),
+                                                                curve: Curves
+                                                                    .easeInOut,
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                 ),
                               ],
                             ),
