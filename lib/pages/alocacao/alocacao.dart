@@ -272,19 +272,6 @@ class _AlocacaoState extends State<Alocacao> {
                                   child: CheckinQuartos(
                                     codigoBloco: codigoBloco,
                                     codigoEvento: eventoSelecionado,
-                                    abrirQuarto: () async {
-                                      await Navigator.push(
-                                        context,
-                                        CupertinoDialogRoute(
-                                          builder: (context) {
-                                            return EditarCheckin(
-                                              dadosQuarto: ,
-                                            );
-                                          },
-                                          context: context,
-                                        ),
-                                      );
-                                    },
                                     voltar: () {
                                       Rotas.alocacaoPageController
                                           .animateToPage(

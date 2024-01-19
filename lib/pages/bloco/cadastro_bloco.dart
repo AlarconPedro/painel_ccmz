@@ -57,6 +57,8 @@ class _CadastroBlocoState extends State<CadastroBloco> {
     return CadastroForm(
       formKey: _formKey,
       titulo: "Cadastro de Bloco",
+/*       altura: 4.5,
+      largura: 2, */
       campos: [
         Expanded(
           flex: 5,

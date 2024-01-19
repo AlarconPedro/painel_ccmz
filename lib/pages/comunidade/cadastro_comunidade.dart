@@ -62,6 +62,8 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
     return CadastroForm(
       formKey: _formKey,
       titulo: "Cadastro de comunidade",
+/*       altura: 4.5,
+      largura: 2, */
       campos: [
         Row(
           children: [
