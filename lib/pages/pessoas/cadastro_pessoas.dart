@@ -121,6 +121,8 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
     return CadastroForm(
       formKey: _formKey,
       titulo: "Cadastro de Pessoas",
+/*       altura: 4.5,
+      largura: 2, */
       campos: [
         Row(
           children: [

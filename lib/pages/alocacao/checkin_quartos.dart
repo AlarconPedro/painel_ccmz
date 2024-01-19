@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/pages/pages.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
@@ -11,13 +12,13 @@ import '../../data/models/quarto_pessoas_model.dart';
 class CheckinQuartos extends StatefulWidget {
   int codigoBloco;
   int codigoEvento;
-  Function() abrirQuarto;
+  Function() voltar;
 
   CheckinQuartos({
     super.key,
     required this.codigoBloco,
     required this.codigoEvento,
-    required this.abrirQuarto,
+    required this.voltar,
   });
 
   @override
@@ -69,7 +70,6 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Wrap(
@@ -77,8 +77,18 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                       children: [
                         for (var quarto in quartos)
                           GestureDetector(
-                            onTap: () {
-                              widget.abrirQuarto();
+                            onTap: () async {
+                              await Navigator.push(
+                                context,
+                                CupertinoDialogRoute(
+                                  builder: (context) {
+                                    return EditarCheckin(
+                                      dadosQuarto: quarto,
+                                    );
+                                  },
+                                  context: context,
+                                ),
+                              );
                             },
                             child: MouseRegion(
                               cursor: SystemMouseCursors.click,
@@ -97,7 +107,9 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                             vertical: 5, horizontal: 30),
                         color: Cores.vermelhoMedio,
                         child: const Text("Voltar"),
-                        onPressed: () {},
+                        onPressed: () {
+                          widget.voltar();
+                        },
                       )
                     ],
                   ),

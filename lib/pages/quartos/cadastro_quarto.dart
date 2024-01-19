@@ -98,6 +98,8 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
     return CadastroForm(
       formKey: formKey,
       titulo: 'Quartos',
+/*       altura: 4.5,
+      largura: 2, */
       gravar: () {
         if (formKey.currentState!.validate()) {
           gravarQuartos();

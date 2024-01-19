@@ -64,6 +64,8 @@ class _CadastroEventoState extends State<CadastroEvento> {
     return CadastroForm(
       formKey: formKey,
       titulo: "Cadastro de Evento",
+/*       altura: 4.5,
+      largura: 2, */
       gravar: () {
         if (formKey.currentState!.validate()) {
           gravarEvento();

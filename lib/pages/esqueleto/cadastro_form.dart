@@ -12,6 +12,9 @@ class CadastroForm extends StatelessWidget {
   Function() gravar;
   Function() cancelar;
 
+  double? largura;
+  double? altura;
+
   CadastroForm({
     super.key,
     required this.formKey,
@@ -19,6 +22,8 @@ class CadastroForm extends StatelessWidget {
     required this.titulo,
     required this.gravar,
     required this.cancelar,
+    this.largura,
+    this.altura,
   });
 
   @override
@@ -37,8 +42,12 @@ class CadastroForm extends StatelessWidget {
               ),
             ),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height / 4.5,
-              width: MediaQuery.of(context).size.width / 2,
+              height: altura == null
+                  ? MediaQuery.of(context).size.height / 2
+                  : MediaQuery.of(context).size.height / altura!,
+              width: largura == null
+                  ? MediaQuery.of(context).size.width / 4.5
+                  : MediaQuery.of(context).size.width / largura!,
               child: Form(
                 key: formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -69,6 +78,7 @@ class CadastroForm extends StatelessWidget {
                         children: [
                           CupertinoButton(
                             onPressed: () {
+                              cancelar();
                               Navigator.pop(context);
                             },
                             color: Cores.vermelhoMedio,
