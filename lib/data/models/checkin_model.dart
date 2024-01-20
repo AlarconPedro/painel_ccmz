@@ -1,6 +1,7 @@
 class CheckinModel {
   int qupCodigo;
   int pesCodigo;
+  int quaCodigo;
   bool pesChave;
   bool pesCheckin;
   String pesNome;
@@ -8,6 +9,7 @@ class CheckinModel {
   CheckinModel({
     required this.qupCodigo,
     required this.pesCodigo,
+    required this.quaCodigo,
     required this.pesChave,
     required this.pesCheckin,
     required this.pesNome,
@@ -16,8 +18,17 @@ class CheckinModel {
   factory CheckinModel.fromJson(Map<String, dynamic> json) => CheckinModel(
         qupCodigo: json["qupCodigo"] ?? 0,
         pesCodigo: json["pesCodigo"] ?? 0,
+        quaCodigo: json["quaCodigo"] ?? 0,
         pesChave: json["pesChave"] ?? false,
         pesCheckin: json["pesCheckin"] ?? false,
         pesNome: json["pesNome"] ?? "",
       );
+
+  Map<String, dynamic> toJson() => {
+        "qupCodigo": qupCodigo,
+        "pesCodigo": pesCodigo,
+        "quaCodigo": quaCodigo,
+        "pesChave": pesChave,
+        "pesCheckin": pesCheckin,
+      };
 }

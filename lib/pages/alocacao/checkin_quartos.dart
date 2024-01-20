@@ -55,6 +55,11 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
     setState(() => carregando = false);
   }
 
+  refresh() {
+    setState(() {});
+    buscarQuartos();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -84,6 +89,7 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                                   builder: (context) {
                                     return EditarCheckin(
                                       dadosQuarto: quarto,
+                                      refresh: refresh,
                                     );
                                   },
                                   context: context,

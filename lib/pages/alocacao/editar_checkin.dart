@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/data/data.dart';
 import 'package:painel_ccmz/data/models/quarto_pessoas_model.dart';
 import 'package:painel_ccmz/pages/pages.dart';
+import 'package:painel_ccmz/widgets/loading/carregamento_ios.dart';
 
 import '../../classes/classes.dart';
 import '../../data/models/checkin_model.dart';
@@ -9,9 +11,12 @@ import '../../data/models/checkin_model.dart';
 class EditarCheckin extends StatefulWidget {
   QuartoPessoasModel dadosQuarto;
 
+  Function() refresh;
+
   EditarCheckin({
     super.key,
     required this.dadosQuarto,
+    required this.refresh,
   });
 
   @override
@@ -19,6 +24,51 @@ class EditarCheckin extends StatefulWidget {
 }
 
 class Editar_CheckinState extends State<EditarCheckin> {
+  bool carregando = false;
+
+  CheckinModel preparaDados(CheckinModel checkin) {
+    if (widget.dadosQuarto.pessoasQuarto.contains(checkin.pesCheckin)) {
+      return CheckinModel(
+        qupCodigo: checkin.qupCodigo,
+        pesCodigo: checkin.pesCodigo,
+        quaCodigo: checkin.quaCodigo,
+        pesChave: checkin.pesChave,
+        pesCheckin: checkin.pesCheckin,
+        pesNome: checkin.pesNome,
+      );
+    } else {
+      return CheckinModel(
+        qupCodigo: checkin.qupCodigo,
+        pesCodigo: checkin.pesCodigo,
+        quaCodigo: checkin.quaCodigo,
+        pesChave: true,
+        pesCheckin: checkin.pesCheckin,
+        pesNome: checkin.pesNome,
+      );
+    }
+  }
+
+  editarCheckin(CheckinModel checkin) async {
+    setState(() => carregando = true);
+    var retorno = await ApiCheckin().updateCheckin(preparaDados(checkin));
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeMedio,
+          content: Text("Checkin efetuado com sucesso !"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao editar checkin !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return CadastroForm(
@@ -34,10 +84,18 @@ class Editar_CheckinState extends State<EditarCheckin> {
         }
       },
       formKey: GlobalKey<FormState>(),
-      campos: [
-        for (var pessoas in widget.dadosQuarto.pessoasQuarto)
-          campoPessoa(pessoas),
-      ],
+      campos: carregando
+          ? [
+              const Expanded(
+                child: Center(
+                  child: CarregamentoIOS(),
+                ),
+              )
+            ]
+          : [
+              for (var pessoas in widget.dadosQuarto.pessoasQuarto)
+                campoPessoa(pessoas),
+            ],
     );
   }
 
@@ -64,10 +122,13 @@ class Editar_CheckinState extends State<EditarCheckin> {
                   ),
                   CupertinoCheckbox(
                       value: pessoa.pesCheckin,
-                      onChanged: (value) {
-                        setState(() {
-                          pessoa.pesCheckin = value!;
-                        });
+                      onChanged: (value) async {
+                        pessoa.pesCheckin = value!;
+                        var retorno = await editarCheckin(pessoa);
+                        if (retorno.statusCode == 200) {
+                          setState(() => pessoa.pesCheckin = value);
+                        }
+                        widget.refresh();
                       }),
                   const Text(
                     "Chave:",
