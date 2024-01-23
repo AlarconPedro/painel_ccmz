@@ -9,7 +9,9 @@ import 'package:painel_ccmz/widgets/widgets.dart';
 import '../../classes/classes.dart';
 
 class CadastroPessoas extends StatefulWidget {
-  const CadastroPessoas({super.key});
+  PessoaModel? pessoa;
+
+  CadastroPessoas({super.key, this.pessoa});
 
   @override
   State<CadastroPessoas> createState() => _CadastroPessoasState();
@@ -43,17 +45,42 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
   bool carregando = false;
 
   preparaDados() {
-    return PessoaModel(
-      pesCodigo: 0,
-      pesNome: nomeController.text,
-      comCodigo: comunidadeSelecionada,
-      pesGenero: sexoSelecionado == 1 ? "M" : "F",
-      comunidade: "",
-      pesCatequista: false ? "S" : "N",
-      pesResponsavel: false ? "S" : "N",
-      pesSalmista: false ? "S" : "N",
-      pesObservacao: "",
-    );
+    if (widget.pessoa != null) {
+      return PessoaModel(
+        pesCodigo: widget.pessoa!.pesCodigo,
+        pesNome: nomeController.text,
+        comCodigo: comunidadeSelecionada,
+        pesGenero: sexoSelecionado == 1 ? "M" : "F",
+        comunidade: "",
+        pesCatequista: catequista ? "S" : "N",
+        pesResponsavel: responsavel ? "S" : "N",
+        pesSalmista: salmista ? "S" : "N",
+        pesObservacao: "",
+      );
+    } else {
+      return PessoaModel(
+        pesCodigo: 0,
+        pesNome: nomeController.text,
+        comCodigo: comunidadeSelecionada,
+        pesGenero: sexoSelecionado == 1 ? "M" : "F",
+        comunidade: "",
+        pesCatequista: catequista ? "S" : "N",
+        pesResponsavel: responsavel ? "S" : "N",
+        pesSalmista: salmista ? "S" : "N",
+        pesObservacao: "",
+      );
+    }
+  }
+
+  alimentaCampos() {
+    setState(() => carregando = true);
+    nomeController.text = widget.pessoa!.pesNome;
+    comunidadeSelecionada = widget.pessoa!.comCodigo;
+    sexoSelecionado = widget.pessoa!.pesGenero == "M" ? 1 : 2;
+    catequista = widget.pessoa!.pesCatequista == "S" ? true : false;
+    responsavel = widget.pessoa!.pesResponsavel == "S" ? true : false;
+    salmista = widget.pessoa!.pesSalmista == "S" ? true : false;
+    setState(() => carregando = false);
   }
 
   buscarComunidade() async {
@@ -113,11 +140,34 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
     });
   }
 
+  atualizarPessoa() async {
+    setState(() => carregando = true);
+    var retorno = await ApiPessoas().updatePessoa(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Pessoa atualizada com sucesso !"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao atualizar pessoa !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     buscarComunidade();
+    if (widget.pessoa != null) alimentaCampos();
   }
 
   @override
@@ -283,7 +333,15 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
         ),
       ],
       gravar: () {
-        gravarPessoa();
+        if (_formKey.currentState!.validate()) {
+          if (widget.pessoa != null) {
+            atualizarPessoa();
+          } else {
+            gravarPessoa();
+          }
+        }
+/*         gravarPessoa();
+ */
       },
       cancelar: () {
         // Navigator.pop(context);

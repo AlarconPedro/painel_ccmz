@@ -166,7 +166,7 @@ class _PessoasState extends State<Pessoas> {
                               context,
                               CupertinoDialogRoute(
                                 builder: (context) {
-                                  return const CadastroPessoas();
+                                  return CadastroPessoas();
                                 },
                                 context: context,
                               ),
@@ -235,7 +235,20 @@ class _PessoasState extends State<Pessoas> {
                                   return MouseRegion(
                                     cursor: SystemMouseCursors.click,
                                     child: GestureDetector(
-                                      onTap: () {},
+                                      onTap: () async {
+                                        await Navigator.push(
+                                          context,
+                                          CupertinoDialogRoute(
+                                            builder: (context) {
+                                              return CadastroPessoas(
+                                                pessoa: pessoas[index],
+                                              );
+                                            },
+                                            context: context,
+                                          ),
+                                        );
+                                        buscarPessoas();
+                                      },
                                       child: CardPessoa(
                                         pessoa: pessoas[index],
                                         excluir: () {
