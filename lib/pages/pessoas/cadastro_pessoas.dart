@@ -23,6 +23,10 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
   int comunidadeSelecionada = 0;
   int sexoSelecionado = 0;
 
+  bool catequista = false;
+  bool responsavel = false;
+  bool salmista = false;
+
   List<DropdownMenuItem> listaSexo = [
     const DropdownMenuItem(
       value: 1,
@@ -121,8 +125,8 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
     return CadastroForm(
       formKey: _formKey,
       titulo: "Cadastro de Pessoas",
-/*       altura: 4.5,
-      largura: 2, */
+      altura: 4,
+      largura: 2,
       campos: [
         Row(
           children: [
@@ -227,12 +231,62 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
             ),
           ],
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  const Text(
+                    "Catequista",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  CupertinoCheckbox(
+                    value: catequista,
+                    onChanged: (value) {
+                      setState(() => catequista = value!);
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Text(
+                    "Responsável",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  CupertinoCheckbox(
+                    value: responsavel,
+                    onChanged: (value) {
+                      setState(() => responsavel = value!);
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Text(
+                    "Salmista",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  CupertinoCheckbox(
+                    value: salmista,
+                    onChanged: (value) {
+                      setState(() => salmista = value!);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ],
       gravar: () {
         gravarPessoa();
       },
       cancelar: () {
-        Navigator.pop(context);
+        // Navigator.pop(context);
       },
     );
   }
