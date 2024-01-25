@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/data/data.dart';
@@ -6,7 +8,9 @@ import 'package:painel_ccmz/pages/pages.dart';
 import '../../classes/classes.dart';
 
 class CadastroComunidade extends StatefulWidget {
-  const CadastroComunidade({super.key});
+  ComunidadeModel? comunidade;
+
+  CadastroComunidade({super.key, this.comunidade});
 
   @override
   State<CadastroComunidade> createState() => _CadastroComunidadeState();
@@ -22,6 +26,16 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
   bool carregando = false;
 
   preparaDados() {
+    if (widget.comunidade != null) {
+      return ComunidadeModel(
+        comCodigo: widget.comunidade!.comCodigo,
+        comNome: nomeController.text,
+        comCidade: cidadeController.text,
+        comUF: ufController.text,
+        qtdPessoas: widget.comunidade!.qtdPessoas,
+      );
+    }
+
     return ComunidadeModel(
       comCodigo: 0,
       comNome: nomeController.text,
@@ -32,9 +46,8 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
   }
 
   gravarComunidade() async {
-    setState(() {
-      carregando = true;
-    });
+    setState(() => carregando = true);
+
     var retorno = await ApiComunidade().addComunidade(preparaDados());
     if (retorno.statusCode == 200) {
       Navigator.pop(context);
@@ -52,9 +65,44 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
         ),
       );
     }
+    setState(() => carregando = false);
+  }
+
+  atualizarComunidade() async {
+    setState(() => carregando = true);
+    var retorno = await ApiComunidade().updateComunidade(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Comunidade atualizada com sucesso !"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao atualizar comunidade !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  alimentaCampos() {
     setState(() {
-      carregando = false;
+      nomeController.text = widget.comunidade!.comNome;
+      cidadeController.text = widget.comunidade!.comCidade;
+      ufController.text = widget.comunidade!.comUF;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.comunidade != null) alimentaCampos();
   }
 
   @override
@@ -62,8 +110,8 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
     return CadastroForm(
       formKey: _formKey,
       titulo: "Cadastro de comunidade",
-/*       altura: 4.5,
-      largura: 2, */
+      altura: 4.5,
+      largura: 2,
       campos: [
         Row(
           children: [
@@ -179,7 +227,7 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
         gravarComunidade();
       },
       cancelar: () {
-        Navigator.pop(context);
+        // Navigator.pop(context);
       },
     );
   }

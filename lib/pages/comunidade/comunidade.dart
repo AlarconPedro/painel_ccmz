@@ -90,7 +90,7 @@ class _ComunidadeState extends State<Comunidade> {
           context,
           CupertinoDialogRoute(
             builder: (context) {
-              return const CadastroComunidade();
+              return CadastroComunidade();
             },
             context: context,
           ),
@@ -127,7 +127,20 @@ class _ComunidadeState extends State<Comunidade> {
                       return MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              CupertinoDialogRoute(
+                                builder: (context) {
+                                  return CadastroComunidade(
+                                    comunidade: comunidades[index],
+                                  );
+                                },
+                                context: context,
+                              ),
+                            );
+                            buscarComunidades();
+                          },
                           child: CardComunidade(
                             comunidade: comunidades[index],
                             excluir: () {
