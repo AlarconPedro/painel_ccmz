@@ -81,7 +81,7 @@ class _QuartosState extends State<Quartos> {
           context,
           CupertinoDialogRoute(
             builder: (context) {
-              return const CadastroQuarto();
+              return CadastroQuarto();
             },
             context: context,
           ),
@@ -121,7 +121,18 @@ class _QuartosState extends State<Quartos> {
                       return MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              CupertinoDialogRoute(
+                                builder: (context) {
+                                  return CadastroQuarto(quarto: quartos[index]);
+                                },
+                                context: context,
+                              ),
+                            );
+                            buscarQuartos();
+                          },
                           child: CardQuartos(
                             quarto: quartos[index],
                             excluir: () {

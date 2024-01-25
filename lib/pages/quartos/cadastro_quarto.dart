@@ -9,7 +9,9 @@ import 'package:painel_ccmz/widgets/widgets.dart';
 import '../../classes/classes.dart';
 
 class CadastroQuarto extends StatefulWidget {
-  const CadastroQuarto({super.key});
+  QuartoModel? quarto;
+
+  CadastroQuarto({super.key, this.quarto});
 
   @override
   State<CadastroQuarto> createState() => _CadastroQuartoState();
@@ -28,6 +30,17 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
   List<DropdownMenuItem> listaBlocos = [];
 
   preparaDados() {
+    if (widget.quarto != null) {
+      return QuartoModel(
+        quaCodigo: widget.quarto!.quaCodigo,
+        quaNome: nomeController.text,
+        bloCodigo: blocoSelecionada,
+        bloco: "",
+        quaQtdCamas: int.parse(camasController.text),
+        quaQtdCamaslivres: widget.quarto!.quaQtdCamaslivres,
+        pessoas: widget.quarto!.pessoas,
+      );
+    }
     return QuartoModel(
       quaCodigo: 0,
       quaNome: nomeController.text,
@@ -55,6 +68,28 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
         const SnackBar(
           backgroundColor: Cores.vermelhoMedio,
           content: Text("Erro ao cadastrar quarto !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  atualizarQuarto() async {
+    setState(() => carregando = true);
+    var retorno = await ApiQuarto().updateQuarto(preparaDados());
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Quarto atualizado com sucesso !"),
+        ),
+      );
+      Navigator.of(context).pop();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao atualizar quarto !"),
         ),
       );
     }
@@ -91,6 +126,11 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
     // TODO: implement initState
     super.initState();
     buscarBlocos();
+    if (widget.quarto != null) {
+      nomeController.text = widget.quarto!.quaNome;
+      camasController.text = widget.quarto!.quaQtdCamas.toString();
+      blocoSelecionada = widget.quarto!.bloCodigo;
+    }
   }
 
   @override
@@ -98,11 +138,11 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
     return CadastroForm(
       formKey: formKey,
       titulo: 'Quartos',
-/*       altura: 4.5,
-      largura: 2, */
+      altura: 4.5,
+      largura: 2,
       gravar: () {
         if (formKey.currentState!.validate()) {
-          gravarQuartos();
+          widget.quarto == null ? gravarQuartos() : atualizarQuarto();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
