@@ -1,4 +1,11 @@
 class FuncoesData {
+  static String dateTimeToString(DateTime data) {
+    if (data == null) {
+      return '';
+    }
+    return '${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year.toString().padLeft(4, '0')}';
+  }
+
   static String dataFormatada(String data) {
     if (data == null || data.isEmpty) {
       return '';

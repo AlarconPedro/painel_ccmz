@@ -28,6 +28,14 @@ class _CadastroEventoState extends State<CadastroEvento> {
   bool carregando = false;
 
   preparaDados() {
+    if (widget.evento != null) {
+      return EventoModel(
+        eveCodigo: widget.evento!.eveCodigo,
+        eveNome: nomeController.text,
+        eveDataInicio: FuncoesData.stringToDateTime(dataInicioController.text),
+        eveDataFim: FuncoesData.stringToDateTime(dataFimController.text),
+      );
+    }
     return EventoModel(
       eveCodigo: 0,
       eveNome: nomeController.text,
@@ -39,7 +47,6 @@ class _CadastroEventoState extends State<CadastroEvento> {
   gravarEvento() async {
     setState(() => carregando = true);
     var retorno = await ApiEvento().addEvento(preparaDados());
-    print(retorno.statusCode);
     if (retorno.statusCode == 200) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -59,16 +66,53 @@ class _CadastroEventoState extends State<CadastroEvento> {
     setState(() => carregando = false);
   }
 
+  atualizarEvento() async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().updateEvento(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Evento atualizado com sucesso !"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao atualizar evento !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.evento != null) {
+      nomeController.text = widget.evento!.eveNome;
+      dataInicioController.text = widget.evento!.eveDataInicio;
+      dataFimController.text = widget.evento!.eveDataFim;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CadastroForm(
       formKey: formKey,
       titulo: "Cadastro de Evento",
-/*       altura: 4.5,
-      largura: 2, */
+      altura: 4.5,
+      largura: 2,
       gravar: () {
         if (formKey.currentState!.validate()) {
-          gravarEvento();
+          if (widget.evento != null) {
+            atualizarEvento();
+          } else {
+            gravarEvento();
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
