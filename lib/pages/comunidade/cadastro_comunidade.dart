@@ -47,7 +47,6 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
 
   gravarComunidade() async {
     setState(() => carregando = true);
-
     var retorno = await ApiComunidade().addComunidade(preparaDados());
     if (retorno.statusCode == 200) {
       Navigator.pop(context);
@@ -224,7 +223,7 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
         ),
       ],
       gravar: () {
-        gravarComunidade();
+        widget.comunidade == null ? gravarComunidade() : atualizarComunidade();
       },
       cancelar: () {
         // Navigator.pop(context);

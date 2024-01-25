@@ -120,8 +120,8 @@ class _BlocoState extends State<Bloco> {
                       return MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            await Navigator.push(
                               context,
                               CupertinoDialogRoute(
                                 builder: (context) {
@@ -132,6 +132,7 @@ class _BlocoState extends State<Bloco> {
                                 context: context,
                               ),
                             );
+                            buscarBlocos();
                           },
                           child: CardBloco(
                             bloco: blocos[index],

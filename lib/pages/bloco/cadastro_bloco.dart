@@ -21,6 +21,15 @@ class _CadastroBlocoState extends State<CadastroBloco> {
   bool carregando = false;
 
   preparaDados() {
+    if (widget.bloco != null) {
+      return BlocoModel(
+        bloCodigo: widget.bloco!.bloCodigo,
+        bloNome: nomeController.text,
+        qtdLivres: widget.bloco!.qtdLivres,
+        qtdOcupados: widget.bloco!.qtdOcupados,
+        qtdQuartos: widget.bloco!.qtdQuartos,
+      );
+    }
     return BlocoModel(
       bloCodigo: 0,
       bloNome: nomeController.text,
@@ -52,13 +61,44 @@ class _CadastroBlocoState extends State<CadastroBloco> {
     setState(() => carregando = false);
   }
 
+  alualizarBloco() async {
+    setState(() => carregando = true);
+    var retorno = await ApiBloco().updateBloco(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Bloco atualizado com sucesso !"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao atualizar bloco !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.bloco != null) {
+      nomeController.text = widget.bloco!.bloNome;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CadastroForm(
       formKey: _formKey,
       titulo: "Cadastro de Bloco",
-/*       altura: 4.5,
-      largura: 2, */
+      altura: 4.5,
+      largura: 2,
       campos: [
         Expanded(
           flex: 5,
@@ -98,7 +138,7 @@ class _CadastroBlocoState extends State<CadastroBloco> {
       ],
       gravar: () {
         if (_formKey.currentState!.validate()) {
-          gravarBloco();
+          widget.bloco == null ? gravarBloco() : alualizarBloco();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -109,7 +149,7 @@ class _CadastroBlocoState extends State<CadastroBloco> {
         }
       },
       cancelar: () {
-        Navigator.pop(context);
+        // Navigator.pop(context);
       },
     );
   }
