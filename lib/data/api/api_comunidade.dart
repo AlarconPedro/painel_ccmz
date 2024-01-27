@@ -7,6 +7,7 @@ class ApiComunidade {
 
   //GET
   final String _urlGetComunidades = "${Globais.urlBase}comunidade";
+  final String _urlGetComunidadesNomes = "${Globais.urlBase}comunidade/nomes";
   final String _urlGetComunidade = "${Globais.urlBase}comunidade/";
   //POST
   final String _urlAddComunidade = "${Globais.urlBase}comunidade";
@@ -18,6 +19,10 @@ class ApiComunidade {
   //GET
   Future<dynamic> getComunidades() async {
     return await _request.getJson(_urlGetComunidades);
+  }
+
+  Future<dynamic> getComunidadesNomes() async {
+    return await _request.getJson(_urlGetComunidadesNomes);
   }
 
   Future<dynamic> getComunidade(int codigoComunidade) async {

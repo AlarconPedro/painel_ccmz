@@ -84,9 +84,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
   }
 
   buscarComunidade() async {
-    setState(() {
-      carregando = true;
-    });
+    setState(() => carregando = true);
     var retorno = await ApiComunidade().getComunidades();
     if (retorno.statusCode == 200) {
       listaComunidade.clear();
@@ -109,15 +107,11 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
         ),
       );
     }
-    setState(() {
-      carregando = false;
-    });
+    setState(() => carregando = false);
   }
 
   gravarPessoa() async {
-    setState(() {
-      carregando = true;
-    });
+    setState(() => carregando = true);
     var retorno = await ApiPessoas().addPessoa(preparaDados());
     if (retorno.statusCode == 200) {
       Navigator.pop(context);
@@ -135,9 +129,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
         ),
       );
     }
-    setState(() {
-      carregando = false;
-    });
+    setState(() => carregando = false);
   }
 
   atualizarPessoa() async {

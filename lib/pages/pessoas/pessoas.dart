@@ -20,11 +20,15 @@ class _PessoasState extends State<Pessoas> {
 
   List<PessoaModel> pessoas = [];
 
-  buscarPessoas() async {
-    setState(() {
-      carregando = true;
-    });
-    var retorno = await ApiPessoas().getPessoas();
+  List<DropdownMenuItem<int>> comunidades = [];
+
+  TextEditingController campoBusca = TextEditingController();
+
+  int codigoComunidade = 0;
+
+  buscarPessoas(int comunidade) async {
+    setState(() => carregando = true);
+    var retorno = await ApiPessoas().getPessoas(comunidade);
     if (retorno.statusCode == 200) {
       pessoas.clear();
       var decoded = json.decode(retorno.body);
@@ -41,15 +45,60 @@ class _PessoasState extends State<Pessoas> {
         ),
       );
     }
-    setState(() {
-      carregando = false;
-    });
+    setState(() => carregando = false);
+  }
+
+  buscarComunidades() async {
+    setState(() => carregando = true);
+    var retorno = await ApiComunidade().getComunidadesNomes();
+    if (retorno.statusCode == 200) {
+      comunidades.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          comunidades.add(
+            DropdownMenuItem(
+              value: item['comCodigo'],
+              child: Text(item['comNome']),
+            ),
+          );
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarComunidadeCampoBusca(String busca) async {
+    setState(() => carregando = true);
+    var retorno = await ApiPessoas().getPessoasBusca(codigoComunidade, busca);
+    if (retorno.statusCode == 200) {
+      pessoas.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          pessoas.add(PessoaModel.fromJson(item));
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
   }
 
   excluirPessoa(int codigoPessoa) async {
-    setState(() {
-      carregando = true;
-    });
+    setState(() => carregando = true);
     var retorno = await ApiPessoas().deletePessoa(codigoPessoa);
     if (retorno.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -58,7 +107,7 @@ class _PessoasState extends State<Pessoas> {
           content: Text("Pessoa excluída com sucesso !"),
         ),
       );
-      buscarPessoas();
+      buscarPessoas(codigoComunidade);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -67,16 +116,14 @@ class _PessoasState extends State<Pessoas> {
         ),
       );
     }
-    setState(() {
-      carregando = false;
-    });
+    setState(() => carregando = false);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    buscarPessoas();
+    buscarComunidades();
   }
 
   @override
@@ -118,6 +165,7 @@ class _PessoasState extends State<Pessoas> {
                             child: SizedBox(
                               height: 55,
                               child: CupertinoTextField(
+                                controller: campoBusca,
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
@@ -127,13 +175,25 @@ class _PessoasState extends State<Pessoas> {
                                   ),
                                 ),
                                 placeholder: 'Pesquisar',
+                                onSubmitted: (value) async {
+                                  if (value != "") {
+                                    await buscarComunidadeCampoBusca(value);
+                                    campoBusca.clear();
+                                  }
+                                },
                               ),
                             ),
                           ),
                           const SizedBox(width: 10),
                           CupertinoButton(
                             color: Cores.preto,
-                            onPressed: () {},
+                            onPressed: () async {
+                              if (campoBusca.text != "") {
+                                await buscarComunidadeCampoBusca(
+                                    campoBusca.text);
+                                campoBusca.clear();
+                              }
+                            },
                             padding: const EdgeInsets.symmetric(
                               vertical: 16,
                               horizontal: 16,
@@ -150,9 +210,12 @@ class _PessoasState extends State<Pessoas> {
                         Flexible(
                           child: DropDownForm(
                             label: "Comunidade",
-                            itens: [],
-                            selecionado: 0,
-                            onChange: (value) {},
+                            itens: comunidades,
+                            selecionado: codigoComunidade,
+                            onChange: (value) {
+                              setState(() => codigoComunidade = value);
+                              buscarPessoas(value);
+                            },
                           ),
                         ),
                         const Spacer(),
@@ -187,7 +250,7 @@ class _PessoasState extends State<Pessoas> {
                                 context: context,
                               ),
                             );
-                            buscarPessoas();
+                            buscarPessoas(codigoComunidade);
                           },
                           child: const Text("Nova Pessoa"),
                         ),
@@ -239,46 +302,58 @@ class _PessoasState extends State<Pessoas> {
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       SizedBox(width: 25),
                     ]),
-                    carregando
+                    codigoComunidade == 0
                         ? const Expanded(
-                            child: Center(child: CarregamentoIOS()))
-                        : Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              child: ListView.builder(
-                                itemCount: pessoas.length,
-                                itemBuilder: (context, index) {
-                                  return MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        await Navigator.push(
-                                          context,
-                                          CupertinoDialogRoute(
-                                            builder: (context) {
-                                              return CadastroPessoas(
-                                                pessoa: pessoas[index],
-                                              );
-                                            },
-                                            context: context,
-                                          ),
-                                        );
-                                        buscarPessoas();
-                                      },
-                                      child: CardPessoa(
-                                        pessoa: pessoas[index],
-                                        excluir: () {
-                                          excluirPessoa(
-                                              pessoas[index].pesCodigo);
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                },
+                            child: Center(
+                              child: Text(
+                                "Selecione uma comunidade",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
+                          )
+                        : carregando
+                            ? const Expanded(
+                                child: Center(child: CarregamentoIOS()))
+                            : Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  child: ListView.builder(
+                                    itemCount: pessoas.length,
+                                    itemBuilder: (context, index) {
+                                      return MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              CupertinoDialogRoute(
+                                                builder: (context) {
+                                                  return CadastroPessoas(
+                                                    pessoa: pessoas[index],
+                                                  );
+                                                },
+                                                context: context,
+                                              ),
+                                            );
+                                            buscarPessoas(codigoComunidade);
+                                          },
+                                          child: CardPessoa(
+                                            pessoa: pessoas[index],
+                                            excluir: () {
+                                              excluirPessoa(
+                                                  pessoas[index].pesCodigo);
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
                   ],
                 ),
               ),
