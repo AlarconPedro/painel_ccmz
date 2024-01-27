@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmz/pages/pages.dart';
+import 'package:painel_ccmz/widgets/form/dropdown_form.dart';
 
 import '../../classes/classes.dart';
 
@@ -9,8 +10,21 @@ class Esqueleto extends StatelessWidget {
   String tituloBoto;
 
   Function() abrirTelaCadastro;
+  Function(String busca) buscaNome;
+
+  TextEditingController busca = TextEditingController();
 
   List<Widget> corpo;
+
+  bool filtro = false;
+
+  String label = "";
+
+  List<DropdownMenuItem<int>> itens = [];
+
+  int selecionado = 0;
+
+  Function? onChange;
 
   Esqueleto({
     super.key,
@@ -18,6 +32,12 @@ class Esqueleto extends StatelessWidget {
     required this.tituloPagina,
     required this.abrirTelaCadastro,
     required this.corpo,
+    required this.buscaNome,
+    this.filtro = false,
+    this.label = "",
+    this.itens = const [],
+    this.selecionado = 0,
+    this.onChange,
   });
 
   @override
@@ -59,6 +79,13 @@ class Esqueleto extends StatelessWidget {
                             child: SizedBox(
                               height: 55,
                               child: CupertinoTextField(
+                                controller: busca,
+                                onSubmitted: (value) async {
+                                  if (busca.text.isNotEmpty) {
+                                    await buscaNome(value);
+                                    busca.clear();
+                                  }
+                                },
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
@@ -74,7 +101,12 @@ class Esqueleto extends StatelessWidget {
                           const SizedBox(width: 10),
                           CupertinoButton(
                             color: Cores.preto,
-                            onPressed: () {},
+                            onPressed: () async {
+                              if (busca.text.isNotEmpty) {
+                                await buscaNome(busca.text);
+                                busca.clear();
+                              }
+                            },
                             padding: const EdgeInsets.symmetric(
                               vertical: 16,
                               horizontal: 16,
@@ -84,6 +116,26 @@ class Esqueleto extends StatelessWidget {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
+                    filtro
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(children: [
+                              Flexible(
+                                child: DropDownForm(
+                                  label: label,
+                                  itens: itens,
+                                  selecionado: selecionado,
+                                  onChange: (value) {
+                                    onChange!(value);
+                                  },
+                                ),
+                              ),
+                              const Spacer(),
+                              const Spacer(),
+                            ]),
+                          )
+                        : const SizedBox(height: 10),
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -7,6 +7,7 @@ class ApiBloco {
 
   //GET
   final String _urlGetBlocos = "${Globais.urlBase}bloco";
+  final String _urlGetBlocosNomes = "${Globais.urlBase}bloco/nomes";
   final String _urlGetBloco = "${Globais.urlBase}bloco/";
 
   //POST
@@ -21,6 +22,10 @@ class ApiBloco {
   //GET
   Future<dynamic> getBlocos() async {
     return await _request.getJson(_urlGetBlocos);
+  }
+
+  Future<dynamic> getBlocosNomes() async {
+    return await _request.getJson(_urlGetBlocosNomes);
   }
 
   Future<dynamic> getBloco(int codigoBloco) async {

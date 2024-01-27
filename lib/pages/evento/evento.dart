@@ -89,6 +89,7 @@ class _EventoState extends State<Evento> {
         );
         buscarEventos();
       },
+      buscaNome: (busca) {},
       corpo: [
         const Row(children: [
           SizedBox(width: 55),

@@ -97,6 +97,7 @@ class _ComunidadeState extends State<Comunidade> {
         );
         buscarComunidades();
       },
+      buscaNome: (busca) {},
       corpo: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),

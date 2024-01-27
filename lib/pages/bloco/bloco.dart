@@ -88,6 +88,7 @@ class _BlocoState extends State<Bloco> {
         );
         buscarBlocos();
       },
+      buscaNome: (value) async {},
       corpo: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),

@@ -6,7 +6,8 @@ class ApiQuarto {
   static final _request = HttpRequest();
 
   //GET
-  final String _urlGetQuartos = "${Globais.urlBase}quarto";
+  final String _urlGetQuartos = "${Globais.urlBase}quarto/blocos/";
+  final String _urlGetQuartosBusca = "${Globais.urlBase}quarto/blocos/";
   final String _urlGetQuarto = "${Globais.urlBase}quarto/";
 
   //POST
@@ -19,8 +20,13 @@ class ApiQuarto {
   final String _urlDeleteQuarto = "${Globais.urlBase}quarto/";
 
   //GET
-  Future<dynamic> getQuartos() async {
-    return await _request.getJson(_urlGetQuartos);
+  Future<dynamic> getQuartos(int codigoBloco) async {
+    return await _request.getJson("$_urlGetQuartos$codigoBloco");
+  }
+
+  Future<dynamic> getQuartosBusca(int codigoBloco, String busca) async {
+    return await _request
+        .getJson("$_urlGetQuartosBusca$codigoBloco/busca/$busca");
   }
 
   Future<dynamic> getQuarto(int codigoQuarto) async {
