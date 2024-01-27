@@ -147,6 +147,22 @@ class _PessoasState extends State<Pessoas> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(children: [
+                        Flexible(
+                          child: DropDownForm(
+                            label: "Comunidade",
+                            itens: [],
+                            selecionado: 0,
+                            onChange: (value) {},
+                          ),
+                        ),
+                        const Spacer(),
+                        const Spacer(),
+                      ]),
+                    ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(children: [
                         const Text(
                           'Pessoas',
                           style: TextStyle(
@@ -177,6 +193,7 @@ class _PessoasState extends State<Pessoas> {
                         ),
                       ]),
                     ),
+                    const SizedBox(height: 10),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Divider(
