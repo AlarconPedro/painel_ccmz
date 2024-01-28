@@ -136,9 +136,7 @@ class _QuartosState extends State<Quartos> {
         setState(() => blocoSelecionado = value);
         await buscarQuartos(value);
       },
-      buscaNome: (value) async {
-        await buscarQuartoBusca(value);
-      },
+      buscaNome: (value) async => await buscarQuartoBusca(value),
       abrirTelaCadastro: () async {
         await Navigator.push(
           context,
@@ -211,9 +209,8 @@ class _QuartosState extends State<Quartos> {
                               },
                               child: CardQuartos(
                                 quarto: quartos[index],
-                                excluir: () {
-                                  deleteQuarto(quartos[index].quaCodigo);
-                                },
+                                excluir: () =>
+                                    deleteQuarto(quartos[index].quaCodigo),
                               ),
                             ),
                           );
