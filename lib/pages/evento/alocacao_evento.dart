@@ -264,6 +264,53 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     setState(() => carregando = false);
   }
 
+  // pessoasBusca(String busca) async {
+  //   setState(() => carregando = true);
+  //   var retorno =
+  //       await ApiPessoas().getPessoasBusca(comunidadeSelecionada, busca);
+  //   if (retorno.statusCode == 200) {
+  //     pessoas.clear();
+  //     var decoded = json.decode(retorno.body);
+  //     for (var item in decoded) {
+  //       setState(() {
+  //         pessoas.add(PessoaModel.fromJson(item));
+  //       });
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("Erro ao buscar pessoas!"),
+  //         backgroundColor: Cores.vermelhoMedio,
+  //       ),
+  //     );
+  //   }
+  //   setState(() => carregando = false);
+  // }
+  pessoasBusca(String busca) async {
+    setState(() => carregando = true);
+    if (busca.isNotEmpty) {
+      var listaPessoas = pessoas.where((element) {
+        return element.pesNome.contains(busca);
+      }).toList();
+      if (listaPessoas.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Nenhuma pessoa encontrada!"),
+            backgroundColor: Cores.vermelhoMedio,
+          ),
+        );
+        buscarPessoasComunidade(comunidadeSelecionada);
+      }
+      pessoas.clear();
+      setState(() {
+        pessoas = listaPessoas;
+      });
+    } else {
+      buscarPessoasComunidade(comunidadeSelecionada);
+    }
+    setState(() => carregando = false);
+  }
+
   alimentarPessoasSelecionadas() async {
     setState(() => carregando = true);
     if (pessoasSelecionadas != []) {
@@ -464,6 +511,14 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
   Widget build(BuildContext context) {
     return EstruturaAlocacaoEvento(
       formKey: formKey,
+      buscar: (value) {
+        setState(() {
+          pessoasSelecionadas.clear();
+          // vagasQuarto.clear();
+          pessoasQuarto.clear();
+          pessoasBusca(value);
+        });
+      },
       comboEvento: Expanded(
         child: SizedBox(
           height: 60,
@@ -643,6 +698,10 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
               );
               exibirVoltar = false;
             });
+            comunidades.clear();
+            vagasQuarto.clear();
+            pessoasQuarto.clear();
+            buscarQuartos();
           },
           color: Cores.verdeMedio,
           padding: const EdgeInsets.symmetric(

@@ -16,6 +16,8 @@ class EstruturaAlocacaoEvento extends StatefulWidget {
   Widget botaoVoltar;
   Widget botaoFechar;
 
+  Function(String) buscar;
+
   EstruturaAlocacaoEvento({
     super.key,
     required this.formKey,
@@ -27,6 +29,7 @@ class EstruturaAlocacaoEvento extends StatefulWidget {
     required this.botaoSalvar,
     required this.botaoVoltar,
     required this.botaoFechar,
+    required this.buscar,
   });
 
   @override
@@ -35,6 +38,10 @@ class EstruturaAlocacaoEvento extends StatefulWidget {
 }
 
 class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
+  TextEditingController buscaPessoas = TextEditingController();
+
+  bool carregando = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,6 +126,19 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                                 child: SizedBox(
                                                   height: 55,
                                                   child: CupertinoTextField(
+                                                    controller: buscaPessoas,
+                                                    onSubmitted: (value) async {
+                                                      if (value.isNotEmpty) {
+                                                        setState(() =>
+                                                            carregando = true);
+                                                        await widget
+                                                            .buscar(value);
+                                                        setState(() {
+                                                          buscaPessoas.clear();
+                                                          carregando = false;
+                                                        });
+                                                      }
+                                                    },
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           const BorderRadius
@@ -137,7 +157,19 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                               const SizedBox(width: 10),
                                               CupertinoButton(
                                                 color: Cores.preto,
-                                                onPressed: () {},
+                                                onPressed: () async {
+                                                  if (buscaPessoas
+                                                      .text.isNotEmpty) {
+                                                    setState(() =>
+                                                        carregando = true);
+                                                    await widget.buscar(
+                                                        buscaPessoas.text);
+                                                    setState(() {
+                                                      buscaPessoas.clear();
+                                                      carregando = false;
+                                                    });
+                                                  }
+                                                },
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                   vertical: 16,

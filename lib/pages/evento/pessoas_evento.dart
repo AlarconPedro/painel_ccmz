@@ -288,36 +288,42 @@ class _PessoasEventoState extends State<PessoasEvento> {
                         ? const Center(
                             child: Text("Selecione uma comunidade"),
                           )
-                        : Wrap(
-                            children: [
-                              for (var pessoa in pessoas)
-                                carregando
-                                    ? const Expanded(child: CarregamentoIOS())
-                                    : MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if (pessoasSelecionadas
-                                                  .contains(pessoa.pesCodigo)) {
-                                                pessoasSelecionadas
-                                                    .remove(pessoa.pesCodigo);
-                                              } else {
-                                                pessoasSelecionadas
-                                                    .add(pessoa.pesCodigo);
-                                              }
-                                            });
-                                          },
-                                          child: CardPessoasEvento(
-                                            pessoa: pessoa,
-                                            pessoasSelecionadas:
-                                                pessoasSelecionadas,
-                                            selecionado: pessoasSelecionadas
-                                                .contains(pessoa.pesCodigo),
+                        : SingleChildScrollView(
+                            child: Expanded(
+                              child: Wrap(
+                                children: [
+                                  for (var pessoa in pessoas)
+                                    carregando
+                                        ? const Expanded(
+                                            child: CarregamentoIOS())
+                                        : MouseRegion(
+                                            cursor: SystemMouseCursors.click,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (pessoasSelecionadas
+                                                      .contains(
+                                                          pessoa.pesCodigo)) {
+                                                    pessoasSelecionadas.remove(
+                                                        pessoa.pesCodigo);
+                                                  } else {
+                                                    pessoasSelecionadas
+                                                        .add(pessoa.pesCodigo);
+                                                  }
+                                                });
+                                              },
+                                              child: CardPessoasEvento(
+                                                pessoa: pessoa,
+                                                pessoasSelecionadas:
+                                                    pessoasSelecionadas,
+                                                selecionado: pessoasSelecionadas
+                                                    .contains(pessoa.pesCodigo),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                            ],
+                                ],
+                              ),
+                            ),
                           ),
                   ),
                   Row(
