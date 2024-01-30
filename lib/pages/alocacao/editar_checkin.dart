@@ -73,9 +73,16 @@ class Editar_CheckinState extends State<EditarCheckin> {
   Widget build(BuildContext context) {
     return CadastroForm(
       titulo: "Checkin",
-      altura: 3.5,
-      largura: 2,
-      gravar: () {},
+      altura: 2.8,
+      largura: 2.7,
+      gravar: () {
+        // for (var element in widget.dadosQuarto.pessoasQuarto) {
+        //   setState(() {
+        //     element.pesCheckin = true;
+        //   });
+        // }
+        Navigator.pop(context);
+      },
       cancelar: () {
         for (var element in widget.dadosQuarto.pessoasQuarto) {
           setState(() {
@@ -111,7 +118,6 @@ class Editar_CheckinState extends State<EditarCheckin> {
               flex: 2,
               child: Text(pessoa.pesNome),
             ),
-            const Expanded(child: SizedBox()),
             Expanded(
               flex: 1,
               child: Row(
@@ -141,6 +147,7 @@ class Editar_CheckinState extends State<EditarCheckin> {
                 ],
               ),
             ),
+            const SizedBox(width: 10),
           ],
         ),
       ),
