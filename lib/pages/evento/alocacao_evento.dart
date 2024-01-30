@@ -191,6 +191,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     var retorno = await ApiEvento().getPessoasQuarto(quarto.quaCodigo);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
+      ocupadas = 0;
       for (var item in decoded) {
         setState(() {
           pessoasQuarto.add(PessoaModel.fromJson(item));
@@ -446,12 +447,12 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
     if (retorno.statusCode == 200) {
       criarVagas();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Pessoa adicionada com sucesso!"),
-      //     backgroundColor: Cores.verdeMedio,
-      //   ),
-      // );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Pessoa adicionada com sucesso!"),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
       setState(() {
         pessoasSelecionadas.clear();
       });
@@ -463,6 +464,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
       //   ),
       //   curve: Curves.ease,
       // );
+      setState(() => carregando = false);
+      return true;
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -470,8 +473,9 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
           backgroundColor: Cores.vermelhoMedio,
         ),
       );
+      setState(() => carregando = false);
+      return false;
     }
-    setState(() => carregando = false);
   }
 
   removerPessoaQuarto(int codigoPessoa) async {
@@ -559,12 +563,23 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                   ocupadas: ocupadas,
                   vagas: quarto.quaQtdCamas,
                   selecionado: pessoasSelecionadas.contains(pessoas[index]),
-                  addPessoa: () {
-                    setState(() {
-                      pessoasSelecionadas.add(pessoas[index]);
-                      ocupadas++;
-                    });
-                    adicionarPessoaQuarto(pessoas[index].pesCodigo);
+                  addPessoa: () async {
+                    if (ocupadas >= quarto.quaQtdCamas) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Quarto cheio!"),
+                          backgroundColor: Cores.vermelhoMedio,
+                        ),
+                      );
+                      return;
+                    }
+                    // var retorno =
+                    await adicionarPessoaQuarto(pessoas[index].pesCodigo);
+                    // if (retorno) {
+                    //   setState(() {
+                    //     pessoasSelecionadas.add(pessoas[index]);
+                    //   });
+                    // }
                   },
                   removePessoa: () {
                     setState(() {
@@ -697,10 +712,11 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 curve: Curves.ease,
               );
               exibirVoltar = false;
+              comunidades.clear();
+              vagasQuarto.clear();
+              pessoasQuarto.clear();
+              comunidadeSelecionada = 0;
             });
-            comunidades.clear();
-            vagasQuarto.clear();
-            pessoasQuarto.clear();
             buscarQuartos();
           },
           color: Cores.verdeMedio,
@@ -724,10 +740,11 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 curve: Curves.ease,
               );
               exibirVoltar = false;
+              comunidades.clear();
+              vagasQuarto.clear();
+              pessoasQuarto.clear();
+              comunidadeSelecionada = 0;
             });
-            comunidades.clear();
-            vagasQuarto.clear();
-            pessoasQuarto.clear();
             buscarQuartos();
           },
           color: Cores.vermelhoMedio,
