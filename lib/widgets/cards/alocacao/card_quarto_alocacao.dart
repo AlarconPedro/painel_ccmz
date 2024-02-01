@@ -31,13 +31,13 @@ class CardQuartoAlocacao extends StatelessWidget {
               CupertinoIcons.xmark_circle,
               color: Cores.cinzaMedio,
             ),
-      const SizedBox(width: 5),
+      const SizedBox(width: 10),
       pessoaChekin.pesChave
           ? const Icon(
               Icons.vpn_key_rounded,
               color: Cores.amareloMedio,
             )
-          : const SizedBox(width: 29),
+          : const SizedBox(width: 25),
     ]);
   }
 
@@ -52,17 +52,18 @@ class CardQuartoAlocacao extends StatelessWidget {
       ),
       color: Cores.branco,
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-          // color: Cores.amareloClaro.withOpacity(0.2),
-          color: quarto.vagas < 1
-              ? Cores.vermelhoMedio.withOpacity(0.2)
-              : quarto.vagas < 2
-                  ? Cores.amareloClaro.withOpacity(0.2)
-                  : Cores.branco,
-        ),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            // color: Cores.amareloClaro.withOpacity(0.2),
+            color: Cores.branco
+            // color: quarto.vagas < 1
+            //     ? Cores.vermelhoMedio.withOpacity(0.2)
+            //     : quarto.vagas < 2
+            //         ? Cores.amareloClaro.withOpacity(0.2)
+            //         : Cores.branco,
+            ),
         width: 300,
         height: 200,
         child: Column(

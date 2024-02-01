@@ -27,25 +27,14 @@ class Editar_CheckinState extends State<EditarCheckin> {
   bool carregando = false;
 
   CheckinModel preparaDados(CheckinModel checkin) {
-    if (widget.dadosQuarto.pessoasQuarto.contains(checkin.pesCheckin)) {
-      return CheckinModel(
-        qupCodigo: checkin.qupCodigo,
-        pesCodigo: checkin.pesCodigo,
-        quaCodigo: checkin.quaCodigo,
-        pesChave: checkin.pesChave,
-        pesCheckin: checkin.pesCheckin,
-        pesNome: checkin.pesNome,
-      );
-    } else {
-      return CheckinModel(
-        qupCodigo: checkin.qupCodigo,
-        pesCodigo: checkin.pesCodigo,
-        quaCodigo: checkin.quaCodigo,
-        pesChave: true,
-        pesCheckin: checkin.pesCheckin,
-        pesNome: checkin.pesNome,
-      );
-    }
+    return CheckinModel(
+      qupCodigo: checkin.qupCodigo,
+      pesCodigo: checkin.pesCodigo,
+      quaCodigo: checkin.quaCodigo,
+      pesChave: checkin.pesChave,
+      pesCheckin: checkin.pesCheckin,
+      pesNome: checkin.pesNome,
+    );
   }
 
   editarCheckin(CheckinModel checkin) async {
