@@ -95,6 +95,7 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                                   context: context,
                                 ),
                               );
+                              buscarQuartos();
                             },
                             child: MouseRegion(
                               cursor: SystemMouseCursors.click,

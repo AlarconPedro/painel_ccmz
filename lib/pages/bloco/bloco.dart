@@ -94,7 +94,9 @@ class _BlocoState extends State<Bloco> {
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
+              SizedBox(width: 40),
               Text("Nome", style: TextStyle(fontWeight: FontWeight.bold)),
+              Spacer(),
               Spacer(),
               Text("Qtd. Quartos",
                   style: TextStyle(fontWeight: FontWeight.bold)),

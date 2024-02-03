@@ -41,9 +41,10 @@ class CardBloco extends StatelessWidget {
                       const Icon(CupertinoIcons.building_2_fill),
                       const SizedBox(width: 10),
                       Expanded(
-                        flex: 4,
+                        flex: 3,
                         child: Text(bloco.bloNome),
                       ),
+                      const SizedBox(width: 120),
                       Expanded(
                         flex: 2,
                         child: Text(bloco.qtdQuartos.toString()),

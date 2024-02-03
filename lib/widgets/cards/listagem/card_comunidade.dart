@@ -43,6 +43,7 @@ class CardComunidade extends StatelessWidget {
                         flex: 2,
                         child: Text(comunidade.comCidade),
                       ),
+                      const SizedBox(width: 25),
                       Expanded(
                         flex: 2,
                         child: Text(comunidade.comUF),
