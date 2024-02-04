@@ -99,9 +99,7 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                             },
                             child: MouseRegion(
                               cursor: SystemMouseCursors.click,
-                              child: CardQuartoAlocacao(
-                                quarto: quarto,
-                              ),
+                              child: CardQuartoAlocacao(quarto: quarto),
                             ),
                           ),
                       ],
