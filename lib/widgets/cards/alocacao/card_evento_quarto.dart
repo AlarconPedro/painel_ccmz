@@ -32,16 +32,16 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
   }
 
   alimentarCamasOcupadas() {
-    for (var i = 0; i < widget.quarto.pessoas!.length; i++) {
+    for (var i = 0; i < widget.quarto.pessoas.length; i++) {
       setState(() {
         alocacaoQuarto.add(
           Row(
             children: [
               Icon(
-                widget.quarto.pessoas![i].pesGenero == "F"
+                widget.quarto.pessoas[i].pesGenero == "F"
                     ? Icons.female_rounded
                     : Icons.male_rounded,
-                color: widget.quarto.pessoas![i].pesGenero == "F"
+                color: widget.quarto.pessoas[i].pesGenero == "F"
                     ? Cores.rosaEscuro
                     : Cores.azulMedio,
               ),
@@ -49,7 +49,7 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
               Expanded(
                 child: Text(
                   // quarto.quaNome,
-                  widget.quarto.pessoas![i].pesNome,
+                  widget.quarto.pessoas[i].pesNome,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 14,
@@ -90,6 +90,14 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
     }
   }
 
+  Color definirCorCard() {
+    return widget.quarto.quaQtdCamaslivres == 0
+        ? Cores.vermelhoClaro.withOpacity(0.4)
+        : widget.quarto.quaQtdCamaslivres == widget.quarto.quaQtdCamas
+            ? Cores.verdeClaro.withOpacity(0.4)
+            : Cores.amareloClaro.withOpacity(0.4);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -109,12 +117,12 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
       ),
       color: Cores.branco,
       child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
           // color: Cores.amareloClaro.withOpacity(0.2),
-          color: Cores.branco,
+          color: definirCorCard(),
         ),
         width: 300,
         height: 200,
