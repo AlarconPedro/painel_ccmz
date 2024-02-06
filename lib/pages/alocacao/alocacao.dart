@@ -10,6 +10,7 @@ import 'package:painel_ccmz/widgets/loading/carregamento_ios.dart';
 import 'package:painel_ccmz/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
+import '../../data/models/quarto_pessoas_model.dart';
 
 class Alocacao extends StatefulWidget {
   const Alocacao({super.key});
@@ -22,11 +23,13 @@ class _AlocacaoState extends State<Alocacao> {
   bool carregando = false;
 
   List<DropdownMenuItem> eventos = [];
-  List<QuartoModel> quartos = [];
+  List<QuartoPessoasModel> quartos = [];
   List<BlocoModel> blocos = [];
 
   int eventoSelecionado = 0;
   int codigoBloco = 0;
+
+  TextEditingController buscaController = TextEditingController();
 
   buscarEventos() async {
     setState(() => carregando = true);
@@ -79,17 +82,19 @@ class _AlocacaoState extends State<Alocacao> {
     setState(() => carregando = false);
   }
 
-  buscarQuartos(int codigoEvento) async {
+  buscarQuartoBusca(String busca) async {
     setState(() => carregando = true);
-    var retorno =
-        await ApiAlocacao().getQuartosEvento(codigoEvento, codigoBloco);
+    var retorno = await ApiCheckin().getCheckinQuartosBusca(
+      eventoSelecionado,
+      busca,
+    );
     if (retorno.statusCode == 200) {
       quartos.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
           quartos.add(
-            QuartoModel.fromJson(item),
+            QuartoPessoasModel.fromJson(item),
           );
         });
       }
@@ -149,6 +154,7 @@ class _AlocacaoState extends State<Alocacao> {
                             child: SizedBox(
                               height: 55,
                               child: CupertinoTextField(
+                                controller: buscaController,
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
@@ -158,13 +164,42 @@ class _AlocacaoState extends State<Alocacao> {
                                   ),
                                 ),
                                 placeholder: 'Pesquisar',
+                                onSubmitted: (value) async {
+                                  if (buscaController.text.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text("Digite algo para buscar!"),
+                                        backgroundColor: Cores.vermelhoMedio,
+                                      ),
+                                    );
+                                    return;
+                                  }
+
+                                  await buscarQuartoBusca(buscaController.text);
+
+                                  // await buscarQuartoBusca(value);
+                                },
                               ),
                             ),
                           ),
                           const SizedBox(width: 10),
                           CupertinoButton(
                             color: Cores.preto,
-                            onPressed: () {},
+                            onPressed: () async {
+                              if (buscaController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Digite algo para buscar!"),
+                                    backgroundColor: Cores.vermelhoMedio,
+                                  ),
+                                );
+                                return;
+                              }
+                              await buscarQuartoBusca(buscaController.text);
+
+                              // await buscarQuartoBusca(buscaController.text);
+                            },
                             padding: const EdgeInsets.symmetric(
                               vertical: 16,
                               horizontal: 16,
@@ -234,58 +269,72 @@ class _AlocacaoState extends State<Alocacao> {
                         ? const Expanded(
                             child: Center(child: CarregamentoIOS()),
                           )
-                        : Expanded(
-                            child: PageView(
-                              controller: Rotas.alocacaoPageController,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                    itemCount: blocos.length,
-                                    itemBuilder: (context, index) {
-                                      return MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              codigoBloco =
-                                                  blocos[index].bloCodigo;
-                                              Rotas.alocacaoPageController
-                                                  .animateToPage(
-                                                1,
-                                                duration: const Duration(
-                                                    milliseconds: 500),
-                                                curve: Curves.easeInOut,
-                                              );
-                                            });
-                                            // buscarQuartos(eventoSelecionado);
-                                          },
-                                          child: CardBlocoAlocacao(
-                                            blocos: blocos[index],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                        : quartos.isEmpty
+                            ? Expanded(
+                                child: PageView(
+                                  controller: Rotas.alocacaoPageController,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: blocos.length,
+                                        itemBuilder: (context, index) {
+                                          return MouseRegion(
+                                            cursor: SystemMouseCursors.click,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  codigoBloco =
+                                                      blocos[index].bloCodigo;
+                                                  Rotas.alocacaoPageController
+                                                      .animateToPage(
+                                                    1,
+                                                    duration: const Duration(
+                                                        milliseconds: 500),
+                                                    curve: Curves.easeInOut,
+                                                  );
+                                                });
+                                                // buscarQuartos(eventoSelecionado);
+                                              },
+                                              child: CardBlocoAlocacao(
+                                                blocos: blocos[index],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: CheckinQuartos(
+                                        quartos: quartos,
+                                        codigoBloco: codigoBloco,
+                                        codigoEvento: eventoSelecionado,
+                                        voltar: () {
+                                          Rotas.alocacaoPageController
+                                              .animateToPage(
+                                            0,
+                                            duration: const Duration(
+                                                milliseconds: 500),
+                                            curve: Curves.easeInOut,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Expanded(
-                                  child: CheckinQuartos(
-                                    codigoBloco: codigoBloco,
-                                    codigoEvento: eventoSelecionado,
-                                    voltar: () {
-                                      Rotas.alocacaoPageController
-                                          .animateToPage(
-                                        0,
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        curve: Curves.easeInOut,
-                                      );
-                                    },
-                                  ),
+                              )
+                            : Expanded(
+                                child: CheckinQuartos(
+                                  quartos: quartos,
+                                  codigoBloco: codigoBloco,
+                                  codigoEvento: eventoSelecionado,
+                                  voltar: () {
+                                    setState(() {
+                                      quartos.clear();
+                                    });
+                                  },
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
                   ],
                 ),
               ),

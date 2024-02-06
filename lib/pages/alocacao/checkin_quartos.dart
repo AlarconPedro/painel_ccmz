@@ -13,12 +13,14 @@ class CheckinQuartos extends StatefulWidget {
   int codigoBloco;
   int codigoEvento;
   Function() voltar;
+  List<QuartoPessoasModel> quartos;
 
   CheckinQuartos({
     super.key,
     required this.codigoBloco,
     required this.codigoEvento,
     required this.voltar,
+    required this.quartos,
   });
 
   @override
@@ -64,7 +66,14 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    buscarQuartos();
+    if (widget.quartos.isNotEmpty) {
+      setState(() {
+        quartos = widget.quartos;
+      });
+    }
+    if (widget.codigoEvento != 0 && widget.codigoBloco != 0) {
+      buscarQuartos();
+    }
   }
 
   @override
@@ -113,6 +122,10 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                         color: Cores.vermelhoMedio,
                         child: const Text("Voltar"),
                         onPressed: () {
+                          setState(() {
+                            quartos.clear();
+                            widget.codigoBloco = 0;
+                          });
                           widget.voltar();
                         },
                       )

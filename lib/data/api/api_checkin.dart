@@ -9,6 +9,7 @@ class ApiCheckin {
 
   //GET
   final String _urlGetCheckinQuartos = "${Globais.urlBase}QuartoPessoa/";
+  final String _urlGetCheckinQuartosBusca = "${Globais.urlBase}QuartoPessoa/";
 
   //POST
   //UPDATE
@@ -18,6 +19,11 @@ class ApiCheckin {
   Future<dynamic> getCheckinQuartos(int codigoBloco, int codigoEvento) async {
     return await _request
         .getJson("$_urlGetCheckinQuartos$codigoBloco/$codigoEvento");
+  }
+
+  Future<dynamic> getCheckinQuartosBusca(int codigoEvento, String busca) async {
+    return await _request
+        .getJson("$_urlGetCheckinQuartosBusca$codigoEvento/$busca");
   }
 
   //POST
