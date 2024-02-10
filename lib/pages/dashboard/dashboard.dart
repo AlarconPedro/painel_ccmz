@@ -12,6 +12,8 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  buscarNumeroPessoas() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,9 +132,9 @@ class _DashBoardState extends State<DashBoard> {
                     SizedBox(
                       width: 250,
                       child: CardCorpoTela(
-                          child: const Column(
+                          child: Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
@@ -158,25 +160,102 @@ class _DashBoardState extends State<DashBoard> {
                             spacing: 10,
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 20),
-                                child: Icon(CupertinoIcons.add),
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 20),
+                                    child: Column(
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.clear_circled,
+                                          color: Cores.cinzaMedio,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "0",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Pessoas a Chegar",
+                                          maxLines: 2,
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 20),
-                                child: Icon(CupertinoIcons.add),
+                                    horizontal: 15, vertical: 20),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.clear_circled,
+                                      color: Cores.cinzaMedio,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "Checkin",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 20),
-                                child: Icon(CupertinoIcons.add),
+                                    horizontal: 20, vertical: 20),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.clear_circled,
+                                      color: Cores.cinzaMedio,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "Checkin",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 20),
-                                child: Icon(CupertinoIcons.add),
+                                    horizontal: 20, vertical: 20),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.clear_circled,
+                                      color: Cores.cinzaMedio,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "Checkin",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           )
