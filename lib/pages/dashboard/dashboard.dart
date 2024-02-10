@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../classes/classes.dart';
+import '../../data/api/api_dashboard.dart';
 import '../../widgets/widgets.dart';
 
 class DashBoard extends StatefulWidget {
@@ -12,7 +15,30 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  buscarNumeroPessoas() {}
+  bool carregando = false;
+
+  int numeroPessoasAChegar = 0;
+
+  buscarNumeroPessoas() async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getNumeroPessoas();
+    if (retorno.statusCode == 200) {
+      setState(() {
+        numeroPessoasAChegar = int.parse(retorno.body);
+      });
+    } else {
+      setState(() {
+        numeroPessoasAChegar = 0;
+      });
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  initState() {
+    super.initState();
+    buscarNumeroPessoas();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,31 +190,34 @@ class _DashBoardState extends State<DashBoard> {
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
                                   onTap: () {},
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 20),
                                     child: Column(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           CupertinoIcons.clear_circled,
                                           color: Cores.cinzaMedio,
+                                          size: 35,
                                         ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          "0",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
+                                        const SizedBox(height: 10),
+                                        carregando
+                                            ? const CarregamentoIOS()
+                                            : Text(
+                                                numeroPessoasAChegar.toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                        const SizedBox(height: 10),
+                                        const Text(
                                           "Pessoas a Chegar",
                                           maxLines: 2,
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                            fontSize: 13,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
