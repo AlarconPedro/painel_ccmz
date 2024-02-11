@@ -4,7 +4,12 @@ import '../../../classes/classes.dart';
 
 class CardCorpoTela extends StatelessWidget {
   Widget child;
-  CardCorpoTela({super.key, required this.child});
+  int itemCount;
+  CardCorpoTela({
+    super.key,
+    required this.child,
+    required this.itemCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,12 @@ class CardCorpoTela extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             color: Cores.branco,
           ),
-          child: child,
+          child: ListView.builder(
+            itemCount: itemCount,
+            itemBuilder: (context, index) {
+              return child;
+            },
+          ),
         ),
       ),
     );
