@@ -17,7 +17,7 @@ class CardPessoaChegar extends StatelessWidget {
         child: Card(
           elevation: 5,
           child: Container(
-            height: 60,
+            height: 55,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: Cores.branco,
@@ -25,33 +25,38 @@ class CardPessoaChegar extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(
-                    CupertinoIcons.person_3,
-                    color: Cores.branco,
-                    size: 40,
+                  Icon(
+                    pessoas.pesGenero == "M" ? Icons.male : Icons.female,
+                    color: pessoas.pesGenero == "M"
+                        ? Cores.azulMedio
+                        : Cores.rosaEscuro,
+                    size: 30,
                   ),
+                  const SizedBox(width: 15),
                   Text(
                     pessoas.pesNome,
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Cores.branco,
+                      color: Cores.preto,
                     ),
                   ),
+                  Expanded(child: Container()),
                   const VerticalDivider(
                     color: Cores.preto,
                     thickness: 1,
                   ),
+                  const SizedBox(width: 15),
                   Text(
                     pessoas.comNome,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Cores.branco,
+                      color: Cores.preto,
                     ),
                   ),
+                  const SizedBox(width: 15),
                 ],
               ),
             ),

@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/widgets/cards/dashboard/card_pessoa_chegar.dart';
 
 import '../../classes/classes.dart';
 import '../../data/api/api_dashboard.dart';
+import '../../data/models/dashboard_pessoas_model.dart';
 import '../../widgets/widgets.dart';
 
 class DashBoard extends StatefulWidget {
@@ -18,8 +20,12 @@ class _DashBoardState extends State<DashBoard> {
   bool carregando = false;
 
   int numeroPessoasAChegar = 0;
+  int numeroPessoasCheckin = 0;
+  int codigoEvento = 0;
 
   final dashBoardController = PageController(initialPage: 0);
+
+  List<DashboardPessoasModel> listaPessoas = [];
 
   buscarNumeroPessoas() async {
     setState(() => carregando = true);
@@ -36,10 +42,43 @@ class _DashBoardState extends State<DashBoard> {
     setState(() => carregando = false);
   }
 
+  buscarPessoas(int evento) async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getPessoasAChegar(evento);
+    if (retorno.statusCode == 200) {
+      var lista = json.decode(retorno.body);
+      for (var item in lista) {
+        listaPessoas.add(DashboardPessoasModel.fromJson(item));
+      }
+    }
+    setState(() => carregando = false);
+  }
+
+  getEventoAtivo() async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getEventos();
+    if (retorno.statusCode == 200) {
+      int codigo = int.parse(retorno.body);
+      await buscarPessoas(codigo);
+      setState(() {
+        codigoEvento = codigo;
+      });
+    }
+    setState(() => carregando = false);
+  }
+
   @override
   initState() {
     super.initState();
     buscarNumeroPessoas();
+    getEventoAtivo();
+    listaPessoas != []
+        ? dashBoardController.addListener(() {
+            if (dashBoardController.page == 0) {
+              buscarPessoas(codigoEvento);
+            }
+          })
+        : null;
   }
 
   @override
@@ -55,7 +94,7 @@ class _DashBoardState extends State<DashBoard> {
                 height: 120,
                 width: double.infinity,
                 child: CardCorpoTela(
-                  itemCount: 1,
+                  carregando: carregando,
                   child: const Expanded(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -157,9 +196,21 @@ class _DashBoardState extends State<DashBoard> {
                         controller: dashBoardController,
                         children: [
                           CardCorpoTela(
-                            itemCount: 1,
-                            child: const Column(
-                              children: [],
+                            carregando: carregando,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ListView.builder(
+                                itemCount: listaPessoas.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 2),
+                                    child: CardPessoaChegar(
+                                      pessoas: listaPessoas[index],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ],
