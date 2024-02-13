@@ -78,62 +78,70 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: carregando
-          ? const Center(child: CarregamentoIOS())
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      children: [
-                        for (var quarto in quartos)
-                          GestureDetector(
-                            onTap: () async {
-                              await Navigator.push(
-                                context,
-                                CupertinoDialogRoute(
-                                  builder: (context) {
-                                    return EditarCheckin(
-                                      dadosQuarto: quarto,
-                                      refresh: refresh,
-                                    );
-                                  },
-                                  context: context,
-                                ),
-                              );
-                              buscarQuartos();
-                            },
-                            child: MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: CardQuartoAlocacao(quarto: quarto),
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Cores.branco,
+        ),
+        child: carregando
+            ? const Center(child: CarregamentoIOS())
+            : Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        children: [
+                          for (var quarto in quartos)
+                            GestureDetector(
+                              onTap: () async {
+                                await Navigator.push(
+                                  context,
+                                  CupertinoDialogRoute(
+                                    builder: (context) {
+                                      return EditarCheckin(
+                                        dadosQuarto: quarto,
+                                        refresh: refresh,
+                                      );
+                                    },
+                                    context: context,
+                                  ),
+                                );
+                                buscarQuartos();
+                              },
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: CardQuartoAlocacao(quarto: quarto),
+                              ),
                             ),
-                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        CupertinoButton(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 30),
+                          color: Cores.vermelhoMedio,
+                          child: const Text("Voltar"),
+                          onPressed: () {
+                            setState(() {
+                              quartos.clear();
+                              widget.codigoBloco = 0;
+                            });
+                            widget.voltar();
+                          },
+                        )
                       ],
                     ),
-                  ),
-                  Row(
-                    children: [
-                      CupertinoButton(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 30),
-                        color: Cores.vermelhoMedio,
-                        child: const Text("Voltar"),
-                        onPressed: () {
-                          setState(() {
-                            quartos.clear();
-                            widget.codigoBloco = 0;
-                          });
-                          widget.voltar();
-                        },
-                      )
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }

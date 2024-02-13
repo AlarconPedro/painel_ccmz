@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/pages/alocacao/checkin_quartos.dart';
 import 'package:painel_ccmz/widgets/cards/dashboard/card_pessoa_chegar.dart';
 
 import '../../classes/classes.dart';
 import '../../data/api/api_dashboard.dart';
 import '../../data/models/dashboard_pessoas_model.dart';
+import '../../data/models/quarto_pessoas_model.dart';
 import '../../widgets/widgets.dart';
 
 class DashBoard extends StatefulWidget {
@@ -26,6 +28,7 @@ class _DashBoardState extends State<DashBoard> {
   final dashBoardController = PageController(initialPage: 0);
 
   List<DashboardPessoasModel> listaPessoas = [];
+  List<QuartoPessoasModel> quartos = [];
 
   buscarNumeroPessoas() async {
     setState(() => carregando = true);
@@ -49,6 +52,18 @@ class _DashBoardState extends State<DashBoard> {
       var lista = json.decode(retorno.body);
       for (var item in lista) {
         listaPessoas.add(DashboardPessoasModel.fromJson(item));
+      }
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarQuartoPessoa(int codigoQuarto) async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getQuartoPessoaAChegar(codigoQuarto);
+    if (retorno.statusCode == 200) {
+      var lista = json.decode(retorno.body);
+      for (var item in lista) {
+        quartos.add(QuartoPessoasModel.fromJson(item));
       }
     }
     setState(() => carregando = false);
@@ -207,11 +222,36 @@ class _DashBoardState extends State<DashBoard> {
                                         const EdgeInsets.symmetric(vertical: 2),
                                     child: CardPessoaChegar(
                                       pessoas: listaPessoas[index],
+                                      click: () async {
+                                        dashBoardController.animateToPage(
+                                          1,
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          curve: Curves.ease,
+                                        );
+                                        await buscarQuartoPessoa(
+                                            listaPessoas[index].quaCodigo);
+                                      },
                                     ),
                                   );
                                 },
                               ),
                             ),
+                          ),
+                          CheckinQuartos(
+                            codigoBloco: 0,
+                            codigoEvento: codigoEvento,
+                            quartos: quartos,
+                            voltar: () {
+                              setState(() {
+                                quartos.clear();
+                              });
+                              dashBoardController.animateToPage(
+                                0,
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.ease,
+                              );
+                            },
                           ),
                         ],
                       ),

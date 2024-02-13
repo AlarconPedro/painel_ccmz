@@ -6,12 +6,15 @@ import '../../../classes/classes.dart';
 
 class CardPessoaChegar extends StatelessWidget {
   DashboardPessoasModel pessoas;
-  CardPessoaChegar({super.key, required this.pessoas});
+  Function() click;
+  CardPessoaChegar({super.key, required this.pessoas, required this.click});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        click();
+      },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Card(
