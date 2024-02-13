@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:painel_ccmz/widgets/loading/carregamento_ios.dart';
 
 import '../../../classes/classes.dart';
 
 class CardCorpoTela extends StatelessWidget {
   Widget child;
-  int itemCount;
+  bool carregando;
   CardCorpoTela({
     super.key,
     required this.child,
-    required this.itemCount,
+    required this.carregando,
   });
 
   @override
@@ -21,17 +22,11 @@ class CardCorpoTela extends StatelessWidget {
       color: Cores.branco,
       child: Expanded(
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Cores.branco,
-          ),
-          child: ListView.builder(
-            itemCount: itemCount,
-            itemBuilder: (context, index) {
-              return child;
-            },
-          ),
-        ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Cores.branco,
+            ),
+            child: carregando ? const Center(child: CarregamentoIOS()) : child),
       ),
     );
   }
