@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmn/data/data.dart';
 
 import '../../../classes/classes.dart';
 
@@ -26,7 +26,7 @@ class CardQuartosEvento extends StatelessWidget {
       ),
       child: Container(
         width: 150,
-        height: 150,
+        height: 170,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: selecionado ? Cores.azulClaro : Cores.branco,

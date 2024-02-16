@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/classes/cores.dart';
+import 'package:painel_ccmn/classes/cores.dart';
 
 import '../../../data/data.dart';
 

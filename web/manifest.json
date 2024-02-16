@@ -1,6 +1,6 @@
 {
-    "name": "painel_ccmz",
-    "short_name": "painel_ccmz",
+    "name": "painel_ccmn",
+    "short_name": "painel_ccmn",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

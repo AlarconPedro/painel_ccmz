@@ -2,10 +2,10 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:painel_ccmz/data/data.dart';
-import 'package:painel_ccmz/funcoes/funcoes.dart';
-import 'package:painel_ccmz/pages/esqueleto/cadastro_form.dart';
-import 'package:painel_ccmz/pages/pages.dart';
+import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/funcoes/funcoes.dart';
+import 'package:painel_ccmn/pages/esqueleto/cadastro_form.dart';
+import 'package:painel_ccmn/pages/pages.dart';
 
 import '../../classes/classes.dart';
 

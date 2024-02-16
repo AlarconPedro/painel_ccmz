@@ -1,5 +1,5 @@
-import 'package:painel_ccmz/classes/classes.dart';
-import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmn/classes/classes.dart';
+import 'package:painel_ccmn/data/data.dart';
 
 class ApiAlocacao {
   static final _request = HttpRequest();

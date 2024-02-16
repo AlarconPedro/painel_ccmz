@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:painel_ccmz/estrutura/estrutura.dart';
-import 'package:painel_ccmz/pages/pages.dart';
+import 'package:painel_ccmn/estrutura/estrutura.dart';
+import 'package:painel_ccmn/pages/pages.dart';
 
 class PageControl extends StatefulWidget {
   const PageControl({super.key});

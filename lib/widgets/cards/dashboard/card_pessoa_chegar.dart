@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/data/models/dashboard_pessoas_model.dart';
+import 'package:painel_ccmn/data/models/dashboard_pessoas_model.dart';
 
 import '../../../classes/classes.dart';
 

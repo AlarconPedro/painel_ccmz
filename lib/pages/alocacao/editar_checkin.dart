@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/data/data.dart';
-import 'package:painel_ccmz/data/models/quarto_pessoas_model.dart';
-import 'package:painel_ccmz/pages/pages.dart';
-import 'package:painel_ccmz/widgets/loading/carregamento_ios.dart';
+import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/data/models/quarto_pessoas_model.dart';
+import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
 import '../../classes/classes.dart';
 import '../../data/models/checkin_model.dart';

@@ -1,4 +1,4 @@
-import 'package:painel_ccmz/data/models/checkin_model.dart';
+import 'package:painel_ccmn/data/models/checkin_model.dart';
 
 class QuartoPessoasModel {
   int quaCodigo;

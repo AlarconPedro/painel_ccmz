@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/pages/alocacao/checkin_quartos.dart';
-import 'package:painel_ccmz/widgets/cards/dashboard/card_pessoa_chegar.dart';
+import 'package:painel_ccmn/pages/alocacao/checkin_quartos.dart';
+import 'package:painel_ccmn/widgets/cards/dashboard/card_pessoa_chegar.dart';
 
 import '../../classes/classes.dart';
 import '../../data/api/api_dashboard.dart';

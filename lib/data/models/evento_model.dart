@@ -1,4 +1,4 @@
-import 'package:painel_ccmz/funcoes/funcoes.dart';
+import 'package:painel_ccmn/funcoes/funcoes.dart';
 
 class EventoModel {
   int eveCodigo;

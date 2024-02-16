@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:painel_ccmz/data/data.dart';
+import 'package:painel_ccmn/data/data.dart';
 
 import '../../classes/classes.dart';
 
@@ -22,7 +22,7 @@ class AlocacaoEventoPessoas extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(
-        vertical: 150,
+        vertical: 130,
         horizontal: 200,
       ),
       decoration: BoxDecoration(

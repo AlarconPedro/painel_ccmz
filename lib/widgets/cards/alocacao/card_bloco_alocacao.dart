@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/pages/bloco/bloco.dart';
+import 'package:painel_ccmn/pages/bloco/bloco.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/data.dart';

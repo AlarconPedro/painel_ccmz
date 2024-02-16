@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/data/data.dart';
-import 'package:painel_ccmz/pages/evento/alocacao_evento.dart';
-import 'package:painel_ccmz/pages/pages.dart';
-import 'package:painel_ccmz/widgets/widgets.dart';
+import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/pages/evento/alocacao_evento.dart';
+import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
 import '../../estrutura/estrutura.dart';

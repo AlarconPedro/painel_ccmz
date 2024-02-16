@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/estrutura/estrutura.dart';
+import 'package:painel_ccmn/estrutura/estrutura.dart';
 
 import '../classes/cores.dart';
 import '../pages/pages.dart';

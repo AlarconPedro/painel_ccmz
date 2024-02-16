@@ -3,7 +3,7 @@ import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmz/pages/pages.dart';
+import 'package:painel_ccmn/pages/pages.dart';
 
 import '../../classes/classes.dart';
 import '../../data/data.dart';
