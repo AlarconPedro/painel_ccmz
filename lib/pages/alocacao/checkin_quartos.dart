@@ -93,32 +93,34 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        children: [
-                          for (var quarto in quartos)
-                            GestureDetector(
-                              onTap: () async {
-                                await Navigator.push(
-                                  context,
-                                  CupertinoDialogRoute(
-                                    builder: (context) {
-                                      return EditarCheckin(
-                                        dadosQuarto: quarto,
-                                        refresh: refresh,
-                                      );
-                                    },
-                                    context: context,
-                                  ),
-                                );
-                                buscarQuartos();
-                              },
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: CardQuartoAlocacao(quarto: quarto),
+                      child: SingleChildScrollView(
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          children: [
+                            for (var quarto in quartos)
+                              GestureDetector(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    CupertinoDialogRoute(
+                                      builder: (context) {
+                                        return EditarCheckin(
+                                          dadosQuarto: quarto,
+                                          refresh: refresh,
+                                        );
+                                      },
+                                      context: context,
+                                    ),
+                                  );
+                                  buscarQuartos();
+                                },
+                                child: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: CardQuartoAlocacao(quarto: quarto),
+                                ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Row(
