@@ -37,7 +37,7 @@ class CardQuartoAlocacao extends StatelessWidget {
               Icons.vpn_key_rounded,
               color: Cores.amareloMedio,
             )
-          : const SizedBox(width: 25),
+          : const SizedBox(width: 24),
     ]);
   }
 
@@ -65,7 +65,7 @@ class CardQuartoAlocacao extends StatelessWidget {
             //         : Cores.branco,
             ),
         width: 300,
-        height: 200,
+        height: 230,
         child: Column(
           children: [
             Row(
@@ -80,6 +80,24 @@ class CardQuartoAlocacao extends StatelessWidget {
                     quarto.quaNome,
                     style: const TextStyle(
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 10,
+                  ),
+                  child: Text(
+                    quarto.bloNome,
+                    style: const TextStyle(
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

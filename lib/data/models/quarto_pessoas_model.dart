@@ -3,6 +3,7 @@ import 'package:painel_ccmn/data/models/checkin_model.dart';
 class QuartoPessoasModel {
   int quaCodigo;
   String quaNome;
+  String bloNome;
   int bloCodigo;
   int vagas;
   List<CheckinModel> pessoasQuarto;
@@ -10,6 +11,7 @@ class QuartoPessoasModel {
   QuartoPessoasModel({
     required this.quaCodigo,
     required this.quaNome,
+    required this.bloNome,
     required this.bloCodigo,
     required this.vagas,
     required this.pessoasQuarto,
@@ -19,6 +21,7 @@ class QuartoPessoasModel {
       QuartoPessoasModel(
         quaCodigo: json["quaCodigo"] ?? 0,
         quaNome: json["quaNome"] ?? "",
+        bloNome: json["bloNome"] ?? "",
         bloCodigo: json["bloCodigo"] ?? 0,
         vagas: json["vagas"] ?? 0,
         pessoasQuarto: json["pessoasQuarto"] == null

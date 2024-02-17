@@ -21,14 +21,14 @@ class _EstruturaPageState extends State<EstruturaPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('CCMZ', style: TextStyle(color: Cores.preto)),
+        title: const Text('CCMN', style: TextStyle(color: Cores.preto)),
         centerTitle: true,
         backgroundColor: Cores.branco,
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: IconButton(
-              icon: Icon(Icons.exit_to_app, color: Cores.preto),
+              icon: const Icon(Icons.exit_to_app, color: Cores.preto),
               onPressed: () {
                 Navigator.push(
                   context,
