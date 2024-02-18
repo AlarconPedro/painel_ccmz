@@ -268,25 +268,33 @@ class _PessoasState extends State<Pessoas> {
                       SizedBox(width: 55),
                       Expanded(
                         flex: 4,
-                        child: Text("Nome",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(
+                          "Nome",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       Expanded(
                         flex: 2,
-                        child: Text("Sexo",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      SizedBox(width: 50),
-                      Expanded(
-                        flex: 2,
-                        child: Text("Comuniade",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(
+                          "Sexo",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       SizedBox(width: 50),
                       Expanded(
                         flex: 2,
-                        child: Text("Responsável",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(
+                          "Comuniade",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(width: 50),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          "Responsável",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       Expanded(
                         flex: 2,
