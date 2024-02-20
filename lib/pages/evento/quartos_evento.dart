@@ -53,7 +53,8 @@ class _QuartosEventoState extends State<QuartosEvento> {
 
   buscarQuartosPavilhao(int value) async {
     setState(() => carregando = true);
-    var retorno = await ApiEvento().getQuartosPavilhao(value);
+    var retorno =
+        await ApiEvento().getQuartosPavilhao(value, widget.codigoEvento);
     if (retorno.statusCode == 200) {
       quartos.clear();
       var decoded = json.decode(retorno.body);
