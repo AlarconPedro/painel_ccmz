@@ -149,215 +149,212 @@ class _AlocacaoState extends State<Alocacao> {
             ),
             elevation: 10,
             color: Cores.branco,
-            child: Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Cores.branco,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 20,
-                      ),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "Buscar: ",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Expanded(
-                            child: SizedBox(
-                              height: 55,
-                              child: CupertinoTextField(
-                                controller: buscaController,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  border: Border.all(
-                                    color: Cores.cinzaEscuro,
-                                  ),
-                                ),
-                                placeholder: 'Pesquisar',
-                                onSubmitted: (value) async {
-                                  if (buscaController.text.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text("Digite algo para buscar!"),
-                                        backgroundColor: Cores.vermelhoMedio,
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  await buscarQuartoBusca(buscaController.text);
-
-                                  // await buscarQuartoBusca(value);
-                                },
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          CupertinoButton(
-                            color: Cores.preto,
-                            onPressed: () async {
-                              if (buscaController.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Digite algo para buscar!"),
-                                    backgroundColor: Cores.vermelhoMedio,
-                                  ),
-                                );
-                                return;
-                              }
-                              await buscarQuartoBusca(buscaController.text);
-
-                              // await buscarQuartoBusca(buscaController.text);
-                            },
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 16,
-                            ),
-                            child: const Icon(CupertinoIcons.search),
-                          ),
-                        ],
-                      ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Cores.branco,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
                     ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Check-In",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    child: Row(
+                      children: [
+                        const Text(
+                          "Buscar: ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const Expanded(child: SizedBox()),
-                          SizedBox(
-                            width: 500,
-                            height: 60,
-                            child: DropdownButtonFormField(
-                              decoration: const InputDecoration(
-                                labelText: 'Evento',
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Cores.cinzaEscuro,
-                                  ),
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: 55,
+                            child: CupertinoTextField(
+                              controller: buscaController,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
                                 ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
+                                border: Border.all(
+                                  color: Cores.cinzaEscuro,
                                 ),
                               ),
-                              items: eventos,
-                              value: eventoSelecionado != 0
-                                  ? eventoSelecionado
-                                  : null,
-                              onChanged: (value) {
-                                setState(() {
-                                  eventoSelecionado = value;
-                                });
-                                buscarBlocos();
+                              placeholder: 'Pesquisar',
+                              onSubmitted: (value) async {
+                                if (buscaController.text.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Digite algo para buscar!"),
+                                      backgroundColor: Cores.vermelhoMedio,
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                await buscarQuartoBusca(buscaController.text);
+
+                                // await buscarQuartoBusca(value);
                               },
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(
-                        thickness: 1,
-                        color: Cores.preto,
-                      ),
-                    ),
-                    carregando
-                        ? const Expanded(
-                            child: Center(child: CarregamentoIOS()),
-                          )
-                        : quartos.isEmpty
-                            ? Expanded(
-                                child: PageView(
-                                  controller: Rotas.alocacaoPageController,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  children: [
-                                    Expanded(
-                                      child: ListView.builder(
-                                        itemCount: blocos.length,
-                                        itemBuilder: (context, index) {
-                                          return MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  codigoBloco =
-                                                      blocos[index].bloCodigo;
-                                                  Rotas.alocacaoPageController
-                                                      .animateToPage(
-                                                    1,
-                                                    duration: const Duration(
-                                                        milliseconds: 500),
-                                                    curve: Curves.easeInOut,
-                                                  );
-                                                });
-                                                // buscarQuartos(eventoSelecionado);
-                                              },
-                                              child: CardBlocoAlocacao(
-                                                blocos: blocos[index],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: CheckinQuartos(
-                                        quartos: quartos,
-                                        codigoBloco: codigoBloco,
-                                        codigoEvento: eventoSelecionado,
-                                        voltar: () {
-                                          Rotas.alocacaoPageController
-                                              .animateToPage(
-                                            0,
-                                            duration: const Duration(
-                                                milliseconds: 500),
-                                            curve: Curves.easeInOut,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
+                        ),
+                        const SizedBox(width: 10),
+                        CupertinoButton(
+                          color: Cores.preto,
+                          onPressed: () async {
+                            if (buscaController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Digite algo para buscar!"),
+                                  backgroundColor: Cores.vermelhoMedio,
                                 ),
-                              )
-                            : Expanded(
-                                child: CheckinQuartos(
-                                  quartos: quartos,
-                                  codigoBloco: codigoBloco,
-                                  codigoEvento: eventoSelecionado,
-                                  voltar: () {
-                                    setState(() {
-                                      quartos.clear();
-                                    });
-                                  },
+                              );
+                              return;
+                            }
+                            await buscarQuartoBusca(buscaController.text);
+
+                            // await buscarQuartoBusca(buscaController.text);
+                          },
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 16,
+                          ),
+                          child: const Icon(CupertinoIcons.search),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Check-In",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Expanded(child: SizedBox()),
+                        SizedBox(
+                          width: 500,
+                          height: 60,
+                          child: DropdownButtonFormField(
+                            decoration: const InputDecoration(
+                              labelText: 'Evento',
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                borderSide: BorderSide(
+                                  color: Cores.cinzaEscuro,
                                 ),
                               ),
-                  ],
-                ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                            ),
+                            items: eventos,
+                            value: eventoSelecionado != 0
+                                ? eventoSelecionado
+                                : null,
+                            onChanged: (value) {
+                              setState(() {
+                                eventoSelecionado = value;
+                              });
+                              buscarBlocos();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Divider(
+                      thickness: 1,
+                      color: Cores.preto,
+                    ),
+                  ),
+                  carregando
+                      ? const Expanded(
+                          child: Center(child: CarregamentoIOS()),
+                        )
+                      : quartos.isEmpty
+                          ? Expanded(
+                              child: PageView(
+                                controller: Rotas.alocacaoPageController,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: blocos.length,
+                                      itemBuilder: (context, index) {
+                                        return MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                codigoBloco =
+                                                    blocos[index].bloCodigo;
+                                                Rotas.alocacaoPageController
+                                                    .animateToPage(
+                                                  1,
+                                                  duration: const Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.easeInOut,
+                                                );
+                                              });
+                                              // buscarQuartos(eventoSelecionado);
+                                            },
+                                            child: CardBlocoAlocacao(
+                                              blocos: blocos[index],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: CheckinQuartos(
+                                      quartos: quartos,
+                                      codigoBloco: codigoBloco,
+                                      codigoEvento: eventoSelecionado,
+                                      voltar: () {
+                                        Rotas.alocacaoPageController
+                                            .animateToPage(
+                                          0,
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          curve: Curves.easeInOut,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Expanded(
+                              child: CheckinQuartos(
+                                quartos: quartos,
+                                codigoBloco: codigoBloco,
+                                codigoEvento: eventoSelecionado,
+                                voltar: () {
+                                  setState(() {
+                                    quartos.clear();
+                                  });
+                                },
+                              ),
+                            ),
+                ],
               ),
             ),
           ),

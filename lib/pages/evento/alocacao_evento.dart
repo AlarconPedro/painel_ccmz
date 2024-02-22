@@ -711,6 +711,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 ),
                 curve: Curves.ease,
               );
+              comunidadeSelecionada = 0;
+              pessoas.clear();
               exibirVoltar = false;
               comunidades.clear();
               vagasQuarto.clear();
@@ -739,6 +741,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 ),
                 curve: Curves.ease,
               );
+              comunidadeSelecionada = 0;
+              pessoas.clear();
               exibirVoltar = false;
               comunidades.clear();
               vagasQuarto.clear();
@@ -759,6 +763,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
         visible: !exibirVoltar,
         child: CupertinoButton(
           onPressed: () {
+            comunidadeSelecionada = 0;
+            pessoas.clear();
             Navigator.pop(context);
             comunidades.clear();
             vagasQuarto.clear();
