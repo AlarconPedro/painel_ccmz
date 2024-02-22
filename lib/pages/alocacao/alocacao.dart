@@ -96,6 +96,7 @@ class _AlocacaoState extends State<Alocacao> {
           quartos.add(
             QuartoPessoasModel.fromJson(item),
           );
+          codigoBloco = 0;
         });
       }
     } else {
