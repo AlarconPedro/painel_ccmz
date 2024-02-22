@@ -203,10 +203,12 @@ class _DashBoardState extends State<DashBoard> {
                   // ),
                 ),
               ),
-              Expanded(
+              Flexible(
+                fit: FlexFit.tight,
                 child: Row(
                   children: [
-                    Expanded(
+                    Flexible(
+                      fit: FlexFit.tight,
                       child: PageView(
                         controller: dashBoardController,
                         children: [
@@ -264,146 +266,144 @@ class _DashBoardState extends State<DashBoard> {
                         ),
                         elevation: 10,
                         color: Cores.branco,
-                        child: Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Cores.branco,
-                            ),
-                            child: Column(
-                              children: [
-                                const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 5,
-                                      ),
-                                      child: Text(
-                                        "Eventos",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Cores.branco,
+                          ),
+                          child: Column(
+                            children: [
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 5,
+                                    ),
+                                    child: Text(
+                                      "Eventos",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                Wrap(
-                                  direction: Axis.horizontal,
-                                  alignment: WrapAlignment.center,
-                                  verticalDirection: VerticalDirection.down,
-                                  runSpacing: 10,
-                                  spacing: 10,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  children: [
-                                    MouseRegion(
-                                      cursor: SystemMouseCursors.click,
-                                      child: GestureDetector(
-                                        onTap: () {},
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 20),
-                                          child: Column(
-                                            children: [
-                                              const Icon(
-                                                CupertinoIcons.clear_circled,
-                                                color: Cores.cinzaMedio,
-                                                size: 35,
-                                              ),
-                                              const SizedBox(height: 10),
-                                              carregando
-                                                  ? const CarregamentoIOS()
-                                                  : Text(
-                                                      numeroPessoasAChegar
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
+                                  ),
+                                ],
+                              ),
+                              Wrap(
+                                direction: Axis.horizontal,
+                                alignment: WrapAlignment.center,
+                                verticalDirection: VerticalDirection.down,
+                                runSpacing: 10,
+                                spacing: 10,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 20),
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              CupertinoIcons.clear_circled,
+                                              color: Cores.cinzaMedio,
+                                              size: 35,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            carregando
+                                                ? const CarregamentoIOS()
+                                                : Text(
+                                                    numeroPessoasAChegar
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
-                                              const SizedBox(height: 10),
-                                              const Text(
-                                                "Pessoas a Chegar",
-                                                maxLines: 2,
-                                                softWrap: true,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                                  ),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              "Pessoas a Chegar",
+                                              maxLines: 2,
+                                              softWrap: true,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 20),
-                                      child: Column(
-                                        children: [
-                                          Icon(
-                                            CupertinoIcons.clear_circled,
-                                            color: Cores.cinzaMedio,
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 20),
+                                    child: Column(
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.clear_circled,
+                                          color: Cores.cinzaMedio,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Checkin",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          SizedBox(height: 10),
-                                          Text(
-                                            "Checkin",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 20),
-                                      child: Column(
-                                        children: [
-                                          Icon(
-                                            CupertinoIcons.clear_circled,
-                                            color: Cores.cinzaMedio,
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 20),
+                                    child: Column(
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.clear_circled,
+                                          color: Cores.cinzaMedio,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Checkin",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          SizedBox(height: 10),
-                                          Text(
-                                            "Checkin",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 20),
-                                      child: Column(
-                                        children: [
-                                          Icon(
-                                            CupertinoIcons.clear_circled,
-                                            color: Cores.cinzaMedio,
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 20),
+                                    child: Column(
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.clear_circled,
+                                          color: Cores.cinzaMedio,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Checkin",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          SizedBox(height: 10),
-                                          Text(
-                                            "Checkin",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                )
-                              ],
-                            ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
                       ),

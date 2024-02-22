@@ -124,7 +124,8 @@ class _ComunidadeState extends State<Comunidade> {
         const SizedBox(height: 10),
         carregando
             ? const Expanded(child: Center(child: CarregamentoIOS()))
-            : Expanded(
+            : Flexible(
+                fit: FlexFit.tight,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: ListView.builder(

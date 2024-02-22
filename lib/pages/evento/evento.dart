@@ -119,7 +119,8 @@ class _EventoState extends State<Evento> {
         ]),
         carregando
             ? const Expanded(child: Center(child: CarregamentoIOS()))
-            : Expanded(
+            : Flexible(
+                fit: FlexFit.tight,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),

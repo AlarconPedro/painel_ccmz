@@ -184,7 +184,8 @@ class _QuartosState extends State<Quartos> {
               )
             : carregando
                 ? const Expanded(child: Center(child: CarregamentoIOS()))
-                : Expanded(
+                : Flexible(
+                    fit: FlexFit.tight,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 10),

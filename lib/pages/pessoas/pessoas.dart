@@ -139,231 +139,228 @@ class _PessoasState extends State<Pessoas> {
             ),
             elevation: 10,
             color: Cores.branco,
-            child: Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Cores.branco,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 20,
-                      ),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "Buscar: ",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Expanded(
-                            child: SizedBox(
-                              height: 55,
-                              child: CupertinoTextField(
-                                controller: campoBusca,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  border: Border.all(
-                                    color: Cores.cinzaEscuro,
-                                  ),
-                                ),
-                                placeholder: 'Pesquisar',
-                                onSubmitted: (value) async {
-                                  if (value != "") {
-                                    await buscarComunidadeCampoBusca(value);
-                                    campoBusca.clear();
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          CupertinoButton(
-                            color: Cores.preto,
-                            onPressed: () async {
-                              if (campoBusca.text != "") {
-                                await buscarComunidadeCampoBusca(
-                                    campoBusca.text);
-                                campoBusca.clear();
-                              }
-                            },
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 16,
-                            ),
-                            child: const Icon(CupertinoIcons.search),
-                          ),
-                        ],
-                      ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Cores.branco,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
                     ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(children: [
-                        Flexible(
-                          child: DropDownForm(
-                            label: "Comunidade",
-                            itens: comunidades,
-                            selecionado: codigoComunidade,
-                            onChange: (value) {
-                              setState(() => codigoComunidade = value);
-                              buscarPessoas(value);
-                            },
-                          ),
-                        ),
-                        const Spacer(),
-                        const Spacer(),
-                      ]),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(children: [
+                    child: Row(
+                      children: [
                         const Text(
-                          'Pessoas',
+                          "Buscar: ",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Spacer(),
-                        CupertinoButton(
-                          color: Cores.verdeMedio,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 30,
-                          ),
-                          onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              CupertinoDialogRoute(
-                                builder: (context) {
-                                  return CadastroPessoas();
-                                },
-                                context: context,
+                        Expanded(
+                          child: SizedBox(
+                            height: 55,
+                            child: CupertinoTextField(
+                              controller: campoBusca,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                border: Border.all(
+                                  color: Cores.cinzaEscuro,
+                                ),
                               ),
-                            );
-                            buscarPessoas(codigoComunidade);
+                              placeholder: 'Pesquisar',
+                              onSubmitted: (value) async {
+                                if (value != "") {
+                                  await buscarComunidadeCampoBusca(value);
+                                  campoBusca.clear();
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        CupertinoButton(
+                          color: Cores.preto,
+                          onPressed: () async {
+                            if (campoBusca.text != "") {
+                              await buscarComunidadeCampoBusca(campoBusca.text);
+                              campoBusca.clear();
+                            }
                           },
-                          child: const Text("Nova Pessoa"),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 16,
+                          ),
+                          child: const Icon(CupertinoIcons.search),
                         ),
-                      ]),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(
-                        thickness: 1,
-                        color: Cores.preto,
-                      ),
-                    ),
-                    const Row(children: [
-                      SizedBox(width: 55),
-                      Expanded(
-                        flex: 4,
-                        child: Text(
-                          "Nome",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(children: [
+                      Flexible(
+                        child: DropDownForm(
+                          label: "Comunidade",
+                          itens: comunidades,
+                          selecionado: codigoComunidade,
+                          onChange: (value) {
+                            setState(() => codigoComunidade = value);
+                            buscarPessoas(value);
+                          },
                         ),
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          "Sexo",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(width: 50),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          "Comuniade",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(width: 50),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          "Responsável",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text("Catequista",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text("Salmista",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      Text("Excluir",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      SizedBox(width: 25),
+                      const Spacer(),
+                      const Spacer(),
                     ]),
-                    codigoComunidade == 0
-                        ? const Expanded(
-                            child: Center(
-                              child: Text(
-                                "Selecione uma comunidade",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(children: [
+                      const Text(
+                        'Pessoas',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      CupertinoButton(
+                        color: Cores.verdeMedio,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 30,
+                        ),
+                        onPressed: () async {
+                          await Navigator.push(
+                            context,
+                            CupertinoDialogRoute(
+                              builder: (context) {
+                                return CadastroPessoas();
+                              },
+                              context: context,
+                            ),
+                          );
+                          buscarPessoas(codigoComunidade);
+                        },
+                        child: const Text("Nova Pessoa"),
+                      ),
+                    ]),
+                  ),
+                  const SizedBox(height: 10),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Divider(
+                      thickness: 1,
+                      color: Cores.preto,
+                    ),
+                  ),
+                  const Row(children: [
+                    SizedBox(width: 55),
+                    Expanded(
+                      flex: 4,
+                      child: Text(
+                        "Nome",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Sexo",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(width: 50),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Comuniade",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(width: 50),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Responsável",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text("Catequista",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text("Salmista",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    Text("Excluir",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(width: 25),
+                  ]),
+                  codigoComunidade == 0
+                      ? const Expanded(
+                          child: Center(
+                            child: Text(
+                              "Selecione uma comunidade",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        )
+                      : carregando
+                          ? const Expanded(
+                              child: Center(child: CarregamentoIOS()))
+                          : Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                child: ListView.builder(
+                                  itemCount: pessoas.length,
+                                  itemBuilder: (context, index) {
+                                    return MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          await Navigator.push(
+                                            context,
+                                            CupertinoDialogRoute(
+                                              builder: (context) {
+                                                return CadastroPessoas(
+                                                  pessoa: pessoas[index],
+                                                );
+                                              },
+                                              context: context,
+                                            ),
+                                          );
+                                          buscarPessoas(codigoComunidade);
+                                        },
+                                        child: CardPessoa(
+                                          pessoa: pessoas[index],
+                                          excluir: () {
+                                            excluirPessoa(
+                                                pessoas[index].pesCodigo);
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
-                          )
-                        : carregando
-                            ? const Expanded(
-                                child: Center(child: CarregamentoIOS()))
-                            : Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  child: ListView.builder(
-                                    itemCount: pessoas.length,
-                                    itemBuilder: (context, index) {
-                                      return MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () async {
-                                            await Navigator.push(
-                                              context,
-                                              CupertinoDialogRoute(
-                                                builder: (context) {
-                                                  return CadastroPessoas(
-                                                    pessoa: pessoas[index],
-                                                  );
-                                                },
-                                                context: context,
-                                              ),
-                                            );
-                                            buscarPessoas(codigoComunidade);
-                                          },
-                                          child: CardPessoa(
-                                            pessoa: pessoas[index],
-                                            excluir: () {
-                                              excluirPessoa(
-                                                  pessoas[index].pesCodigo);
-                                            },
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                  ],
-                ),
+                ],
               ),
             ),
           ),
