@@ -58,6 +58,25 @@ class _AlocacaoState extends State<Alocacao> {
     setState(() => carregando = false);
   }
 
+  buscarEventosAtivos() async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().getEventosAtivos();
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        eventoSelecionado = decoded[0]["eveCodigo"];
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar eventos!"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   buscarBlocos() async {
     setState(() => carregando = true);
     var retorno = await ApiAlocacao().getAlocacaoBlocos(eventoSelecionado);
@@ -114,6 +133,7 @@ class _AlocacaoState extends State<Alocacao> {
   initState() {
     super.initState();
     buscarEventos();
+    buscarEventosAtivos();
   }
 
   @override

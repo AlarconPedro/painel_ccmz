@@ -6,6 +6,7 @@ class ApiEvento {
 
   //GET
   final String _urlGetEventos = "${Globais.urlBase}evento";
+  final String _urlGetEventosAtivos = "${Globais.urlBase}evento/ativos";
   final String _urlGetEventoNomes = "${Globais.urlBase}evento/nomes";
   final String _urlGetEvento = "${Globais.urlBase}evento/";
   final String _urlGetPessoasEvento = "${Globais.urlBase}evento/pessoas/";
@@ -28,6 +29,10 @@ class ApiEvento {
   //GET
   Future<dynamic> getEventos() async {
     return await _request.getJson(_urlGetEventos);
+  }
+
+  Future<dynamic> getEventosAtivos() async {
+    return await _request.getJson(_urlGetEventosAtivos);
   }
 
   Future<dynamic> getEventoNomes() async {
