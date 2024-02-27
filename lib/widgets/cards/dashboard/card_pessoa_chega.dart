@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/data/models/dashboard_pessoas_model.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/models/dashboard_pessoas_model.dart';
 
-class CardPessoaChegar extends StatelessWidget {
+class CardPessoaChega extends StatelessWidget {
   DashboardPessoasModel pessoas;
   Function() click;
-  CardPessoaChegar({super.key, required this.pessoas, required this.click});
+  CardPessoaChega({super.key, required this.pessoas, required this.click});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,8 @@ class CardPessoaChegar extends StatelessWidget {
               child: Row(
                 children: [
                   const Icon(
-                    CupertinoIcons.clear_circled,
-                    color: Cores.cinzaMedio,
+                    CupertinoIcons.checkmark_circle,
+                    color: Cores.verdeMedio,
                     size: 35,
                   ),
                   const VerticalDivider(

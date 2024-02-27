@@ -22,6 +22,7 @@ class _DashBoardState extends State<DashBoard> {
   bool carregando = false;
 
   int numeroPessoasAChegar = 0;
+  int numeroPessoasChegas = 0;
   int numeroPessoasCheckin = 0;
   int codigoEvento = 0;
 
@@ -45,6 +46,21 @@ class _DashBoardState extends State<DashBoard> {
     setState(() => carregando = false);
   }
 
+  buscarNumeroPessoasChegas() async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getNumeroPessoasChegas();
+    if (retorno.statusCode == 200) {
+      setState(() {
+        numeroPessoasChegas = int.parse(retorno.body);
+      });
+    } else {
+      setState(() {
+        numeroPessoasChegas = 0;
+      });
+    }
+    setState(() => carregando = false);
+  }
+
   buscarPessoas(int evento) async {
     setState(() => carregando = true);
     var retorno = await ApiDashboard().getPessoasAChegar(evento);
@@ -62,9 +78,10 @@ class _DashBoardState extends State<DashBoard> {
     var retorno = await ApiDashboard().getQuartoPessoaAChegar(codigoQuarto);
     if (retorno.statusCode == 200) {
       var lista = json.decode(retorno.body);
-      for (var item in lista) {
-        quartos.add(QuartoPessoasModel.fromJson(item));
-      }
+      setState(() {
+        quartos.clear();
+        quartos.add(QuartoPessoasModel.fromJson(lista));
+      });
     }
     setState(() => carregando = false);
   }
@@ -86,6 +103,7 @@ class _DashBoardState extends State<DashBoard> {
   initState() {
     super.initState();
     buscarNumeroPessoas();
+    buscarNumeroPessoasChegas();
     getEventoAtivo();
     listaPessoas != []
         ? dashBoardController.addListener(() {
@@ -225,14 +243,14 @@ class _DashBoardState extends State<DashBoard> {
                                     child: CardPessoaChegar(
                                       pessoas: listaPessoas[index],
                                       click: () async {
+                                        await buscarQuartoPessoa(
+                                            listaPessoas[index].quaCodigo);
                                         dashBoardController.animateToPage(
                                           1,
                                           duration:
                                               const Duration(milliseconds: 500),
                                           curve: Curves.ease,
                                         );
-                                        await buscarQuartoPessoa(
-                                            listaPessoas[index].quaCodigo);
                                       },
                                     ),
                                   );
@@ -245,9 +263,6 @@ class _DashBoardState extends State<DashBoard> {
                             codigoEvento: codigoEvento,
                             quartos: quartos,
                             voltar: () {
-                              setState(() {
-                                quartos.clear();
-                              });
                               dashBoardController.animateToPage(
                                 0,
                                 duration: const Duration(milliseconds: 500),
@@ -305,7 +320,7 @@ class _DashBoardState extends State<DashBoard> {
                                       onTap: () {},
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 20),
+                                            horizontal: 10, vertical: 20),
                                         child: Column(
                                           children: [
                                             const Icon(
@@ -341,24 +356,46 @@ class _DashBoardState extends State<DashBoard> {
                                       ),
                                     ),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 20),
-                                    child: Column(
-                                      children: [
-                                        Icon(
-                                          CupertinoIcons.clear_circled,
-                                          color: Cores.cinzaMedio,
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 20),
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              CupertinoIcons.checkmark_circle,
+                                              color: Cores.verdeMedio,
+                                              size: 35,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            carregando
+                                                ? const CarregamentoIOS()
+                                                : Text(
+                                                    numeroPessoasChegas
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              "Pessoas Chegas",
+                                              maxLines: 2,
+                                              softWrap: true,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          "Checkin",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                   const Padding(
