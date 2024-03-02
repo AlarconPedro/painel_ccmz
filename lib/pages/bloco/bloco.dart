@@ -113,9 +113,8 @@ class _BlocoState extends State<Bloco> {
         ),
         const SizedBox(height: 10),
         carregando
-            ? const Expanded(child: Center(child: CarregamentoIOS()))
+            ? const Flexible(child: Center(child: CarregamentoIOS()))
             : Flexible(
-                fit: FlexFit.tight,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: ListView.builder(

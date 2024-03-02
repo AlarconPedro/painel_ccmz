@@ -285,16 +285,16 @@ class _AlocacaoState extends State<Alocacao> {
                     ),
                   ),
                   carregando
-                      ? const Expanded(
+                      ? const Flexible(
                           child: Center(child: CarregamentoIOS()),
                         )
                       : quartos.isEmpty
-                          ? Expanded(
+                          ? Flexible(
                               child: PageView(
                                 controller: Rotas.alocacaoPageController,
                                 physics: const NeverScrollableScrollPhysics(),
                                 children: [
-                                  Expanded(
+                                  Flexible(
                                     child: ListView.builder(
                                       itemCount: blocos.length,
                                       itemBuilder: (context, index) {
@@ -323,7 +323,7 @@ class _AlocacaoState extends State<Alocacao> {
                                       },
                                     ),
                                   ),
-                                  Expanded(
+                                  Flexible(
                                     child: CheckinQuartos(
                                       quartos: quartos,
                                       codigoBloco: codigoBloco,
@@ -342,7 +342,7 @@ class _AlocacaoState extends State<Alocacao> {
                                 ],
                               ),
                             )
-                          : Expanded(
+                          : Flexible(
                               child: CheckinQuartos(
                                 quartos: quartos,
                                 codigoBloco: codigoBloco,

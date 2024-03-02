@@ -125,7 +125,7 @@ class _DashBoardState extends State<DashBoard> {
             children: [
               SizedBox(
                 height: 120,
-                width: double.infinity,
+                width: MediaQuery.of(context).size.width - 250,
                 child: CardCorpoTela(
                   carregando: carregando,
                   child: const Expanded(
@@ -225,8 +225,7 @@ class _DashBoardState extends State<DashBoard> {
                 fit: FlexFit.tight,
                 child: Row(
                   children: [
-                    Flexible(
-                      fit: FlexFit.tight,
+                    Expanded(
                       child: PageView(
                         controller: dashBoardController,
                         children: [

@@ -171,7 +171,7 @@ class _QuartosState extends State<Quartos> {
           SizedBox(width: 25),
         ]),
         blocoSelecionado == 0
-            ? const Expanded(
+            ? const Flexible(
                 child: Center(
                   child: Text(
                     "Selecione um bloco !",
@@ -183,7 +183,7 @@ class _QuartosState extends State<Quartos> {
                 ),
               )
             : carregando
-                ? const Expanded(child: Center(child: CarregamentoIOS()))
+                ? const Flexible(child: Center(child: CarregamentoIOS()))
                 : Flexible(
                     fit: FlexFit.tight,
                     child: Padding(
