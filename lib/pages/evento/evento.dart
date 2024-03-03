@@ -95,7 +95,10 @@ class _EventoState extends State<Evento> {
           SizedBox(width: 55),
           Expanded(
             flex: 4,
-            child: Text("Nome", style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text(
+              "Nome",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
           Expanded(
             flex: 2,
