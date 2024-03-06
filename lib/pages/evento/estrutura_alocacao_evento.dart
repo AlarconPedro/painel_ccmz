@@ -71,8 +71,8 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            flex: 1,
+                          Flexible(
+                            fit: FlexFit.tight,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -85,8 +85,9 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                               ],
                             ),
                           ),
-                          Expanded(
+                          Flexible(
                             flex: 3,
+                            fit: FlexFit.tight,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -102,14 +103,13 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                         ],
                       ),
                     ),
-                    Expanded(
+                    Flexible(
                       child: Column(
                         children: [
-                          Expanded(
+                          Flexible(
                             child: Row(
                               children: [
-                                Expanded(
-                                  flex: 1,
+                                Flexible(
                                   child: Padding(
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
@@ -188,11 +188,11 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                     ),
                                   ),
                                 ),
-                                Expanded(
+                                Flexible(
                                   flex: 3,
                                   child: Padding(
                                     padding: const EdgeInsets.all(10),
-                                    child: Expanded(
+                                    child: Flexible(
                                       child: Column(
                                         children: [
                                           Padding(

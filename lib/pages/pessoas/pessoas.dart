@@ -59,7 +59,11 @@ class _PessoasState extends State<Pessoas> {
           comunidades.add(
             DropdownMenuItem(
               value: item['comCodigo'],
-              child: Text(item['comNome']),
+              child: Text(item['comNome'] +
+                  " - " +
+                  item['comCidade'] +
+                  " - " +
+                  item['comUf']),
             ),
           );
         });

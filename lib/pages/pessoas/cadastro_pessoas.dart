@@ -94,7 +94,11 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
           listaComunidade.add(
             DropdownMenuItem(
               value: item['comCodigo'],
-              child: Text(item['comNome']),
+              child: Text(item['comNome'] +
+                  " - " +
+                  item['comCidade'] +
+                  " - " +
+                  item['comUf']),
             ),
           );
         });
