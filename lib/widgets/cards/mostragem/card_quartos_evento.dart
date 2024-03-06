@@ -64,7 +64,7 @@ class CardQuartosEvento extends StatelessWidget {
                 indent: 10,
                 endIndent: 10,
               ),
-              Expanded(
+              Flexible(
                 child: ListView.builder(
                   itemCount: quarto.quaQtdCamaslivres,
                   itemBuilder: (context, index) {

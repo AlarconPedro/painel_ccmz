@@ -292,46 +292,47 @@ class _QuartosEventoState extends State<QuartosEvento> {
                     indent: 10,
                     endIndent: 10,
                   ),
-                  Expanded(
+                  Flexible(
+                    fit: FlexFit.tight,
                     child: blocoSelecionado == 0
                         ? const Center(
                             child: Text("Selecione um bloco"),
                           )
-                        : Wrap(
-                            children: [
-                              for (var quarto in quartos)
-                                carregando
-                                    ? const Expanded(child: CarregamentoIOS())
-                                    : MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if (quartosSelecionados
-                                                  .contains(quarto.quaCodigo)) {
-                                                quartosSelecionados
-                                                    .remove(quarto.quaCodigo);
-                                                camasSelecionadas -=
-                                                    quarto.quaQtdCamaslivres;
-                                              } else {
-                                                quartosSelecionados
-                                                    .add(quarto.quaCodigo);
-                                                camasSelecionadas +=
-                                                    quarto.quaQtdCamaslivres;
-                                              }
-                                            });
-                                          },
-                                          child: CardQuartosEvento(
-                                            quarto: quarto,
-                                            quartosSelecionados:
-                                                quartosSelecionados,
-                                            selecionado: quartosSelecionados
-                                                .contains(quarto.quaCodigo),
-                                          ),
+                        : carregando
+                            ? const Center(child: CarregamentoIOS())
+                            : Wrap(
+                                children: [
+                                  for (var quarto in quartos)
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            if (quartosSelecionados
+                                                .contains(quarto.quaCodigo)) {
+                                              quartosSelecionados
+                                                  .remove(quarto.quaCodigo);
+                                              camasSelecionadas -=
+                                                  quarto.quaQtdCamaslivres;
+                                            } else {
+                                              quartosSelecionados
+                                                  .add(quarto.quaCodigo);
+                                              camasSelecionadas +=
+                                                  quarto.quaQtdCamaslivres;
+                                            }
+                                          });
+                                        },
+                                        child: CardQuartosEvento(
+                                          quarto: quarto,
+                                          quartosSelecionados:
+                                              quartosSelecionados,
+                                          selecionado: quartosSelecionados
+                                              .contains(quarto.quaCodigo),
                                         ),
                                       ),
-                            ],
-                          ),
+                                    ),
+                                ],
+                              ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
