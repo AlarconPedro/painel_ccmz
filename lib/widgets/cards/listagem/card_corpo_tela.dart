@@ -20,14 +20,12 @@ class CardCorpoTela extends StatelessWidget {
       ),
       elevation: 10,
       color: Cores.branco,
-      child: Expanded(
-        child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Cores.branco,
-            ),
-            child: carregando ? const Center(child: CarregamentoIOS()) : child),
-      ),
+      child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Cores.branco,
+          ),
+          child: carregando ? const Center(child: CarregamentoIOS()) : child),
     );
   }
 }

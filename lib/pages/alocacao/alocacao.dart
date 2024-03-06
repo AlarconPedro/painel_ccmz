@@ -289,58 +289,60 @@ class _AlocacaoState extends State<Alocacao> {
                           child: Center(child: CarregamentoIOS()),
                         )
                       : quartos.isEmpty
-                          ? Flexible(
-                              child: PageView(
-                                controller: Rotas.alocacaoPageController,
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: [
-                                  Flexible(
-                                    child: ListView.builder(
-                                      itemCount: blocos.length,
-                                      itemBuilder: (context, index) {
-                                        return MouseRegion(
-                                          cursor: SystemMouseCursors.click,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                codigoBloco =
-                                                    blocos[index].bloCodigo;
-                                                Rotas.alocacaoPageController
-                                                    .animateToPage(
-                                                  1,
-                                                  duration: const Duration(
-                                                      milliseconds: 500),
-                                                  curve: Curves.easeInOut,
-                                                );
-                                              });
-                                              // buscarQuartos(eventoSelecionado);
-                                            },
-                                            child: CardBlocoAlocacao(
-                                              blocos: blocos[index],
-                                            ),
+                          ?
+                          // Flexible(
+                          //     child:
+                          PageView(
+                              controller: Rotas.alocacaoPageController,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                Flexible(
+                                  child: ListView.builder(
+                                    itemCount: blocos.length,
+                                    itemBuilder: (context, index) {
+                                      return MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              codigoBloco =
+                                                  blocos[index].bloCodigo;
+                                              Rotas.alocacaoPageController
+                                                  .animateToPage(
+                                                1,
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                curve: Curves.easeInOut,
+                                              );
+                                            });
+                                            // buscarQuartos(eventoSelecionado);
+                                          },
+                                          child: CardBlocoAlocacao(
+                                            blocos: blocos[index],
                                           ),
-                                        );
-                                      },
-                                    ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                  Flexible(
-                                    child: CheckinQuartos(
-                                      quartos: quartos,
-                                      codigoBloco: codigoBloco,
-                                      codigoEvento: eventoSelecionado,
-                                      voltar: () {
-                                        Rotas.alocacaoPageController
-                                            .animateToPage(
-                                          0,
-                                          duration:
-                                              const Duration(milliseconds: 500),
-                                          curve: Curves.easeInOut,
-                                        );
-                                      },
-                                    ),
+                                ),
+                                Flexible(
+                                  child: CheckinQuartos(
+                                    quartos: quartos,
+                                    codigoBloco: codigoBloco,
+                                    codigoEvento: eventoSelecionado,
+                                    voltar: () {
+                                      Rotas.alocacaoPageController
+                                          .animateToPage(
+                                        0,
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        curve: Curves.easeInOut,
+                                      );
+                                    },
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
+                              // ),
                             )
                           : Flexible(
                               child: CheckinQuartos(
