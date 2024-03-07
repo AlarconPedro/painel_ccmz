@@ -57,14 +57,12 @@ class AlocacaoEventoPessoas extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 // color: Cores.verdeMedio.withOpacity(0.2),
               ),
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      ...vagasQuarto,
-                    ],
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    ...vagasQuarto,
+                  ],
                 ),
               ),
             ),
