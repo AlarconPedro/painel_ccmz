@@ -283,48 +283,49 @@ class _PessoasEventoState extends State<PessoasEvento> {
                     indent: 10,
                     endIndent: 10,
                   ),
-                  Expanded(
+                  Flexible(
                     child: comunidadeSelecionada == 0
                         ? const Center(
                             child: Text("Selecione uma comunidade"),
                           )
-                        : SingleChildScrollView(
-                            child: Expanded(
-                              child: Wrap(
-                                children: [
-                                  for (var pessoa in pessoas)
-                                    carregando
-                                        ? const Expanded(
-                                            child: CarregamentoIOS())
-                                        : MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  if (pessoasSelecionadas
-                                                      .contains(
-                                                          pessoa.pesCodigo)) {
-                                                    pessoasSelecionadas.remove(
-                                                        pessoa.pesCodigo);
-                                                  } else {
-                                                    pessoasSelecionadas
-                                                        .add(pessoa.pesCodigo);
-                                                  }
-                                                });
-                                              },
-                                              child: CardPessoasEvento(
-                                                pessoa: pessoa,
-                                                pessoasSelecionadas:
-                                                    pessoasSelecionadas,
-                                                selecionado: pessoasSelecionadas
-                                                    .contains(pessoa.pesCodigo),
-                                              ),
+                        : carregando
+                            ? const Center(child: CarregamentoIOS())
+                            : SingleChildScrollView(
+                                child: SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 1.1,
+                                  child: Wrap(
+                                    children: [
+                                      for (var pessoa in pessoas)
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                if (pessoasSelecionadas
+                                                    .contains(
+                                                        pessoa.pesCodigo)) {
+                                                  pessoasSelecionadas
+                                                      .remove(pessoa.pesCodigo);
+                                                } else {
+                                                  pessoasSelecionadas
+                                                      .add(pessoa.pesCodigo);
+                                                }
+                                              });
+                                            },
+                                            child: CardPessoasEvento(
+                                              pessoa: pessoa,
+                                              pessoasSelecionadas:
+                                                  pessoasSelecionadas,
+                                              selecionado: pessoasSelecionadas
+                                                  .contains(pessoa.pesCodigo),
                                             ),
                                           ),
-                                ],
+                                        ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
