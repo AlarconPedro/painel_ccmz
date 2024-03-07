@@ -122,7 +122,7 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                           ),
                                           child: Row(
                                             children: [
-                                              Expanded(
+                                              Flexible(
                                                 child: SizedBox(
                                                   height: 55,
                                                   child: CupertinoTextField(
@@ -192,26 +192,24 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                   flex: 3,
                                   child: Padding(
                                     padding: const EdgeInsets.all(10),
-                                    child: Flexible(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 10,
-                                              left: 2,
-                                              right: 2,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                widget.comboEvento,
-                                                const SizedBox(width: 10),
-                                                widget.comboBloco,
-                                              ],
-                                            ),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 10,
+                                            left: 2,
+                                            right: 2,
                                           ),
-                                          widget.pageView,
-                                        ],
-                                      ),
+                                          child: Row(
+                                            children: [
+                                              widget.comboEvento,
+                                              const SizedBox(width: 10),
+                                              widget.comboBloco,
+                                            ],
+                                          ),
+                                        ),
+                                        widget.pageView,
+                                      ],
                                     ),
                                   ),
                                 ),

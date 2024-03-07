@@ -523,7 +523,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
           pessoasBusca(value);
         });
       },
-      comboEvento: Expanded(
+      comboEvento: Flexible(
+        fit: FlexFit.tight,
         child: SizedBox(
           height: 60,
           child: DropDownForm(
@@ -544,7 +545,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
           ),
         ),
       ),
-      comboPessoas: Expanded(
+      comboPessoas: Flexible(
+        fit: FlexFit.tight,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -612,7 +614,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
       ),
       comboBloco: Visibility(
         visible: exibirBlocos,
-        child: Expanded(
+        child: Flexible(
+          fit: FlexFit.tight,
           child: SizedBox(
             height: 60,
             child: DropDownForm(
@@ -630,7 +633,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
           ),
         ),
       ),
-      pageView: Expanded(
+      pageView: Flexible(
+        fit: FlexFit.tight,
         child: Container(
           color: Cores.branco,
           child: PageView(
@@ -649,38 +653,40 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                     horizontal: 5,
                     vertical: 5,
                   ),
-                  child: Expanded(
-                    child: SingleChildScrollView(
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.6,
                         child: Wrap(
-                      alignment: WrapAlignment.center,
-                      direction: Axis.horizontal,
-                      children: [
-                        for (var item in quartos)
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  quarto = item;
-                                  alocacaoController.animateToPage(
-                                    1,
-                                    duration: const Duration(
-                                      milliseconds: 500,
-                                    ),
-                                    curve: Curves.ease,
-                                  );
-                                  exibirVoltar = true;
-                                });
-                                buscarComunidades();
-                                criarVagas();
-                              },
-                              child: CardEventoQuarto(
-                                quarto: item,
-                              ),
-                            ),
-                          )
-                      ],
-                    )),
+                          alignment: WrapAlignment.center,
+                          direction: Axis.horizontal,
+                          children: [
+                            for (var item in quartos)
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      quarto = item;
+                                      alocacaoController.animateToPage(
+                                        1,
+                                        duration: const Duration(
+                                          milliseconds: 500,
+                                        ),
+                                        curve: Curves.ease,
+                                      );
+                                      exibirVoltar = true;
+                                    });
+                                    buscarComunidades();
+                                    criarVagas();
+                                  },
+                                  child: CardEventoQuarto(
+                                    quarto: item,
+                                  ),
+                                ),
+                              )
+                          ],
+                        )),
                   ),
                 ),
               ),
