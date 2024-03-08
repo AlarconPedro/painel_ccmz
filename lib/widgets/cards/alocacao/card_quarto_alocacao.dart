@@ -104,16 +104,18 @@ class CardQuartoAlocacao extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(
+            Flexible(
+                fit: FlexFit.tight,
                 child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Column(
-                children: [
-                  for (var pessoa in quarto.pessoasQuarto)
-                    carregarPessoas(pessoa),
-                ],
-              ),
-            )),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Column(
+                    children: [
+                      for (var pessoa in quarto.pessoasQuarto)
+                        carregarPessoas(pessoa),
+                    ],
+                  ),
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 10,

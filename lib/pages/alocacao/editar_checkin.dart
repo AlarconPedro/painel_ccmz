@@ -82,11 +82,9 @@ class Editar_CheckinState extends State<EditarCheckin> {
       formKey: GlobalKey<FormState>(),
       campos: carregando
           ? [
-              const Expanded(
-                child: Center(
-                  child: CarregamentoIOS(),
-                ),
-              )
+              const Center(
+                child: CarregamentoIOS(),
+              ),
             ]
           : [
               for (var pessoas in widget.dadosQuarto.pessoasQuarto)
@@ -96,9 +94,10 @@ class Editar_CheckinState extends State<EditarCheckin> {
   }
 
   campoPessoa(CheckinModel pessoa) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
-      child: Expanded(
+    return Flexible(
+      fit: FlexFit.tight,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
         child: Row(
           children: [
             const Icon(Icons.person),
