@@ -88,7 +88,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
         listaComunidades.add(
           DropdownMenuItem(
             value: item.comCodigo,
-            child: Text(item.comNome),
+            child: Text("${item.comNome} - ${item.comCidade} - ${item.comUF}"),
           ),
         );
       }
@@ -284,6 +284,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
                     endIndent: 10,
                   ),
                   Flexible(
+                    fit: FlexFit.tight,
                     child: comunidadeSelecionada == 0
                         ? const Center(
                             child: Text("Selecione uma comunidade"),
@@ -292,8 +293,6 @@ class _PessoasEventoState extends State<PessoasEvento> {
                             ? const Center(child: CarregamentoIOS())
                             : SingleChildScrollView(
                                 child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 1.1,
                                   child: Wrap(
                                     children: [
                                       for (var pessoa in pessoas)

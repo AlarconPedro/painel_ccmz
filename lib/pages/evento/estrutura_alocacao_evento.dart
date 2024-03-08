@@ -123,6 +123,7 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                           child: Row(
                                             children: [
                                               Flexible(
+                                                fit: FlexFit.tight,
                                                 child: SizedBox(
                                                   height: 55,
                                                   child: CupertinoTextField(

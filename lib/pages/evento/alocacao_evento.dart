@@ -202,33 +202,36 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
         vagasQuarto.add(
           Row(
             children: [
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Cores.verdeMedio.withOpacity(0.2),
-                  border: Border.all(
-                    // color: Cores.verdeMedio.withOpacity(0.2),
-                    color: Cores.preto,
-                    width: 2,
+              Flexible(
+                fit: FlexFit.tight,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Cores.verdeMedio.withOpacity(0.2),
+                    border: Border.all(
+                      // color: Cores.verdeMedio.withOpacity(0.2),
+                      color: Cores.preto,
+                      width: 2,
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      const Icon(CupertinoIcons.person),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          pessoa.pesNome,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        const Icon(CupertinoIcons.person),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            pessoa.pesNome,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
