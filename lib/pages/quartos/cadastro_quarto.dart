@@ -205,6 +205,11 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
                         bottom: 20,
                       ),
                       child: DropdownButtonFormField(
+                        // value: blocoSelecionada,
+                        value: widget.quarto != null &&
+                                widget.quarto!.bloCodigo != 0
+                            ? widget.quarto!.bloCodigo
+                            : blocoSelecionada,
                         decoration: const InputDecoration(
                           labelText: 'Blocos',
                           enabledBorder: OutlineInputBorder(

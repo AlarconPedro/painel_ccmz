@@ -220,6 +220,10 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: DropdownButtonFormField(
+                        value: widget.pessoa != null &&
+                                widget.pessoa!.comCodigo != 0
+                            ? widget.pessoa!.comCodigo
+                            : comunidadeSelecionada,
                         decoration: const InputDecoration(
                           labelText: 'Comunidade',
                           enabledBorder: OutlineInputBorder(
@@ -246,7 +250,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
                     ),
                   ),
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: DropdownButtonFormField(
