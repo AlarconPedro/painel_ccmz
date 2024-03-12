@@ -96,6 +96,10 @@ class _CadastroEventoState extends State<CadastroEvento> {
       nomeController.text = widget.evento!.eveNome;
       dataInicioController.text = widget.evento!.eveDataInicio;
       dataFimController.text = widget.evento!.eveDataFim;
+      dataFimController.value =
+          TextEditingValue(text: widget.evento!.eveDataFim);
+      dataInicioController.value =
+          TextEditingValue(text: widget.evento!.eveDataInicio);
     }
   }
 
