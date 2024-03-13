@@ -299,7 +299,7 @@ class _AlocacaoState extends State<Alocacao> {
                           child: Center(child: CarregamentoIOS()),
                         )
                       : quartos.isEmpty
-                          ? Flexible(
+                          ? SizedBox(
                               child: PageView(
                                 controller: Rotas.alocacaoPageController,
                                 physics: const NeverScrollableScrollPhysics(),
