@@ -20,38 +20,36 @@ class CardBlocoAlocacao extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Expanded(
-          child: Container(
-            height: 56,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Cores.branco,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
-                    child: Text(
-                      blocos.bloNome,
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
+        child: Container(
+          height: 56,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Cores.branco,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
+                  ),
+                  child: Text(
+                    blocos.bloNome,
+                    style: const TextStyle(
+                      fontSize: 16,
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(
-                    CupertinoIcons.chevron_right,
-                    color: Cores.preto,
-                  ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Icon(
+                  CupertinoIcons.chevron_right,
+                  color: Cores.preto,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
