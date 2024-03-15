@@ -5,7 +5,7 @@ class ApiEvento {
   final _request = HttpRequest();
 
   //GET
-  final String _urlGetEventos = "${Globais.urlBase}evento";
+  final String _urlGetEventos = "${Globais.urlBase}evento/mes/";
   final String _urlGetEventosAtivos = "${Globais.urlBase}evento/ativos";
   final String _urlGetEventoNomes = "${Globais.urlBase}evento/nomes";
   final String _urlGetEvento = "${Globais.urlBase}evento/";
@@ -27,8 +27,8 @@ class ApiEvento {
   final String _urlDeleteEvento = "${Globais.urlBase}evento/";
 
   //GET
-  Future<dynamic> getEventos() async {
-    return await _request.getJson(_urlGetEventos);
+  Future<dynamic> getEventos(int mes) async {
+    return await _request.getJson(_urlGetEventos + mes.toString());
   }
 
   Future<dynamic> getEventosAtivos() async {

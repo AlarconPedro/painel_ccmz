@@ -22,9 +22,11 @@ class _EventoState extends State<Evento> {
 
   List<EventoModel> eventos = [];
 
+  int mesSelecionado = DateTime.now().month;
+
   buscarEventos() async {
     setState(() => carregando = true);
-    var retorno = await ApiEvento().getEventos();
+    var retorno = await ApiEvento().getEventos(mesSelecionado);
     if (retorno.statusCode == 200) {
       eventos.clear();
       var decoded = json.decode(retorno.body);
@@ -77,6 +79,66 @@ class _EventoState extends State<Evento> {
     return Esqueleto(
       tituloBoto: "Novo Evento",
       tituloPagina: "Eventos",
+      filtro: true,
+      label: "Mês",
+      onChange: (value) {
+        setState(() => mesSelecionado = value);
+        buscarEventos();
+      },
+      itens: const [
+        DropdownMenuItem(
+          value: 0,
+          child: Text("Todos"),
+        ),
+        DropdownMenuItem(
+          value: 1,
+          child: Text("Janeiro"),
+        ),
+        DropdownMenuItem(
+          value: 2,
+          child: Text("Fevereiro"),
+        ),
+        DropdownMenuItem(
+          value: 3,
+          child: Text("Março"),
+        ),
+        DropdownMenuItem(
+          value: 4,
+          child: Text("Abril"),
+        ),
+        DropdownMenuItem(
+          value: 5,
+          child: Text("Maio"),
+        ),
+        DropdownMenuItem(
+          value: 6,
+          child: Text("Junho"),
+        ),
+        DropdownMenuItem(
+          value: 7,
+          child: Text("Julho"),
+        ),
+        DropdownMenuItem(
+          value: 8,
+          child: Text("Agosto"),
+        ),
+        DropdownMenuItem(
+          value: 9,
+          child: Text("Setembro"),
+        ),
+        DropdownMenuItem(
+          value: 10,
+          child: Text("Outubro"),
+        ),
+        DropdownMenuItem(
+          value: 11,
+          child: Text("Novembro"),
+        ),
+        DropdownMenuItem(
+          value: 12,
+          child: Text("Dezembro"),
+        ),
+      ],
       abrirTelaCadastro: () async {
         await Navigator.push(
           context,
