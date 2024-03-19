@@ -21,11 +21,58 @@ class _ComunidadeState extends State<Comunidade> {
 
   bool carregando = false;
 
-  buscarComunidades() async {
+  List<DropdownMenuItem<int>> cidades = [];
+
+  String cidadeSelecionada = "";
+
+  buscarCidades() async {
     setState(() {
       carregando = true;
     });
-    var retorno = await ApiComunidade().getComunidades();
+    var retorno = await ApiComunidade().getCidades();
+    if (retorno.statusCode == 200) {
+      cidades.clear();
+      cidades.add(const DropdownMenuItem(
+        value: 1,
+        child: Text("Todos"),
+      ));
+      var decoded = json.decode(retorno.body);
+      for (var i = 0; i < decoded.length; i++) {
+        setState(() {
+          cidades.add(DropdownMenuItem(
+            value: i,
+            child: Text(decoded[i]),
+          ));
+        });
+      }
+      // for (var item in decoded) {
+      //   cidades.add(DropdownMenuItem(
+      //     value: item,
+      //     child: Text(item),
+      //   ));
+      //   // setState(() {
+      //   //   cidades.add(item);
+      //   // });
+      // }
+      buscarComunidades(cidadeSelecionada);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer cidades !"),
+        ),
+      );
+    }
+    setState(() {
+      carregando = false;
+    });
+  }
+
+  buscarComunidades(String cidade) async {
+    setState(() {
+      carregando = true;
+    });
+    var retorno = await ApiComunidade().getComunidades(cidade);
     if (retorno.statusCode == 200) {
       comunidades.clear();
       var decoded = json.decode(retorno.body);
@@ -59,7 +106,7 @@ class _ComunidadeState extends State<Comunidade> {
           content: Text("Comunidade excluida com sucesso !"),
         ),
       );
-      buscarComunidades();
+      buscarComunidades(cidadeSelecionada);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -77,7 +124,7 @@ class _ComunidadeState extends State<Comunidade> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    buscarComunidades();
+    buscarCidades();
   }
 
   @override
@@ -85,6 +132,21 @@ class _ComunidadeState extends State<Comunidade> {
     return Esqueleto(
       tituloBoto: "Nova Comunidade",
       tituloPagina: "Comunidade",
+      filtro: true,
+      itens: cidades,
+      label: "Cidade",
+      onChange: (value) {
+        setState(() {
+          cidadeSelecionada = cidades[value]
+              .child
+              .toString()
+              .replaceAll("Text", "")
+              .replaceAll('("', "")
+              .replaceAll('")', "")
+              .trim();
+        });
+        buscarComunidades(cidadeSelecionada);
+      },
       abrirTelaCadastro: () async {
         await Navigator.push(
           context,
@@ -95,7 +157,7 @@ class _ComunidadeState extends State<Comunidade> {
             context: context,
           ),
         );
-        buscarComunidades();
+        buscarComunidades(cidadeSelecionada);
       },
       buscaNome: (busca) {},
       corpo: [
@@ -146,7 +208,7 @@ class _ComunidadeState extends State<Comunidade> {
                                 context: context,
                               ),
                             );
-                            buscarComunidades();
+                            buscarComunidades(cidadeSelecionada);
                           },
                           child: CardComunidade(
                             comunidade: comunidades[index],

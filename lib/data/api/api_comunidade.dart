@@ -6,7 +6,8 @@ class ApiComunidade {
   static final _request = HttpRequest();
 
   //GET
-  final String _urlGetComunidades = "${Globais.urlBase}comunidade";
+  final String _urlGetCidades = "${Globais.urlBase}comunidade/cidades";
+  final String _urlGetComunidades = "${Globais.urlBase}comunidade/";
   final String _urlGetComunidadesNomes = "${Globais.urlBase}comunidade/nomes";
   final String _urlGetComunidade = "${Globais.urlBase}comunidade/";
   //POST
@@ -17,8 +18,12 @@ class ApiComunidade {
   final String _urlDeleteComunidade = "${Globais.urlBase}comunidade/";
 
   //GET
-  Future<dynamic> getComunidades() async {
-    return await _request.getJson(_urlGetComunidades);
+  Future<dynamic> getCidades() async {
+    return await _request.getJson(_urlGetCidades);
+  }
+
+  Future<dynamic> getComunidades(String cidade) async {
+    return await _request.getJson(_urlGetComunidades + cidade);
   }
 
   Future<dynamic> getComunidadesNomes() async {
