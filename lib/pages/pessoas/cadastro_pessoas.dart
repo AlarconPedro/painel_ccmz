@@ -85,7 +85,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
 
   buscarComunidade() async {
     setState(() => carregando = true);
-    var retorno = await ApiComunidade().getComunidades("");
+    var retorno = await ApiComunidade().getComunidades("Todos");
     if (retorno.statusCode == 200) {
       listaComunidade.clear();
       var decoded = json.decode(retorno.body);

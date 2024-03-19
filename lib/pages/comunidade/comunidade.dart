@@ -23,7 +23,8 @@ class _ComunidadeState extends State<Comunidade> {
 
   List<DropdownMenuItem<int>> cidades = [];
 
-  String cidadeSelecionada = "";
+  String cidadeSelecionada = "Todos";
+  List<Map<int, String>> cidadesList = [];
 
   buscarCidades() async {
     setState(() {
@@ -33,28 +34,19 @@ class _ComunidadeState extends State<Comunidade> {
     if (retorno.statusCode == 200) {
       cidades.clear();
       cidades.add(const DropdownMenuItem(
-        value: 1,
+        value: 0,
         child: Text("Todos"),
       ));
       var decoded = json.decode(retorno.body);
-      for (var i = 0; i < decoded.length; i++) {
+      for (var item in decoded) {
         setState(() {
           cidades.add(DropdownMenuItem(
-            value: i,
-            child: Text(decoded[i]),
+            value: decoded.indexOf(item) + 1,
+            child: Text(item),
           ));
+          cidadesList.add({decoded.indexOf(item) + 1: item});
         });
       }
-      // for (var item in decoded) {
-      //   cidades.add(DropdownMenuItem(
-      //     value: item,
-      //     child: Text(item),
-      //   ));
-      //   // setState(() {
-      //   //   cidades.add(item);
-      //   // });
-      // }
-      buscarComunidades(cidadeSelecionada);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -125,6 +117,7 @@ class _ComunidadeState extends State<Comunidade> {
     // TODO: implement initState
     super.initState();
     buscarCidades();
+    buscarComunidades(cidadeSelecionada);
   }
 
   @override
@@ -136,14 +129,16 @@ class _ComunidadeState extends State<Comunidade> {
       itens: cidades,
       label: "Cidade",
       onChange: (value) {
+        // String cidade = cidades[value]
+        //     .child
+        //     .toString()
+        //     .replaceAll("Text", "")
+        //     .replaceAll('("', "")
+        //     .replaceAll('")', "")
+        //     .replaceAll('"', "");
         setState(() {
-          cidadeSelecionada = cidades[value]
-              .child
-              .toString()
-              .replaceAll("Text", "")
-              .replaceAll('("', "")
-              .replaceAll('")', "")
-              .trim();
+          cidadeSelecionada =
+              value == 0 ? "Todos" : cidadesList[value - 1].values.first;
         });
         buscarComunidades(cidadeSelecionada);
       },
