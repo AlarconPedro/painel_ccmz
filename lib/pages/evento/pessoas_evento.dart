@@ -70,7 +70,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
 
   buscarComunidades() async {
     setState(() => carregando = true);
-    var retorno = await ApiComunidade().getComunidades();
+    var retorno = await ApiComunidade().getComunidades("");
     if (retorno.statusCode == 200) {
       comunidades.clear();
       var decoded = json.decode(retorno.body);
