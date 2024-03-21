@@ -214,7 +214,7 @@ class _DashBoardState extends State<DashBoard> {
                                       vertical: 5,
                                     ),
                                     child: Text(
-                                      "Eventos",
+                                      "Evento",
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -225,11 +225,9 @@ class _DashBoardState extends State<DashBoard> {
                               ),
                               Wrap(
                                 direction: Axis.horizontal,
-                                alignment: WrapAlignment.center,
                                 verticalDirection: VerticalDirection.down,
                                 runSpacing: 10,
                                 spacing: 10,
-                                crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   MouseRegion(
                                     cursor: SystemMouseCursors.click,
@@ -259,7 +257,7 @@ class _DashBoardState extends State<DashBoard> {
                                                   ),
                                             const SizedBox(height: 10),
                                             const Text(
-                                              "Pessoas a Chegar",
+                                              "Compareceu",
                                               maxLines: 2,
                                               softWrap: true,
                                               overflow: TextOverflow.ellipsis,
@@ -301,7 +299,7 @@ class _DashBoardState extends State<DashBoard> {
                                                   ),
                                             const SizedBox(height: 10),
                                             const Text(
-                                              "Pessoas Chegas",
+                                              "A Comparecer",
                                               maxLines: 2,
                                               softWrap: true,
                                               overflow: TextOverflow.ellipsis,
@@ -315,48 +313,167 @@ class _DashBoardState extends State<DashBoard> {
                                       ),
                                     ),
                                   ),
-                                  const Padding(
+                                  // const Padding(
+                                  //   padding: EdgeInsets.symmetric(
+                                  //       horizontal: 20, vertical: 20),
+                                  //   child: Column(
+                                  //     children: [
+                                  //       Icon(
+                                  //         CupertinoIcons.clear_circled,
+                                  //         color: Cores.cinzaMedio,
+                                  //       ),
+                                  //       SizedBox(height: 10),
+                                  //       Text(
+                                  //         "Checkin",
+                                  //         style: TextStyle(
+                                  //           fontSize: 18,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // const Padding(
+                                  //   padding: EdgeInsets.symmetric(
+                                  //       horizontal: 20, vertical: 20),
+                                  //   child: Column(
+                                  //     children: [
+                                  //       Icon(
+                                  //         CupertinoIcons.clear_circled,
+                                  //         color: Cores.cinzaMedio,
+                                  //       ),
+                                  //       SizedBox(height: 10),
+                                  //       Text(
+                                  //         "Checkin",
+                                  //         style: TextStyle(
+                                  //           fontSize: 18,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Divider(
+                                  color: Cores.cinzaMedio,
+                                  thickness: 1,
+                                ),
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 20),
-                                    child: Column(
-                                      children: [
-                                        Icon(
-                                          CupertinoIcons.clear_circled,
-                                          color: Cores.cinzaMedio,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          "Checkin",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
+                                      horizontal: 10,
+                                      vertical: 5,
                                     ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 20),
-                                    child: Column(
-                                      children: [
-                                        Icon(
-                                          CupertinoIcons.clear_circled,
-                                          color: Cores.cinzaMedio,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          "Checkin",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
+                                    child: Text(
+                                      "Alocação",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
+                              Wrap(
+                                direction: Axis.horizontal,
+                                verticalDirection: VerticalDirection.down,
+                                runAlignment: WrapAlignment.spaceBetween,
+                                runSpacing: 10,
+                                spacing: 10,
+                                children: [
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 20),
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              CupertinoIcons
+                                                  .person_crop_circle_badge_checkmark,
+                                              color: Cores.verdeMedio,
+                                              size: 35,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            carregando
+                                                ? const CarregamentoIOS()
+                                                : Text(
+                                                    numeroPessoasAChegar
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              "Camas Livres",
+                                              maxLines: 2,
+                                              softWrap: true,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 20),
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              CupertinoIcons.bed_double,
+                                              color: Cores.vermelhoMedio,
+                                              size: 35,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            carregando
+                                                ? const CarregamentoIOS()
+                                                : Text(
+                                                    numeroPessoasChegas
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              "Camas Ocupadas",
+                                              maxLines: 2,
+                                              softWrap: true,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
