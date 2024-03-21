@@ -24,6 +24,8 @@ class _DashBoardState extends State<DashBoard> {
   int numeroPessoasAChegar = 0;
   int numeroPessoasChegas = 0;
   int numeroPessoasCheckin = 0;
+  int numeroCamasLivres = 0;
+  int numeroCamasOcupadas = 0;
   int codigoEvento = 0;
 
   final dashBoardController = PageController(initialPage: 0);
@@ -56,6 +58,36 @@ class _DashBoardState extends State<DashBoard> {
     } else {
       setState(() {
         numeroPessoasChegas = 0;
+      });
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarNumeroCamasLivres() async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getNumeroCamasLivres();
+    if (retorno.statusCode == 200) {
+      setState(() {
+        numeroCamasLivres = int.parse(retorno.body);
+      });
+    } else {
+      setState(() {
+        numeroCamasLivres = 0;
+      });
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarNumeroCamasOcupadas() async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getNumeroCamasOcupadas();
+    if (retorno.statusCode == 200) {
+      setState(() {
+        numeroCamasOcupadas = int.parse(retorno.body);
+      });
+    } else {
+      setState(() {
+        numeroCamasOcupadas = 0;
       });
     }
     setState(() => carregando = false);
@@ -104,6 +136,8 @@ class _DashBoardState extends State<DashBoard> {
     super.initState();
     buscarNumeroPessoas();
     buscarNumeroPessoasChegas();
+    buscarNumeroCamasLivres();
+    buscarNumeroCamasOcupadas();
     getEventoAtivo();
     listaPessoas != []
         ? dashBoardController.addListener(() {
@@ -406,7 +440,7 @@ class _DashBoardState extends State<DashBoard> {
                                             carregando
                                                 ? const CarregamentoIOS()
                                                 : Text(
-                                                    numeroPessoasAChegar
+                                                    numeroCamasLivres
                                                         .toString(),
                                                     style: const TextStyle(
                                                       fontSize: 18,
@@ -448,7 +482,7 @@ class _DashBoardState extends State<DashBoard> {
                                             carregando
                                                 ? const CarregamentoIOS()
                                                 : Text(
-                                                    numeroPessoasChegas
+                                                    numeroCamasOcupadas
                                                         .toString(),
                                                     style: const TextStyle(
                                                       fontSize: 18,

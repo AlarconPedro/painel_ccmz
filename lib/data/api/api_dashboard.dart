@@ -9,6 +9,10 @@ class ApiDashboard {
       "${Globais.urlBase}dashboard/numeroPessoasAChegar";
   final String _urlGetNumeroPessoasChegas =
       "${Globais.urlBase}dashboard/numeroPessoasChegas";
+  final String _urlNumeroCamasLivres =
+      "${Globais.urlBase}dashboard/numeroCamasLivres";
+  final String _urlNumeroCamasOcupadas =
+      "${Globais.urlBase}dashboard/numeroCamasOcupadas";
   final String _urlGetPessoasChegas =
       "${Globais.urlBase}dashboard/pessoasAChegar/";
   final String _urlGetPessoasAChegar =
@@ -26,6 +30,14 @@ class ApiDashboard {
 
   Future<dynamic> getNumeroPessoasChegas() async {
     return await _request.getJson(_urlGetNumeroPessoasChegas);
+  }
+
+  Future<dynamic> getNumeroCamasLivres() async {
+    return await _request.getJson(_urlNumeroCamasLivres);
+  }
+
+  Future<dynamic> getNumeroCamasOcupadas() async {
+    return await _request.getJson(_urlNumeroCamasOcupadas);
   }
 
   Future<dynamic> getPessoasAChegar(int codigoEvento) async {
