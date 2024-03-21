@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/data/api/api_evento.dart';
 import 'package:painel_ccmn/pages/alocacao/checkin_quartos.dart';
 import 'package:painel_ccmn/widgets/cards/dashboard/card_pessoa_chegar.dart';
 
@@ -80,7 +81,7 @@ class _DashBoardState extends State<DashBoard> {
 
   buscarNumeroCamasOcupadas() async {
     setState(() => carregando = true);
-    var retorno = await ApiDashboard().getNumeroCamasOcupadas();
+    var retorno = await ApiDashboard().getNumeroCamasOcupadas(codigoEvento);
     if (retorno.statusCode == 200) {
       setState(() {
         numeroCamasOcupadas = int.parse(retorno.body);
@@ -120,13 +121,14 @@ class _DashBoardState extends State<DashBoard> {
 
   getEventoAtivo() async {
     setState(() => carregando = true);
-    var retorno = await ApiDashboard().getEventos();
+    var retorno = await ApiEvento().getEventosAtivos();
     if (retorno.statusCode == 200) {
-      int codigo = int.parse(retorno.body);
+      int codigo = json.decode(retorno.body)[0]["eveCodigo"];
       await buscarPessoas(codigo);
       setState(() {
         codigoEvento = codigo;
       });
+      buscarNumeroCamasOcupadas();
     }
     setState(() => carregando = false);
   }
@@ -137,7 +139,7 @@ class _DashBoardState extends State<DashBoard> {
     buscarNumeroPessoas();
     buscarNumeroPessoasChegas();
     buscarNumeroCamasLivres();
-    buscarNumeroCamasOcupadas();
+    // buscarNumeroCamasOcupadas();
     getEventoAtivo();
     listaPessoas != []
         ? dashBoardController.addListener(() {
