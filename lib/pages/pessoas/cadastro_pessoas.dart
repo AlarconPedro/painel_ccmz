@@ -88,6 +88,12 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
     var retorno = await ApiComunidade().getComunidades("Todos");
     if (retorno.statusCode == 200) {
       listaComunidade.clear();
+      listaComunidade.add(
+        DropdownMenuItem(
+          value: 0,
+          child: const Text("Selecione a comunidade"),
+        ),
+      );
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
@@ -118,7 +124,6 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
     setState(() => carregando = true);
     var retorno = await ApiPessoas().addPessoa(preparaDados());
     if (retorno.statusCode == 200) {
-      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Cores.verdeEscuro,
@@ -172,7 +177,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
       formKey: _formKey,
       titulo: "Cadastro de Pessoas",
       altura: 3.7,
-      largura: 2,
+      largura: 1.9,
       campos: [
         Row(
           children: [

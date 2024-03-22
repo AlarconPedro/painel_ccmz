@@ -132,7 +132,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
           content: Text("Pessoas gravadas com sucesso !"),
         ),
       );
-      Navigator.pop(context);
+      // Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

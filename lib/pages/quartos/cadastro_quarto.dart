@@ -101,6 +101,12 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
     var retorno = await ApiBloco().getBlocos();
     if (retorno.statusCode == 200) {
       listaBlocos.clear();
+      listaBlocos.add(
+        const DropdownMenuItem(
+          value: 0,
+          child: Text('Selecione um bloco'),
+        ),
+      );
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() => listaBlocos.add(
