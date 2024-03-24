@@ -109,12 +109,14 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
       );
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
-        setState(() => listaBlocos.add(
-              DropdownMenuItem(
-                value: item['bloCodigo'],
-                child: Text(item['bloNome']),
-              ),
-            ));
+        setState(
+          () => listaBlocos.add(
+            DropdownMenuItem(
+              value: item['bloCodigo'],
+              child: Text(item['bloNome']),
+            ),
+          ),
+        );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
