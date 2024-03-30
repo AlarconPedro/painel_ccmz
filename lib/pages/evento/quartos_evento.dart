@@ -251,34 +251,35 @@ class _QuartosEventoState extends State<QuartosEvento> {
                                       fontWeight: FontWeight.bold)),
                               const SizedBox(width: 10),
                               SizedBox(
-                                  child: CupertinoButton(
-                                color: Cores.verdeMedio,
-                                padding: const EdgeInsets.all(15),
-                                onPressed: () {
-                                  if (quartosSelecionados.length <
-                                      quartos.length) {
-                                    setState(() {
-                                      camasSelecionadas = 0;
-                                      quartosSelecionados = quartos
-                                          .map((e) => e.quaCodigo)
-                                          .toList();
-                                      for (var item in quartos) {
-                                        camasSelecionadas +=
-                                            item.quaQtdCamaslivres;
-                                      }
-                                    });
-                                  } else {
-                                    setState(() {
-                                      camasSelecionadas = 0;
-                                      quartosSelecionados.clear();
-                                    });
-                                  }
-                                },
-                                child: const Icon(
-                                  CupertinoIcons.checkmark_square,
-                                  color: Cores.branco,
+                                child: CupertinoButton(
+                                  color: Cores.verdeMedio,
+                                  padding: const EdgeInsets.all(15),
+                                  onPressed: () {
+                                    if (quartosSelecionados.length <
+                                        quartos.length) {
+                                      setState(() {
+                                        camasSelecionadas = 0;
+                                        quartosSelecionados = quartos
+                                            .map((e) => e.quaCodigo)
+                                            .toList();
+                                        for (var item in quartos) {
+                                          camasSelecionadas +=
+                                              item.quaQtdCamaslivres;
+                                        }
+                                      });
+                                    } else {
+                                      setState(() {
+                                        camasSelecionadas = 0;
+                                        quartosSelecionados.clear();
+                                      });
+                                    }
+                                  },
+                                  child: const Icon(
+                                    CupertinoIcons.checkmark_square,
+                                    color: Cores.branco,
+                                  ),
                                 ),
-                              )),
+                              ),
                               const SizedBox(height: 30),
                             ],
                           ),
