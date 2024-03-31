@@ -96,11 +96,13 @@ class _QuartosEventoState extends State<QuartosEvento> {
   preparaDados() {
     List<EventoQuartoModel> lista = [];
     for (var item in quartosSelecionados) {
-      lista.add(EventoQuartoModel(
-        evqCodigo: 0,
-        quaCodigo: item,
-        eveCodigo: widget.codigoEvento,
-      ));
+      lista.add(
+        EventoQuartoModel(
+          evqCodigo: 0,
+          quaCodigo: item,
+          eveCodigo: widget.codigoEvento,
+        ),
+      );
     }
     return lista;
   }
