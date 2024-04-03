@@ -339,7 +339,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: const Text("Cancelar"),
+                          child: const Text("Fechar"),
                         ),
                       ),
                       Padding(

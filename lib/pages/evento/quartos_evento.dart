@@ -350,7 +350,7 @@ class _QuartosEventoState extends State<QuartosEvento> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: const Text("Cancelar"),
+                          child: const Text("Fechar"),
                         ),
                       ),
                       Padding(

@@ -30,6 +30,10 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
   bool salmista = false;
 
   List<DropdownMenuItem> listaSexo = [
+    // const DropdownMenuItem(
+    //   value: 0,
+    //   child: Text("Sexo"),
+    // ),
     const DropdownMenuItem(
       value: 1,
       child: Text("Masculino"),
@@ -130,6 +134,10 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
           content: Text("Pessoa cadastrada com sucesso !"),
         ),
       );
+      setState(() {
+        nomeController.text = "";
+        sexoSelecionado = 0;
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -275,6 +283,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
                       ),
                     ),
                   ),
+                  value: sexoSelecionado > 0 ? sexoSelecionado : null,
                   items: listaSexo,
                   onChanged: (value) {
                     setState(() {

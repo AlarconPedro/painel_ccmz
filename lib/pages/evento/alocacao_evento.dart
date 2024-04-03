@@ -58,7 +58,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   buscarEventos() async {
     setState(() => carregando = true);
-    var retorno = await ApiEvento().getEventoNomes();
+    var retorno = await ApiEvento().getEventosAtivos();
     if (retorno.statusCode == 200) {
       eventos.clear();
       var decoded = json.decode(retorno.body);
@@ -191,6 +191,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     var retorno = await ApiEvento().getPessoasQuarto(quarto.quaCodigo);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
+      // pessoasQuarto.clear();
       ocupadas = 0;
       for (var item in decoded) {
         setState(() {
@@ -505,6 +506,87 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     setState(() => carregando = false);
   }
 
+  criarVagasQuartos(QuartoModel quartoModel) {
+    // if (widget.quarto.pessoas != null) {
+    // widget.quarto.pessoas!.sort((a, b) => a.pesNome.compareTo(b.pesNome));
+    int quantidadeCamasOcupadas = 0;
+    List<Widget> alocacaoQuarto = [];
+
+    // setState(() {
+    //   alocacaoQuarto.clear();
+    // });
+
+    // }
+    alimentarCamasVaziasQuarto(
+        quartoModel,
+        alimentarCamasOcupadas(
+            quartoModel, quantidadeCamasOcupadas, alocacaoQuarto),
+        alocacaoQuarto);
+    return alocacaoQuarto;
+  }
+
+  alimentarCamasOcupadas(QuartoModel quartoAlocado, int quantidadeCamasOcupadas,
+      List<Widget> alocacaoQuarto) {
+    for (var i = 0; i < quartoAlocado.pessoas.length; i++) {
+      setState(() {
+        alocacaoQuarto.add(
+          Row(
+            children: [
+              Icon(
+                quartoAlocado.pessoas[i].pesGenero == "F"
+                    ? Icons.female_rounded
+                    : Icons.male_rounded,
+                color: quartoAlocado.pessoas[i].pesGenero == "F"
+                    ? Cores.rosaEscuro
+                    : Cores.azulMedio,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  // quarto.quaNome,
+                  quartoAlocado.pessoas[i].pesNome,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      });
+      quantidadeCamasOcupadas++;
+    }
+    return quantidadeCamasOcupadas;
+  }
+
+  alimentarCamasVaziasQuarto(QuartoModel quartoAlocado,
+      int quantidadeCamasOcupadas, List<Widget> alocacaoQuarto) {
+    for (var i = 0;
+        i < quartoAlocado.quaQtdCamas - quantidadeCamasOcupadas;
+        i++) {
+      setState(() {
+        alocacaoQuarto.add(
+          const Row(
+            children: [
+              Icon(CupertinoIcons.person),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  "Vazio",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      });
+    }
+  }
+
   @override
   initState() {
     super.initState();
@@ -623,12 +705,12 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
               label: 'Bloco',
               itens: blocos,
               selecionado: 0,
-              onChange: (value) {
+              onChange: (value) async {
                 setState(() {
                   blocoSelecionado = value;
                 });
-                buscarQuartos();
-                criarVagas();
+                await buscarQuartos();
+                await criarVagas();
               },
             ),
           ),
@@ -683,6 +765,10 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                                   },
                                   child: CardEventoQuarto(
                                     quarto: item,
+                                    // atualizar: () {
+                                    //   criarVagasQuartos(item);
+                                    // },
+                                    alocacaoQuarto: criarVagasQuartos(item),
                                   ),
                                 ),
                               )

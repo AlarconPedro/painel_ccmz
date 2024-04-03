@@ -6,11 +6,15 @@ import '../../../classes/classes.dart';
 
 class CardEventoQuarto extends StatefulWidget {
   QuartoModel quarto;
+  List<Widget> alocacaoQuarto;
+  // Function atualizar;
   // PessoaModel pessoa;
 
   CardEventoQuarto({
     super.key,
     required this.quarto,
+    required this.alocacaoQuarto,
+    // required this.atualizar,
     // required this.pessoa,
   });
 
@@ -19,76 +23,72 @@ class CardEventoQuarto extends StatefulWidget {
 }
 
 class _CardEventoQuartoState extends State<CardEventoQuarto> {
-  List<Widget> alocacaoQuarto = [];
+  // criarVagas() async {
+  //   // if (widget.quarto.pessoas != null) {
+  //   // widget.quarto.pessoas!.sort((a, b) => a.pesNome.compareTo(b.pesNome));
+  //   await alimentarCamasOcupadas();
+  //   // }
+  //   await alimentarCamasVazias();
+  // }
 
-  int quantidadeCamasOcupadas = 0;
+  // alimentarCamasOcupadas() {
+  //   for (var i = 0; i < widget.quarto.pessoas.length; i++) {
+  //     setState(() {
+  //       widget.alocacaoQuarto.add(
+  //         Row(
+  //           children: [
+  //             Icon(
+  //               widget.quarto.pessoas[i].pesGenero == "F"
+  //                   ? Icons.female_rounded
+  //                   : Icons.male_rounded,
+  //               color: widget.quarto.pessoas[i].pesGenero == "F"
+  //                   ? Cores.rosaEscuro
+  //                   : Cores.azulMedio,
+  //             ),
+  //             const SizedBox(width: 10),
+  //             Expanded(
+  //               child: Text(
+  //                 // quarto.quaNome,
+  //                 widget.quarto.pessoas[i].pesNome,
+  //                 overflow: TextOverflow.ellipsis,
+  //                 style: const TextStyle(
+  //                   fontSize: 14,
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     });
+  //     quantidadeCamasOcupadas++;
+  //   }
+  // }
 
-  criarVagas() async {
-    // if (widget.quarto.pessoas != null) {
-    // widget.quarto.pessoas!.sort((a, b) => a.pesNome.compareTo(b.pesNome));
-    await alimentarCamasOcupadas();
-    // }
-    await alimentarCamasVazias();
-  }
-
-  alimentarCamasOcupadas() {
-    for (var i = 0; i < widget.quarto.pessoas.length; i++) {
-      setState(() {
-        alocacaoQuarto.add(
-          Row(
-            children: [
-              Icon(
-                widget.quarto.pessoas[i].pesGenero == "F"
-                    ? Icons.female_rounded
-                    : Icons.male_rounded,
-                color: widget.quarto.pessoas[i].pesGenero == "F"
-                    ? Cores.rosaEscuro
-                    : Cores.azulMedio,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  // quarto.quaNome,
-                  widget.quarto.pessoas[i].pesNome,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      });
-      quantidadeCamasOcupadas++;
-    }
-  }
-
-  alimentarCamasVazias() {
-    for (var i = 0;
-        i < widget.quarto.quaQtdCamas - quantidadeCamasOcupadas;
-        i++) {
-      setState(() {
-        alocacaoQuarto.add(
-          const Row(
-            children: [
-              Icon(CupertinoIcons.person),
-              SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  "Vazio",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      });
-    }
-  }
+  // alimentarCamasVazias() {
+  //   for (var i = 0;
+  //       i < widget.quarto.quaQtdCamas - quantidadeCamasOcupadas;
+  //       i++) {
+  //     setState(() {
+  //       widget.alocacaoQuarto.add(
+  //         const Row(
+  //           children: [
+  //             Icon(CupertinoIcons.person),
+  //             SizedBox(width: 10),
+  //             Expanded(
+  //               child: Text(
+  //                 "Vazio",
+  //                 overflow: TextOverflow.ellipsis,
+  //                 style: TextStyle(
+  //                   fontSize: 14,
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     });
+  //   }
+  // }
 
   Color definirCorCard() {
     return widget.quarto.quaQtdCamaslivres == 0
@@ -102,7 +102,8 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    criarVagas();
+    // widget.atualizar();
+    // criarVagas();
   }
 
   @override
@@ -151,7 +152,7 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 children: [
-                  ...alocacaoQuarto,
+                  ...widget.alocacaoQuarto,
                   // Expanded(
                   //   child: ListView.builder(
                   //     itemCount: quarto.quaQtdCamas,
