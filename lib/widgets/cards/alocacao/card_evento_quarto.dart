@@ -147,38 +147,41 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
                 ),
               ],
             ),
-            Expanded(
+            SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: const BouncingScrollPhysics(),
                 child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Column(
-                children: [
-                  ...widget.alocacaoQuarto,
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     itemCount: quarto.quaQtdCamas,
-                  //     itemBuilder: (context, index) {
-                  //       return const Row(
-                  //         children: [
-                  //           Icon(CupertinoIcons.person),
-                  //           SizedBox(width: 10),
-                  //           Expanded(
-                  //             child: Text(
-                  //               // quarto.quaNome,
-                  //               "Vazio",
-                  //               overflow: TextOverflow.ellipsis,
-                  //               style: TextStyle(
-                  //                 fontSize: 14,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-                ],
-              ),
-            )),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Column(
+                    children: [
+                      ...widget.alocacaoQuarto,
+                      // Expanded(
+                      //   child: ListView.builder(
+                      //     itemCount: quarto.quaQtdCamas,
+                      //     itemBuilder: (context, index) {
+                      //       return const Row(
+                      //         children: [
+                      //           Icon(CupertinoIcons.person),
+                      //           SizedBox(width: 10),
+                      //           Expanded(
+                      //             child: Text(
+                      //               // quarto.quaNome,
+                      //               "Vazio",
+                      //               overflow: TextOverflow.ellipsis,
+                      //               style: TextStyle(
+                      //                 fontSize: 14,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 10,
