@@ -147,7 +147,11 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
           comunidades.add(
             DropdownMenuItem(
               value: item["comCodigo"],
-              child: Text(item["comNome"]),
+              child: Text(item["comNome"] +
+                  " - " +
+                  item['comCidade'] +
+                  " - " +
+                  item['comUf']),
             ),
           );
         });
