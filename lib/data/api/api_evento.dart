@@ -65,9 +65,9 @@ class ApiEvento {
         .getJson("$_urlGetPessoasAlocadas/$codigoComundiade/$codigoEvento");
   }
 
-  Future<dynamic> getPessoasQuarto(int codigoQuarto) async {
+  Future<dynamic> getPessoasQuarto(int codigoQuarto, int codigoEvento) async {
     return await _request
-        .getJson(_urlGetPessoasQuarto + codigoQuarto.toString());
+        .getJson("$_urlGetPessoasQuarto$codigoQuarto/$codigoEvento");
   }
 
   //POST
