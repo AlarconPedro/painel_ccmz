@@ -114,6 +114,8 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
                                       children: [
+                                        widget.comboComunidade,
+                                        const SizedBox(height: 5),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                             bottom: 10,
@@ -182,8 +184,6 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                             ],
                                           ),
                                         ),
-                                        widget.comboComunidade,
-                                        const SizedBox(height: 5),
                                         widget.comboPessoas,
                                       ],
                                     ),
