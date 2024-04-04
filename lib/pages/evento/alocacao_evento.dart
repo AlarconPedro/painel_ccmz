@@ -188,7 +188,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   buscarPessoasAlocadas() async {
     setState(() => carregando = true);
-    var retorno = await ApiEvento().getPessoasQuarto(quarto.quaCodigo);
+    var retorno =
+        await ApiEvento().getPessoasQuarto(quarto.quaCodigo, eventoSelecionado);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       // pessoasQuarto.clear();
@@ -293,7 +294,10 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     setState(() => carregando = true);
     if (busca.isNotEmpty) {
       var listaPessoas = pessoas.where((element) {
-        return element.pesNome.contains(busca);
+        return element.pesNome
+            .toString()
+            .toUpperCase()
+            .contains(busca.toString().toUpperCase());
       }).toList();
       if (listaPessoas.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -562,6 +566,10 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   alimentarCamasVaziasQuarto(QuartoModel quartoAlocado,
       int quantidadeCamasOcupadas, List<Widget> alocacaoQuarto) {
+    setState(() {
+      quarto.quaQtdCamaslivres =
+          quartoAlocado.quaQtdCamas - quantidadeCamasOcupadas;
+    });
     for (var i = 0;
         i < quartoAlocado.quaQtdCamas - quantidadeCamasOcupadas;
         i++) {
@@ -624,6 +632,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 eventoSelecionado = value;
               });
               buscarBlocos();
+              buscarComunidades();
             },
           ),
         ),
@@ -658,8 +667,17 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                       );
                       return;
                     }
+                    if (quarto.quaCodigo != 0) {
+                      await adicionarPessoaQuarto(pessoas[index].pesCodigo);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Selecione um quarto!"),
+                          backgroundColor: Cores.vermelhoMedio,
+                        ),
+                      );
+                    }
                     // var retorno =
-                    await adicionarPessoaQuarto(pessoas[index].pesCodigo);
                     // if (retorno) {
                     //   setState(() {
                     //     pessoasSelecionadas.add(pessoas[index]);
@@ -684,7 +702,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
         child: DropDownForm(
           label: 'Comunidade',
           itens: comunidades,
-          selecionado: 0,
+          // selecionado: 0,
+          selecionado: comunidadeSelecionada,
           onChange: (value) {
             setState(() {
               comunidadeSelecionada = value;
@@ -709,6 +728,15 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 setState(() {
                   blocoSelecionado = value;
                 });
+                if (quarto.quaCodigo != 0) {
+                  alocacaoController.animateToPage(
+                    0,
+                    duration: const Duration(
+                      milliseconds: 500,
+                    ),
+                    curve: Curves.ease,
+                  );
+                }
                 await buscarQuartos();
                 await criarVagas();
               },
@@ -804,13 +832,14 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 ),
                 curve: Curves.ease,
               );
-              comunidadeSelecionada = 0;
-              pessoas.clear();
+              // comunidadeSelecionada = 0;
+              // pessoas.clear();
               exibirVoltar = false;
-              comunidades.clear();
+              // comunidades.clear();
               vagasQuarto.clear();
               pessoasQuarto.clear();
-              comunidadeSelecionada = 0;
+              quarto.quaCodigo = 0;
+              // comunidadeSelecionada = 0;
             });
             buscarQuartos();
           },
@@ -834,13 +863,15 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                 ),
                 curve: Curves.ease,
               );
-              comunidadeSelecionada = 0;
-              pessoas.clear();
+              // comunidadeSelecionada = 0;
+              // pessoas.clear();
               exibirVoltar = false;
-              comunidades.clear();
+              // comunidades.clear();
               vagasQuarto.clear();
               pessoasQuarto.clear();
-              comunidadeSelecionada = 0;
+              quarto.quaCodigo = 0;
+
+              // comunidadeSelecionada = 0;
             });
             buscarQuartos();
           },
@@ -856,12 +887,14 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
         visible: !exibirVoltar,
         child: CupertinoButton(
           onPressed: () {
-            comunidadeSelecionada = 0;
-            pessoas.clear();
+            // comunidadeSelecionada = 0;
+            // pessoas.clear();
             Navigator.pop(context);
-            comunidades.clear();
+            // comunidades.clear();
             vagasQuarto.clear();
             pessoasQuarto.clear();
+            quarto.quaCodigo = 0;
+
             buscarQuartos();
           },
           color: Cores.verdeMedio,
