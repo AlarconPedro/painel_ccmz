@@ -34,7 +34,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Container(
-        width: 350,
+        width: 380,
         height: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
