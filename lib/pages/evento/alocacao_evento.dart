@@ -768,10 +768,12 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                     horizontal: 5,
                     vertical: 5,
                   ),
-                  child: SingleChildScrollView(
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.6,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
                         child: Wrap(
                           alignment: WrapAlignment.center,
                           direction: Axis.horizontal,
