@@ -519,12 +519,6 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     // widget.quarto.pessoas!.sort((a, b) => a.pesNome.compareTo(b.pesNome));
     int quantidadeCamasOcupadas = 0;
     List<Widget> alocacaoQuarto = [];
-
-    // setState(() {
-    //   alocacaoQuarto.clear();
-    // });
-
-    // }
     alimentarCamasVaziasQuarto(
         quartoModel,
         alimentarCamasOcupadas(
