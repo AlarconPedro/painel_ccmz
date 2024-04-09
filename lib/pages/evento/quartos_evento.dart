@@ -130,6 +130,30 @@ class _QuartosEventoState extends State<QuartosEvento> {
     setState(() => carregando = false);
   }
 
+  removerQuarto(int codigoQuarto) async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().deleteQuartoEvento(codigoQuarto);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeMedio,
+          content: Text("Quarto(s) removido(s) com sucesso !"),
+        ),
+      );
+      // Navigator.pop(context);
+      quartosSelecionados.remove(codigoQuarto);
+      // camasSelecionadas -= quarto.quaQtdCamaslivres;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao remover quartos !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -270,6 +294,9 @@ class _QuartosEventoState extends State<QuartosEvento> {
                                         }
                                       });
                                     } else {
+                                      for (var quarto in quartosSelecionados) {
+                                        removerQuarto(quarto);
+                                      }
                                       setState(() {
                                         camasSelecionadas = 0;
                                         quartosSelecionados.clear();
@@ -313,10 +340,11 @@ class _QuartosEventoState extends State<QuartosEvento> {
                                           setState(() {
                                             if (quartosSelecionados
                                                 .contains(quarto.quaCodigo)) {
-                                              quartosSelecionados
-                                                  .remove(quarto.quaCodigo);
-                                              camasSelecionadas -=
-                                                  quarto.quaQtdCamaslivres;
+                                              // quartosSelecionados
+                                              //     .remove(quarto.quaCodigo);
+                                              // camasSelecionadas -=
+                                              //     quarto.quaQtdCamaslivres;
+                                              removerQuarto(quarto.quaCodigo);
                                             } else {
                                               quartosSelecionados
                                                   .add(quarto.quaCodigo);

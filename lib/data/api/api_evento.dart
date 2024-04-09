@@ -24,6 +24,7 @@ class ApiEvento {
   //PUT
   final String _urlUpdateEvento = "${Globais.urlBase}evento";
   //DELETE
+  final String _urlDeleteQuartoEvento = "${Globais.urlBase}evento/quarto/";
   final String _urlDeleteEvento = "${Globais.urlBase}evento/";
 
   //GET
@@ -93,6 +94,11 @@ class ApiEvento {
   }
 
   //DELETE
+  Future<dynamic> deleteQuartoEvento(int codigoQuarto) async {
+    return await _request
+        .deleteJson(_urlDeleteQuartoEvento + codigoQuarto.toString());
+  }
+
   Future<dynamic> deleteEvento(int codigoEvento) async {
     return await _request
         .deleteJson(_urlDeleteEvento + codigoEvento.toString());
