@@ -565,6 +565,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
   alimentarCamasVaziasQuarto(QuartoModel quartoAlocado,
       int quantidadeCamasOcupadas, List<Widget> alocacaoQuarto) {
     setState(() {
+      // quarto.quaQtdCamaslivres = quarto.quaQtdCamas - pessoas.length;
       quarto.quaQtdCamaslivres =
           quartoAlocado.quaQtdCamas - quantidadeCamasOcupadas;
     });
