@@ -272,28 +272,6 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     setState(() => carregando = false);
   }
 
-  // pessoasBusca(String busca) async {
-  //   setState(() => carregando = true);
-  //   var retorno =
-  //       await ApiPessoas().getPessoasBusca(comunidadeSelecionada, busca);
-  //   if (retorno.statusCode == 200) {
-  //     pessoas.clear();
-  //     var decoded = json.decode(retorno.body);
-  //     for (var item in decoded) {
-  //       setState(() {
-  //         pessoas.add(PessoaModel.fromJson(item));
-  //       });
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar pessoas!"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
   pessoasBusca(String busca) async {
     setState(() => carregando = true);
     if (busca.isNotEmpty) {
