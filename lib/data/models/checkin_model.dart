@@ -4,6 +4,7 @@ class CheckinModel {
   int quaCodigo;
   bool pesChave;
   bool pesCheckin;
+  bool pesNaovem;
   String pesNome;
 
   CheckinModel({
@@ -12,6 +13,7 @@ class CheckinModel {
     required this.quaCodigo,
     required this.pesChave,
     required this.pesCheckin,
+    required this.pesNaovem,
     required this.pesNome,
   });
 
@@ -21,6 +23,7 @@ class CheckinModel {
         quaCodigo: json["quaCodigo"] ?? 0,
         pesChave: json["pesChave"] ?? false,
         pesCheckin: json["pesCheckin"] ?? false,
+        pesNaovem: json["pesNaovem"] ?? false,
         pesNome: json["pesNome"] ?? "",
       );
 
@@ -30,5 +33,6 @@ class CheckinModel {
         "quaCodigo": quaCodigo,
         "pesChave": pesChave,
         "pesCheckin": pesCheckin,
+        "pesNaovem": pesNaovem,
       };
 }

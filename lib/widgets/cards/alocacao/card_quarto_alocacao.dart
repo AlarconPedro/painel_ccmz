@@ -27,10 +27,15 @@ class CardQuartoAlocacao extends StatelessWidget {
               CupertinoIcons.check_mark_circled_solid,
               color: Cores.verdeMedio,
             )
-          : const Icon(
-              CupertinoIcons.xmark_circle_fill,
-              color: Cores.cinzaMedio,
-            ),
+          : pessoaChekin.pesNaovem
+              ? const Icon(
+                  CupertinoIcons.xmark_circle_fill,
+                  color: Cores.vermelhoMedio,
+                )
+              : const Icon(
+                  CupertinoIcons.xmark_circle_fill,
+                  color: Cores.cinzaMedio,
+                ),
       const SizedBox(width: 10),
       pessoaChekin.pesChave
           ? const Icon(
