@@ -9,6 +9,8 @@ class ApiDashboard {
       "${Globais.urlBase}dashboard/numeroPessoasAChegar";
   final String _urlGetNumeroPessoasChegas =
       "${Globais.urlBase}dashboard/numeroPessoasChegas";
+  final String _urlGetNumeroPessoasNaoVem =
+      "${Globais.urlBase}dashboard/numeroPessoasNaovem";
   final String _urlNumeroCamasLivres =
       "${Globais.urlBase}dashboard/numeroCamasLivres";
   final String _urlNumeroCamasOcupadas =
@@ -30,6 +32,10 @@ class ApiDashboard {
 
   Future<dynamic> getNumeroPessoasChegas() async {
     return await _request.getJson(_urlGetNumeroPessoasChegas);
+  }
+
+  Future<dynamic> getNumeroPessoasNaoVem() async {
+    return await _request.getJson(_urlGetNumeroPessoasNaoVem);
   }
 
   Future<dynamic> getNumeroCamasLivres() async {

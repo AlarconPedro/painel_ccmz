@@ -24,6 +24,7 @@ class _DashBoardState extends State<DashBoard> {
 
   int numeroPessoasAChegar = 0;
   int numeroPessoasChegas = 0;
+  int numeroPessoasNaoVem = 0;
   int numeroPessoasCheckin = 0;
   int numeroCamasLivres = 0;
   int numeroCamasOcupadas = 0;
@@ -59,6 +60,21 @@ class _DashBoardState extends State<DashBoard> {
     } else {
       setState(() {
         numeroPessoasChegas = 0;
+      });
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarNumeroPessoasNaoVem() async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getNumeroPessoasNaoVem();
+    if (retorno.statusCode == 200) {
+      setState(() {
+        numeroPessoasNaoVem = int.parse(retorno.body);
+      });
+    } else {
+      setState(() {
+        numeroPessoasNaoVem = 0;
       });
     }
     setState(() => carregando = false);
@@ -138,6 +154,7 @@ class _DashBoardState extends State<DashBoard> {
     super.initState();
     buscarNumeroPessoas();
     buscarNumeroPessoasChegas();
+    buscarNumeroPessoasNaoVem();
     buscarNumeroCamasLivres();
     // buscarNumeroCamasOcupadas();
     getEventoAtivo();
@@ -170,7 +187,9 @@ class _DashBoardState extends State<DashBoard> {
                       vertical: 5,
                     ),
                     child: Row(
-                      children: [CardDashboard()],
+                      children: [
+                        CardDashboard(),
+                      ],
                     ),
                   ),
                 ),
@@ -275,7 +294,8 @@ class _DashBoardState extends State<DashBoard> {
                                         child: Column(
                                           children: [
                                             const Icon(
-                                              CupertinoIcons.clear_circled,
+                                              CupertinoIcons
+                                                  .clear_circled_solid,
                                               color: Cores.cinzaMedio,
                                               size: 35,
                                             ),
@@ -284,6 +304,49 @@ class _DashBoardState extends State<DashBoard> {
                                                 ? const CarregamentoIOS()
                                                 : Text(
                                                     numeroPessoasAChegar
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              "A Chegar",
+                                              maxLines: 2,
+                                              softWrap: true,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 20),
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              CupertinoIcons
+                                                  .checkmark_circle_fill,
+                                              color: Cores.verdeMedio,
+                                              size: 35,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            carregando
+                                                ? const CarregamentoIOS()
+                                                : Text(
+                                                    numeroPessoasChegas
                                                         .toString(),
                                                     style: const TextStyle(
                                                       fontSize: 18,
@@ -317,166 +380,8 @@ class _DashBoardState extends State<DashBoard> {
                                         child: Column(
                                           children: [
                                             const Icon(
-                                              CupertinoIcons.checkmark_circle,
-                                              color: Cores.verdeMedio,
-                                              size: 35,
-                                            ),
-                                            const SizedBox(height: 10),
-                                            carregando
-                                                ? const CarregamentoIOS()
-                                                : Text(
-                                                    numeroPessoasChegas
-                                                        .toString(),
-                                                    style: const TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              "A Comparecer",
-                                              maxLines: 2,
-                                              softWrap: true,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // const Padding(
-                                  //   padding: EdgeInsets.symmetric(
-                                  //       horizontal: 20, vertical: 20),
-                                  //   child: Column(
-                                  //     children: [
-                                  //       Icon(
-                                  //         CupertinoIcons.clear_circled,
-                                  //         color: Cores.cinzaMedio,
-                                  //       ),
-                                  //       SizedBox(height: 10),
-                                  //       Text(
-                                  //         "Checkin",
-                                  //         style: TextStyle(
-                                  //           fontSize: 18,
-                                  //           fontWeight: FontWeight.bold,
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                  // const Padding(
-                                  //   padding: EdgeInsets.symmetric(
-                                  //       horizontal: 20, vertical: 20),
-                                  //   child: Column(
-                                  //     children: [
-                                  //       Icon(
-                                  //         CupertinoIcons.clear_circled,
-                                  //         color: Cores.cinzaMedio,
-                                  //       ),
-                                  //       SizedBox(height: 10),
-                                  //       Text(
-                                  //         "Checkin",
-                                  //         style: TextStyle(
-                                  //           fontSize: 18,
-                                  //           fontWeight: FontWeight.bold,
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Cores.cinzaMedio,
-                                  thickness: 1,
-                                ),
-                              ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 5,
-                                    ),
-                                    child: Text(
-                                      "Alocação",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Wrap(
-                                direction: Axis.horizontal,
-                                verticalDirection: VerticalDirection.down,
-                                runAlignment: WrapAlignment.spaceBetween,
-                                runSpacing: 10,
-                                spacing: 10,
-                                children: [
-                                  MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () {},
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 20),
-                                        child: Column(
-                                          children: [
-                                            const Icon(
                                               CupertinoIcons
-                                                  .person_crop_circle_badge_checkmark,
-                                              color: Cores.verdeMedio,
-                                              size: 35,
-                                            ),
-                                            const SizedBox(height: 10),
-                                            carregando
-                                                ? const CarregamentoIOS()
-                                                : Text(
-                                                    numeroCamasLivres
-                                                        .toString(),
-                                                    style: const TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              "Camas Livres",
-                                              maxLines: 2,
-                                              softWrap: true,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () {},
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 20),
-                                        child: Column(
-                                          children: [
-                                            const Icon(
-                                              CupertinoIcons.bed_double,
+                                                  .clear_circled_solid,
                                               color: Cores.vermelhoMedio,
                                               size: 35,
                                             ),
@@ -484,7 +389,7 @@ class _DashBoardState extends State<DashBoard> {
                                             carregando
                                                 ? const CarregamentoIOS()
                                                 : Text(
-                                                    numeroCamasOcupadas
+                                                    numeroPessoasNaoVem
                                                         .toString(),
                                                     style: const TextStyle(
                                                       fontSize: 18,
@@ -494,7 +399,7 @@ class _DashBoardState extends State<DashBoard> {
                                                   ),
                                             const SizedBox(height: 10),
                                             const Text(
-                                              "Camas Ocupadas",
+                                              "Não Vem",
                                               maxLines: 2,
                                               softWrap: true,
                                               overflow: TextOverflow.ellipsis,
@@ -510,6 +415,125 @@ class _DashBoardState extends State<DashBoard> {
                                   ),
                                 ],
                               ),
+                              // const Padding(
+                              //   padding: EdgeInsets.symmetric(horizontal: 10),
+                              //   child: Divider(
+                              //     color: Cores.cinzaMedio,
+                              //     thickness: 1,
+                              //   ),
+                              // ),
+                              // const Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Padding(
+                              //       padding: EdgeInsets.symmetric(
+                              //         horizontal: 10,
+                              //         vertical: 5,
+                              //       ),
+                              //       child: Text(
+                              //         "Alocação",
+                              //         style: TextStyle(
+                              //           fontSize: 18,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // Wrap(
+                              //   direction: Axis.horizontal,
+                              //   verticalDirection: VerticalDirection.down,
+                              //   runAlignment: WrapAlignment.spaceBetween,
+                              //   runSpacing: 10,
+                              //   spacing: 10,
+                              //   children: [
+                              //     MouseRegion(
+                              //       cursor: SystemMouseCursors.click,
+                              //       child: GestureDetector(
+                              //         onTap: () {},
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(
+                              //               horizontal: 10, vertical: 20),
+                              //           child: Column(
+                              //             children: [
+                              //               const Icon(
+                              //                 CupertinoIcons
+                              //                     .person_crop_circle_badge_checkmark,
+                              //                 color: Cores.verdeMedio,
+                              //                 size: 35,
+                              //               ),
+                              //               const SizedBox(height: 10),
+                              //               carregando
+                              //                   ? const CarregamentoIOS()
+                              //                   : Text(
+                              //                       numeroCamasLivres
+                              //                           .toString(),
+                              //                       style: const TextStyle(
+                              //                         fontSize: 18,
+                              //                         fontWeight:
+                              //                             FontWeight.bold,
+                              //                       ),
+                              //                     ),
+                              //               const SizedBox(height: 10),
+                              //               const Text(
+                              //                 "Camas Livres",
+                              //                 maxLines: 2,
+                              //                 softWrap: true,
+                              //                 overflow: TextOverflow.ellipsis,
+                              //                 style: TextStyle(
+                              //                   fontSize: 12,
+                              //                   fontWeight: FontWeight.bold,
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     MouseRegion(
+                              //       cursor: SystemMouseCursors.click,
+                              //       child: GestureDetector(
+                              //         onTap: () {},
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(
+                              //               horizontal: 10, vertical: 20),
+                              //           child: Column(
+                              //             children: [
+                              //               const Icon(
+                              //                 CupertinoIcons.bed_double,
+                              //                 color: Cores.vermelhoMedio,
+                              //                 size: 35,
+                              //               ),
+                              //               const SizedBox(height: 10),
+                              //               carregando
+                              //                   ? const CarregamentoIOS()
+                              //                   : Text(
+                              //                       numeroCamasOcupadas
+                              //                           .toString(),
+                              //                       style: const TextStyle(
+                              //                         fontSize: 18,
+                              //                         fontWeight:
+                              //                             FontWeight.bold,
+                              //                       ),
+                              //                     ),
+                              //               const SizedBox(height: 10),
+                              //               const Text(
+                              //                 "Camas Ocupadas",
+                              //                 maxLines: 2,
+                              //                 softWrap: true,
+                              //                 overflow: TextOverflow.ellipsis,
+                              //                 style: TextStyle(
+                              //                   fontSize: 12,
+                              //                   fontWeight: FontWeight.bold,
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              // ],
+                              // ),
                             ],
                           ),
                         ),
