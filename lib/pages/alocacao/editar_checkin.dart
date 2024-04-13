@@ -33,6 +33,7 @@ class Editar_CheckinState extends State<EditarCheckin> {
       quaCodigo: checkin.quaCodigo,
       pesChave: checkin.pesChave,
       pesCheckin: checkin.pesCheckin,
+      pesNaovem: checkin.pesNaovem,
       pesNome: checkin.pesNome,
     );
   }
@@ -96,18 +97,27 @@ class Editar_CheckinState extends State<EditarCheckin> {
   campoPessoa(CheckinModel pessoa) {
     return Flexible(
       fit: FlexFit.tight,
+      flex: 3,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(Icons.person),
-            const SizedBox(width: 10),
             Expanded(
               flex: 2,
-              child: Text(pessoa.pesNome),
+              child: SizedBox(
+                child: Row(
+                  children: [
+                    const Icon(Icons.person),
+                    const SizedBox(width: 10),
+                    Text(pessoa.pesNome),
+                  ],
+                ),
+              ),
             ),
+            const Spacer(),
             Expanded(
-              flex: 1,
+              flex: 3,
               child: Row(
                 children: [
                   const Text(
@@ -131,7 +141,23 @@ class Editar_CheckinState extends State<EditarCheckin> {
                   CupertinoCheckbox(
                     value: pessoa.pesChave,
                     onChanged: (value) {},
-                  )
+                  ),
+                  const Text(
+                    "Não Vem:",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  CupertinoCheckbox(
+                      value: pessoa.pesNaovem,
+                      onChanged: (value) async {
+                        pessoa.pesNaovem = value!;
+                        var retorno = await editarCheckin(pessoa);
+                        if (retorno.statusCode == 200) {
+                          setState(() {
+                            pessoa.pesNaovem = value;
+                          });
+                        }
+                        widget.refresh();
+                      }),
                 ],
               ),
             ),
