@@ -114,6 +114,18 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
                                       children: [
+                                        Row(
+                                          children: [
+                                            widget.comboEvento,
+                                          ],
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Row(
+                                          children: [
+                                            widget.comboBloco,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
                                         widget.comboComunidade,
                                         const SizedBox(height: 5),
                                         Padding(
@@ -195,20 +207,20 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 10,
-                                            left: 2,
-                                            right: 2,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              widget.comboEvento,
-                                              const SizedBox(width: 10),
-                                              widget.comboBloco,
-                                            ],
-                                          ),
-                                        ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(
+                                        //     bottom: 10,
+                                        //     left: 2,
+                                        //     right: 2,
+                                        //   ),
+                                        //   child: Row(
+                                        //     children: [
+                                        //       // widget.comboEvento,
+                                        //       // const SizedBox(width: 10),
+                                        //       // widget.comboBloco,
+                                        //     ],
+                                        //   ),
+                                        // ),
                                         widget.pageView,
                                       ],
                                     ),
