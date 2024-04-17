@@ -60,6 +60,9 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
         pesResponsavel: responsavel ? "S" : "N",
         pesSalmista: salmista ? "S" : "N",
         pesObservacao: "",
+        evpCodigo: 0,
+        pesCobrante: true,
+        pesPagante: true,
       );
     } else {
       return PessoaModel(
@@ -72,6 +75,9 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
         pesResponsavel: responsavel ? "S" : "N",
         pesSalmista: salmista ? "S" : "N",
         pesObservacao: "",
+        evpCodigo: 0,
+        pesCobrante: true,
+        pesPagante: true,
       );
     }
   }

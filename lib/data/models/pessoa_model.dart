@@ -1,5 +1,6 @@
 class PessoaModel {
   int pesCodigo;
+  int evpCodigo;
   String pesNome;
   String pesGenero;
   String comunidade;
@@ -8,9 +9,12 @@ class PessoaModel {
   String pesCatequista;
   String pesSalmista;
   String pesObservacao;
+  bool pesPagante;
+  bool pesCobrante;
 
   PessoaModel({
     required this.pesCodigo,
+    required this.evpCodigo,
     required this.pesNome,
     required this.pesGenero,
     required this.comunidade,
@@ -19,11 +23,14 @@ class PessoaModel {
     required this.pesCatequista,
     required this.pesSalmista,
     required this.pesObservacao,
+    required this.pesPagante,
+    required this.pesCobrante,
   });
 
   factory PessoaModel.fromJson(Map<String, dynamic> json) {
     return PessoaModel(
       pesCodigo: json['pesCodigo'] ?? 0,
+      evpCodigo: json['evpCodigo'] ?? 0,
       pesNome: json['pesNome'] ?? "",
       pesGenero: json['pesGenero'] ?? "",
       comunidade: json['comunidade'] ?? "",
@@ -32,6 +39,8 @@ class PessoaModel {
       pesCatequista: json['pesCatequista'] ?? "",
       pesSalmista: json['pesSalmista'] ?? "",
       pesObservacao: json['pesObservacao'] ?? "",
+      pesPagante: json['evpPagante'] ?? false,
+      pesCobrante: json['evpCobrante'] ?? false,
     );
   }
 
