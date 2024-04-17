@@ -103,18 +103,50 @@ class _PessoasEventoState extends State<PessoasEvento> {
     setState(() => carregando = false);
   }
 
-  preparaDados() {
+  preparaDadosUpload() {
     List<EventoPessoasModel> pessoasEvento = [];
-    for (var item in pessoasSelecionadas) {
+    for (var pessoa in pessoas) {
       pessoasEvento.add(
         EventoPessoasModel(
-          evpCodigo: 0,
+          evpCodigo: pessoa.evpCodigo != 0 ? pessoa.evpCodigo : 0,
           eveCodigo: widget.codigoEvento,
-          pesCodigo: item,
-          evpPagante: true,
-          evpCobrante: true,
+          pesCodigo: pessoa.pesCodigo,
+          evpPagante: pessoa.evpCodigo != 0 ? pessoa.pesPagante : true,
+          evpCobrante: pessoa.evpCodigo != 0 ? pessoa.pesCobrante : true,
         ),
       );
+
+      // for (var item in pessoasSelecionadas) {
+      //   if (pessoas.where((element) => element.pesCodigo == item).isNotEmpty) {
+      //     pessoasEvento.add(
+      //       EventoPessoasModel(
+      //         evpCodigo: pessoas
+      //             .where((element) => element.pesCodigo == item)
+      //             .first
+      //             .evpCodigo,
+      //         eveCodigo: widget.codigoEvento,
+      //         pesCodigo: item,
+      //         evpPagante: pessoas
+      //             .where((element) => element.pesCodigo == item)
+      //             .first
+      //             .pesPagante,
+      //         evpCobrante: pessoas
+      //             .where((element) => element.pesCodigo == item)
+      //             .first
+      //             .pesCobrante,
+      //       ),
+      //     );
+      //   } else {
+      //     pessoasEvento.add(
+      //       EventoPessoasModel(
+      //         evpCodigo: 0,
+      //         eveCodigo: widget.codigoEvento,
+      //         pesCodigo: item,
+      //         evpPagante: true,
+      //         evpCobrante: true,
+      //       ),
+      //     );
+      //   }
     }
     return pessoasEvento;
   }
@@ -122,7 +154,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
   salvarPessoas() async {
     setState(() => carregando = true);
     var retorno = await ApiEvento().addPessoasEvento(
-      preparaDados(),
+      preparaDadosUpload(),
       comunidadeSelecionada,
     );
     if (retorno.statusCode == 200) {
@@ -132,6 +164,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
           content: Text("Pessoas gravadas com sucesso !"),
         ),
       );
+      buscarPessoas();
       // Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -314,10 +347,28 @@ class _PessoasEventoState extends State<PessoasEvento> {
                                             },
                                             child: CardPessoasEvento(
                                               pessoa: pessoa,
+                                              updatePagante: (value) async {
+                                                // setState(() {
+                                                //   pessoa.pesPagante = value;
+                                                // });
+                                                // pessoa.pesPagante = value;
+                                                // await updatePessoasEvento(
+                                                //     pessoa);
+                                              },
+                                              updateCobrante: (value) async {
+                                                // setState(() {
+                                                //   pessoa.pesCobrante = value;
+                                                // });
+                                                // pessoa.pesCobrante = value;
+                                                // await updatePessoasEvento(
+                                                //     pessoa);
+                                              },
                                               pessoasSelecionadas:
                                                   pessoasSelecionadas,
                                               selecionado: pessoasSelecionadas
                                                   .contains(pessoa.pesCodigo),
+                                              eventoSelecionado:
+                                                  widget.codigoEvento,
                                             ),
                                           ),
                                         ),
