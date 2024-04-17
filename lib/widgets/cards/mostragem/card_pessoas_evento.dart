@@ -9,11 +9,19 @@ class CardPessoasEvento extends StatefulWidget {
   List<int> pessoasSelecionadas;
   bool selecionado;
 
+  int eventoSelecionado;
+
+  Function updatePagante;
+  Function updateCobrante;
+
   CardPessoasEvento({
     super.key,
     required this.pessoa,
     required this.pessoasSelecionadas,
     required this.selecionado,
+    required this.eventoSelecionado,
+    required this.updateCobrante,
+    required this.updatePagante,
   });
 
   @override
@@ -21,9 +29,40 @@ class CardPessoasEvento extends StatefulWidget {
 }
 
 class _CardPessoasEventoState extends State<CardPessoasEvento> {
-  bool pagante = true;
+  bool carregando = false;
 
-  bool cobrar = true;
+  preparaDadosUpdate(PessoaModel pessoa) {
+    return EventoPessoasModel(
+      evpCodigo: pessoa.evpCodigo,
+      eveCodigo: widget.eventoSelecionado,
+      pesCodigo: pessoa.pesCodigo,
+      evpPagante: pessoa.pesPagante,
+      evpCobrante: pessoa.pesCobrante,
+    );
+  }
+
+  updatePessoasEvento(PessoaModel pessoa) async {
+    setState(() => carregando = true);
+    var retorno =
+        await ApiEvento().updatePessoaEvento(preparaDadosUpdate(pessoa));
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Pessoa atualizada com sucesso !"),
+        ),
+      );
+      // Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao gravar pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,11 +192,17 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                                 ),
                               ),
                               CupertinoCheckbox(
-                                value: pagante,
+                                value: widget.pessoa.evpCodigo != 0
+                                    ? widget.pessoa.pesPagante
+                                    : true,
                                 onChanged: (value) {
                                   setState(() {
-                                    pagante = value!;
+                                    widget.pessoa.pesPagante = value!;
+                                    updatePessoasEvento(widget.pessoa);
+                                    // ?
+                                    // : widget.pessoa.pesPagante = !value!;
                                   });
+                                  // pagante = value!;
                                 },
                                 checkColor: widget.selecionado
                                     ? Cores.branco
@@ -182,11 +227,18 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                                 ),
                               ),
                               CupertinoCheckbox(
-                                value: cobrar,
+                                value: widget.pessoa.evpCodigo != 0
+                                    ? widget.pessoa.pesCobrante
+                                    : true,
                                 onChanged: (value) {
+                                  // widget.updateCobrante(value!);
                                   setState(() {
-                                    cobrar = value!;
+                                    widget.pessoa.pesCobrante = value!;
+                                    updatePessoasEvento(widget.pessoa);
+                                    // ?
+                                    // : widget.pessoa.pesCobrante = !value!;
                                   });
+                                  // cobrar = value!;
                                 },
                                 checkColor: widget.selecionado
                                     ? Cores.branco
