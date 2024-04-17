@@ -6,13 +6,17 @@ class ApiDashboard {
 
   //GET
   final String _urlGetNumeroPessoasAChegar =
-      "${Globais.urlBase}dashboard/numeroPessoasAChegar";
+      "${Globais.urlBase}dashboard/numeroPessoasAChegar/";
   final String _urlGetNumeroPessoasChegas =
-      "${Globais.urlBase}dashboard/numeroPessoasChegas";
+      "${Globais.urlBase}dashboard/numeroPessoasChegas/";
   final String _urlGetNumeroPessoasNaoVem =
-      "${Globais.urlBase}dashboard/numeroPessoasNaovem";
+      "${Globais.urlBase}dashboard/numeroPessoasNaovem/";
+  final String _urlGetNumeroPessoasCobrantes =
+      "${Globais.urlBase}dashboard/numeroPessoasCobrantes/";
+  final String _urlGetNumeroPessoasPagantes =
+      "${Globais.urlBase}dashboard/numeroPessoasPagantes/";
   final String _urlNumeroCamasLivres =
-      "${Globais.urlBase}dashboard/numeroCamasLivres";
+      "${Globais.urlBase}dashboard/numeroCamasLivres/";
   final String _urlNumeroCamasOcupadas =
       "${Globais.urlBase}dashboard/numeroCamasOcupadas/";
   final String _urlGetPessoasChegas =
@@ -26,20 +30,34 @@ class ApiDashboard {
   final String _urlGetEventos = "${Globais.urlBase}dashboard/eventos";
 
   //GET
-  Future<dynamic> getNumeroPessoas() async {
-    return await _request.getJson(_urlGetNumeroPessoasAChegar);
+  Future<dynamic> getNumeroPessoas(int codigoEvento) async {
+    return await _request
+        .getJson(_urlGetNumeroPessoasAChegar + codigoEvento.toString());
   }
 
-  Future<dynamic> getNumeroPessoasChegas() async {
-    return await _request.getJson(_urlGetNumeroPessoasChegas);
+  Future<dynamic> getNumeroPessoasChegas(int codigoEvento) async {
+    return await _request
+        .getJson(_urlGetNumeroPessoasChegas + codigoEvento.toString());
   }
 
-  Future<dynamic> getNumeroPessoasNaoVem() async {
-    return await _request.getJson(_urlGetNumeroPessoasNaoVem);
+  Future<dynamic> getNumeroPessoasNaoVem(int codigoEvento) async {
+    return await _request
+        .getJson(_urlGetNumeroPessoasNaoVem + codigoEvento.toString());
   }
 
-  Future<dynamic> getNumeroCamasLivres() async {
-    return await _request.getJson(_urlNumeroCamasLivres);
+  Future<dynamic> getNumeroPessoasCobrantes(int codigoEvento) async {
+    return await _request
+        .getJson(_urlGetNumeroPessoasCobrantes + codigoEvento.toString());
+  }
+
+  Future<dynamic> getNumeroPessoasPagantes(int codigoEvento) async {
+    return await _request
+        .getJson(_urlGetNumeroPessoasPagantes + codigoEvento.toString());
+  }
+
+  Future<dynamic> getNumeroCamasLivres(int codigoEvento) async {
+    return await _request
+        .getJson(_urlNumeroCamasLivres + codigoEvento.toString());
   }
 
   Future<dynamic> getNumeroCamasOcupadas(int codigoEvento) async {
@@ -57,14 +75,16 @@ class ApiDashboard {
         .getJson(_urlGetPessoasChegas + codigoEvento.toString());
   }
 
-  Future<dynamic> getQuartoPessoaAChegar(int codigoQuarto) async {
+  Future<dynamic> getQuartoPessoaAChegar(
+      int codigoQuarto, int codigoEvento) async {
     return await _request
-        .getJson(_urlGetQuartoPessoaAChegar + codigoQuarto.toString());
+        .getJson("$_urlGetQuartoPessoaAChegar$codigoQuarto/$codigoEvento");
   }
 
-  Future<dynamic> getQuartoPessoaChega(int codigoQuarto) async {
+  Future<dynamic> getQuartoPessoaChega(
+      int codigoQuarto, int codigoEvento) async {
     return await _request
-        .getJson(_urlGetQuartoPessoaChega + codigoQuarto.toString());
+        .getJson("$_urlGetQuartoPessoaChega$codigoQuarto/$codigoEvento");
   }
 
   Future<dynamic> getEventos() async {
