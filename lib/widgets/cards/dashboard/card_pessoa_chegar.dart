@@ -7,7 +7,13 @@ import '../../../classes/classes.dart';
 class CardPessoaChegar extends StatelessWidget {
   DashboardPessoasModel pessoas;
   Function() click;
-  CardPessoaChegar({super.key, required this.pessoas, required this.click});
+  String status;
+  CardPessoaChegar({
+    super.key,
+    required this.pessoas,
+    required this.click,
+    required this.status,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +35,17 @@ class CardPessoaChegar extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
               child: Row(
                 children: [
-                  const Icon(
-                    CupertinoIcons.clear_circled,
-                    color: Cores.cinzaMedio,
+                  Icon(
+                    status == "A"
+                        ? CupertinoIcons.clear_circled_solid
+                        : status == "C"
+                            ? CupertinoIcons.checkmark_circle_fill
+                            : CupertinoIcons.clear_circled_solid,
+                    color: status == "A"
+                        ? Cores.cinzaMedio
+                        : status == "C"
+                            ? Cores.verdeMedio
+                            : Cores.vermelhoMedio,
                     size: 35,
                   ),
                   const VerticalDivider(

@@ -33,7 +33,14 @@ class _DashBoardState extends State<DashBoard> {
   final dashBoardController = PageController(initialPage: 0);
 
   List<DashboardPessoasModel> listaPessoas = [];
+  List<DashboardPessoasModel> listaPessoasBusca = [];
   List<QuartoPessoasModel> quartos = [];
+
+  Widget telaDashboard = Container();
+
+  String status = "A";
+
+  TextEditingController campoBusca = TextEditingController();
 
   buscarNumeroPessoas(int codigoEvento) async {
     setState(() => carregando = true);
@@ -153,6 +160,32 @@ class _DashBoardState extends State<DashBoard> {
     setState(() => carregando = false);
   }
 
+  buscarPessoasChegas(int evento) async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getPessoasChegas(evento);
+    if (retorno.statusCode == 200) {
+      listaPessoas.clear();
+      var lista = json.decode(retorno.body);
+      for (var item in lista) {
+        listaPessoas.add(DashboardPessoasModel.fromJson(item));
+      }
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarPessoasNaoVem(int evento) async {
+    setState(() => carregando = true);
+    var retorno = await ApiDashboard().getPessoasNaoVem(evento);
+    if (retorno.statusCode == 200) {
+      listaPessoas.clear();
+      var lista = json.decode(retorno.body);
+      for (var item in lista) {
+        listaPessoas.add(DashboardPessoasModel.fromJson(item));
+      }
+    }
+    setState(() => carregando = false);
+  }
+
   buscarQuartoPessoa(int codigoQuarto) async {
     setState(() => carregando = true);
     var retorno =
@@ -205,6 +238,17 @@ class _DashBoardState extends State<DashBoard> {
     setState(() => carregando = false);
   }
 
+  buscarPessoa(String nome) {
+    setState(() {
+      listaPessoasBusca.clear();
+      for (var item in listaPessoas) {
+        if (item.pesNome.contains(nome)) {
+          listaPessoasBusca.add(item);
+        }
+      }
+    });
+  }
+
   @override
   initState() {
     super.initState();
@@ -253,48 +297,153 @@ class _DashBoardState extends State<DashBoard> {
                     Flexible(
                       child: PageView(
                         controller: dashBoardController,
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
                           CardCorpoTela(
                             carregando: carregando,
                             child: Padding(
                               padding: const EdgeInsets.all(10),
-                              child: ListView.builder(
-                                itemCount: listaPessoas.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 2),
-                                    child: CardPessoaChegar(
-                                      pessoas: listaPessoas[index],
-                                      click: () async {
-                                        await buscarQuartoPessoa(
-                                            listaPessoas[index].quaCodigo);
-                                        dashBoardController.animateToPage(
-                                          1,
-                                          duration:
-                                              const Duration(milliseconds: 500),
-                                          curve: Curves.ease,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal: 20,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Text(
+                                          "Buscar: ",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: SizedBox(
+                                            height: 55,
+                                            child: CupertinoTextField(
+                                              controller: campoBusca,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                                border: Border.all(
+                                                  color: Cores.cinzaEscuro,
+                                                ),
+                                              ),
+                                              placeholder: 'Pesquisar',
+                                              onSubmitted: (value) async {
+                                                if (value.isNotEmpty) {
+                                                  // await buscarComunidadeCampoBusca(value);
+                                                  // campoBusca.clear();
+                                                  buscarPessoa(value);
+                                                } else {
+                                                  setState(() {
+                                                    listaPessoasBusca.clear();
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        CupertinoButton(
+                                          color: Cores.preto,
+                                          onPressed: () async {
+                                            // if (campoBusca.text != "") {
+                                            //   await buscarComunidadeCampoBusca(campoBusca.text);
+                                            //   campoBusca.clear();
+                                            // }
+                                            if (campoBusca.text.isNotEmpty) {
+                                              // await buscarComunidadeCampoBusca(value);
+                                              // campoBusca.clear();
+                                              buscarPessoa(campoBusca.text);
+                                            } else {
+                                              setState(() {
+                                                listaPessoasBusca.clear();
+                                              });
+                                            }
+                                          },
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 16,
+                                            horizontal: 16,
+                                          ),
+                                          child:
+                                              const Icon(CupertinoIcons.search),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: listaPessoasBusca.isEmpty
+                                          ? listaPessoas.length
+                                          : listaPessoasBusca.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 2),
+                                          child: CardPessoaChegar(
+                                            pessoas: listaPessoasBusca.isEmpty
+                                                ? listaPessoas[index]
+                                                : listaPessoasBusca[index],
+                                            status: status,
+                                            click: () async {
+                                              await buscarQuartoPessoa(
+                                                  listaPessoas[index]
+                                                      .quaCodigo);
+                                              setState(() {
+                                                telaDashboard = CheckinQuartos(
+                                                  codigoBloco: 0,
+                                                  codigoEvento: eventoAtivo,
+                                                  quartos: quartos,
+                                                  voltar: () {
+                                                    dashBoardController
+                                                        .animateToPage(
+                                                      0,
+                                                      duration: const Duration(
+                                                          milliseconds: 500),
+                                                      curve: Curves.ease,
+                                                    );
+                                                    setState(() {
+                                                      status = "A";
+                                                    });
+                                                    getEventoAtivo();
+                                                  },
+                                                );
+                                              });
+                                              dashBoardController.animateToPage(
+                                                1,
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                curve: Curves.ease,
+                                              );
+                                            },
+                                          ),
                                         );
                                       },
                                     ),
-                                  );
-                                },
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                          CheckinQuartos(
-                            codigoBloco: 0,
-                            codigoEvento: eventoAtivo,
-                            quartos: quartos,
-                            voltar: () {
-                              dashBoardController.animateToPage(
-                                0,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.ease,
-                              );
-                              getEventoAtivo();
-                            },
-                          ),
+                          telaDashboard,
+                          // CheckinQuartos(
+                          //   codigoBloco: 0,
+                          //   codigoEvento: eventoAtivo,
+                          //   quartos: quartos,
+                          //   voltar: () {
+                          //     dashBoardController.animateToPage(
+                          //       0,
+                          //       duration: const Duration(milliseconds: 500),
+                          //       curve: Curves.ease,
+                          //     );
+                          //     getEventoAtivo();
+                          //   },
+                          // ),
                         ],
                       ),
                     ),
@@ -340,8 +489,12 @@ class _DashBoardState extends State<DashBoard> {
                                   MouseRegion(
                                     cursor: SystemMouseCursors.click,
                                     child: GestureDetector(
-                                      onTap: () {
-                                        getEventoAtivo();
+                                      onTap: () async {
+                                        //getEventoAtivo();
+                                        await buscarPessoas(eventoAtivo);
+                                        setState(() {
+                                          status = "A";
+                                        });
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -385,8 +538,22 @@ class _DashBoardState extends State<DashBoard> {
                                   MouseRegion(
                                     cursor: SystemMouseCursors.click,
                                     child: GestureDetector(
-                                      onTap: () {
-                                        getEventoAtivo();
+                                      onTap: () async {
+                                        //getEventoAtivo();
+                                        await buscarPessoasChegas(eventoAtivo);
+                                        setState(() {
+                                          status = "C";
+                                        });
+                                        //await buscarPessoasNaoVem(codigo);
+                                        // setState(() {
+                                        //   telaDashboard =
+                                        // dashBoardController.animateToPage(
+                                        //   1,
+                                        //   duration: const Duration(
+                                        //       milliseconds: 500),
+                                        //   curve: Curves.ease,
+                                        // );
+                                        // });
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -430,8 +597,12 @@ class _DashBoardState extends State<DashBoard> {
                                   MouseRegion(
                                     cursor: SystemMouseCursors.click,
                                     child: GestureDetector(
-                                      onTap: () {
-                                        getEventoAtivo();
+                                      onTap: () async {
+                                        //getEventoAtivo();
+                                        await buscarPessoasNaoVem(eventoAtivo);
+                                        setState(() {
+                                          status = "N";
+                                        });
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(

@@ -20,9 +20,13 @@ class ApiDashboard {
   final String _urlNumeroCamasOcupadas =
       "${Globais.urlBase}dashboard/numeroCamasOcupadas/";
   final String _urlGetPessoasChegas =
-      "${Globais.urlBase}dashboard/pessoasAChegar/";
+      "${Globais.urlBase}dashboard/pessoasChegas/";
   final String _urlGetPessoasAChegar =
       "${Globais.urlBase}dashboard/pessoasAChegar/";
+  final String _urlGetPessoasNaoVem =
+      "${Globais.urlBase}dashboard/pessoasNaoVem/";
+  final String _urlGetQuartoPessoaNaovem =
+      "${Globais.urlBase}dashboard/quartoPessoaNaoVem/";
   final String _urlGetQuartoPessoaAChegar =
       "${Globais.urlBase}dashboard/quartoPessoaAChegar/";
   final String _urlGetQuartoPessoaChega =
@@ -73,6 +77,15 @@ class ApiDashboard {
   Future<dynamic> getPessoasChegas(int codigoEvento) async {
     return await _request
         .getJson(_urlGetPessoasChegas + codigoEvento.toString());
+  }
+
+  Future<dynamic> getPessoasNaoVem(int codigoEvento) async {
+    return await _request
+        .getJson(_urlGetPessoasNaoVem + codigoEvento.toString());
+  }
+
+  Future<dynamic> getQuartoPessoaNaovem(int codigoEvento) async {
+    return await _request.getJson("$_urlGetQuartoPessoaNaovem$codigoEvento");
   }
 
   Future<dynamic> getQuartoPessoaAChegar(
