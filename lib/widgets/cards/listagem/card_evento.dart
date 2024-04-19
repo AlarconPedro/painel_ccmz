@@ -11,6 +11,7 @@ class CardEvento extends StatelessWidget {
   Function quartos;
   Function pessoas;
   Function alocacao;
+  Function custo;
 
   CardEvento({
     super.key,
@@ -19,6 +20,7 @@ class CardEvento extends StatelessWidget {
     required this.quartos,
     required this.pessoas,
     required this.alocacao,
+    required this.custo,
   });
 
   @override
@@ -107,6 +109,23 @@ class CardEvento extends StatelessWidget {
               ),
               onPressed: () {
                 alocacao();
+              },
+            ),
+          ),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            elevation: 5,
+            child: CupertinoButton(
+              padding: const EdgeInsets.all(10),
+              child: const Icon(
+                CupertinoIcons.money_dollar,
+                size: 35,
+                color: Cores.verdeMedio,
+              ),
+              onPressed: () {
+                custo();
               },
             ),
           ),

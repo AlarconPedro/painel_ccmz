@@ -24,6 +24,7 @@ export 'evento/pessoas_evento.dart';
 export 'evento/alocacao_evento.dart';
 export 'evento/alocacao_evento_pessoas.dart';
 export 'evento/estrutura_alocacao_evento.dart';
+export 'evento/custo_evento.dart';
 
 export 'alocacao/alocacao.dart';
 export 'alocacao/checkin_quartos.dart';
