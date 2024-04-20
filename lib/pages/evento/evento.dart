@@ -178,9 +178,9 @@ class _EventoState extends State<Evento> {
           Text("Pessoas", style: TextStyle(fontWeight: FontWeight.bold)),
           SizedBox(width: 10),
           Text("Alocação", style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(width: 15),
-          Text("Custo", style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(width: 22),
+          SizedBox(width: 12),
+          Text("Acerto", style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(width: 20),
           Text("Excluir", style: TextStyle(fontWeight: FontWeight.bold)),
           SizedBox(width: 25),
         ]),
@@ -262,7 +262,7 @@ class _EventoState extends State<Evento> {
                                 context,
                                 CupertinoDialogRoute(
                                     builder: (context) {
-                                      return const CustoEvento();
+                                      return const AcertoEvento();
                                     },
                                     context: context),
                               );
