@@ -125,7 +125,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Row(
@@ -133,7 +133,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                         const Text("Valor P/ Pessoa:",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: SizedBox(
                             height: 45,
@@ -160,11 +160,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
                         // SizedBox(width: 10),
                         // const Text("x 80", style: TextStyle(fontSize: 18)),
                         const Spacer(),
-                        const Text("Valor Total:",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-
-                        SizedBox(width: 10),
+                        const Text(
+                          "Valor Total:",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: SizedBox(
                             height: 45,
