@@ -13,6 +13,14 @@ class AcertoEvento extends StatefulWidget {
 }
 
 class _AcertoEventoState extends State<AcertoEvento> {
+  List<Map<String, double>> despesasExtra = [];
+
+  TextEditingController valorCozinhaController = TextEditingController();
+  TextEditingController valorHostiariaController = TextEditingController();
+
+  TextEditingController nomeDespesaController = TextEditingController();
+  TextEditingController valorDespesaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +55,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                     ),
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width / 1.5,
-                      height: 200,
+                      height: 300,
                       child: Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -197,6 +205,130 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                 ),
                               ],
                             ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 5),
+                              child: Divider(
+                                color: Cores.cinzaEscuro,
+                                thickness: 1,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              "Despesas/Serviços Adicionais:",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Nome:",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 45,
+                                    child: CupertinoTextField(
+                                      placeholder: "Despesa ou Serviço",
+                                      padding: const EdgeInsets.all(5),
+                                      controller: nomeDespesaController,
+                                      decoration: BoxDecoration(
+                                        // color: Cores.cinzaClaro,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Cores.cinzaEscuro,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  "Valor:",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 45,
+                                    child: CupertinoTextField(
+                                      placeholder: "R\$ 0,00",
+                                      keyboardType: TextInputType.number,
+                                      padding: const EdgeInsets.all(5),
+                                      controller: valorDespesaController,
+                                      decoration: BoxDecoration(
+                                        // color: Cores.cinzaClaro,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Cores.cinzaEscuro,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                CupertinoButton(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 10,
+                                  ),
+                                  color: Cores.verdeMedio,
+                                  onPressed: () {
+                                    // salvarPessoas();
+                                    setState(() {
+                                      despesasExtra.add({
+                                        nomeDespesaController.text:
+                                            double.parse(
+                                          valorDespesaController.text
+                                              .replaceAll(',', '.'),
+                                        ),
+                                      });
+                                      nomeDespesaController.clear();
+                                      valorDespesaController.clear();
+                                    });
+                                  },
+                                  child: const Text("+"),
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: despesasExtra.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 5,
+                                      horizontal: 10,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(despesasExtra[index].keys.first,
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold)),
+                                        const Spacer(),
+                                        Text(
+                                            despesasExtra[index]
+                                                .values
+                                                .first
+                                                .toStringAsFixed(2),
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
                           ],
                         ),
                       ),
