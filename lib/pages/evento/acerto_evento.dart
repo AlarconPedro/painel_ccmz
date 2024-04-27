@@ -600,7 +600,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                     decoration: const BoxDecoration(
                       color: Cores.branco,
                     ),
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.all(10),
                       child: Row(
                         children: [
