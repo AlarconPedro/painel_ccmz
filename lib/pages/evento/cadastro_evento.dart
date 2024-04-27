@@ -8,6 +8,7 @@ import 'package:painel_ccmn/pages/esqueleto/cadastro_form.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
 import '../../classes/classes.dart';
+import '../../widgets/widgets.dart';
 
 class CadastroEvento extends StatefulWidget {
   EventoModel? evento;
@@ -24,8 +25,33 @@ class _CadastroEventoState extends State<CadastroEvento> {
   TextEditingController nomeController = TextEditingController();
   TextEditingController dataInicioController = TextEditingController();
   TextEditingController dataFimController = TextEditingController();
+  TextEditingController valorEventoController = TextEditingController();
 
   bool carregando = false;
+
+  List<DropdownMenuItem> tipoCobrancaItens = [
+    const DropdownMenuItem(
+      value: 1,
+      child: Text("Por Pessoa"),
+    ),
+    const DropdownMenuItem(
+      value: 2,
+      child: Text("Total"),
+    ),
+  ];
+
+  List<Map<int, String>> tipoCobranca = [
+    {1: "P"},
+    {2: "T"},
+  ];
+
+  int selecionado = 1;
+
+  onChangem(int? value) {
+    setState(() {
+      selecionado = value!;
+    });
+  }
 
   preparaDados() {
     if (widget.evento != null) {
@@ -34,6 +60,10 @@ class _CadastroEventoState extends State<CadastroEvento> {
         eveNome: nomeController.text,
         eveDataInicio: FuncoesData.stringToDateTime(dataInicioController.text),
         eveDataFim: FuncoesData.stringToDateTime(dataFimController.text),
+        eveValor: valorEventoController.text == ""
+            ? 0.0
+            : double.parse(valorEventoController.text),
+        eveTipoCobranca: tipoCobranca[selecionado - 1].values.first,
       );
     }
     return EventoModel(
@@ -41,6 +71,10 @@ class _CadastroEventoState extends State<CadastroEvento> {
       eveNome: nomeController.text,
       eveDataInicio: FuncoesData.stringToDateTime(dataInicioController.text),
       eveDataFim: FuncoesData.stringToDateTime(dataFimController.text),
+      eveValor: valorEventoController.text == ""
+          ? 0.0
+          : double.parse(valorEventoController.text),
+      eveTipoCobranca: tipoCobranca[selecionado - 1].values.first,
     );
   }
 
@@ -100,6 +134,8 @@ class _CadastroEventoState extends State<CadastroEvento> {
           TextEditingValue(text: widget.evento!.eveDataFim);
       dataInicioController.value =
           TextEditingValue(text: widget.evento!.eveDataInicio);
+      valorEventoController.text = widget.evento!.eveValor.toString();
+      selecionado = widget.evento!.eveTipoCobranca == "P" ? 1 : 2;
     }
   }
 
@@ -108,7 +144,7 @@ class _CadastroEventoState extends State<CadastroEvento> {
     return CadastroForm(
       formKey: formKey,
       titulo: "Cadastro de Evento",
-      altura: 4.5,
+      altura: 3.4,
       largura: 2,
       gravar: () {
         if (formKey.currentState!.validate()) {
@@ -280,6 +316,59 @@ class _CadastroEventoState extends State<CadastroEvento> {
               ),
             ),
           ],
+        ),
+        SizedBox(
+          child: Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: DropDownForm(
+                    label: "Tipo Cobrança",
+                    itens: tipoCobrancaItens,
+                    selecionado: selecionado,
+                    onChange: onChangem,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10,
+                  ),
+                  child: TextFormField(
+                    controller: valorEventoController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Valor',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        borderSide: BorderSide(
+                          color: Cores.cinzaEscuro,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, digite o valor do Evento !';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
