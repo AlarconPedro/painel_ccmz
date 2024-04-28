@@ -22,6 +22,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
   TextEditingController nomeDespesaController = TextEditingController();
   TextEditingController valorDespesaController = TextEditingController();
 
+  buscarPessoasPagantesCobrantesEvento() async {}
+
+  buscarPessoasPagantesCobrantesComunidade() async {}
+
+  busarDespesasExtraEvento() async {}
+
+  busarDespesasExtraComunidade() async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
