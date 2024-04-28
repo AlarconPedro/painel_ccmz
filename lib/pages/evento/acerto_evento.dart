@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,9 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
+import '../../data/api/api_acerto.dart';
 
 class AcertoEvento extends StatefulWidget {
-  const AcertoEvento({super.key});
+  int codigoEvento;
+  AcertoEvento({super.key, required this.codigoEvento});
 
   @override
   State<AcertoEvento> createState() => _AcertoEventoState();
@@ -22,13 +26,88 @@ class _AcertoEventoState extends State<AcertoEvento> {
   TextEditingController nomeDespesaController = TextEditingController();
   TextEditingController valorDespesaController = TextEditingController();
 
-  buscarPessoasPagantesCobrantesEvento() async {}
+  bool carregando = false;
+
+  double valorEvento = 0;
+
+  String tipoCobrancaEvento = "";
+
+  buscaDadosPrimarios() {
+    buscarCustoEvento();
+    buscarPessoasPagantesCobrantesEvento();
+    busarDespesasExtraEvento();
+  }
+
+  buscarCustoEvento() async {
+    setState(() => carregando = true);
+    var retorno = await ApiAcerto().getEventoCusto(widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        valorEvento = decoded["eveValor"];
+        tipoCobrancaEvento = decoded["eveTipoCobranca"];
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar custo do evento"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarPessoasPagantesCobrantesEvento() async {
+    setState(() => carregando = true);
+    var retorno = await ApiAcerto().getEventoPessoas(widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      // setState(() {
+      //   valorEvento = decoded["eveValor"];
+      //   tipoCobrancaEvento = decoded["eveTipoCobranca"];
+      // });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar pessoas pagantes e cobrantes"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
 
   buscarPessoasPagantesCobrantesComunidade() async {}
 
-  busarDespesasExtraEvento() async {}
+  busarDespesasExtraEvento() async {
+    setState(() => carregando = true);
+    var retorno = await ApiAcerto().getEventoDespesas(widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      // setState(() {
+      //   valorEvento = decoded["eveValor"];
+      //   tipoCobrancaEvento = decoded["eveTipoCobranca"];
+      // }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar despesas extras do evento"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
 
   busarDespesasExtraComunidade() async {}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscaDadosPrimarios();
+  }
 
   @override
   Widget build(BuildContext context) {
