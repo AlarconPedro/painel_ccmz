@@ -106,15 +106,17 @@ class _PessoasEventoState extends State<PessoasEvento> {
   preparaDadosUpload() {
     List<EventoPessoasModel> pessoasEvento = [];
     for (var pessoa in pessoas) {
-      pessoasEvento.add(
-        EventoPessoasModel(
-          evpCodigo: pessoa.evpCodigo != 0 ? pessoa.evpCodigo : 0,
-          eveCodigo: widget.codigoEvento,
-          pesCodigo: pessoa.pesCodigo,
-          evpPagante: pessoa.evpCodigo != 0 ? pessoa.pesPagante : true,
-          evpCobrante: pessoa.evpCodigo != 0 ? pessoa.pesCobrante : true,
-        ),
-      );
+      if (pessoasSelecionadas.contains(pessoa.pesCodigo)) {
+        pessoasEvento.add(
+          EventoPessoasModel(
+            evpCodigo: pessoa.evpCodigo != 0 ? pessoa.evpCodigo : 0,
+            eveCodigo: widget.codigoEvento,
+            pesCodigo: pessoa.pesCodigo,
+            evpPagante: pessoa.evpCodigo != 0 ? pessoa.pesPagante : true,
+            evpCobrante: pessoa.evpCodigo != 0 ? pessoa.pesCobrante : true,
+          ),
+        );
+      }
 
       // for (var item in pessoasSelecionadas) {
       //   if (pessoas.where((element) => element.pesCodigo == item).isNotEmpty) {
