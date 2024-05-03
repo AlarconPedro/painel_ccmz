@@ -14,18 +14,18 @@ class AlocacaoModel {
   });
 
   factory AlocacaoModel.fromJson(Map<String, dynamic> json) => AlocacaoModel(
-        qupCodigo: json["qupCodigo"],
-        pesCodigo: json["pesCodigo"],
-        quaCodigo: json["quaCodigo"],
-        pesChave: json["pesChave"],
-        pesCheckin: json["pesCheckin"],
+        qupCodigo: json["qupCodigo"] ?? 0,
+        pesCodigo: json["pesCodigo"] ?? 0,
+        quaCodigo: json["quaCodigo"] ?? 0,
+        pesChave: json["pesChave"] ?? false,
+        pesCheckin: json["pesCheckin"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
-        "qupCodigo": qupCodigo,
-        "pesCodigo": pesCodigo,
-        "quaCodigo": quaCodigo,
-        "pesChave": pesChave,
-        "pesCheckin": pesCheckin,
+        "qupCodigo": qupCodigo ?? 0,
+        "pesCodigo": pesCodigo ?? 0,
+        "quaCodigo": quaCodigo ?? 0,
+        "pesChave": pesChave ?? false,
+        "pesCheckin": pesCheckin ?? false,
       };
 }
