@@ -11,7 +11,9 @@ import '../../data/api/api_acerto.dart';
 
 class AcertoEvento extends StatefulWidget {
   int codigoEvento;
-  AcertoEvento({super.key, required this.codigoEvento});
+  String nomeEvento;
+  AcertoEvento(
+      {super.key, required this.codigoEvento, required this.nomeEvento});
 
   @override
   State<AcertoEvento> createState() => _AcertoEventoState();
@@ -29,8 +31,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
   bool carregando = false;
 
   double valorEvento = 0;
+  double valorComunidade = 0;
+  double valorPorPessoa = 0;
+  double valorTotalEvento = 0;
 
   String tipoCobrancaEvento = "";
+
+  int pagantes = 0;
+  int cobrantes = 0;
 
   buscaDadosPrimarios() {
     buscarCustoEvento();
@@ -63,10 +71,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
     var retorno = await ApiAcerto().getEventoPessoas(widget.codigoEvento);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
-      // setState(() {
-      //   valorEvento = decoded["eveValor"];
-      //   tipoCobrancaEvento = decoded["eveTipoCobranca"];
-      // });
+      setState(() {
+        pagantes = decoded["pagantes"];
+        cobrantes = decoded["cobrantes"];
+        valorEvento = (cobrantes * valorEvento);
+        valorPorPessoa = valorEvento / pagantes;
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -90,12 +100,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
       //   tipoCobrancaEvento = decoded["eveTipoCobranca"];
       // }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Erro ao buscar despesas extras do evento"),
-          backgroundColor: Cores.vermelhoMedio,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao buscar despesas extras do evento"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
     }
     setState(() => carregando = false);
   }
@@ -148,33 +158,33 @@ class _AcertoEventoState extends State<AcertoEvento> {
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           children: [
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Evento: Nome do Evento",
-                                  style: TextStyle(
+                                  "Evento: ${widget.nomeEvento}",
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
-                                  "Cobrante: 80",
-                                  style: TextStyle(
+                                  "Cobrante: $cobrantes",
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Text(
-                                  "Pagante: 80",
-                                  style: TextStyle(
+                                  "Pagante: $pagantes",
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                               ],
                             ),
                             const SizedBox(height: 10),
@@ -279,13 +289,22 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                       ),
                                     ),
                                     height: 45,
-                                    child: const Center(
+                                    child: Center(
                                         child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
                                       child: Row(
                                         children: [
-                                          Text("R\$ 0,00"),
+                                          Text(
+                                            NumberFormat.currency(
+                                              locale: 'pt_BR',
+                                              symbol: 'R\$',
+                                              decimalDigits: 2,
+                                            ).format(valorEvento),
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ],
                                       ),
                                     )),
@@ -426,6 +445,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                   CardDespesasComunidade(
                     nomeDespesaController: nomeDespesaController,
                     valorDespesaController: valorDespesaController,
+                    valorPorPessoa: valorPorPessoa,
                   ),
                   const Spacer(),
                   Container(

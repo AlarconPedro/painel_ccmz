@@ -9,10 +9,13 @@ class CardDespesasComunidade extends StatefulWidget {
   TextEditingController nomeDespesaController;
   TextEditingController valorDespesaController;
 
+  double valorPorPessoa;
+
   CardDespesasComunidade(
       {super.key,
       required this.nomeDespesaController,
-      required this.valorDespesaController});
+      required this.valorDespesaController,
+      required this.valorPorPessoa});
 
   @override
   State<CardDespesasComunidade> createState() => _CardDespesasComunidadeState();
@@ -76,46 +79,81 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: SizedBox(
-                      height: 45,
-                      child: CupertinoTextField(
-                        placeholder: "R\$ 0,00",
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          TextInputFormatter.withFunction(
-                            (oldValue, newValue) {
-                              if (newValue.text.isEmpty) {
-                                return newValue.copyWith(
-                                  text: '0,00',
-                                );
-                              } else {
-                                final double value = double.parse(
-                                  newValue.text.replaceAll(',', '.'),
-                                );
-                                final String newText = NumberFormat.currency(
-                                  locale: 'pt_BR',
-                                  symbol: 'R\$',
-                                  decimalDigits: 2,
-                                ).format(value / 100);
-                                return newValue.copyWith(
-                                  text: newText,
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          // color: Cores.cinzaClaro,
-                          border: Border.all(
-                            color: Cores.cinzaEscuro,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Cores.branco,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Cores.cinzaEscuro,
+                          width: 1,
                         ),
                       ),
+                      height: 45,
+                      child: Center(
+                          child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          children: [
+                            Text(
+                              NumberFormat.currency(
+                                locale: 'pt_BR',
+                                symbol: 'R\$',
+                                decimalDigits: 2,
+                              ).format(widget.valorPorPessoa),
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      )),
                     ),
                   ),
+                  // const SizedBox(width: 10),
+                  // Expanded(
+                  //   child: SizedBox(
+                  //     height: 45,
+                  //     child: CupertinoTextField(
+                  //       placeholder: NumberFormat.currency(
+                  //         locale: 'pt_BR',
+                  //         symbol: 'R\$',
+                  //         decimalDigits: 2,
+                  //       ).format(widget.valorPorPessoa),
+                  //       keyboardType: TextInputType.number,
+                  //       inputFormatters: [
+                  //         TextInputFormatter.withFunction(
+                  //           (oldValue, newValue) {
+                  //             if (newValue.text.isEmpty) {
+                  //               return newValue.copyWith(
+                  //                 text: '0,00',
+                  //               );
+                  //             } else {
+                  //               final double value = double.parse(
+                  //                 newValue.text.replaceAll(',', '.'),
+                  //               );
+                  //               final String newText = NumberFormat.currency(
+                  //                 locale: 'pt_BR',
+                  //                 symbol: 'R\$',
+                  //                 decimalDigits: 2,
+                  //               ).format(value / 100);
+                  //               return newValue.copyWith(
+                  //                 text: newText,
+                  //               );
+                  //             }
+                  //           },
+                  //         ),
+                  //       ],
+                  //       padding: const EdgeInsets.all(5),
+                  //       decoration: BoxDecoration(
+                  //         // color: Cores.cinzaClaro,
+                  //         border: Border.all(
+                  //           color: Cores.cinzaEscuro,
+                  //           width: 1,
+                  //         ),
+                  //         borderRadius: BorderRadius.circular(10),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(width: 10),
                   const SizedBox(width: 10),
                   const Text(

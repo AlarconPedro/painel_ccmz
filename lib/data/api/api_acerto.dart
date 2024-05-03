@@ -5,13 +5,13 @@ class ApiAcerto {
   static final _request = HttpRequest();
 
   //GET
-  final String _urlGetEventoCusto = "${Globais.urlBase}acerto/evento/custo/";
+  final String _urlGetEventoCusto = "${Globais.urlBase}Acerto/evento/custo/";
 
   final String _urlGetEventoDespesas =
-      "${Globais.urlBase}acerto/evento/despesas/";
+      "${Globais.urlBase}Acerto/evento/despesas/";
 
   final String _urlGetEventoPessoas =
-      "${Globais.urlBase}acerto/evento/pessoas/";
+      "${Globais.urlBase}Acerto/evento/pessoas/";
 
   //GET
   Future<dynamic> getEventoCusto(int codigoEvento) async {
