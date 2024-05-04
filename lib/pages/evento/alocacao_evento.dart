@@ -10,7 +10,8 @@ import '../../data/data.dart';
 import '../../widgets/widgets.dart';
 
 class AlocacaoEvento extends StatefulWidget {
-  const AlocacaoEvento({super.key});
+  int codigoEvento;
+  AlocacaoEvento({super.key, required this.codigoEvento});
 
   @override
   State<AlocacaoEvento> createState() => _AlocacaoEventoState();
@@ -60,17 +61,42 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     setState(() => carregando = true);
     var retorno = await ApiEvento().getEventosAtivos();
     if (retorno.statusCode == 200) {
-      eventos.clear();
-      var decoded = json.decode(retorno.body);
-      for (var item in decoded) {
-        setState(() {
-          eventos.add(
-            DropdownMenuItem(
-              value: item["eveCodigo"],
-              child: Text(item["eveNome"]),
+      if (retorno.body != "[]") {
+        eventos.clear();
+        var decoded = json.decode(retorno.body);
+        for (var item in decoded) {
+          setState(() {
+            eventos.add(
+              DropdownMenuItem(
+                value: item["eveCodigo"],
+                child: Text(item["eveNome"]),
+              ),
+            );
+          });
+        }
+      } else {
+        retorno = await ApiEvento().getEvento(widget.codigoEvento);
+        if (retorno.statusCode == 200) {
+          eventos.clear();
+          var decoded = json.decode(retorno.body);
+          for (var item in decoded) {
+            setState(() {
+              eventos.add(
+                DropdownMenuItem(
+                  value: item["eveCodigo"],
+                  child: Text(item["eveNome"]),
+                ),
+              );
+            });
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Erro ao buscar eventos!"),
+              backgroundColor: Cores.vermelhoMedio,
             ),
           );
-        });
+        }
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
