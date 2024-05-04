@@ -59,45 +59,56 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   buscarEventos() async {
     setState(() => carregando = true);
-    var retorno = await ApiEvento().getEventosAtivos();
+    var retorno = await ApiEvento().getEvento(widget.codigoEvento);
     if (retorno.statusCode == 200) {
-      if (retorno.body != "[]") {
-        eventos.clear();
-        var decoded = json.decode(retorno.body);
-        for (var item in decoded) {
-          setState(() {
-            eventos.add(
-              DropdownMenuItem(
-                value: item["eveCodigo"],
-                child: Text(item["eveNome"]),
-              ),
-            );
-          });
-        }
-      } else {
-        retorno = await ApiEvento().getEvento(widget.codigoEvento);
-        if (retorno.statusCode == 200) {
-          eventos.clear();
-          var decoded = json.decode(retorno.body);
-          for (var item in decoded) {
-            setState(() {
-              eventos.add(
-                DropdownMenuItem(
-                  value: item["eveCodigo"],
-                  child: Text(item["eveNome"]),
-                ),
-              );
-            });
-          }
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Erro ao buscar eventos!"),
-              backgroundColor: Cores.vermelhoMedio,
-            ),
-          );
-        }
-      }
+      eventos.clear();
+      var decoded = json.decode(retorno.body);
+      // for (var item in decoded) {
+      setState(() {
+        eventos.add(
+          DropdownMenuItem(
+            value: decoded["eveCodigo"],
+            child: Text(decoded["eveNome"]),
+          ),
+        );
+      });
+      // var retorno = await ApiEvento().getEventosAtivos();
+      // if (retorno.statusCode == 200) {
+      //   if (retorno.body != "[]") {
+      //     eventos.clear();
+      //     var decoded = json.decode(retorno.body);
+      //     for (var item in decoded) {
+      //       setState(() {
+      //         eventos.add(
+      //           DropdownMenuItem(
+      //             value: item["eveCodigo"],
+      //             child: Text(item["eveNome"]),
+      //           ),
+      //         );
+      //       });
+      //     }
+      //   } else {
+      //     retorno = await ApiEvento().getEvento(widget.codigoEvento);
+      //     if (retorno.statusCode == 200) {
+      //       eventos.clear();
+      //       var decoded = json.decode(retorno.body);
+      //       setState(() {
+      //         eventos.add(
+      //           DropdownMenuItem(
+      //             value: decoded["eveCodigo"],
+      //             child: Text(decoded["eveNome"]),
+      //           ),
+      //         );
+      //       });
+      //     } else {
+      //       ScaffoldMessenger.of(context).showSnackBar(
+      //         const SnackBar(
+      //           content: Text("Erro ao buscar eventos!"),
+      //           backgroundColor: Cores.vermelhoMedio,
+      //         ),
+      //       );
+      //     }
+      //   }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
