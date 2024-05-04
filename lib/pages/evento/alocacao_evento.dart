@@ -467,6 +467,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
         qupCodigo: 0,
         pesChave: false,
         pesCheckin: false,
+        pesNaovem: false,
       ),
     );
 

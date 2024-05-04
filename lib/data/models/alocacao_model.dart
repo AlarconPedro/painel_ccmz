@@ -4,6 +4,7 @@ class AlocacaoModel {
   int quaCodigo;
   bool pesChave;
   bool pesCheckin;
+  bool pesNaovem;
 
   AlocacaoModel({
     required this.qupCodigo,
@@ -11,6 +12,7 @@ class AlocacaoModel {
     required this.quaCodigo,
     required this.pesChave,
     required this.pesCheckin,
+    required this.pesNaovem,
   });
 
   factory AlocacaoModel.fromJson(Map<String, dynamic> json) => AlocacaoModel(
@@ -19,13 +21,15 @@ class AlocacaoModel {
         quaCodigo: json["quaCodigo"] ?? 0,
         pesChave: json["pesChave"] ?? false,
         pesCheckin: json["pesCheckin"] ?? false,
+        pesNaovem: json["pesNaovem"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
-        "qupCodigo": qupCodigo ?? 0,
-        "pesCodigo": pesCodigo ?? 0,
-        "quaCodigo": quaCodigo ?? 0,
-        "pesChave": pesChave ?? false,
-        "pesCheckin": pesCheckin ?? false,
+        "qupCodigo": qupCodigo,
+        "pesCodigo": pesCodigo,
+        "quaCodigo": quaCodigo,
+        "pesChave": pesChave,
+        "pesCheckin": pesCheckin,
+        "pesNaovem": pesNaovem,
       };
 }
