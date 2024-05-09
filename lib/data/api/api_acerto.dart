@@ -7,6 +7,9 @@ class ApiAcerto {
   //GET
   final String _urlGetEventoCusto = "${Globais.urlBase}Acerto/evento/custo/";
 
+  final String _urlGetComunidadesEvento =
+      "${Globais.urlBase}Acerto/evento/comunidades/";
+
   final String _urlGetEventoDespesas =
       "${Globais.urlBase}Acerto/evento/despesas/";
 
@@ -20,6 +23,10 @@ class ApiAcerto {
       "${Globais.urlBase}Acerto/comunidade/despesas/";
 
   //GET
+  Future<dynamic> getComunidadesEvento(int codigoEvento) async {
+    return await _request.getJson("$_urlGetComunidadesEvento$codigoEvento");
+  }
+
   Future<dynamic> getEventoCusto(int codigoEvento) async {
     return await _request.getJson("$_urlGetEventoCusto$codigoEvento");
   }
@@ -32,11 +39,15 @@ class ApiAcerto {
     return await _request.getJson("$_urlGetEventoPessoas$codigoEvento");
   }
 
-  Future<dynamic> getComunidadePessoas(int codigoEvento) async {
-    return await _request.getJson("$_urlGetComuidadePessoas$codigoEvento");
+  Future<dynamic> getComunidadePessoas(
+      int codigoEvento, int codigoComunidade) async {
+    return await _request
+        .getJson("$_urlGetComuidadePessoas$codigoEvento/$codigoComunidade");
   }
 
-  Future<dynamic> getComunidadeDespesas(int codigoEvento) async {
-    return await _request.getJson("$_urlGetComunidadeDespesas$codigoEvento");
+  Future<dynamic> getComunidadeDespesas(
+      int codigoEvento, int codigoComunidade) async {
+    return await _request
+        .getJson("$_urlGetComunidadeDespesas$codigoEvento/$codigoComunidade");
   }
 }

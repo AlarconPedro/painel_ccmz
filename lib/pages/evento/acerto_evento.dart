@@ -13,8 +13,11 @@ import '../../data/api/api_acerto.dart';
 class AcertoEvento extends StatefulWidget {
   int codigoEvento;
   String nomeEvento;
-  AcertoEvento(
-      {super.key, required this.codigoEvento, required this.nomeEvento});
+  AcertoEvento({
+    super.key,
+    required this.codigoEvento,
+    required this.nomeEvento,
+  });
 
   @override
   State<AcertoEvento> createState() => _AcertoEventoState();
@@ -50,12 +53,34 @@ class _AcertoEventoState extends State<AcertoEvento> {
   int pagantesComunidade = 0;
   int cobrantesComunidade = 0;
 
-  buscaDadosPrimarios() {
-    buscarCustoEvento();
+  int codigoComunidade = 0;
+
+  buscaDadosPrimarios() async {
+    await buscarComunidadesEvento();
+    await buscarCustoEvento();
     buscarPessoasPagantesCobrantesEvento();
     busarDespesasExtraEvento();
     buscarPessoasPagantesCobrantesComunidade();
     busarDespesasExtraComunidade();
+  }
+
+  buscarComunidadesEvento() async {
+    setState(() => carregando = true);
+    var retorno = await ApiAcerto().getComunidadesEvento(widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        codigoComunidade = decoded["comCodigo"];
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar pessoas pagantes e cobrantes"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
   }
 
   buscarCustoEvento() async {
@@ -123,7 +148,10 @@ class _AcertoEventoState extends State<AcertoEvento> {
 
   buscarPessoasPagantesCobrantesComunidade() async {
     setState(() => carregando = true);
-    var retorno = await ApiAcerto().getComunidadePessoas(widget.codigoEvento);
+    var retorno = await ApiAcerto().getComunidadePessoas(
+      widget.codigoEvento,
+      codigoComunidade,
+    );
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       setState(() {
