@@ -13,6 +13,12 @@ class ApiAcerto {
   final String _urlGetEventoPessoas =
       "${Globais.urlBase}Acerto/evento/pessoas/";
 
+  final String _urlGetComuidadePessoas =
+      "${Globais.urlBase}Acerto/comunidade/pessoas/";
+
+  final String _urlGetComunidadeDespesas =
+      "${Globais.urlBase}Acerto/comunidade/despesas/";
+
   //GET
   Future<dynamic> getEventoCusto(int codigoEvento) async {
     return await _request.getJson("$_urlGetEventoCusto$codigoEvento");
@@ -24,5 +30,13 @@ class ApiAcerto {
 
   Future<dynamic> getEventoPessoas(int codigoEvento) async {
     return await _request.getJson("$_urlGetEventoPessoas$codigoEvento");
+  }
+
+  Future<dynamic> getComunidadePessoas(int codigoEvento) async {
+    return await _request.getJson("$_urlGetComuidadePessoas$codigoEvento");
+  }
+
+  Future<dynamic> getComunidadeDespesas(int codigoEvento) async {
+    return await _request.getJson("$_urlGetComunidadeDespesas$codigoEvento");
   }
 }
