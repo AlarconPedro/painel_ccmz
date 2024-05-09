@@ -11,11 +11,17 @@ class CardDespesasComunidade extends StatefulWidget {
 
   double valorPorPessoa;
 
-  CardDespesasComunidade(
-      {super.key,
-      required this.nomeDespesaController,
-      required this.valorDespesaController,
-      required this.valorPorPessoa});
+  int pagante;
+  int cobrante;
+
+  CardDespesasComunidade({
+    super.key,
+    required this.nomeDespesaController,
+    required this.valorDespesaController,
+    required this.valorPorPessoa,
+    required this.pagante,
+    required this.cobrante,
+  });
 
   @override
   State<CardDespesasComunidade> createState() => _CardDespesasComunidadeState();
@@ -41,33 +47,33 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Comunidade: Nome da Comunidade",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
-                    "Cobrante: 80",
-                    style: TextStyle(
+                    "Cobrante: ${widget.cobrante}",
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Text(
-                    "Pagante: 80",
-                    style: TextStyle(
+                    "Pagante: ${widget.pagante}",
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                 ],
               ),
               const SizedBox(height: 10),

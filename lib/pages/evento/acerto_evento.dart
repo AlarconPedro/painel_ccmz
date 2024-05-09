@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
@@ -28,22 +29,33 @@ class _AcertoEventoState extends State<AcertoEvento> {
   TextEditingController nomeDespesaController = TextEditingController();
   TextEditingController valorDespesaController = TextEditingController();
 
+  MaskTextInputFormatter valorFormatter = MaskTextInputFormatter(
+    mask: '###.###.###.###.###,00',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
+
   bool carregando = false;
 
   double valorEvento = 0;
   double valorComunidade = 0;
   double valorPorPessoa = 0;
   double valorTotalEvento = 0;
+  double valorCozinha = 0;
+  double valorHostiaria = 0;
 
   String tipoCobrancaEvento = "";
 
-  int pagantes = 0;
-  int cobrantes = 0;
+  int pagantesEvento = 0;
+  int cobrantesEvento = 0;
+  int pagantesComunidade = 0;
+  int cobrantesComunidade = 0;
 
   buscaDadosPrimarios() {
     buscarCustoEvento();
     buscarPessoasPagantesCobrantesEvento();
     busarDespesasExtraEvento();
+    buscarPessoasPagantesCobrantesComunidade();
+    busarDespesasExtraComunidade();
   }
 
   buscarCustoEvento() async {
@@ -72,10 +84,11 @@ class _AcertoEventoState extends State<AcertoEvento> {
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       setState(() {
-        pagantes = decoded["pagantes"];
-        cobrantes = decoded["cobrantes"];
-        valorEvento = (cobrantes * valorEvento);
-        valorPorPessoa = valorEvento / pagantes;
+        pagantesEvento = decoded["pagantes"];
+        cobrantesEvento = decoded["cobrantes"];
+        valorEvento =
+            ((cobrantesEvento * valorEvento) + valorCozinha + valorHostiaria);
+        valorPorPessoa = valorEvento / pagantesEvento;
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -87,8 +100,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
     }
     setState(() => carregando = false);
   }
-
-  buscarPessoasPagantesCobrantesComunidade() async {}
 
   busarDespesasExtraEvento() async {
     setState(() => carregando = true);
@@ -106,6 +117,28 @@ class _AcertoEventoState extends State<AcertoEvento> {
       //     backgroundColor: Cores.vermelhoMedio,
       //   ),
       // );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarPessoasPagantesCobrantesComunidade() async {
+    setState(() => carregando = true);
+    var retorno = await ApiAcerto().getComunidadePessoas(widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        pagantesComunidade = decoded["pagantes"];
+        cobrantesComunidade = decoded["cobrantes"];
+        valorComunidade = (cobrantesEvento * valorComunidade);
+        valorPorPessoa = valorComunidade / pagantesEvento;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar pessoas pagantes e cobrantes"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
     }
     setState(() => carregando = false);
   }
@@ -143,10 +176,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
                     elevation: 5,
                     color: Cores.branco,
                     shape: const RoundedRectangleBorder(
-                      // borderRadius: BorderRadius.only(
-                      //   topLeft: Radius.circular(10),
-                      //   topRight: Radius.circular(10),
-                      // ),
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -170,7 +199,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  "Cobrante: $cobrantes",
+                                  "Cobrante: $cobrantesEvento",
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -178,7 +207,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                 ),
                                 const SizedBox(width: 10),
                                 Text(
-                                  "Pagante: $pagantes",
+                                  "Pagante: $pagantesEvento",
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -202,31 +231,45 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                     height: 45,
                                     child: CupertinoTextField(
                                       placeholder: "R\$ 0,00",
+                                      controller: valorCozinhaController,
                                       keyboardType: TextInputType.number,
+                                      onChanged: (value) {
+                                        // valorCozinhaController.text =
+                                        //     NumberFormat.currency(
+                                        //   locale: 'pt_BR',
+                                        //   symbol: 'R\$',
+                                        //   decimalDigits: 2,
+                                        // ).format(value / 100);
+                                        setState(() {
+                                          valorCozinha = double.parse(
+                                            value.replaceAll(',', '.'),
+                                          );
+                                        });
+                                      },
                                       inputFormatters: [
-                                        TextInputFormatter.withFunction(
-                                          (oldValue, newValue) {
-                                            if (newValue.text.isEmpty) {
-                                              return newValue.copyWith(
-                                                text: '0,00',
-                                              );
-                                            } else {
-                                              final double value = double.parse(
-                                                newValue.text
-                                                    .replaceAll(',', '.'),
-                                              );
-                                              final String newText =
-                                                  NumberFormat.currency(
-                                                locale: 'pt_BR',
-                                                symbol: 'R\$',
-                                                decimalDigits: 2,
-                                              ).format(value / 100);
-                                              return newValue.copyWith(
-                                                text: newText,
-                                              );
-                                            }
-                                          },
-                                        ),
+                                        // TextInputFormatter.withFunction(
+                                        //   (oldValue, newValue) {
+                                        //     if (newValue.text.isEmpty) {
+                                        //       return newValue.copyWith(
+                                        //         text: '0,00',
+                                        //       );
+                                        //     } else {
+                                        //       final double value = double.parse(
+                                        //         newValue.text
+                                        //             .replaceAll(',', '.'),
+                                        //       );
+                                        //       final String newText =
+                                        //           NumberFormat.currency(
+                                        //         locale: 'pt_BR',
+                                        //         symbol: 'R\$',
+                                        //         decimalDigits: 2,
+                                        //       ).format(value / 100);
+                                        //       return newValue.copyWith(
+                                        //         text: newText,
+                                        //       );
+                                        //     }
+                                        //   },
+                                        // ),
                                       ],
                                       padding: const EdgeInsets.all(5),
                                       decoration: BoxDecoration(
@@ -253,6 +296,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                     height: 45,
                                     child: CupertinoTextField(
                                       placeholder: "R\$ 0,00",
+                                      controller: valorHostiariaController,
                                       keyboardType: TextInputType.number,
                                       padding: const EdgeInsets.all(5),
                                       decoration: BoxDecoration(
@@ -446,6 +490,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
                     nomeDespesaController: nomeDespesaController,
                     valorDespesaController: valorDespesaController,
                     valorPorPessoa: valorPorPessoa,
+                    cobrante: cobrantesComunidade,
+                    pagante: pagantesComunidade,
                   ),
                   const Spacer(),
                   Container(
