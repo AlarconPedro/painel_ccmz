@@ -58,10 +58,10 @@ class _AcertoEventoState extends State<AcertoEvento> {
   buscaDadosPrimarios() async {
     await buscarComunidadesEvento();
     await buscarCustoEvento();
-    buscarPessoasPagantesCobrantesEvento();
-    busarDespesasExtraEvento();
-    buscarPessoasPagantesCobrantesComunidade();
-    busarDespesasExtraComunidade();
+    await buscarPessoasPagantesCobrantesEvento();
+    await busarDespesasExtraEvento();
+    await buscarPessoasPagantesCobrantesComunidade();
+    await busarDespesasExtraComunidade();
   }
 
   buscarComunidadesEvento() async {
