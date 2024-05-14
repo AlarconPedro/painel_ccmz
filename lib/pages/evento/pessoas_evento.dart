@@ -29,7 +29,8 @@ class _PessoasEventoState extends State<PessoasEvento> {
 
   buscarPessoas() async {
     setState(() => carregando = true);
-    var retorno = await ApiEvento().getPessoasEvento(comunidadeSelecionada);
+    var retorno = await ApiEvento()
+        .getPessoasEvento(comunidadeSelecionada, widget.codigoEvento);
     if (retorno.statusCode == 200) {
       pessoas.clear();
       var decoded = json.decode(retorno.body);

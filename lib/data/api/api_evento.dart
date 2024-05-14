@@ -50,9 +50,10 @@ class ApiEvento {
     return await _request.getJson("$_urlGetEvento$codigoEvento");
   }
 
-  Future<dynamic> getPessoasEvento(int codigoComunidade) async {
+  Future<dynamic> getPessoasEvento(
+      int codigoComunidade, int codigoEvento) async {
     return await _request
-        .getJson(_urlGetPessoasEvento + codigoComunidade.toString());
+        .getJson("$_urlGetPessoasEvento$codigoComunidade/$codigoEvento");
   }
 
   Future<dynamic> getQuartosPavilhao(int codigoBloco, int codigoEvento) async {
