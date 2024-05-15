@@ -19,7 +19,7 @@ class ApiEvento {
       "${Globais.urlBase}evento/pessoas/quarto/";
   //POST
   final String _urlAddEvento = "${Globais.urlBase}evento";
-  final String _urlAddPessoasEvento = "${Globais.urlBase}evento/pessoas/";
+  final String _urlAddPessoasEvento = "${Globais.urlBase}evento/pessoas";
   final String _urlAddQuartoEvento = "${Globais.urlBase}evento/quartos/";
   //PUT
   final String _urlUpdateEvento = "${Globais.urlBase}evento";
@@ -84,8 +84,7 @@ class ApiEvento {
 
   Future<dynamic> addPessoasEvento(
       List<EventoPessoasModel> pessoas, int codigoEvento) async {
-    return await _request.postListJson(
-        _urlAddPessoasEvento + codigoEvento.toString(), pessoas);
+    return await _request.postListJson(_urlAddPessoasEvento, pessoas);
   }
 
   Future<dynamic> addQuartoEvento(
