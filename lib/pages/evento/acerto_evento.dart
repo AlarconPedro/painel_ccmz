@@ -25,6 +25,7 @@ class AcertoEvento extends StatefulWidget {
 
 class _AcertoEventoState extends State<AcertoEvento> {
   List<Map<String, double>> despesasExtra = [];
+  List<Map<String, double>> despesasExtraComunidade = [];
 
   TextEditingController valorCozinhaController = TextEditingController();
   TextEditingController valorHostiariaController = TextEditingController();
@@ -57,11 +58,11 @@ class _AcertoEventoState extends State<AcertoEvento> {
 
   buscaDadosPrimarios() async {
     await buscarComunidadesEvento();
-    await buscarCustoEvento();
-    await buscarPessoasPagantesCobrantesEvento();
-    await busarDespesasExtraEvento();
-    await buscarPessoasPagantesCobrantesComunidade();
-    await busarDespesasExtraComunidade();
+    buscarCustoEvento();
+    buscarPessoasPagantesCobrantesEvento();
+    busarDespesasExtraEvento();
+    buscarPessoasPagantesCobrantesComunidade();
+    busarDespesasExtraComunidade();
   }
 
   buscarComunidadesEvento() async {
@@ -69,8 +70,9 @@ class _AcertoEventoState extends State<AcertoEvento> {
     var retorno = await ApiAcerto().getComunidadesEvento(widget.codigoEvento);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
+      var teste = decoded[0]["comCodigo"];
       setState(() {
-        codigoComunidade = decoded["comCodigo"];
+        codigoComunidade = decoded[0]["comCodigo"];
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -96,6 +98,44 @@ class _AcertoEventoState extends State<AcertoEvento> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Erro ao buscar custo do evento"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarCustoCozinha() async {
+    setState(() => carregando = true);
+    var retorno = await ApiAcerto().getValorCozinha(widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        valorCozinha = decoded["eveValor"];
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar custo da cozinha"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarCustoHostiaria() async {
+    setState(() => carregando = true);
+    var retorno = await ApiAcerto().getValorHostiaria(widget.codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        valorHostiaria = decoded["eveValor"];
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar custo da hostiaria"),
           backgroundColor: Cores.vermelhoMedio,
         ),
       );
@@ -172,6 +212,24 @@ class _AcertoEventoState extends State<AcertoEvento> {
   }
 
   busarDespesasExtraComunidade() async {}
+
+  inserirAtualizarValorCozinha() {}
+
+  inserirAtualizarValorHostiaria() {}
+
+  calcularValorTotalEvento() {
+    double total = 0;
+    total += valorEvento;
+    total += valorCozinha;
+    total += valorHostiaria;
+    for (var element in despesasExtra) {
+      total += element.values.first;
+    }
+    for (var element in despesasExtraComunidade) {
+      total += element.values.first;
+    }
+    return total;
+  }
 
   @override
   void initState() {
@@ -312,6 +370,18 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
+                                CupertinoButton(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 10,
+                                  ),
+                                  color: Cores.verdeMedio,
+                                  onPressed: () {
+                                    // salvarPessoas();
+                                  },
+                                  child: const Icon(CupertinoIcons.check_mark),
+                                ),
+                                const SizedBox(width: 10),
                                 const Text(
                                   "Valor Hostiária:",
                                   style: TextStyle(
@@ -341,6 +411,18 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                       // ),
                                     ),
                                   ),
+                                ),
+                                const SizedBox(width: 10),
+                                CupertinoButton(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 10,
+                                  ),
+                                  color: Cores.verdeMedio,
+                                  onPressed: () {
+                                    // salvarPessoas();
+                                  },
+                                  child: const Icon(CupertinoIcons.check_mark),
                                 ),
                                 const SizedBox(width: 10),
                                 const Text(
@@ -526,16 +608,21 @@ class _AcertoEventoState extends State<AcertoEvento> {
                     decoration: const BoxDecoration(
                       color: Cores.branco,
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
                       child: Row(
                         children: [
-                          Text("Total:",
+                          const Text("Total:",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          Spacer(),
-                          Text("R\$ 0,00",
-                              style: TextStyle(
+                          const Spacer(),
+                          Text(
+                              NumberFormat.currency(
+                                locale: 'pt_BR',
+                                symbol: 'R\$',
+                                decimalDigits: 2,
+                              ).format(calcularValorTotalEvento()),
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                         ],
                       ),
