@@ -14,6 +14,8 @@ class CardDespesasComunidade extends StatefulWidget {
   int pagante;
   int cobrante;
 
+  String nomeComunidade;
+
   CardDespesasComunidade({
     super.key,
     required this.nomeDespesaController,
@@ -21,6 +23,7 @@ class CardDespesasComunidade extends StatefulWidget {
     required this.valorPorPessoa,
     required this.pagante,
     required this.cobrante,
+    required this.nomeComunidade,
   });
 
   @override
@@ -29,6 +32,15 @@ class CardDespesasComunidade extends StatefulWidget {
 
 class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
   List<Map<String, double>> despesasExtra = [];
+
+  calcularValorTotalComunidade() {
+    double valorTotal = 0;
+    valorTotal += (widget.valorPorPessoa * widget.cobrante);
+    for (var item in despesasExtra) {
+      valorTotal += item.values.first;
+    }
+    return valorTotal;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +62,9 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Comunidade: Nome da Comunidade",
-                    style: TextStyle(
+                  Text(
+                    "Comunidade: ${widget.nomeComunidade}",
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -114,52 +126,6 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                       )),
                     ),
                   ),
-                  // const SizedBox(width: 10),
-                  // Expanded(
-                  //   child: SizedBox(
-                  //     height: 45,
-                  //     child: CupertinoTextField(
-                  //       placeholder: NumberFormat.currency(
-                  //         locale: 'pt_BR',
-                  //         symbol: 'R\$',
-                  //         decimalDigits: 2,
-                  //       ).format(widget.valorPorPessoa),
-                  //       keyboardType: TextInputType.number,
-                  //       inputFormatters: [
-                  //         TextInputFormatter.withFunction(
-                  //           (oldValue, newValue) {
-                  //             if (newValue.text.isEmpty) {
-                  //               return newValue.copyWith(
-                  //                 text: '0,00',
-                  //               );
-                  //             } else {
-                  //               final double value = double.parse(
-                  //                 newValue.text.replaceAll(',', '.'),
-                  //               );
-                  //               final String newText = NumberFormat.currency(
-                  //                 locale: 'pt_BR',
-                  //                 symbol: 'R\$',
-                  //                 decimalDigits: 2,
-                  //               ).format(value / 100);
-                  //               return newValue.copyWith(
-                  //                 text: newText,
-                  //               );
-                  //             }
-                  //           },
-                  //         ),
-                  //       ],
-                  //       padding: const EdgeInsets.all(5),
-                  //       decoration: BoxDecoration(
-                  //         // color: Cores.cinzaClaro,
-                  //         border: Border.all(
-                  //           color: Cores.cinzaEscuro,
-                  //           width: 1,
-                  //         ),
-                  //         borderRadius: BorderRadius.circular(10),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   const SizedBox(width: 10),
                   const SizedBox(width: 10),
                   const Text(
@@ -178,12 +144,23 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                         ),
                       ),
                       height: 45,
-                      child: const Center(
+                      child: Center(
                           child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Row(
                           children: [
-                            Text("R\$ 0,00"),
+                            Text(
+                              NumberFormat.currency(
+                                decimalDigits: 2,
+                                locale: 'pt_BR',
+                                symbol: 'R\$',
+                                name: 'R\$',
+                              ).format(
+                                calcularValorTotalComunidade(),
+                              ),
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                       )),
