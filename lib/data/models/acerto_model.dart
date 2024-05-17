@@ -1,7 +1,9 @@
+import 'package:painel_ccmn/data/models/pagantes_cobrantes_model.dart';
+
 class AcertoModel {
   int comCodigo;
   String comNome;
-  List<Map<String, dynamic>> pagantesCobrantes;
+  PagantesCobrantesModel pagantesCobrantes;
 
   AcertoModel({
     required this.comCodigo,
@@ -13,11 +15,8 @@ class AcertoModel {
     return AcertoModel(
       comCodigo: json['comCodigo'] ?? 0,
       comNome: json['comNome'] ?? '',
-      pagantesCobrantes: json['pagantesCobrantes'] == null
-          ? []
-          : (json['pagantesCobrantes'] as List)
-              .map((e) => e as Map<String, dynamic>)
-              .toList(),
+      pagantesCobrantes:
+          PagantesCobrantesModel.fromJson(json['pagantesCobrantes']),
     );
   }
 }
