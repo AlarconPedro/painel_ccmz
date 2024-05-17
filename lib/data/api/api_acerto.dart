@@ -75,15 +75,14 @@ class ApiAcerto {
 
   //POST
 
-  Future<dynamic> postDespesaCozinha(
-      int codigoEvento, int codigoComunidade, double valor) async {
+  Future<dynamic> postDespesaCozinha(int codigoEvento, double valor) async {
     return await _request.postJson(
-        _urlPostDespesaCozinha, {"codigoEvento": codigoEvento, "valor": valor});
+        "$_urlPostDespesaCozinha?codigoEvento=$codigoEvento&valor=$valor", {});
   }
 
-  Future<dynamic> postDespesaHostiaria(
-      int codigoEvento, int codigoComunidade, double valor) async {
-    return await _request.postJson(_urlPostDespesaHostiaria,
-        {"codigoEvento": codigoEvento, "valor": valor});
+  Future<dynamic> postDespesaHostiaria(int codigoEvento, double valor) async {
+    return await _request.postJson(
+        "$_urlPostDespesaHostiaria?codigoEvento=$codigoEvento&valor=$valor",
+        {});
   }
 }
