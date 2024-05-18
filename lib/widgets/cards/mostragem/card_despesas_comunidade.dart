@@ -48,9 +48,7 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
       elevation: 5,
       color: Cores.branco,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 1.5,
