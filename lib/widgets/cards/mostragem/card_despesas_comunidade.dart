@@ -60,29 +60,17 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Comunidade: ${widget.nomeComunidade}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text("Comunidade: ${widget.nomeComunidade}",
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                   const Spacer(),
-                  Text(
-                    "Cobrante: ${widget.cobrante}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text("Cobrante: ${widget.cobrante}",
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                   const SizedBox(width: 10),
-                  Text(
-                    "Pagante: ${widget.pagante}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text("Pagante: ${widget.pagante}",
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                   const SizedBox(width: 10),
                 ],
               ),
