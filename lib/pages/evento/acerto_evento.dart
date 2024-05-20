@@ -239,6 +239,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
       double.parse(valorCozinhaController.text),
     );
     if (retorno.statusCode == 200) {
+      calcularValorTotalEvento();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Valor da cozinha atualizado com sucesso"),
@@ -265,6 +266,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
       double.parse(valorHostiariaController.text),
     );
     if (retorno.statusCode == 200) {
+      calcularValorTotalEvento();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Valor da hostiaria atualizado com sucesso"),
@@ -289,8 +291,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
     setState(() {
       total = 0;
       total += valorEvento;
-      total += valorCozinha;
-      total += valorHostiaria;
+      // total += valorCozinha;
+      // total += valorHostiaria;
       for (var element in despesasExtra) {
         total += element.values.first;
       }
