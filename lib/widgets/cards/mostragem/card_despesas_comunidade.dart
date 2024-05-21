@@ -53,29 +53,45 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 1.5,
         height: 300,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Comunidade: ${widget.nomeComunidade}",
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  const Spacer(),
-                  Text("Cobrante: ${widget.cobrante}",
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 10),
-                  Text("Pagante: ${widget.pagante}",
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 10),
-                ],
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                color: Cores.azulMedio,
               ),
-              const SizedBox(height: 10),
-              Row(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Comunidade: ${widget.nomeComunidade}",
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Cores.branco)),
+                    const Spacer(),
+                    Text("Cobrante: ${widget.cobrante}",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(width: 10),
+                    Text("Pagante: ${widget.pagante}",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 10),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
                 children: [
                   const Text(
                     "Valor P/ Pessoa:",
@@ -154,20 +170,23 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                child: Divider(
-                  color: Cores.cinzaEscuro,
-                  thickness: 1,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                "Despesas/Serviços Adicionais:",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              Row(
+            ),
+            // const Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            //   child: Divider(
+            //     color: Cores.cinzaEscuro,
+            //     thickness: 1,
+            //   ),
+            // ),
+            const SizedBox(height: 10),
+            const Text(
+              "Despesas/Serviços Adicionais:",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
                 children: [
                   const Text(
                     "Nome:",
@@ -241,36 +260,43 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                   ),
                 ],
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: despesasExtra.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 10,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(despesasExtra[index].keys.first,
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
-                          const Spacer(),
-                          Text(
-                              despesasExtra[index]
-                                  .values
-                                  .first
-                                  .toStringAsFixed(2),
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              )
-            ],
-          ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              child: Divider(
+                color: Cores.cinzaEscuro,
+                thickness: 1,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: despesasExtra.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 10,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(despesasExtra[index].keys.first,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        const Spacer(),
+                        Text(
+                            despesasExtra[index]
+                                .values
+                                .first
+                                .toStringAsFixed(2),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -291,8 +291,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
     setState(() {
       total = 0;
       total += valorEvento;
-      // total += valorCozinha;
-      // total += valorHostiaria;
+      total += valorCozinha;
+      total += valorHostiaria;
       for (var element in despesasExtra) {
         total += element.values.first;
       }
@@ -316,7 +316,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(25),
         child: Center(
           child: Card(
             color: Cores.cinzaClaro,
@@ -327,17 +327,25 @@ class _AcertoEventoState extends State<AcertoEvento> {
               ),
             ),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height / 1.1,
+              height: MediaQuery.of(context).size.height / 1,
               width: MediaQuery.of(context).size.width / 1.5,
               child: Column(
                 children: [
-                  Card(
-                    elevation: 5,
-                    color: Cores.branco,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                  // Card(
+                  //   elevation: 5,
+                  //   color: Cores.branco,
+                  //   shape: const RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.all(
+                  //       Radius.circular(10),
+                  //     ),
+                  //   ),
+                  Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
                       ),
+                      color: Cores.branco,
                     ),
                     child: carregando
                         ? const Expanded(
@@ -524,15 +532,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                       ),
                                     ],
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 5),
-                                    child: Divider(
-                                      color: Cores.cinzaEscuro,
-                                      thickness: 1,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 15),
                                   const Text(
                                     "Despesas/Serviços Adicionais:",
                                     style: TextStyle(
@@ -621,6 +621,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                       ),
                                     ],
                                   ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 5),
+                                    child: Divider(
+                                      color: Cores.cinzaEscuro,
+                                      thickness: 1,
+                                    ),
+                                  ),
                                   Expanded(
                                     child: ListView.builder(
                                       itemCount: despesasExtra.length,
@@ -666,17 +674,21 @@ class _AcertoEventoState extends State<AcertoEvento> {
                     child: ListView.builder(
                       itemCount: comunidadesEvento.length,
                       itemBuilder: (context, index) {
-                        return CardDespesasComunidade(
-                          nomeDespesaController: nomeDespesaController,
-                          valorDespesaController: valorDespesaController,
-                          valorPorPessoa: valorPorPessoa,
-                          cobrante: comunidadesEvento[index]
-                              .pagantesCobrantes
-                              .cobrantes,
-                          pagante: comunidadesEvento[index]
-                              .pagantesCobrantes
-                              .pagantes,
-                          nomeComunidade: comunidadesEvento[index].comNome,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 10),
+                          child: CardDespesasComunidade(
+                            nomeDespesaController: nomeDespesaController,
+                            valorDespesaController: valorDespesaController,
+                            valorPorPessoa: valorPorPessoa,
+                            cobrante: comunidadesEvento[index]
+                                .pagantesCobrantes
+                                .cobrantes,
+                            pagante: comunidadesEvento[index]
+                                .pagantesCobrantes
+                                .pagantes,
+                            nomeComunidade: comunidadesEvento[index].comNome,
+                          ),
                         );
                       },
                     ),
