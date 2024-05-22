@@ -70,19 +70,24 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                   children: [
                     Text("Comunidade: ${widget.nomeComunidade}",
                         style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Cores.branco)),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Cores.branco,
+                        )),
                     const Spacer(),
                     Text("Cobrante: ${widget.cobrante}",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
+                          color: Cores.branco,
                         )),
                     const SizedBox(width: 10),
                     Text("Pagante: ${widget.pagante}",
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Cores.branco,
+                        )),
                     const SizedBox(width: 10),
                   ],
                 ),

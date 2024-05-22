@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/data.dart';
-import 'package:painel_ccmn/data/models/acerto_model.dart';
+import 'package:painel_ccmn/data/models/acerto_comunidade_model.dart';
+import 'package:painel_ccmn/data/models/evento_despesas_model.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
@@ -26,7 +27,7 @@ class AcertoEvento extends StatefulWidget {
 }
 
 class _AcertoEventoState extends State<AcertoEvento> {
-  List<Map<String, double>> despesasExtra = [];
+  List<EventoDespesasModel> despesasExtra = [];
   List<Map<String, double>> despesasExtraComunidade = [];
 
   TextEditingController valorCozinhaController = TextEditingController();
@@ -34,6 +35,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
 
   TextEditingController nomeDespesaController = TextEditingController();
   TextEditingController valorDespesaController = TextEditingController();
+  TextEditingController qtdDespesaController = TextEditingController();
 
   List<AcertoModel> comunidadesEvento = [];
 
@@ -45,9 +47,9 @@ class _AcertoEventoState extends State<AcertoEvento> {
   bool carregando = false;
 
   double valorEvento = 0;
+  double valorExtraEvento = 0;
   double valorComunidade = 0;
   double valorPorPessoa = 0;
-  double valorTotalEvento = 0;
   double valorCozinha = 0;
   double valorHostiaria = 0;
 
@@ -66,9 +68,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
     await buscarCustoHostiaria();
     await buscarPessoasPagantesCobrantesEvento();
     await buscarComunidadesEvento();
-    // await busarDespesasExtraComunidade();
-    // busarDespesasExtraEvento();
-    // buscarPessoasPagantesCobrantesComunidade();
   }
 
   buscarComunidadesEvento() async {
@@ -102,6 +101,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
         valorEvento = decoded["eveValor"];
         tipoCobrancaEvento = decoded["eveTipoCobranca"];
       });
+      await busarDespesasExtraEvento();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -117,7 +117,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
     setState(() => carregando = true);
     var retorno = await ApiAcerto().getValorCozinha(widget.codigoEvento);
     if (retorno.statusCode == 200) {
-      // var decoded = json.decode(retorno.body);
       setState(() {
         valorCozinha = double.parse(retorno.body);
         valorCozinhaController.text = NumberFormat.currency(
@@ -141,7 +140,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
     setState(() => carregando = true);
     var retorno = await ApiAcerto().getValorHostiaria(widget.codigoEvento);
     if (retorno.statusCode == 200) {
-      // var decoded = json.decode(retorno.body);
       setState(() {
         valorHostiaria = double.parse(retorno.body);
         valorHostiariaController.text = NumberFormat.currency(
@@ -190,45 +188,22 @@ class _AcertoEventoState extends State<AcertoEvento> {
     var retorno = await ApiAcerto().getEventoDespesas(widget.codigoEvento);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
-      // setState(() {
-      //   valorEvento = decoded["eveValor"];
-      //   tipoCobrancaEvento = decoded["eveTipoCobranca"];
-      // }
+      despesasExtra.clear();
+      setState(() {
+        for (var element in decoded) {
+          despesasExtra.add(EventoDespesasModel.fromJson(element));
+        }
+      });
     } else {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Erro ao buscar despesas extras do evento"),
-      //     backgroundColor: Cores.vermelhoMedio,
-      //   ),
-      // );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar despesas extras do evento"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
     }
     setState(() => carregando = false);
   }
-
-  // buscarPessoasPagantesCobrantesComunidade() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().getComunidadePessoas(
-  //     widget.codigoEvento,
-  //     codigoComunidade,
-  //   );
-  //   if (retorno.statusCode == 200) {
-  //     var decoded = json.decode(retorno.body);
-  //     setState(() {
-  //       pagantesComunidade = decoded["pagantes"];
-  //       cobrantesComunidade = decoded["cobrantes"];
-  //       valorComunidade = (cobrantesEvento * valorComunidade);
-  //       valorPorPessoa = valorComunidade / pagantesEvento;
-  //     });
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar pessoas pagantes e cobrantes"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
 
   busarDespesasExtraComunidade() async {}
 
@@ -294,14 +269,61 @@ class _AcertoEventoState extends State<AcertoEvento> {
       total += valorCozinha;
       total += valorHostiaria;
       for (var element in despesasExtra) {
-        total += element.values.first;
+        total += (element.dseValor * element.dseQuantidade);
+        valorExtraEvento += (element.dseValor * element.dseQuantidade);
       }
       for (var element in despesasExtraComunidade) {
         total += element.values.first;
       }
     });
-
+    calcularValoresPorPessoa(total);
     return total;
+  }
+
+  calcularValoresPorPessoa(double valorEvento) {
+    setState(() {
+      valorPorPessoa = 0;
+      valorPorPessoa =
+          double.parse((valorEvento / pagantesEvento).toStringAsFixed(2));
+    });
+  }
+
+  EventoDespesasModel prearaDadosDespesaEvento() {
+    return EventoDespesasModel(
+      dseCodigo: 0,
+      eveCodigo: widget.codigoEvento,
+      dseNome: nomeDespesaController.text,
+      dseQuantidade: qtdDespesaController.text.isEmpty
+          ? 1
+          : int.parse(qtdDespesaController.text),
+      dseValor: double.parse(valorDespesaController.text),
+    );
+  }
+
+  inserirNovaDespesaEvento() async {
+    setState(() => carregando = true);
+    var retorno =
+        await ApiAcerto().postDespesaEvento(prearaDadosDespesaEvento());
+    if (retorno.statusCode == 200) {
+      await busarDespesasExtraEvento();
+      valorDespesaController.clear();
+      nomeDespesaController.clear();
+      qtdDespesaController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Despesa adicionada com sucesso"),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao adicionar despesa"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
   }
 
   @override
@@ -331,14 +353,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
               width: MediaQuery.of(context).size.width / 1.5,
               child: Column(
                 children: [
-                  // Card(
-                  //   elevation: 5,
-                  //   color: Cores.branco,
-                  //   shape: const RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.all(
-                  //       Radius.circular(10),
-                  //     ),
-                  //   ),
                   Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -349,12 +363,15 @@ class _AcertoEventoState extends State<AcertoEvento> {
                     ),
                     child: carregando
                         ? const Expanded(
+                            child: SizedBox(
+                            height: 350,
                             child: Center(
-                            child: CarregamentoIOS(),
+                              child: CarregamentoIOS(),
+                            ),
                           ))
                         : SizedBox(
                             width: MediaQuery.of(context).size.width / 1.5,
-                            height: 300,
+                            height: 350,
                             child: Padding(
                               padding: const EdgeInsets.all(10),
                               child: Column(
@@ -412,10 +429,9 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                 );
                                               });
                                             },
-                                            inputFormatters: [],
+                                            inputFormatters: const [],
                                             padding: const EdgeInsets.all(5),
                                             decoration: BoxDecoration(
-                                              // color: Cores.cinzaClaro,
                                               border: Border.all(
                                                 color: Cores.cinzaEscuro,
                                                 width: 1,
@@ -434,7 +450,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                         ),
                                         color: Cores.verdeMedio,
                                         onPressed: () {
-                                          // salvarPessoas();
                                           inserirAtualizarValorCozinha();
                                         },
                                         child: const Icon(
@@ -458,7 +473,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                             keyboardType: TextInputType.number,
                                             padding: const EdgeInsets.all(5),
                                             decoration: BoxDecoration(
-                                              // color: Cores.cinzaClaro,
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               border: Border.all(
@@ -466,10 +480,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                 width: 1,
                                               ),
                                             ),
-                                            // decoration: BoxDecoration(
-                                            //   color: Cores.cinzaClaro,
-                                            //   borderRadius: BorderRadius.circular(10),
-                                            // ),
                                           ),
                                         ),
                                       ),
@@ -481,7 +491,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                         ),
                                         color: Cores.verdeMedio,
                                         onPressed: () {
-                                          // salvarPessoas();
                                           inserirAtualizarValorHostiaria();
                                         },
                                         child: const Icon(
@@ -542,82 +551,180 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                   const SizedBox(height: 10),
                                   Row(
                                     children: [
-                                      const Text(
-                                        "Nome:",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                  "Nome:",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    height: 45,
+                                                    child: CupertinoTextField(
+                                                      placeholder:
+                                                          "Despesa ou Serviço",
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      controller:
+                                                          nomeDespesaController,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
+                                                          color:
+                                                              Cores.cinzaEscuro,
+                                                          width: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 20),
+                                          ],
+                                        ),
                                       ),
                                       const SizedBox(width: 10),
                                       Expanded(
-                                        child: SizedBox(
-                                          height: 45,
-                                          child: CupertinoTextField(
-                                            placeholder: "Despesa ou Serviço",
-                                            padding: const EdgeInsets.all(5),
-                                            controller: nomeDespesaController,
-                                            decoration: BoxDecoration(
-                                              // color: Cores.cinzaClaro,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                color: Cores.cinzaEscuro,
-                                                width: 1,
-                                              ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Column(
+                                                  children: [
+                                                    Text(
+                                                      "Qtd:",
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    SizedBox(height: 20),
+                                                  ],
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    height: 65,
+                                                    child: TextFormField(
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      maxLength: 2,
+                                                      controller:
+                                                          qtdDespesaController,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        labelText: 'Qtd.',
+                                                        enabledBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10),
+                                                          ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Cores
+                                                                .cinzaEscuro,
+                                                          ),
+                                                        ),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      validator: (value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return 'Por favor, digite a quantidade de itens/serviços';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text(
-                                        "Valor:",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(width: 10),
                                       Expanded(
-                                        child: SizedBox(
-                                          height: 45,
-                                          child: CupertinoTextField(
-                                            placeholder: "R\$ 0,00",
-                                            keyboardType: TextInputType.number,
-                                            padding: const EdgeInsets.all(5),
-                                            controller: valorDespesaController,
-                                            decoration: BoxDecoration(
-                                              // color: Cores.cinzaClaro,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                color: Cores.cinzaEscuro,
-                                                width: 1,
-                                              ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                  "Valor:",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    height: 45,
+                                                    child: CupertinoTextField(
+                                                      placeholder: "R\$ 0,00",
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      controller:
+                                                          valorDespesaController,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
+                                                          color:
+                                                              Cores.cinzaEscuro,
+                                                          width: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                            const SizedBox(height: 20),
+                                          ],
                                         ),
                                       ),
                                       const SizedBox(width: 10),
-                                      CupertinoButton(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 10,
-                                        ),
-                                        color: Cores.verdeMedio,
-                                        onPressed: () {
-                                          // salvarPessoas();
-                                          setState(() {
-                                            despesasExtra.add({
-                                              nomeDespesaController.text:
-                                                  double.parse(
-                                                valorDespesaController.text
-                                                    .replaceAll(',', '.'),
-                                              ),
-                                            });
-                                            nomeDespesaController.clear();
-                                            valorDespesaController.clear();
-                                          });
-                                        },
-                                        child: const Text("+"),
+                                      Column(
+                                        children: [
+                                          CupertinoButton(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 10,
+                                              horizontal: 10,
+                                            ),
+                                            color: Cores.verdeMedio,
+                                            onPressed: () {
+                                              inserirNovaDespesaEvento();
+                                            },
+                                            child: const Text("+"),
+                                          ),
+                                          const SizedBox(height: 20),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -640,10 +747,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                           ),
                                           child: Row(
                                             children: [
-                                              Text(
-                                                  despesasExtra[index]
-                                                      .keys
-                                                      .first,
+                                              Text(despesasExtra[index].dseNome,
                                                   style: const TextStyle(
                                                       fontSize: 18,
                                                       fontWeight:
@@ -651,9 +755,20 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                               const Spacer(),
                                               Text(
                                                   despesasExtra[index]
-                                                      .values
-                                                      .first
-                                                      .toStringAsFixed(2),
+                                                      .dseQuantidade
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              const Spacer(),
+                                              Text(
+                                                  NumberFormat.currency(
+                                                    locale: 'pt_BR',
+                                                    symbol: 'R\$',
+                                                    decimalDigits: 2,
+                                                  ).format(despesasExtra[index]
+                                                      .dseValor),
                                                   style: const TextStyle(
                                                       fontSize: 18,
                                                       fontWeight:

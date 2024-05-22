@@ -15,11 +15,11 @@ class EventoDespesasModel {
 
   factory EventoDespesasModel.fromJson(Map<String, dynamic> json) {
     return EventoDespesasModel(
-      dseCodigo: json['dseCodigo'],
-      eveCodigo: json['eveCodigo'],
-      dseNome: json['dseNome'],
-      dseQuantidade: json['dseQuantidade'],
-      dseValor: json['dseValor'],
+      dseCodigo: json['dseCodigo'] ?? 0,
+      eveCodigo: json['eveCodigo'] ?? 0,
+      dseNome: json['dseNome'] ?? '',
+      dseQuantidade: json['dseQuantidade'] ?? 0,
+      dseValor: json['dseValor'] ?? 0.0,
     );
   }
 
