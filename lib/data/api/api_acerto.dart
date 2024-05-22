@@ -1,3 +1,5 @@
+import 'package:painel_ccmn/data/models/evento_despesas_model.dart';
+
 import '../../classes/classes.dart';
 import '../http/http_request.dart';
 
@@ -35,6 +37,9 @@ class ApiAcerto {
 
   final String _urlPostDespesaHostiaria =
       "${Globais.urlBase}Acerto/evento/despesas/hostiaria";
+
+  final String _urlPostDespesaEvento =
+      "${Globais.urlBase}Acerto/evento/despesas";
 
   //GET
   Future<dynamic> getComunidadesEvento(int codigoEvento) async {
@@ -84,5 +89,9 @@ class ApiAcerto {
     return await _request.postJson(
         "$_urlPostDespesaHostiaria?codigoEvento=$codigoEvento&valor=$valor",
         {});
+  }
+
+  Future<dynamic> postDespesaEvento(EventoDespesasModel despesa) async {
+    return await _request.postJson(_urlPostDespesaEvento, despesa.toJson());
   }
 }
