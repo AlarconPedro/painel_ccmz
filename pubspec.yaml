@@ -39,6 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_localization: ^0.1.14
   http: ^1.1.0
+  pdf: ^3.10.8
   page_transition: ^2.0.9
   datetime_picker_formfield: ^2.0.1
   mask_text_input_formatter: ^2.9.0

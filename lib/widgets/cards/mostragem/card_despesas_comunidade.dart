@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 import '../../../classes/classes.dart';
 
 class CardDespesasComunidade extends StatefulWidget {
-  TextEditingController nomeDespesaController;
-  TextEditingController valorDespesaController;
+  // TextEditingController nomeDespesaController;
+  // TextEditingController valorDespesaController;
 
   double valorPorPessoa;
 
@@ -18,8 +18,8 @@ class CardDespesasComunidade extends StatefulWidget {
 
   CardDespesasComunidade({
     super.key,
-    required this.nomeDespesaController,
-    required this.valorDespesaController,
+    // required this.nomeDespesaController,
+    // required this.valorDespesaController,
     required this.valorPorPessoa,
     required this.pagante,
     required this.cobrante,
@@ -32,6 +32,9 @@ class CardDespesasComunidade extends StatefulWidget {
 
 class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
   List<Map<String, double>> despesasExtra = [];
+
+  TextEditingController nomeDespesaController = TextEditingController();
+  TextEditingController valorDespesaController = TextEditingController();
 
   calcularValorTotalComunidade() {
     double valorTotal = 0;
@@ -204,7 +207,7 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                       child: CupertinoTextField(
                         placeholder: "Despesa ou Serviço",
                         padding: const EdgeInsets.all(5),
-                        controller: widget.nomeDespesaController,
+                        controller: nomeDespesaController,
                         decoration: BoxDecoration(
                           // color: Cores.cinzaClaro,
                           borderRadius: BorderRadius.circular(10),
@@ -229,7 +232,7 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                         placeholder: "R\$ 0,00",
                         keyboardType: TextInputType.number,
                         padding: const EdgeInsets.all(5),
-                        controller: widget.valorDespesaController,
+                        controller: valorDespesaController,
                         decoration: BoxDecoration(
                           // color: Cores.cinzaClaro,
                           borderRadius: BorderRadius.circular(10),
@@ -252,13 +255,12 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                       // salvarPessoas();
                       setState(() {
                         despesasExtra.add({
-                          widget.nomeDespesaController.text: double.parse(
-                            widget.valorDespesaController.text
-                                .replaceAll(',', '.'),
+                          nomeDespesaController.text: double.parse(
+                            valorDespesaController.text.replaceAll(',', '.'),
                           ),
                         });
-                        widget.nomeDespesaController.clear();
-                        widget.valorDespesaController.clear();
+                        nomeDespesaController.clear();
+                        valorDespesaController.clear();
                       });
                     },
                     child: const Text("+"),
