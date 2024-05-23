@@ -41,6 +41,9 @@ class ApiAcerto {
   final String _urlPostDespesaEvento =
       "${Globais.urlBase}Acerto/evento/despesas";
 
+  final String _urlPostDespesaComunidade =
+      "${Globais.urlBase}Acerto/comunidade/despesas";
+
   //GET
   Future<dynamic> getComunidadesEvento(int codigoEvento) async {
     return await _request.getJson("$_urlGetComunidadesEvento$codigoEvento");
@@ -93,5 +96,9 @@ class ApiAcerto {
 
   Future<dynamic> postDespesaEvento(EventoDespesasModel despesa) async {
     return await _request.postJson(_urlPostDespesaEvento, despesa.toJson());
+  }
+
+  Future<dynamic> postDespesaComunidade(EventoDespesasModel despesa) async {
+    return await _request.postJson(_urlPostDespesaComunidade, despesa.toJson());
   }
 }

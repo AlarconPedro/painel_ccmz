@@ -37,12 +37,13 @@ class HttpRequest {
     );
   }
 
-  Future<http.Response> deleteJson(String url) async {
+  Future<http.Response> deleteJson(String url, {List<dynamic>? pessoas}) async {
     return await http.delete(
       Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
+      body: json.encode(pessoas),
     );
   }
 }
