@@ -154,6 +154,20 @@ class _PessoasEventoState extends State<PessoasEvento> {
     return pessoasEvento;
   }
 
+  List<EventoPessoasModel> preparaDadosDelete() {
+    List<EventoPessoasModel> pessoasEvento = [];
+    for (var pessoa in pessoas) {
+      pessoasEvento.add(EventoPessoasModel(
+        evpCodigo: pessoa.evpCodigo,
+        eveCodigo: widget.codigoEvento,
+        pesCodigo: pessoa.pesCodigo,
+        evpPagante: pessoa.pesPagante,
+        evpCobrante: pessoa.pesCobrante,
+      ));
+    }
+    return pessoasEvento;
+  }
+
   salvarPessoas() async {
     setState(() => carregando = true);
     var retorno = await ApiEvento().addPessoasEvento(
@@ -174,6 +188,29 @@ class _PessoasEventoState extends State<PessoasEvento> {
         const SnackBar(
           backgroundColor: Cores.vermelhoMedio,
           content: Text("Erro ao gravar pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  retirarPessoasEvento() async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().deletePessoasEvento(preparaDadosDelete());
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Pessoas retiradas com sucesso !"),
+        ),
+      );
+      buscarPessoas();
+      // Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao retirar pessoas !"),
         ),
       );
     }
@@ -404,7 +441,10 @@ class _PessoasEventoState extends State<PessoasEvento> {
                         child: CupertinoButton(
                           color: Cores.verdeMedio,
                           onPressed: () {
-                            salvarPessoas();
+                            pessoasSelecionadas.isNotEmpty
+                                ? salvarPessoas()
+                                : retirarPessoasEvento();
+                            // salvarPessoas();
                           },
                           child: const Text("Gravar"),
                         ),
