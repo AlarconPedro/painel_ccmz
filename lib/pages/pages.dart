@@ -29,3 +29,5 @@ export 'evento/acerto_evento.dart';
 export 'alocacao/alocacao.dart';
 export 'alocacao/checkin_quartos.dart';
 export 'alocacao/editar_checkin.dart';
+
+export 'configuracoes/configuracoes.dart';

@@ -3,6 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:painel_ccmn/estrutura/estrutura_page.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
+import 'pages/pages.dart';
+
 void main() {
   runApp(
     MaterialApp(
@@ -14,8 +16,8 @@ void main() {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: LoginPage(),
-      home: const EstruturaPage(),
+      home: const LoginPage(),
+      // home: const EstruturaPage(),
     ),
   );
 }
