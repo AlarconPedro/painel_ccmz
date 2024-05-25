@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/data/models/usuario_model.dart';
 
 import '../../classes/classes.dart';
+import '../../data/api/api_usuario.dart';
 import '../pages.dart';
 
 class CadastroUsuario extends StatefulWidget {
@@ -22,7 +25,61 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   bool estoque = false;
   bool carregando = false;
 
-  cadastroUsuario() async {}
+  UsuarioModel usuario = UsuarioModel(
+    usuCodigo: 0,
+    usuEmail: "",
+    usuSenha: "",
+    usuCodigoFirebase: "",
+    usuAcessoHospede: false,
+    usuACessoFinanceiro: false,
+    usuAcessoEstoque: false,
+  );
+
+  cadastroUsuario() async {
+    try {
+      final newUser = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: senhaController.text);
+      if (newUser != null) {
+        usuario.usuCodigoFirebase = newUser.user!.uid;
+        usuario.usuEmail = emailController.text;
+        usuario.usuSenha = senhaController.text;
+        usuario.usuAcessoHospede = hospedagem;
+        usuario.usuACessoFinanceiro = financeiro;
+        usuario.usuAcessoEstoque = estoque;
+        await gravarUsuario(usuario);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Usuário criado com sucesso!"),
+          backgroundColor: Cores.verdeMedio,
+        ));
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Erro ao criar usuário!"),
+        backgroundColor: Cores.vermelhoMedio,
+      ));
+      await FirebaseAuth.instance.currentUser!.delete();
+      Navigator.pop(context);
+    }
+  }
+
+  gravarUsuario(UsuarioModel usuarioModel) async {
+    setState(() => carregando = true);
+    var retorno = await ApiUsuario().gravarUsuario(usuarioModel);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Usuário gravado com sucesso!"),
+        backgroundColor: Cores.verdeMedio,
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Erro ao gravar usuário!"),
+        backgroundColor: Cores.vermelhoMedio,
+      ));
+    }
+    setState(() => carregando = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +91,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       },
       gravar: () {
         // Navigator.pop(context);
+        cadastroUsuario();
       },
       titulo: "Cadastro de usuário",
       formKey: _formKey,
