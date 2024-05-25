@@ -37,11 +37,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
   cadastroUsuario() async {
     try {
-      final newUser = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: emailController.text, password: senhaController.text);
-      if (newUser != null) {
-        usuario.usuCodigoFirebase = newUser.user!.uid;
+              email: emailController.text, password: senhaController.text)
+          .then((value) async {
+        usuario.usuCodigoFirebase = value.user!.uid;
         usuario.usuEmail = emailController.text;
         usuario.usuSenha = senhaController.text;
         usuario.usuAcessoHospede = hospedagem;
@@ -53,7 +53,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
           backgroundColor: Cores.verdeMedio,
         ));
         Navigator.pop(context);
-      }
+      });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Erro ao criar usuário!"),
