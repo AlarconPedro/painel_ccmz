@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../pages.dart';
@@ -19,8 +20,9 @@ class _ConfiguracoesState extends State<Configuracoes> {
       abrirTelaCadastro: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          CupertinoDialogRoute(
             builder: (context) => const CadastroUsuario(),
+            context: context,
           ),
         );
       },

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "680162896681",
+    "project_id": "ccmn-64ac8",
+    "storage_bucket": "ccmn-64ac8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680162896681:android:b249c931904ba00075a538",
+        "android_client_info": {
+          "package_name": "br.com.ccmn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj52_smjR7Kyj62XaEYCClYyDcmVstQmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
