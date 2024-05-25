@@ -227,12 +227,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
         ),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Erro ao atualizar valor da cozinha"),
-          backgroundColor: Cores.vermelhoMedio,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao atualizar valor da cozinha"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
     }
     await buscarCustoCozinha();
     calcularValorTotalEvento();
@@ -254,12 +254,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
         ),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Erro ao atualizar valor da hostiaria"),
-          backgroundColor: Cores.vermelhoMedio,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao atualizar valor da hostiaria"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
     }
     await buscarCustoHostiaria();
     calcularValorTotalEvento();
