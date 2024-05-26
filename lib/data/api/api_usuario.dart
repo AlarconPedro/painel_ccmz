@@ -13,6 +13,9 @@ class ApiUsuario {
   //POST
   final String _urlGravarUsuario = '${Globais.urlBase}Usuario';
 
+  //UPDATE
+  final String _urlAtualizarUsuario = '${Globais.urlBase}Usuario';
+
   Future<dynamic> loginSistema(String codigoFirebase) async {
     return await _request.getJson("$_urlLoginSistema$codigoFirebase");
   }
@@ -23,5 +26,9 @@ class ApiUsuario {
 
   Future<dynamic> gravarUsuario(UsuarioModel usuario) async {
     return await _request.postJson(_urlGravarUsuario, usuario.toJson());
+  }
+
+  Future<dynamic> atualizarUsuario(UsuarioModel usuario) async {
+    return await _request.putJson(_urlAtualizarUsuario, usuario.toJson());
   }
 }

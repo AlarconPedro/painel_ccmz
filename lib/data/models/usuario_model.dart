@@ -24,7 +24,7 @@ class UsuarioModel {
       usuSenha: json['usuSenha'] ?? '',
       usuCodigoFirebase: json['usuCodigoFirebase'] ?? '',
       usuAcessoHospede: json['usuAcessoHospedagem'] ?? false,
-      usuACessoFinanceiro: json['usuACessoFinanceiro'] ?? false,
+      usuACessoFinanceiro: json['usuAcessoFinanceiro'] ?? false,
       usuAcessoEstoque: json['usuAcessoEstoque'] ?? false,
     );
   }
@@ -36,7 +36,7 @@ class UsuarioModel {
       'usuSenha': usuSenha,
       'usuCodigoFirebase': usuCodigoFirebase,
       'usuAcessoHospedagem': usuAcessoHospede,
-      'usuACessoFinanceiro': usuACessoFinanceiro,
+      'usuAcessoFinanceiro': usuACessoFinanceiro,
       'usuAcessoEstoque': usuAcessoEstoque,
     };
   }

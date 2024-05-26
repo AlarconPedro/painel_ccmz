@@ -8,7 +8,8 @@ import '../../data/api/api_usuario.dart';
 import '../pages.dart';
 
 class CadastroUsuario extends StatefulWidget {
-  const CadastroUsuario({super.key});
+  UsuarioModel? usuario;
+  CadastroUsuario({super.key, this.usuario});
 
   @override
   State<CadastroUsuario> createState() => _CadastroUsuarioState();
@@ -34,6 +35,17 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     usuACessoFinanceiro: false,
     usuAcessoEstoque: false,
   );
+
+  alimentarCampos() {
+    if (widget.usuario != null) {
+      usuario = widget.usuario!;
+      emailController.text = usuario.usuEmail;
+      senhaController.text = usuario.usuSenha;
+      hospedagem = usuario.usuAcessoHospede;
+      financeiro = usuario.usuACessoFinanceiro;
+      estoque = usuario.usuAcessoEstoque;
+    }
+  }
 
   cadastroUsuario() async {
     try {
@@ -81,6 +93,38 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     setState(() => carregando = false);
   }
 
+  updateUsuario() async {
+    setState(() => carregando = true);
+    var retorno = await ApiUsuario().atualizarUsuario(UsuarioModel(
+      usuCodigo: usuario.usuCodigo,
+      usuEmail: emailController.text,
+      usuSenha: senhaController.text,
+      usuCodigoFirebase: usuario.usuCodigoFirebase,
+      usuAcessoHospede: hospedagem,
+      usuACessoFinanceiro: financeiro,
+      usuAcessoEstoque: estoque,
+    ));
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Usuário atualizado com sucesso!"),
+        backgroundColor: Cores.verdeMedio,
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Erro ao atualizar usuário!"),
+        backgroundColor: Cores.vermelhoMedio,
+      ));
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    alimentarCampos();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CadastroForm(
@@ -91,7 +135,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       },
       gravar: () {
         // Navigator.pop(context);
-        cadastroUsuario();
+        if (widget.usuario != null) {
+          updateUsuario();
+        } else {
+          cadastroUsuario();
+        }
       },
       titulo: "Cadastro de usuário",
       formKey: _formKey,
