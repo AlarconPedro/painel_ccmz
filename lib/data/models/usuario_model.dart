@@ -19,13 +19,13 @@ class UsuarioModel {
 
   factory UsuarioModel.fromJson(Map<String, dynamic> json) {
     return UsuarioModel(
-      usuCodigo: json['usuCodigo'],
-      usuEmail: json['usuEmail'],
-      usuSenha: json['usuSenha'],
-      usuCodigoFirebase: json['usuCodigoFirebase'],
-      usuAcessoHospede: json['usuAcessoHospede'],
-      usuACessoFinanceiro: json['usuACessoFinanceiro'],
-      usuAcessoEstoque: json['usuAcessoEstoque'],
+      usuCodigo: json['usuCodigo'] ?? 0,
+      usuEmail: json['usuEmail'] ?? '',
+      usuSenha: json['usuSenha'] ?? '',
+      usuCodigoFirebase: json['usuCodigoFirebase'] ?? '',
+      usuAcessoHospede: json['usuAcessoHospedagem'] ?? false,
+      usuACessoFinanceiro: json['usuACessoFinanceiro'] ?? false,
+      usuAcessoEstoque: json['usuAcessoEstoque'] ?? false,
     );
   }
 
@@ -35,7 +35,7 @@ class UsuarioModel {
       'usuEmail': usuEmail,
       'usuSenha': usuSenha,
       'usuCodigoFirebase': usuCodigoFirebase,
-      'usuAcessoHospede': usuAcessoHospede,
+      'usuAcessoHospedagem': usuAcessoHospede,
       'usuACessoFinanceiro': usuACessoFinanceiro,
       'usuAcessoEstoque': usuAcessoEstoque,
     };
