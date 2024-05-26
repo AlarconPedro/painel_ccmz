@@ -25,7 +25,7 @@ class _PageControlState extends State<PageControl> {
               const Quartos(),
               const Evento(),
               const Alocacao(),
-              const Configuracoes(),
+              const Usuarios(),
             ]
           : [
               const DashBoard(),
