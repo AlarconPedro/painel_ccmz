@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             enableSuggestions: true,
+                            autofillHints: const [AutofillHints.email],
                             decoration: const InputDecoration(
                               labelText: 'E-mail',
                               enabledBorder: OutlineInputBorder(

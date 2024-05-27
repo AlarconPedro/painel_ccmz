@@ -1,6 +1,9 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
 
+import '../classes/classes.dart';
 import '../classes/cores.dart';
 import '../pages/pages.dart';
 
@@ -14,6 +17,33 @@ class EstruturaPage extends StatefulWidget {
 class _EstruturaPageState extends State<EstruturaPage> {
   Color cor = Colors.red;
 
+  deslogar() {
+    // FirebaseAuth.instance.signOut();
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      CupertinoDialogRoute(
+        builder: (context) {
+          return const CupertinoAlertDialog(
+            title: Text('Saindo'),
+            content: Text('Saindo do sistema...'),
+            insetAnimationCurve: Curves.easeInOut,
+            insetAnimationDuration: Duration(seconds: 1),
+          );
+        },
+        context: context,
+      ),
+    );
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false,
+      );
+    });
+    // Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -25,19 +55,181 @@ class _EstruturaPageState extends State<EstruturaPage> {
         centerTitle: true,
         backgroundColor: Cores.branco,
         actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: IconButton(
-              icon: const Icon(Icons.exit_to_app, color: Cores.preto),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
+          DropdownButtonHideUnderline(
+            child: DropdownButton2(
+              style: const TextStyle(color: Cores.cinzaEscuro),
+              buttonStyleData: const ButtonStyleData(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                elevation: 5,
+                overlayColor: MaterialStatePropertyAll(Colors.transparent),
+              ),
+              isExpanded: false,
+              dropdownStyleData: DropdownStyleData(
+                elevation: 5,
+                decoration: BoxDecoration(
+                  color: Cores.branco,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Cores.preto.withOpacity(0.2),
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                maxHeight: 200,
+                offset: const Offset(-10, -4),
+              ),
+              onChanged: (value) {
+                if (value == 1) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoAlertDialog(
+                        title: const Text('Sair'),
+                        content: const Text('Deseja sair do sistema ?'),
+                        insetAnimationCurve: Curves.easeInOut,
+                        insetAnimationDuration: const Duration(seconds: 1),
+                        actions: [
+                          CupertinoDialogAction(
+                            textStyle: const TextStyle(color: Cores.preto),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Não'),
+                          ),
+                          CupertinoDialogAction(
+                            textStyle:
+                                const TextStyle(color: Cores.vermelhoMedio),
+                            isDefaultAction: true,
+                            onPressed: () {
+                              deslogar();
+                            },
+                            child: const Text('Sim'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    CupertinoDialogRoute(
+                      builder: (context) {
+                        // return Perfil();
+                        return CupertinoAlertDialog(
+                          title: const Text('Perfil'),
+                          content: const Text('Perfil do usuário'),
+                          insetAnimationCurve: Curves.easeInOut,
+                          insetAnimationDuration: const Duration(seconds: 1),
+                          actions: [
+                            CupertinoDialogAction(
+                              textStyle: const TextStyle(color: Cores.preto),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Fechar'),
+                            ),
+                          ],
+                        );
+                      },
+                      context: context,
+                    ),
+                  );
+                  // print('Perfil');
+                }
               },
+              customButton: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Material(
+                      color: Cores.branco,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        height: 180,
+                        width: 200,
+                        margin:
+                            const EdgeInsets.only(right: 10, top: 5, bottom: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Icon(
+                              CupertinoIcons.building_2_fill,
+                              color: Cores.preto,
+                            ),
+                            Text(
+                              Globais.nomePessoa,
+                              style: const TextStyle(
+                                color: Cores.preto,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              items: const [
+                DropdownMenuItem(
+                    value: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Perfil'),
+                        SizedBox(width: 10),
+                        Icon(
+                          CupertinoIcons.gear,
+                          color: Cores.cinzaEscuro,
+                        ),
+                      ],
+                    )),
+                // DropdownMenuItem(enabled: false, child: Divider()),
+                DropdownMenuItem(
+                    value: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Sair'),
+                        SizedBox(width: 10),
+                        Icon(
+                          CupertinoIcons.arrow_right,
+                          color: Cores.cinzaEscuro,
+                        ),
+                      ],
+                    )),
+              ],
             ),
           ),
         ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 10),
+        //     child: IconButton(
+        //       icon: const Icon(Icons.exit_to_app, color: Cores.preto),
+        //       onPressed: () {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(builder: (context) => const LoginPage()),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // ],
       ),
       body: SizedBox(
         width: width,
