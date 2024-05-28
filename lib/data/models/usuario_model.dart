@@ -1,5 +1,6 @@
 class UsuarioModel {
   int usuCodigo;
+  String usuNome;
   String usuEmail;
   String usuSenha;
   String usuCodigoFirebase;
@@ -9,6 +10,7 @@ class UsuarioModel {
 
   UsuarioModel({
     required this.usuCodigo,
+    required this.usuNome,
     required this.usuEmail,
     required this.usuSenha,
     required this.usuCodigoFirebase,
@@ -20,6 +22,7 @@ class UsuarioModel {
   factory UsuarioModel.fromJson(Map<String, dynamic> json) {
     return UsuarioModel(
       usuCodigo: json['usuCodigo'] ?? 0,
+      usuNome: json['usuNome'] ?? '',
       usuEmail: json['usuEmail'] ?? '',
       usuSenha: json['usuSenha'] ?? '',
       usuCodigoFirebase: json['usuCodigoFirebase'] ?? '',
@@ -32,6 +35,7 @@ class UsuarioModel {
   Map<String, dynamic> toJson() {
     return {
       'usuCodigo': usuCodigo,
+      'usuNome': usuNome,
       'usuEmail': usuEmail,
       'usuSenha': usuSenha,
       'usuCodigoFirebase': usuCodigoFirebase,
