@@ -20,6 +20,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
   TextEditingController senhaController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController nomeController = TextEditingController();
 
   bool hospedagem = false;
   bool financeiro = false;
@@ -28,6 +29,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
   UsuarioModel usuario = UsuarioModel(
     usuCodigo: 0,
+    usuNome: "",
     usuEmail: "",
     usuSenha: "",
     usuCodigoFirebase: "",
@@ -39,6 +41,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   alimentarCampos() {
     if (widget.usuario != null) {
       usuario = widget.usuario!;
+      nomeController.text = usuario.usuNome;
       emailController.text = usuario.usuEmail;
       senhaController.text = usuario.usuSenha;
       hospedagem = usuario.usuAcessoHospede;
@@ -54,6 +57,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
               email: emailController.text, password: senhaController.text)
           .then((value) async {
         usuario.usuCodigoFirebase = value.user!.uid;
+        usuario.usuNome = nomeController.text;
         usuario.usuEmail = emailController.text;
         usuario.usuSenha = senhaController.text;
         usuario.usuAcessoHospede = hospedagem;
@@ -97,6 +101,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     setState(() => carregando = true);
     var retorno = await ApiUsuario().atualizarUsuario(UsuarioModel(
       usuCodigo: usuario.usuCodigo,
+      usuNome: nomeController.text,
       usuEmail: emailController.text,
       usuSenha: senhaController.text,
       usuCodigoFirebase: usuario.usuCodigoFirebase,
@@ -146,6 +151,40 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       campos: [
         Row(
           children: [
+            Expanded(
+              flex: 5,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: TextFormField(
+                  controller: nomeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nome',
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      borderSide: BorderSide(
+                        color: Cores.cinzaEscuro,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, digite o Nome do Usuário';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ),
             Expanded(
               flex: 5,
               child: Padding(

@@ -6,6 +6,7 @@ import 'package:painel_ccmn/data/models/usuario_model.dart';
 import 'package:painel_ccmn/widgets/cards/listagem/card_usuario.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
+import '../../classes/classes.dart';
 import '../../data/api/api_usuario.dart';
 import '../pages.dart';
 import 'cadastro_usuario.dart';
@@ -37,11 +38,31 @@ class _UsuariosState extends State<Usuarios> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Erro ao buscar usuários"),
-          backgroundColor: Colors.red,
+          backgroundColor: Cores.vermelhoMedio,
         ),
       );
     }
     setState(() => carregando = false);
+  }
+
+  escluirUsuario(int codigoUsuario) async {
+    var response = await ApiUsuario().excluirUsuario(codigoUsuario);
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Usuário excluído com sucesso"),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+      buscarUsuarios();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao excluir usuário"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
   }
 
   @override
@@ -85,7 +106,8 @@ class _UsuariosState extends State<Usuarios> {
                     child: GestureDetector(
                       child: CardUsuario(
                         usuario: usuarios[index],
-                        excluir: () {},
+                        excluir: () =>
+                            escluirUsuario(usuarios[index].usuCodigo),
                       ),
                       onTap: () async {
                         await Navigator.push(

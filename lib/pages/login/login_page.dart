@@ -1,8 +1,13 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:painel_ccmn/data/models/usuario_model.dart';
 
 import '../../classes/classes.dart';
 import '../../classes/cores.dart';
+import '../../data/api/api_usuario.dart';
 import '../../estrutura/estrutura.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,8 +22,54 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  final String _errorMessage = '';
-  final String _suceessMessage = '';
+  String _errorMessage = '';
+  String _suceessMessage = '';
+
+  logarUsuario(String usuario, String senha) {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: usuario, password: senha)
+        .then(
+      (value) async {
+        setState(() {
+          _suceessMessage = 'Buscando dados do usuário...';
+        });
+        var retorno = await buscarDadosUsuario(value.user!.uid);
+        if (retorno) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              PageTransition(
+                  child: const EstruturaPage(),
+                  type: PageTransitionType.rightToLeft),
+              (route) => false);
+        }
+      },
+    ).catchError((error) {
+      setState(() {
+        _errorMessage =
+            'Erro ao autenticar usuário, verifique e-mail e senha e tente novamente';
+      });
+    });
+  }
+
+  Future<bool> buscarDadosUsuario(String idFirebase) async {
+    var response = await ApiUsuario().loginSistema(idFirebase);
+    if (response.statusCode == 200) {
+      var decoded = UsuarioModel.fromJson(json.decode(response.body));
+      setState(() {
+        Globais.nomePessoa = decoded.usuNome;
+        Globais.codigoUsuario = decoded.usuCodigo;
+      });
+      return true;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao buscar dados do usuário"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,6 +272,7 @@ class _LoginPageState extends State<LoginPage> {
                           _passwordController.text == "P807265@") {
                         setState(() {
                           Globais.isAdmin = true;
+                          Globais.nomePessoa = "Administrador";
                         });
                         Navigator.pushAndRemoveUntil(
                             context,
@@ -231,6 +283,9 @@ class _LoginPageState extends State<LoginPage> {
                               type: PageTransitionType.rightToLeft,
                             ),
                             (route) => false);
+                      } else {
+                        logarUsuario(
+                            _emailController.text, _passwordController.text);
                       }
                       // bool retorno = await verificaLogin();
                       // if (retorno) {
