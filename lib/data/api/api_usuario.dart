@@ -16,6 +16,9 @@ class ApiUsuario {
   //UPDATE
   final String _urlAtualizarUsuario = '${Globais.urlBase}Usuario';
 
+  //DELETE
+  final String _urlExcluirUsuario = '${Globais.urlBase}Usuario';
+
   Future<dynamic> loginSistema(String codigoFirebase) async {
     return await _request.getJson("$_urlLoginSistema$codigoFirebase");
   }
@@ -30,5 +33,9 @@ class ApiUsuario {
 
   Future<dynamic> atualizarUsuario(UsuarioModel usuario) async {
     return await _request.putJson(_urlAtualizarUsuario, usuario.toJson());
+  }
+
+  Future<dynamic> excluirUsuario(int codigoUsuario) async {
+    return await _request.deleteJson("$_urlExcluirUsuario/$codigoUsuario");
   }
 }
