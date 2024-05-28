@@ -36,6 +36,10 @@ class CardUsuario extends StatelessWidget {
                       const SizedBox(width: 10),
                       Expanded(
                         flex: 4,
+                        child: Text(usuario.usuNome),
+                      ),
+                      Expanded(
+                        flex: 4,
                         child: Text(usuario.usuEmail),
                       ),
                       Expanded(

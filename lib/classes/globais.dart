@@ -3,5 +3,7 @@ class Globais {
   // static const String urlBase = "http://api.ccmn.org.br/api/";
 
   static bool isAdmin = false;
+
+  static int codigoUsuario = 0;
   static String nomePessoa = "CCMN";
 }

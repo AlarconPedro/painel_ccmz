@@ -166,7 +166,7 @@ class _EstruturaPageState extends State<EstruturaPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             const Icon(
-                              CupertinoIcons.building_2_fill,
+                              CupertinoIcons.person_fill,
                               color: Cores.preto,
                             ),
                             Text(
