@@ -59,7 +59,21 @@ class _LoginPageState extends State<LoginPage> {
         Globais.nomePessoa = decoded.usuNome;
         Globais.codigoUsuario = decoded.usuCodigo;
       });
-      return true;
+      if (decoded.usuAcessoHospede) {
+        return true;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Usuário sem acesso ao sistema"),
+            backgroundColor: Cores.vermelhoMedio,
+          ),
+        );
+        setState(() {
+          _errorMessage = 'Sem Permissão !';
+          _suceessMessage = '';
+        });
+        return false;
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

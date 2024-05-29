@@ -88,6 +88,51 @@ class _UsuariosState extends State<Usuarios> {
         buscarUsuarios();
       },
       corpo: [
+        const Row(children: [
+          SizedBox(width: 60),
+          Expanded(
+            flex: 4,
+            child: Text(
+              "Nome",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Text(
+              "Usuário",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              "Senha",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(width: 50),
+          Expanded(
+            flex: 2,
+            child: Text(
+              "Financeiro",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child:
+                Text("Estoque", style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text("Hospedagem",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          SizedBox(width: 15),
+          Text("Excluir", style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(width: 25),
+        ]),
         if (carregando)
           const Expanded(
             child: Center(

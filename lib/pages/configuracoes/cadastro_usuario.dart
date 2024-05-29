@@ -114,6 +114,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
         content: Text("Usuário atualizado com sucesso!"),
         backgroundColor: Cores.verdeMedio,
       ));
+      Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Erro ao atualizar usuário!"),
