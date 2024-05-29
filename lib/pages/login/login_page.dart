@@ -116,7 +116,8 @@ class _LoginPageState extends State<LoginPage> {
                 width: largura,
                 height: 100,
                 child: const Text(
-                  'Painel CCMN',
+                  // 'Painel CCMN',
+                  'CCMN Manager',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Cores.cinzaEscuro,
