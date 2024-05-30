@@ -5,5 +5,5 @@ class Globais {
   static bool isAdmin = false;
 
   static int codigoUsuario = 0;
-  static String nomePessoa = "CCMN";
+  static String nomePessoa = "CCMN Manager";
 }
