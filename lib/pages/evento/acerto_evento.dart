@@ -171,8 +171,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
       setState(() {
         pagantesEvento = decoded["pagantes"];
         cobrantesEvento = decoded["cobrantes"];
-        valorEvento =
-            ((cobrantesEvento * valorEvento) + valorCozinha + valorHostiaria);
+        valorEvento = ((cobrantesEvento * valorEvento));
         valorPorPessoa =
             double.parse((valorEvento / pagantesEvento).toStringAsFixed(2));
       });
