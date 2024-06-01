@@ -40,6 +40,7 @@ dependencies:
   flutter_localization: ^0.1.14
   http: ^1.1.0
   pdf: ^3.10.8
+  universal_html: ^2.2.4
   page_transition: ^2.0.9
   dropdown_button2: ^2.3.9
   datetime_picker_formfield: ^2.0.1

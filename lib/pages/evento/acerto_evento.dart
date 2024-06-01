@@ -10,9 +10,8 @@ import 'package:painel_ccmn/data/models/acerto_comunidade_model.dart';
 import 'package:painel_ccmn/data/models/evento_despesas_model.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 import 'package:pdf/pdf.dart';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 import 'package:pdf/widgets.dart' as pw;
-
 import '../../classes/classes.dart';
 import '../../data/api/api_acerto.dart';
 
@@ -131,12 +130,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
         ).format(valorCozinha);
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Erro ao buscar custo da cozinha"),
-          backgroundColor: Cores.vermelhoMedio,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao buscar custo da cozinha"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
     }
     setState(() => carregando = false);
   }
@@ -154,12 +153,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
         ).format(valorHostiaria);
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Erro ao buscar custo da hostiaria"),
-          backgroundColor: Cores.vermelhoMedio,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao buscar custo da hostiaria"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
     }
     setState(() => carregando = false);
   }
@@ -379,25 +378,20 @@ class _AcertoEventoState extends State<AcertoEvento> {
                   ],
                 ),
               ),
-              // pw.Header(
-              //   level: 1,
-              //   child: pw.Text("Evento: ${widget.nomeEvento}"),
-              // ),
               pw.Padding(
                 padding: const pw.EdgeInsets.only(bottom: 10),
                 child: pw.Row(
                   children: [
                     pw.Text("Valor Total Cozinha: ",
                         style: const pw.TextStyle(fontSize: 10)),
-                    pw.Expanded(
-                      child: pw.Padding(
-                        padding: const pw.EdgeInsets.symmetric(horizontal: 10),
-                        child: pw.Divider(
-                          color: PdfColors.black,
-                          thickness: 1,
-                        ),
+                    pw.Flexible(
+                      fit: pw.FlexFit.tight,
+                      child: pw.Divider(
+                        color: PdfColors.black,
+                        thickness: 1,
                       ),
                     ),
+                    pw.SizedBox(width: 10),
                     pw.Text(
                         NumberFormat.currency(
                                 locale: 'pt_BR',
@@ -408,26 +402,20 @@ class _AcertoEventoState extends State<AcertoEvento> {
                   ],
                 ),
               ),
-              // pw.Header(
-              //   level: 1,
-              //   child: pw.Text(
-              //       "Valor Total Cozinha: ${NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$', decimalDigits: 2).format(valorCozinha)}"),
-              // ),
               pw.Padding(
                 padding: const pw.EdgeInsets.only(bottom: 10),
                 child: pw.Row(
                   children: [
                     pw.Text("Valor Total Hostiaria: ",
                         style: const pw.TextStyle(fontSize: 10)),
-                    pw.Expanded(
-                      child: pw.Padding(
-                        padding: const pw.EdgeInsets.symmetric(horizontal: 10),
-                        child: pw.Divider(
-                          color: PdfColors.black,
-                          thickness: 1,
-                        ),
+                    pw.Flexible(
+                      fit: pw.FlexFit.tight,
+                      child: pw.Divider(
+                        color: PdfColors.black,
+                        thickness: 1,
                       ),
                     ),
+                    pw.SizedBox(width: 10),
                     pw.Text(
                         NumberFormat.currency(
                                 locale: 'pt_BR',
@@ -438,22 +426,20 @@ class _AcertoEventoState extends State<AcertoEvento> {
                   ],
                 ),
               ),
-
               pw.Padding(
                 padding: const pw.EdgeInsets.only(bottom: 10),
                 child: pw.Row(
                   children: [
                     pw.Text("Valor Total Hospedagem: ",
                         style: const pw.TextStyle(fontSize: 10)),
-                    pw.Expanded(
-                      child: pw.Padding(
-                        padding: const pw.EdgeInsets.symmetric(horizontal: 10),
-                        child: pw.Divider(
-                          color: PdfColors.black,
-                          thickness: 1,
-                        ),
+                    pw.Flexible(
+                      fit: pw.FlexFit.tight,
+                      child: pw.Divider(
+                        color: PdfColors.black,
+                        thickness: 1,
                       ),
                     ),
+                    pw.SizedBox(width: 10),
                     pw.Text(
                         NumberFormat.currency(
                                 locale: 'pt_BR',
@@ -470,69 +456,44 @@ class _AcertoEventoState extends State<AcertoEvento> {
                   children: [
                     pw.Text("Valor Total Despesas Adicionais Evento: ",
                         style: const pw.TextStyle(fontSize: 10)),
-                    pw.Expanded(
-                      child: pw.Padding(
-                        padding: const pw.EdgeInsets.symmetric(horizontal: 10),
-                        child: pw.Divider(
-                          color: PdfColors.black,
-                          thickness: 1,
-                        ),
+                    pw.Flexible(
+                      fit: pw.FlexFit.tight,
+                      child: pw.Divider(
+                        color: PdfColors.black,
+                        thickness: 1,
                       ),
                     ),
+                    pw.SizedBox(width: 10),
                     pw.Text(
-                        NumberFormat.currency(
-                                locale: 'pt_BR',
-                                symbol: 'R\$',
-                                decimalDigits: 2)
-                            .format(despesasExtra
-                                .map((e) => e.dseValor * e.dseQuantidade)
-                                .reduce((value, element) => value + element)),
+                        despesasExtra.isNotEmpty
+                            ? NumberFormat.currency(
+                                    locale: 'pt_BR',
+                                    symbol: 'R\$',
+                                    decimalDigits: 2)
+                                .format(despesasExtra
+                                    .map((e) => e.dseValor * e.dseQuantidade)
+                                    .reduce(
+                                        (value, element) => value + element))
+                            : "R\$ 0,00",
                         style: const pw.TextStyle(fontSize: 10)),
+                    // ),
                   ],
                 ),
               ),
-              // pw.Padding(
-              //   padding: const pw.EdgeInsets.only(bottom: 10),
-              //   child: pw.Row(
-              //     children: [
-              //       pw.Text("Valor Total Extra Comunidade: ",
-              //           style: const pw.TextStyle(fontSize: 10)),
-              //       pw.Expanded(
-              //         child: pw.Padding(
-              //           padding: const pw.EdgeInsets.symmetric(horizontal: 10),
-              //           child: pw.Divider(
-              //             color: PdfColors.black,
-              //             thickness: 1,
-              //           ),
-              //         ),
-              //       ),
-              //       pw.Text(
-              //           NumberFormat.currency(
-              //                   locale: 'pt_BR',
-              //                   symbol: 'R\$',
-              //                   decimalDigits: 2)
-              //               .format(despesasExtraComunidade
-              //                   .map((e) => e.values.first)
-              //                   .reduce((value, element) => value + element)),
-              //           style: const pw.TextStyle(fontSize: 10)),
-              //     ],
-              //   ),
-              // ),
               pw.Padding(
                 padding: const pw.EdgeInsets.only(bottom: 10),
                 child: pw.Row(
                   children: [
                     pw.Text("Valor Total Evento: ",
                         style: const pw.TextStyle(fontSize: 10)),
-                    pw.Expanded(
-                      child: pw.Padding(
-                        padding: const pw.EdgeInsets.symmetric(horizontal: 10),
-                        child: pw.Divider(
-                          color: PdfColors.black,
-                          thickness: 1,
-                        ),
+                    pw.Flexible(
+                      fit: pw.FlexFit.tight,
+                      child: pw.Divider(
+                        color: PdfColors.black,
+                        thickness: 1,
                       ),
                     ),
+                    pw.SizedBox(width: 10),
                     pw.Text(
                         NumberFormat.currency(
                                 locale: 'pt_BR',
@@ -543,10 +504,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
                   ],
                 ),
               ),
-              // pw.Header(
-              //   level: 1,
-              //   child: pw.Text("Despesas Adicionais"),
-              // ),
               pw.Padding(
                 padding: const pw.EdgeInsets.only(bottom: 10),
                 child: pw.Row(
@@ -584,10 +541,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
               ),
             ]),
           ),
-          // pw.Header(
-          //   level: 1,
-          //   child: pw.Text("Despesas Por Comunidade"),
-          // ),
           pw.Padding(
             padding: const pw.EdgeInsets.symmetric(vertical: 10),
             child: pw.Row(
@@ -600,7 +553,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
                   )
                 ]),
           ),
-
           pw.Container(
             padding: const pw.EdgeInsets.all(15),
             decoration: pw.BoxDecoration(
@@ -668,11 +620,11 @@ class _AcertoEventoState extends State<AcertoEvento> {
               pw.Table.fromTextArray(
                 context: context,
                 columnWidths: {
-                  0: pw.FlexColumnWidth(1.25),
-                  1: pw.FlexColumnWidth(1.25),
-                  2: pw.FlexColumnWidth(1),
-                  3: pw.FlexColumnWidth(1),
-                  4: pw.FlexColumnWidth(1),
+                  0: const pw.FlexColumnWidth(1.25),
+                  1: const pw.FlexColumnWidth(1.25),
+                  2: const pw.FlexColumnWidth(1),
+                  3: const pw.FlexColumnWidth(1),
+                  4: const pw.FlexColumnWidth(1),
                 },
                 cellAlignments: {
                   0: pw.Alignment.centerLeft,
@@ -749,13 +701,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
                       color: Cores.branco,
                     ),
                     child: carregando
-                        ? const Expanded(
-                            child: SizedBox(
+                        ? const SizedBox(
                             height: 350,
                             child: Center(
                               child: CarregamentoIOS(),
                             ),
-                          ))
+                          )
                         : SizedBox(
                             width: MediaQuery.of(context).size.width / 1.5,
                             height: 350,
@@ -1195,6 +1146,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                       },
                     ),
                   ),
+
                   // const Spacer(),
                   Container(
                     decoration: const BoxDecoration(

@@ -106,7 +106,8 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 10),
-                  Expanded(
+                  Flexible(
+                    fit: FlexFit.tight,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Cores.branco,
@@ -143,7 +144,8 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 10),
-                  Expanded(
+                  Flexible(
+                    fit: FlexFit.tight,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Cores.branco,
