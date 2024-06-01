@@ -28,6 +28,7 @@ class ApiEvento {
   final String _urlDeleteQuartoEvento = "${Globais.urlBase}evento/quarto/";
   final String _urlDeleteEvento = "${Globais.urlBase}evento/";
   final String _urlDeletePessoaEvento = "${Globais.urlBase}evento/pessoas";
+  final String _urlRemoverPessoas = "${Globais.urlBase}evento/pessoas/";
 
   //GET
   Future<dynamic> getEventos(int mes) async {
@@ -116,5 +117,13 @@ class ApiEvento {
 
   Future<dynamic> deletePessoasEvento(List<EventoPessoasModel> pessoas) async {
     return await _request.deleteJson(_urlDeletePessoaEvento, pessoas: pessoas);
+  }
+
+  Future<dynamic> removerPessoas(
+      List<int> codigoPessoas, int codigoEvento) async {
+    return await _request.deleteJson(
+      "$_urlRemoverPessoas$codigoEvento",
+      pessoas: codigoPessoas,
+    );
   }
 }

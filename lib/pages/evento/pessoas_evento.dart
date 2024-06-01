@@ -24,6 +24,7 @@ class _PessoasEventoState extends State<PessoasEvento> {
   int comunidadeSelecionada = 0;
 
   List<int> pessoasSelecionadas = [];
+  List<int> pessoasRemover = [];
 
   List<DropdownMenuItem<int>> listaComunidades = [];
 
@@ -79,12 +80,6 @@ class _PessoasEventoState extends State<PessoasEvento> {
         setState(() => comunidades.add(ComunidadeModel.fromJson(item)));
       }
       listaComunidades.clear();
-      // listaComunidades.add(
-      //   const DropdownMenuItem(
-      //     value: 0,
-      //     child: Text("Selecione uma comunidade"),
-      //   ),
-      // );
       for (var item in comunidades) {
         listaComunidades.add(
           DropdownMenuItem(
@@ -118,38 +113,6 @@ class _PessoasEventoState extends State<PessoasEvento> {
           ),
         );
       }
-
-      // for (var item in pessoasSelecionadas) {
-      //   if (pessoas.where((element) => element.pesCodigo == item).isNotEmpty) {
-      //     pessoasEvento.add(
-      //       EventoPessoasModel(
-      //         evpCodigo: pessoas
-      //             .where((element) => element.pesCodigo == item)
-      //             .first
-      //             .evpCodigo,
-      //         eveCodigo: widget.codigoEvento,
-      //         pesCodigo: item,
-      //         evpPagante: pessoas
-      //             .where((element) => element.pesCodigo == item)
-      //             .first
-      //             .pesPagante,
-      //         evpCobrante: pessoas
-      //             .where((element) => element.pesCodigo == item)
-      //             .first
-      //             .pesCobrante,
-      //       ),
-      //     );
-      //   } else {
-      //     pessoasEvento.add(
-      //       EventoPessoasModel(
-      //         evpCodigo: 0,
-      //         eveCodigo: widget.codigoEvento,
-      //         pesCodigo: item,
-      //         evpPagante: true,
-      //         evpCobrante: true,
-      //       ),
-      //     );
-      //   }
     }
     return pessoasEvento;
   }
@@ -197,6 +160,30 @@ class _PessoasEventoState extends State<PessoasEvento> {
   retirarPessoasEvento() async {
     setState(() => carregando = true);
     var retorno = await ApiEvento().deletePessoasEvento(preparaDadosDelete());
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeEscuro,
+          content: Text("Pessoas retiradas com sucesso !"),
+        ),
+      );
+      buscarPessoas();
+      // Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao retirar pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  removerPessoasSelecionadas() async {
+    setState(() => carregando = true);
+    var retorno =
+        await ApiEvento().removerPessoas(pessoasRemover, widget.codigoEvento);
     if (retorno.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -379,9 +366,13 @@ class _PessoasEventoState extends State<PessoasEvento> {
                                                         pessoa.pesCodigo)) {
                                                   pessoasSelecionadas
                                                       .remove(pessoa.pesCodigo);
+                                                  pessoasRemover
+                                                      .add(pessoa.pesCodigo);
                                                 } else {
                                                   pessoasSelecionadas
                                                       .add(pessoa.pesCodigo);
+                                                  pessoasRemover
+                                                      .remove(pessoa.pesCodigo);
                                                 }
                                               });
                                             },
@@ -441,6 +432,9 @@ class _PessoasEventoState extends State<PessoasEvento> {
                         child: CupertinoButton(
                           color: Cores.verdeMedio,
                           onPressed: () {
+                            pessoasRemover.isNotEmpty
+                                ? removerPessoasSelecionadas()
+                                : null;
                             pessoasSelecionadas.isNotEmpty
                                 ? salvarPessoas()
                                 : retirarPessoasEvento();
