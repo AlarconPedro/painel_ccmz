@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
 
@@ -8,6 +9,7 @@ class CardPessoasAlocacao extends StatefulWidget {
 
   Function addPessoa;
   Function removePessoa;
+  Function excluir;
 
   int vagas;
   int ocupadas;
@@ -22,6 +24,7 @@ class CardPessoasAlocacao extends StatefulWidget {
     required this.vagas,
     required this.ocupadas,
     required this.selecionado,
+    required this.excluir,
   });
 
   @override
@@ -31,94 +34,173 @@ class CardPessoasAlocacao extends StatefulWidget {
 class _CardPessoasAlocacaoState extends State<CardPessoasAlocacao> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
-      ),
-      color:
-          widget.selecionado ? Cores.verdeMedio.withOpacity(0.5) : Cores.branco,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () {
-            if (widget.vagas == widget.ocupadas && !widget.selecionado) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    "Não há vagas disponíveis neste quarto!",
-                    style: TextStyle(
-                      color: Cores.branco,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  backgroundColor: Cores.vermelhoMedio,
+    return SizedBox(
+      child: Row(
+        children: [
+          Expanded(
+            child: Card(
+              elevation: 5,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
                 ),
-              );
-            } else {
-              if (widget.selecionado) {
-                widget.removePessoa();
-              } else {
-                widget.addPessoa();
-              }
-              setState(() {
-                widget.selecionado = !widget.selecionado;
-              });
-            }
-          },
-          child: Container(
-            decoration: BoxDecoration(
+              ),
               color: widget.selecionado
                   ? Cores.verdeMedio.withOpacity(0.5)
                   : Cores.branco,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            height: 60,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 20,
-                          ),
-                          child: Text(
-                            widget.pessoa.pesNome,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () {
+                    if (widget.vagas == widget.ocupadas &&
+                        !widget.selecionado) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            "Não há vagas disponíveis neste quarto!",
                             style: TextStyle(
-                              color: widget.selecionado
-                                  ? Cores.branco
-                                  : Cores.preto,
+                              color: Cores.branco,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          backgroundColor: Cores.vermelhoMedio,
                         ),
+                      );
+                    } else {
+                      if (widget.selecionado) {
+                        widget.removePessoa();
+                      } else {
+                        widget.addPessoa();
+                      }
+                      setState(() {
+                        widget.selecionado = !widget.selecionado;
+                      });
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: widget.selecionado
+                          ? Cores.verdeMedio.withOpacity(0.5)
+                          : Cores.branco,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Icon(
-                          color:
-                              widget.selecionado ? Cores.branco : Cores.preto,
-                          widget.pessoa.pesGenero == "F"
-                              ? Icons.female_rounded
-                              : Icons.male_rounded,
+                    ),
+                    height: 60,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 20,
+                                  ),
+                                  child: Text(
+                                    widget.pessoa.pesNome,
+                                    style: TextStyle(
+                                      color: widget.selecionado
+                                          ? Cores.branco
+                                          : Cores.preto,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(
+                                  color: widget.selecionado
+                                      ? Cores.branco
+                                      : Cores.preto,
+                                  widget.pessoa.pesGenero == "F"
+                                      ? Icons.female_rounded
+                                      : Icons.male_rounded,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          const SizedBox(width: 5),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    title: const Text("Excluir Pessoa"),
+                    content: const Text(
+                        "Deseja realmente remover esta pessoa do evento ?"),
+                    actions: [
+                      CupertinoDialogAction(
+                        child: const Text("Não",
+                            style: TextStyle(color: Cores.vermelhoMedio)),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      CupertinoDialogAction(
+                        child: const Text("Sim",
+                            style: TextStyle(color: Cores.verdeMedio)),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          widget.excluir();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   SnackBar(
+              //     content: const Text(
+              //       "Deseja realmente excluir esta pessoa?",
+              //       style: TextStyle(
+              //         color: Cores.branco,
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //     backgroundColor: Cores.vermelhoMedio,
+              //     action: SnackBarAction(
+              //       label: "Excluir",
+              //       textColor: Cores.branco,
+              //       onPressed: () {},
+              //     ),
+              //   ),
+              // );
+            },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: const BoxDecoration(
+                  color: Cores.branco,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                child: const Icon(
+                  CupertinoIcons.trash,
+                  color: Cores.vermelhoMedio,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

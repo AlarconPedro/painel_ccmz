@@ -530,6 +530,35 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
     setState(() => carregando = false);
   }
 
+  removerPessoaEvento(int codigoPessoa) async {
+    setState(() => carregando = true);
+    var retorno = await ApiEvento().removerPessoas(
+      [codigoPessoa],
+      eventoSelecionado,
+    );
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Pessoa removida com sucesso!"),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+      setState(() {
+        pessoasSelecionadas.clear();
+      });
+      criarVagas();
+      buscarPessoasComunidade(comunidadeSelecionada);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao remover pessoa!"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   criarVagasQuartos(QuartoModel quartoModel) {
     // if (widget.quarto.pessoas != null) {
     // widget.quarto.pessoas!.sort((a, b) => a.pesNome.compareTo(b.pesNome));
@@ -698,6 +727,9 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                     //     pessoasSelecionadas.add(pessoas[index]);
                     //   });
                     // }
+                  },
+                  excluir: () {
+                    removerPessoaEvento(pessoas[index].pesCodigo);
                   },
                   removePessoa: () {
                     setState(() {
