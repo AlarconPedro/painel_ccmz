@@ -336,8 +336,6 @@ class _DashBoardState extends State<DashBoard> {
                                               placeholder: 'Pesquisar',
                                               onSubmitted: (value) async {
                                                 if (value.isNotEmpty) {
-                                                  // await buscarComunidadeCampoBusca(value);
-                                                  // campoBusca.clear();
                                                   buscarPessoa(value);
                                                 } else {
                                                   setState(() {
@@ -352,13 +350,7 @@ class _DashBoardState extends State<DashBoard> {
                                         CupertinoButton(
                                           color: Cores.preto,
                                           onPressed: () async {
-                                            // if (campoBusca.text != "") {
-                                            //   await buscarComunidadeCampoBusca(campoBusca.text);
-                                            //   campoBusca.clear();
-                                            // }
                                             if (campoBusca.text.isNotEmpty) {
-                                              // await buscarComunidadeCampoBusca(value);
-                                              // campoBusca.clear();
                                               buscarPessoa(campoBusca.text);
                                             } else {
                                               setState(() {
@@ -431,19 +423,6 @@ class _DashBoardState extends State<DashBoard> {
                             ),
                           ),
                           telaDashboard,
-                          // CheckinQuartos(
-                          //   codigoBloco: 0,
-                          //   codigoEvento: eventoAtivo,
-                          //   quartos: quartos,
-                          //   voltar: () {
-                          //     dashBoardController.animateToPage(
-                          //       0,
-                          //       duration: const Duration(milliseconds: 500),
-                          //       curve: Curves.ease,
-                          //     );
-                          //     getEventoAtivo();
-                          //   },
-                          // ),
                         ],
                       ),
                     ),
@@ -544,16 +523,6 @@ class _DashBoardState extends State<DashBoard> {
                                         setState(() {
                                           status = "C";
                                         });
-                                        //await buscarPessoasNaoVem(codigo);
-                                        // setState(() {
-                                        //   telaDashboard =
-                                        // dashBoardController.animateToPage(
-                                        //   1,
-                                        //   duration: const Duration(
-                                        //       milliseconds: 500),
-                                        //   curve: Curves.ease,
-                                        // );
-                                        // });
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -762,100 +731,6 @@ class _DashBoardState extends State<DashBoard> {
                                   ),
                                 ],
                               ),
-                              // Wrap(
-                              //   direction: Axis.horizontal,
-                              //   verticalDirection: VerticalDirection.down,
-                              //   runAlignment: WrapAlignment.spaceBetween,
-                              //   runSpacing: 10,
-                              //   spacing: 10,
-                              //   children: [
-                              //     MouseRegion(
-                              //       cursor: SystemMouseCursors.click,
-                              //       child: GestureDetector(
-                              //         onTap: () {},
-                              //         child: Padding(
-                              //           padding: const EdgeInsets.symmetric(
-                              //               horizontal: 10, vertical: 20),
-                              //           child: Column(
-                              //             children: [
-                              //               const Icon(
-                              //                 CupertinoIcons
-                              //                     .person_crop_circle_badge_checkmark,
-                              //                 color: Cores.verdeMedio,
-                              //                 size: 35,
-                              //               ),
-                              //               const SizedBox(height: 10),
-                              //               carregando
-                              //                   ? const CarregamentoIOS()
-                              //                   : Text(
-                              //                       numeroCamasLivres
-                              //                           .toString(),
-                              //                       style: const TextStyle(
-                              //                         fontSize: 18,
-                              //                         fontWeight:
-                              //                             FontWeight.bold,
-                              //                       ),
-                              //                     ),
-                              //               const SizedBox(height: 10),
-                              //               const Text(
-                              //                 "Camas Livres",
-                              //                 maxLines: 2,
-                              //                 softWrap: true,
-                              //                 overflow: TextOverflow.ellipsis,
-                              //                 style: TextStyle(
-                              //                   fontSize: 12,
-                              //                   fontWeight: FontWeight.bold,
-                              //                 ),
-                              //               ),
-                              //             ],
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     MouseRegion(
-                              //       cursor: SystemMouseCursors.click,
-                              //       child: GestureDetector(
-                              //         onTap: () {},
-                              //         child: Padding(
-                              //           padding: const EdgeInsets.symmetric(
-                              //               horizontal: 10, vertical: 20),
-                              //           child: Column(
-                              //             children: [
-                              //               const Icon(
-                              //                 CupertinoIcons.bed_double,
-                              //                 color: Cores.vermelhoMedio,
-                              //                 size: 35,
-                              //               ),
-                              //               const SizedBox(height: 10),
-                              //               carregando
-                              //                   ? const CarregamentoIOS()
-                              //                   : Text(
-                              //                       numeroCamasOcupadas
-                              //                           .toString(),
-                              //                       style: const TextStyle(
-                              //                         fontSize: 18,
-                              //                         fontWeight:
-                              //                             FontWeight.bold,
-                              //                       ),
-                              //                     ),
-                              //               const SizedBox(height: 10),
-                              //               const Text(
-                              //                 "Camas Ocupadas",
-                              //                 maxLines: 2,
-                              //                 softWrap: true,
-                              //                 overflow: TextOverflow.ellipsis,
-                              //                 style: TextStyle(
-                              //                   fontSize: 12,
-                              //                   fontWeight: FontWeight.bold,
-                              //                 ),
-                              //               ),
-                              //             ],
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                             ],
                           ),
                         ),
