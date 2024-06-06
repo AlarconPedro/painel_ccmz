@@ -16,3 +16,5 @@ export 'models/evento_model.dart';
 export 'models/evento_quarto_model.dart';
 export 'models/alocacao_model.dart';
 export 'models/evento_pessoas_model.dart';
+export 'models/checkin_model.dart';
+export 'models/eventos_checkin_model.dart';

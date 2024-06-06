@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/api/api_evento.dart';
 import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/data/models/eventos_checkin_model.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
+import 'package:painel_ccmn/funcoes/funcoes.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
@@ -22,60 +24,50 @@ class Alocacao extends StatefulWidget {
 class _AlocacaoState extends State<Alocacao> {
   bool carregando = false;
 
-  List<DropdownMenuItem> eventos = [];
+  List<DropdownMenuItem> statuEvento = [
+    const DropdownMenuItem(
+      value: 1,
+      child: Text("Vigentes"),
+    ),
+    const DropdownMenuItem(
+      value: 2,
+      child: Text("Realizados"),
+    ),
+    const DropdownMenuItem(
+      value: 3,
+      child: Text("Todos"),
+    ),
+  ];
   List<QuartoPessoasModel> quartos = [];
   List<BlocoModel> blocos = [];
+  List<EventoCheckinModel> eventos = [];
 
-  int eventoSelecionado = 0;
+  int eventoSelecionado = 1;
   int codigoBloco = 0;
 
   TextEditingController buscaController = TextEditingController();
 
   buscarEventos() async {
     setState(() => carregando = true);
-    var retorno = await ApiEvento().getEventoNomes();
+    var retorno = await ApiAlocacao().getEventosCheckin(eventoSelecionado);
     if (retorno.statusCode == 200) {
       eventos.clear();
-      var decoded = json.decode(retorno.body);
-      for (var item in decoded) {
-        setState(() {
-          eventos.add(
-            DropdownMenuItem(
-              value: item["eveCodigo"],
-              child: Text(item["eveNome"]),
-            ),
-          );
-        });
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Erro ao buscar eventos!"),
-          backgroundColor: Cores.vermelhoMedio,
-        ),
-      );
-    }
-    setState(() => carregando = false);
-  }
-
-  buscarEventosAtivos() async {
-    setState(() => carregando = true);
-    var retorno = await ApiEvento().getEventosAtivos();
-    if (retorno.statusCode == 200) {
-      var decoded = json.decode(retorno.body);
-      if (decoded.isEmpty) {
+      if (retorno.body == "[]") {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("Nenhum evento ativo!"),
-            backgroundColor: Cores.vermelhoMedio,
+            content: Text("Nenhum evento encontrado!"),
+            backgroundColor: Cores.amareloEscuro,
           ),
         );
+        setState(() => carregando = false);
         return;
-      } else {
-        setState(() {
-          eventoSelecionado = decoded[0]["eveCodigo"];
-        });
       }
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        for (var item in decoded) {
+          eventos.add(EventoCheckinModel.fromJson(item));
+        }
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -87,63 +79,119 @@ class _AlocacaoState extends State<Alocacao> {
     setState(() => carregando = false);
   }
 
-  buscarBlocos() async {
-    setState(() => carregando = true);
-    var retorno = await ApiAlocacao().getAlocacaoBlocos(eventoSelecionado);
-    if (retorno.statusCode == 200) {
-      blocos.clear();
-      var decoded = json.decode(retorno.body);
-      for (var item in decoded) {
-        setState(() {
-          blocos.add(
-            BlocoModel.fromJson(item),
-          );
-        });
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Erro ao buscar blocos!"),
-          backgroundColor: Cores.vermelhoMedio,
-        ),
-      );
-    }
-    setState(() => carregando = false);
-  }
+  // buscarEventos() async {
+  //   setState(() => carregando = true);
+  //   var retorno = await ApiEvento().getEventoNomes();
+  //   if (retorno.statusCode == 200) {
+  //     eventos.clear();
+  //     var decoded = json.decode(retorno.body);
+  //     for (var item in decoded) {
+  //       setState(() {
+  //         eventos.add(
+  //           DropdownMenuItem(
+  //             value: item["eveCodigo"],
+  //             child: Text(item["eveNome"]),
+  //           ),
+  //         );
+  //       });
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("Erro ao buscar eventos!"),
+  //         backgroundColor: Cores.vermelhoMedio,
+  //       ),
+  //     );
+  //   }
+  //   setState(() => carregando = false);
+  // }
 
-  buscarQuartoBusca(String busca) async {
-    setState(() => carregando = true);
-    var retorno = await ApiCheckin().getCheckinQuartosBusca(
-      eventoSelecionado,
-      busca,
-    );
-    if (retorno.statusCode == 200) {
-      quartos.clear();
-      var decoded = json.decode(retorno.body);
-      for (var item in decoded) {
-        setState(() {
-          quartos.add(
-            QuartoPessoasModel.fromJson(item),
-          );
-          codigoBloco = 0;
-        });
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Erro ao buscar quartos!"),
-          backgroundColor: Cores.vermelhoMedio,
-        ),
-      );
-    }
-    setState(() => carregando = false);
-  }
+  // buscarEventosAtivos() async {
+  //   setState(() => carregando = true);
+  //   var retorno = await ApiEvento().getEventosAtivos();
+  //   if (retorno.statusCode == 200) {
+  //     var decoded = json.decode(retorno.body);
+  //     if (decoded.isEmpty) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text("Nenhum evento ativo!"),
+  //           backgroundColor: Cores.vermelhoMedio,
+  //         ),
+  //       );
+  //       return;
+  //     } else {
+  //       setState(() {
+  //         eventoSelecionado = decoded[0]["eveCodigo"];
+  //       });
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("Erro ao buscar eventos!"),
+  //         backgroundColor: Cores.vermelhoMedio,
+  //       ),
+  //     );
+  //   }
+  //   setState(() => carregando = false);
+  // }
+
+  // buscarBlocos() async {
+  //   setState(() => carregando = true);
+  //   var retorno = await ApiAlocacao().getAlocacaoBlocos(eventoSelecionado);
+  //   if (retorno.statusCode == 200) {
+  //     blocos.clear();
+  //     var decoded = json.decode(retorno.body);
+  //     for (var item in decoded) {
+  //       setState(() {
+  //         blocos.add(
+  //           BlocoModel.fromJson(item),
+  //         );
+  //       });
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("Erro ao buscar blocos!"),
+  //         backgroundColor: Cores.vermelhoMedio,
+  //       ),
+  //     );
+  //   }
+  //   setState(() => carregando = false);
+  // }
+
+  // buscarQuartoBusca(String busca) async {
+  //   setState(() => carregando = true);
+  //   var retorno = await ApiCheckin().getCheckinQuartosBusca(
+  //     eventoSelecionado,
+  //     busca,
+  //   );
+  //   if (retorno.statusCode == 200) {
+  //     quartos.clear();
+  //     var decoded = json.decode(retorno.body);
+  //     for (var item in decoded) {
+  //       setState(() {
+  //         quartos.add(
+  //           QuartoPessoasModel.fromJson(item),
+  //         );
+  //         codigoBloco = 0;
+  //       });
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("Erro ao buscar quartos!"),
+  //         backgroundColor: Cores.vermelhoMedio,
+  //       ),
+  //     );
+  //   }
+  //   setState(() => carregando = false);
+  // }
 
   @override
   initState() {
     super.initState();
     buscarEventos();
-    buscarEventosAtivos();
+    // buscarEventosAtivos();
   }
 
   @override
@@ -205,7 +253,7 @@ class _AlocacaoState extends State<Alocacao> {
                                   return;
                                 }
 
-                                await buscarQuartoBusca(buscaController.text);
+                                // await buscarQuartoBusca(buscaController.text);
 
                                 // await buscarQuartoBusca(value);
                               },
@@ -225,7 +273,8 @@ class _AlocacaoState extends State<Alocacao> {
                               );
                               return;
                             }
-                            await buscarQuartoBusca(buscaController.text);
+                            buscarEventos();
+                            // await buscarQuartoBusca(buscaController.text);
 
                             // await buscarQuartoBusca(buscaController.text);
                           },
@@ -257,7 +306,7 @@ class _AlocacaoState extends State<Alocacao> {
                           height: 60,
                           child: DropdownButtonFormField(
                             decoration: const InputDecoration(
-                              labelText: 'Evento',
+                              labelText: 'Eventos',
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10),
@@ -272,15 +321,16 @@ class _AlocacaoState extends State<Alocacao> {
                                 ),
                               ),
                             ),
-                            items: eventos,
+                            items: statuEvento,
                             value: eventoSelecionado != 0
                                 ? eventoSelecionado
                                 : null,
-                            onChanged: (value) {
+                            onChanged: (value) async {
                               setState(() {
                                 eventoSelecionado = value;
                               });
-                              buscarBlocos();
+                              await buscarEventos();
+                              // buscarBlocos();
                             },
                           ),
                         ),
@@ -294,39 +344,191 @@ class _AlocacaoState extends State<Alocacao> {
                       color: Cores.preto,
                     ),
                   ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 35),
+                        Expanded(
+                          flex: 4,
+                          child: Text(
+                            "Eventos",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Data Início",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Data Fim",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 50),
+                        Text(
+                          "Visualizar",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "Checkin",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Expanded(
-                    child: carregando
-                        ? const Center(child: CarregamentoIOS())
-                        : quartos.isEmpty
-                            ? PageView(
+                      child: carregando
+                          ? const Center(child: CarregamentoIOS())
+                          :
+                          //  quartos.isEmpty
+                          //     ?
+                          Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: PageView(
                                 controller: Rotas.alocacaoPageController,
                                 physics: const NeverScrollableScrollPhysics(),
                                 children: [
                                   ListView.builder(
-                                    itemCount: blocos.length,
+                                    itemCount: eventos.length,
                                     itemBuilder: (context, index) {
-                                      return MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              codigoBloco =
-                                                  blocos[index].bloCodigo;
-                                              Rotas.alocacaoPageController
-                                                  .animateToPage(
-                                                1,
-                                                duration: const Duration(
-                                                    milliseconds: 500),
-                                                curve: Curves.easeInOut,
-                                              );
-                                            });
-                                            // buscarQuartos(eventoSelecionado);
-                                          },
-                                          child: CardBlocoAlocacao(
-                                            blocos: blocos[index],
-                                          ),
+                                      return Container(
+                                        color: Colors.transparent,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Card(
+                                                elevation: 5,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Container(
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color: Cores.branco,
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10),
+                                                    child: Row(
+                                                      children: [
+                                                        const Icon(
+                                                            CupertinoIcons
+                                                                .calendar),
+                                                        const SizedBox(
+                                                            width: 10),
+                                                        Expanded(
+                                                          flex: 4,
+                                                          child: Text(
+                                                              eventos[index]
+                                                                  .eveNome),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Text(
+                                                            FuncoesData.dataFormatada(
+                                                                eventos[index]
+                                                                    .eveDataInicio),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Text(FuncoesData
+                                                              .dataFormatada(
+                                                                  eventos[index]
+                                                                      .eveDataFim)),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 30),
+                                                        const Icon(
+                                                            CupertinoIcons
+                                                                .chevron_right),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              elevation: 5,
+                                              child: CupertinoButton(
+                                                child: const Icon(
+                                                  CupertinoIcons.eye,
+                                                  color: Cores.azulMedio,
+                                                ),
+                                                onPressed: () {
+                                                  // quartos();
+                                                },
+                                              ),
+                                            ),
+                                            Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              elevation: 5,
+                                              child: CupertinoButton(
+                                                child: const Icon(
+                                                  CupertinoIcons
+                                                      .check_mark_circled,
+                                                  color: Cores.verdeMedio,
+                                                ),
+                                                onPressed: () {
+                                                  // pessoas();
+                                                },
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       );
+                                      // return MouseRegion(
+                                      //   cursor: SystemMouseCursors.click,
+                                      //   child: GestureDetector(
+                                      //     onTap: () {
+                                      //       setState(() {
+                                      //         codigoBloco =
+                                      //             blocos[index].bloCodigo;
+                                      //         Rotas.alocacaoPageController
+                                      //             .animateToPage(
+                                      //           1,
+                                      //           duration: const Duration(
+                                      //               milliseconds: 500),
+                                      //           curve: Curves.easeInOut,
+                                      //         );
+                                      //       });
+                                      //       // buscarQuartos(eventoSelecionado);
+                                      //     },
+                                      //     child: CardBlocoAlocacao(
+                                      //       blocos: blocos[index],
+                                      //     ),
+                                      //   ),
+                                      // );
                                     },
                                   ),
                                   SizedBox(
@@ -346,20 +548,21 @@ class _AlocacaoState extends State<Alocacao> {
                                     ),
                                   ),
                                 ],
-                              )
-                            : SizedBox(
-                                child: CheckinQuartos(
-                                  quartos: quartos,
-                                  codigoBloco: codigoBloco,
-                                  codigoEvento: eventoSelecionado,
-                                  voltar: () {
-                                    setState(() {
-                                      quartos.clear();
-                                    });
-                                  },
-                                ),
                               ),
-                  ),
+                            )
+                      // : SizedBox(
+                      //     child: CheckinQuartos(
+                      //       quartos: quartos,
+                      //       codigoBloco: codigoBloco,
+                      //       codigoEvento: eventoSelecionado,
+                      //       voltar: () {
+                      //         setState(() {
+                      //           quartos.clear();
+                      //         });
+                      //       },
+                      //     ),
+                      //   ),
+                      ),
                 ],
               ),
             ),

@@ -5,7 +5,7 @@ class ApiAlocacao {
   static final _request = HttpRequest();
 
   //GET
-  final String _urlGetAlocacaoEventos = "${Globais.urlBase}alocacao/eventos";
+  final String _urlGetEventosCheckin = "${Globais.urlBase}alocacao/eventos";
   final String _urlGetAlocacaoBlocos = "${Globais.urlBase}alocacao/blocos/";
   final String _urlGetAlocacaoComunidades =
       "${Globais.urlBase}alocacao/comunidades/";
@@ -22,8 +22,8 @@ class ApiAlocacao {
       "${Globais.urlBase}alocacao/pessoa/quarto/";
 
   //GET
-  Future<dynamic> getAlocacaoEventos() async {
-    return await _request.getJson(_urlGetAlocacaoEventos);
+  Future<dynamic> getEventosCheckin(int filtro) async {
+    return await _request.getJson("$_urlGetEventosCheckin/$filtro");
   }
 
   Future<dynamic> getAlocacaoBlocos(int codigoEvento) async {
