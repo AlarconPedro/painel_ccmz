@@ -8,12 +8,12 @@ class ApiCheckin {
   static final _request = HttpRequest();
 
   //GET
-  final String _urlGetCheckinQuartos = "${Globais.urlBase}QuartoPessoa/";
-  final String _urlGetCheckinQuartosBusca = "${Globais.urlBase}QuartoPessoa/";
+  final String _urlGetCheckinQuartos = "${Globais.urlBase}Checkin/";
+  final String _urlGetCheckinQuartosBusca = "${Globais.urlBase}Checkin/";
 
   //POST
   //UPDATE
-  final String _urlUpdateCheckin = "${Globais.urlBase}QuartoPessoa/";
+  final String _urlUpdateCheckin = "${Globais.urlBase}Checkin/";
 
   //GET
   Future<dynamic> getCheckinQuartos(int codigoBloco, int codigoEvento) async {
