@@ -94,85 +94,65 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                       child: ListView.builder(
                           itemCount: quartos.length,
                           itemBuilder: (context, index) {
-                            return
-                                // Column(
-                                //   children: [
-                                Expanded(
-                              child: Row(
+                            return Expanded(
+                              child: Column(
                                 children: [
-                                  Text(
-                                    quartos[index].bloNome,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          quartos[index].bloNome,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                  ),
+                                  Wrap(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      for (var quarto
+                                          in quartos[index].pessoasQuarto)
+                                        GestureDetector(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              CupertinoDialogRoute(
+                                                builder: (context) {
+                                                  return EditarCheckin(
+                                                    dadosQuarto: quarto,
+                                                    refresh: () {},
+                                                  );
+                                                },
+                                                context: context,
+                                              ),
+                                            );
+                                            buscarQuartos();
+                                          },
+                                          child: MouseRegion(
+                                            cursor: SystemMouseCursors.click,
+                                            child: CardQuartoAlocacao(
+                                              quarto: quarto,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 20),
+                                    child: Divider(color: Cores.cinzaMedio),
                                   ),
                                 ],
                               ),
-                              //   ),
-                              //   Expanded(
-                              //     child: Wrap(
-                              //       direction: Axis.horizontal,
-                              //       children: [
-                              //         for (var quarto
-                              //             in quartos[index].pessoasQuarto)
-                              //           GestureDetector(
-                              //             onTap: () async {
-                              //               await Navigator.push(
-                              //                 context,
-                              //                 CupertinoDialogRoute(
-                              //                   builder: (context) {
-                              //                     return EditarCheckin(
-                              //                       dadosQuarto: quarto,
-                              //                       refresh: () {},
-                              //                     );
-                              //                   },
-                              //                   context: context,
-                              //                 ),
-                              //               );
-                              //               buscarQuartos();
-                              //             },
-                              //             child: MouseRegion(
-                              //               cursor: SystemMouseCursors.click,
-                              //               child: CardQuartoAlocacao(
-                              //                 quarto: quarto,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ],
                             );
-                          }
-                          // child: Wrap(
-                          //   direction: Axis.horizontal,
-                          //   children: [
-                          //     for (var quarto in quartos)
-                          //       GestureDetector(
-                          //         onTap: () async {
-                          //           await Navigator.push(
-                          //             context,
-                          //             CupertinoDialogRoute(
-                          //               builder: (context) {
-                          //                 return EditarCheckin(
-                          //                   dadosQuarto: quarto,
-                          //                   refresh: refresh,
-                          //                 );
-                          //               },
-                          //               context: context,
-                          //             ),
-                          //           );
-                          //           buscarQuartos();
-                          //         },
-                          //         child: MouseRegion(
-                          //           cursor: SystemMouseCursors.click,
-                          //           child: CardQuartoAlocacao(quarto: quarto),
-                          //         ),
-                          //       ),
-                          //   ],
-                          // ),
-                          ),
+                          }),
                     ),
                     Row(
                       children: [

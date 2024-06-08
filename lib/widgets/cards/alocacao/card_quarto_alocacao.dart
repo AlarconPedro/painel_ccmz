@@ -69,8 +69,8 @@ class CardQuartoAlocacao extends StatelessWidget {
             //         ? Cores.amareloClaro.withOpacity(0.2)
             //         : Cores.branco,
             ),
-        width: 300,
-        height: 230,
+        width: 290,
+        height: 220,
         child: Column(
           children: [
             Row(
@@ -78,7 +78,7 @@ class CardQuartoAlocacao extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 10,
+                    vertical: 5,
                     horizontal: 20,
                   ),
                   child: Text(
