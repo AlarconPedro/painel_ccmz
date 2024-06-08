@@ -13,7 +13,7 @@ class CheckinListagemQuartosModel {
     return CheckinListagemQuartosModel(
       bloNome: json['bloNome'],
       pessoasQuarto: List<QuartoPessoasModel>.from(
-        json['pessoasQuarto'].map(
+        json['quartosCheckin'].map(
           (x) => QuartoPessoasModel.fromJson(x),
         ),
       ),

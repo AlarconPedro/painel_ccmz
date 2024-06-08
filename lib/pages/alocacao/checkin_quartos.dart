@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/data/models/checkin_listagem_quartos_model.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
@@ -10,14 +11,12 @@ import '../../data/data.dart';
 import '../../data/models/quarto_pessoas_model.dart';
 
 class CheckinQuartos extends StatefulWidget {
-  int codigoBloco;
   int codigoEvento;
   Function() voltar;
   List<QuartoPessoasModel> quartos;
 
   CheckinQuartos({
     super.key,
-    required this.codigoBloco,
     required this.codigoEvento,
     required this.voltar,
     required this.quartos,
@@ -30,22 +29,20 @@ class CheckinQuartos extends StatefulWidget {
 class _CheckinQuartosState extends State<CheckinQuartos> {
   bool carregando = false;
 
-  List<QuartoPessoasModel> quartos = [];
+  List<CheckinListagemQuartosModel> quartos = [];
 
   buscarQuartos() async {
     setState(() => carregando = true);
-    var retorno = await ApiCheckin().getCheckinQuartos(
-      widget.codigoBloco,
-      widget.codigoEvento,
-    );
+    var retorno = await ApiCheckin().getCheckinQuartos(widget.codigoEvento);
     if (retorno.statusCode == 200) {
       quartos.clear();
       var dados = json.decode(retorno.body);
       for (var dado in dados) {
         setState(() {
-          quartos.add(QuartoPessoasModel.fromJson(dado));
+          quartos.add(CheckinListagemQuartosModel.fromJson(dado));
         });
       }
+      // print(quartos[0].pessoasQuarto[0].pessoasQuarto[0].pesNome);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -57,23 +54,24 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
     setState(() => carregando = false);
   }
 
-  refresh() {
-    setState(() {});
-    buscarQuartos();
-  }
+  // refresh() {
+  //   setState(() {});
+  //   buscarQuartos();
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.quartos.isNotEmpty) {
-      setState(() {
-        quartos = widget.quartos;
-      });
-    }
-    if (widget.codigoEvento != 0 && widget.codigoBloco != 0) {
-      buscarQuartos();
-    }
+    buscarQuartos();
+    // if (widget.quartos.isNotEmpty) {
+    //   setState(() {
+    //     quartos = widget.quartos;
+    //   });
+    // }
+    // if (widget.codigoEvento != 0 && widget.codigoBloco != 0) {
+    //   buscarQuartos();
+    // }
   }
 
   @override
@@ -93,35 +91,88 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          children: [
-                            for (var quarto in quartos)
-                              GestureDetector(
-                                onTap: () async {
-                                  await Navigator.push(
-                                    context,
-                                    CupertinoDialogRoute(
-                                      builder: (context) {
-                                        return EditarCheckin(
-                                          dadosQuarto: quarto,
-                                          refresh: refresh,
-                                        );
-                                      },
-                                      context: context,
+                      child: ListView.builder(
+                          itemCount: quartos.length,
+                          itemBuilder: (context, index) {
+                            return
+                                // Column(
+                                //   children: [
+                                Expanded(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    quartos[index].bloNome,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  );
-                                  buscarQuartos();
-                                },
-                                child: MouseRegion(
-                                  cursor: SystemMouseCursors.click,
-                                  child: CardQuartoAlocacao(quarto: quarto),
-                                ),
+                                  ),
+                                ],
                               ),
-                          ],
-                        ),
-                      ),
+                              //   ),
+                              //   Expanded(
+                              //     child: Wrap(
+                              //       direction: Axis.horizontal,
+                              //       children: [
+                              //         for (var quarto
+                              //             in quartos[index].pessoasQuarto)
+                              //           GestureDetector(
+                              //             onTap: () async {
+                              //               await Navigator.push(
+                              //                 context,
+                              //                 CupertinoDialogRoute(
+                              //                   builder: (context) {
+                              //                     return EditarCheckin(
+                              //                       dadosQuarto: quarto,
+                              //                       refresh: () {},
+                              //                     );
+                              //                   },
+                              //                   context: context,
+                              //                 ),
+                              //               );
+                              //               buscarQuartos();
+                              //             },
+                              //             child: MouseRegion(
+                              //               cursor: SystemMouseCursors.click,
+                              //               child: CardQuartoAlocacao(
+                              //                 quarto: quarto,
+                              //               ),
+                              //             ),
+                              //           ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ],
+                            );
+                          }
+                          // child: Wrap(
+                          //   direction: Axis.horizontal,
+                          //   children: [
+                          //     for (var quarto in quartos)
+                          //       GestureDetector(
+                          //         onTap: () async {
+                          //           await Navigator.push(
+                          //             context,
+                          //             CupertinoDialogRoute(
+                          //               builder: (context) {
+                          //                 return EditarCheckin(
+                          //                   dadosQuarto: quarto,
+                          //                   refresh: refresh,
+                          //                 );
+                          //               },
+                          //               context: context,
+                          //             ),
+                          //           );
+                          //           buscarQuartos();
+                          //         },
+                          //         child: MouseRegion(
+                          //           cursor: SystemMouseCursors.click,
+                          //           child: CardQuartoAlocacao(quarto: quarto),
+                          //         ),
+                          //       ),
+                          //   ],
+                          // ),
+                          ),
                     ),
                     Row(
                       children: [
@@ -133,7 +184,7 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                           onPressed: () {
                             setState(() {
                               quartos.clear();
-                              widget.codigoBloco = 0;
+                              widget.codigoEvento = 0;
                             });
                             widget.voltar();
                           },

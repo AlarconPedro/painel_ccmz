@@ -24,10 +24,11 @@ class QuartoPessoasModel {
         bloNome: json["bloNome"] ?? "",
         bloCodigo: json["bloCodigo"] ?? 0,
         vagas: json["vagas"] ?? 0,
-        pessoasQuarto: json["pessoasQuarto"] == null
-            ? []
-            : (json["pessoasQuarto"] as List)
-                .map((x) => CheckinModel.fromJson(x))
-                .toList(),
+        pessoasQuarto:
+            json["pessoasQuarto"] == null || json["pessoasQuarto"] == []
+                ? []
+                : (json["pessoasQuarto"] as List)
+                    .map((x) => CheckinModel.fromJson(x))
+                    .toList(),
       );
 }

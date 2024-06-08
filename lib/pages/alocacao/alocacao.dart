@@ -23,6 +23,7 @@ class Alocacao extends StatefulWidget {
 
 class _AlocacaoState extends State<Alocacao> {
   bool carregando = false;
+  bool exibirCabecalho = true;
 
   List<DropdownMenuItem> statuEvento = [
     const DropdownMenuItem(
@@ -44,6 +45,7 @@ class _AlocacaoState extends State<Alocacao> {
 
   int eventoSelecionado = 1;
   int codigoBloco = 0;
+  int codigoEvento = 0;
 
   TextEditingController buscaController = TextEditingController();
 
@@ -79,118 +81,21 @@ class _AlocacaoState extends State<Alocacao> {
     setState(() => carregando = false);
   }
 
-  // buscarEventos() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiEvento().getEventoNomes();
-  //   if (retorno.statusCode == 200) {
-  //     eventos.clear();
-  //     var decoded = json.decode(retorno.body);
-  //     for (var item in decoded) {
-  //       setState(() {
-  //         eventos.add(
-  //           DropdownMenuItem(
-  //             value: item["eveCodigo"],
-  //             child: Text(item["eveNome"]),
-  //           ),
-  //         );
-  //       });
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar eventos!"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
-
-  // buscarEventosAtivos() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiEvento().getEventosAtivos();
-  //   if (retorno.statusCode == 200) {
-  //     var decoded = json.decode(retorno.body);
-  //     if (decoded.isEmpty) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text("Nenhum evento ativo!"),
-  //           backgroundColor: Cores.vermelhoMedio,
-  //         ),
-  //       );
-  //       return;
-  //     } else {
-  //       setState(() {
-  //         eventoSelecionado = decoded[0]["eveCodigo"];
-  //       });
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar eventos!"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
-
-  // buscarBlocos() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAlocacao().getAlocacaoBlocos(eventoSelecionado);
-  //   if (retorno.statusCode == 200) {
-  //     blocos.clear();
-  //     var decoded = json.decode(retorno.body);
-  //     for (var item in decoded) {
-  //       setState(() {
-  //         blocos.add(
-  //           BlocoModel.fromJson(item),
-  //         );
-  //       });
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar blocos!"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
-
-  // buscarQuartoBusca(String busca) async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiCheckin().getCheckinQuartosBusca(
-  //     eventoSelecionado,
-  //     busca,
-  //   );
-  //   if (retorno.statusCode == 200) {
-  //     quartos.clear();
-  //     var decoded = json.decode(retorno.body);
-  //     for (var item in decoded) {
-  //       setState(() {
-  //         quartos.add(
-  //           QuartoPessoasModel.fromJson(item),
-  //         );
-  //         codigoBloco = 0;
-  //       });
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar quartos!"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
-
   @override
   initState() {
     super.initState();
     buscarEventos();
+    Rotas.alocacaoPageController.addListener(() {
+      if (Rotas.alocacaoPageController.page == 0) {
+        setState(() {
+          exibirCabecalho = true;
+        });
+      } else {
+        setState(() {
+          exibirCabecalho = false;
+        });
+      }
+    });
     // buscarEventosAtivos();
   }
 
@@ -344,55 +249,57 @@ class _AlocacaoState extends State<Alocacao> {
                       color: Cores.preto,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 35),
-                        Expanded(
-                          flex: 4,
-                          child: Text(
-                            "Eventos",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                  exibirCabecalho
+                      ? const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            children: [
+                              SizedBox(width: 35),
+                              Expanded(
+                                flex: 4,
+                                child: Text(
+                                  "Eventos",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Data Início",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Data Fim",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 50),
+                              Text(
+                                "Visualizar",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "Checkin",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            "Data Início",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            "Data Fim",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 50),
-                        Text(
-                          "Visualizar",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          "Checkin",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                        )
+                      : const SizedBox(),
                   Expanded(
                       child: carregando
                           ? const Center(child: CarregamentoIOS())
@@ -500,42 +407,30 @@ class _AlocacaoState extends State<Alocacao> {
                                                   color: Cores.verdeMedio,
                                                 ),
                                                 onPressed: () {
-                                                  // pessoas();
+                                                  setState(() {
+                                                    codigoEvento =
+                                                        eventos[index]
+                                                            .eveCodigo;
+                                                  });
+                                                  Rotas.alocacaoPageController
+                                                      .animateToPage(
+                                                    1,
+                                                    duration: const Duration(
+                                                        milliseconds: 500),
+                                                    curve: Curves.easeInOut,
+                                                  );
                                                 },
                                               ),
                                             ),
                                           ],
                                         ),
                                       );
-                                      // return MouseRegion(
-                                      //   cursor: SystemMouseCursors.click,
-                                      //   child: GestureDetector(
-                                      //     onTap: () {
-                                      //       setState(() {
-                                      //         codigoBloco =
-                                      //             blocos[index].bloCodigo;
-                                      //         Rotas.alocacaoPageController
-                                      //             .animateToPage(
-                                      //           1,
-                                      //           duration: const Duration(
-                                      //               milliseconds: 500),
-                                      //           curve: Curves.easeInOut,
-                                      //         );
-                                      //       });
-                                      //       // buscarQuartos(eventoSelecionado);
-                                      //     },
-                                      //     child: CardBlocoAlocacao(
-                                      //       blocos: blocos[index],
-                                      //     ),
-                                      //   ),
-                                      // );
                                     },
                                   ),
                                   SizedBox(
                                     child: CheckinQuartos(
                                       quartos: quartos,
-                                      codigoBloco: codigoBloco,
-                                      codigoEvento: eventoSelecionado,
+                                      codigoEvento: codigoEvento,
                                       voltar: () {
                                         Rotas.alocacaoPageController
                                             .animateToPage(
@@ -549,20 +444,7 @@ class _AlocacaoState extends State<Alocacao> {
                                   ),
                                 ],
                               ),
-                            )
-                      // : SizedBox(
-                      //     child: CheckinQuartos(
-                      //       quartos: quartos,
-                      //       codigoBloco: codigoBloco,
-                      //       codigoEvento: eventoSelecionado,
-                      //       voltar: () {
-                      //         setState(() {
-                      //           quartos.clear();
-                      //         });
-                      //       },
-                      //     ),
-                      //   ),
-                      ),
+                            )),
                 ],
               ),
             ),

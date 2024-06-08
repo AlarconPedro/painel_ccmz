@@ -16,9 +16,8 @@ class ApiCheckin {
   final String _urlUpdateCheckin = "${Globais.urlBase}Checkin/";
 
   //GET
-  Future<dynamic> getCheckinQuartos(int codigoBloco, int codigoEvento) async {
-    return await _request
-        .getJson("$_urlGetCheckinQuartos$codigoBloco/$codigoEvento");
+  Future<dynamic> getCheckinQuartos(int codigoEvento) async {
+    return await _request.getJson("$_urlGetCheckinQuartos$codigoEvento");
   }
 
   Future<dynamic> getCheckinQuartosBusca(int codigoEvento, String busca) async {

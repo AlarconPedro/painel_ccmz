@@ -388,7 +388,6 @@ class _DashBoardState extends State<DashBoard> {
                                                       .quaCodigo);
                                               setState(() {
                                                 telaDashboard = CheckinQuartos(
-                                                  codigoBloco: 0,
                                                   codigoEvento: eventoAtivo,
                                                   quartos: quartos,
                                                   voltar: () {
