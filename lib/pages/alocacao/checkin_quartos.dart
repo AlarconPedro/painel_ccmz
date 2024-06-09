@@ -146,7 +146,9 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                                   ),
                                   const Padding(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 20),
+                                      vertical: 10,
+                                      horizontal: 20,
+                                    ),
                                     child: Divider(color: Cores.cinzaMedio),
                                   ),
                                 ],
