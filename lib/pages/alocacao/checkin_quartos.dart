@@ -13,13 +13,11 @@ import '../../data/models/quarto_pessoas_model.dart';
 class CheckinQuartos extends StatefulWidget {
   int codigoEvento;
   Function() voltar;
-  List<QuartoPessoasModel> quartos;
 
   CheckinQuartos({
     super.key,
     required this.codigoEvento,
     required this.voltar,
-    required this.quartos,
   });
 
   @override
