@@ -8,6 +8,7 @@ import 'package:painel_ccmn/data/models/eventos_checkin_model.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/funcoes/funcoes.dart';
 import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/widgets/cards/alocacao/card_evento_checkin.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
@@ -316,114 +317,22 @@ class _AlocacaoState extends State<Alocacao> {
                                   ListView.builder(
                                     itemCount: eventos.length,
                                     itemBuilder: (context, index) {
-                                      return Container(
-                                        color: Colors.transparent,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Card(
-                                                elevation: 5,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                ),
-                                                child: Container(
-                                                  height: 55,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    color: Cores.branco,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 10),
-                                                    child: Row(
-                                                      children: [
-                                                        const Icon(
-                                                            CupertinoIcons
-                                                                .calendar),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                        Expanded(
-                                                          flex: 4,
-                                                          child: Text(
-                                                              eventos[index]
-                                                                  .eveNome),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 2,
-                                                          child: Text(
-                                                            FuncoesData.dataFormatada(
-                                                                eventos[index]
-                                                                    .eveDataInicio),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 2,
-                                                          child: Text(FuncoesData
-                                                              .dataFormatada(
-                                                                  eventos[index]
-                                                                      .eveDataFim)),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 30),
-                                                        const Icon(
-                                                            CupertinoIcons
-                                                                .chevron_right),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              elevation: 5,
-                                              child: CupertinoButton(
-                                                child: const Icon(
-                                                  CupertinoIcons.eye,
-                                                  color: Cores.azulMedio,
-                                                ),
-                                                onPressed: () {
-                                                  // quartos();
-                                                },
-                                              ),
-                                            ),
-                                            Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              elevation: 5,
-                                              child: CupertinoButton(
-                                                child: const Icon(
-                                                  CupertinoIcons
-                                                      .check_mark_circled,
-                                                  color: Cores.verdeMedio,
-                                                ),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    codigoEvento =
-                                                        eventos[index]
-                                                            .eveCodigo;
-                                                  });
-                                                  Rotas.alocacaoPageController
-                                                      .animateToPage(
-                                                    1,
-                                                    duration: const Duration(
-                                                        milliseconds: 500),
-                                                    curve: Curves.easeInOut,
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                      return CardEventoCheckin(
+                                        eventoDados: eventos[index],
+                                        quartos: () {},
+                                        checkin: () {
+                                          setState(() {
+                                            codigoEvento =
+                                                eventos[index].eveCodigo;
+                                          });
+                                          Rotas.alocacaoPageController
+                                              .animateToPage(
+                                            1,
+                                            duration: const Duration(
+                                                milliseconds: 500),
+                                            curve: Curves.easeInOut,
+                                          );
+                                        },
                                       );
                                     },
                                   ),
