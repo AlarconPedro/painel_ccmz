@@ -389,6 +389,7 @@ class _DashBoardState extends State<DashBoard> {
                                               setState(() {
                                                 telaDashboard = CheckinQuartos(
                                                   codigoEvento: eventoAtivo,
+                                                  quartosBusca: [],
                                                   voltar: () {
                                                     dashBoardController
                                                         .animateToPage(

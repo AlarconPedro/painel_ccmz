@@ -48,6 +48,7 @@ class _AlocacaoState extends State<Alocacao> {
   List<CheckinListagemQuartosModel> quartos = [];
   List<BlocoModel> blocos = [];
   List<EventoCheckinModel> eventos = [];
+  List<QuartoPessoasModel> quartosBusca = [];
 
   int eventoSelecionado = 1;
   int codigoBloco = 0;
@@ -56,6 +57,30 @@ class _AlocacaoState extends State<Alocacao> {
   TextEditingController buscaController = TextEditingController();
 
   final pdf = pw.Document();
+
+  buscarQuartoBusca(String busca) async {
+    setState(() => carregando = true);
+    var retorno =
+        await ApiCheckin().getCheckinQuartosBusca(codigoEvento, busca);
+    if (retorno.statusCode == 200) {
+      quartosBusca.clear();
+      var dados = json.decode(retorno.body);
+      for (var dado in dados) {
+        // setState(() {
+        quartosBusca.add(QuartoPessoasModel.fromJson(dado));
+        // });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer quartos !"),
+        ),
+      );
+    }
+
+    setState(() => carregando = false);
+  }
 
   buscarEventos() async {
     setState(() => carregando = true);
@@ -91,6 +116,7 @@ class _AlocacaoState extends State<Alocacao> {
 
   buscarQuartos() async {
     setState(() => carregando = true);
+    quartosBusca.clear();
     var retorno = await ApiCheckin().getCheckinQuartos(codigoEvento);
     if (retorno.statusCode == 200) {
       quartos.clear();
@@ -307,18 +333,18 @@ class _AlocacaoState extends State<Alocacao> {
                                 ),
                               ),
                               placeholder: 'Pesquisar',
-                              onSubmitted: (value) async {
+                              onSubmitted: (value) {
                                 if (buscaController.text.isEmpty) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Digite algo para buscar!"),
-                                      backgroundColor: Cores.vermelhoMedio,
-                                    ),
-                                  );
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   const SnackBar(
+                                  //     content: Text("Digite algo para buscar!"),
+                                  //     backgroundColor: Cores.vermelhoMedio,
+                                  //   ),
+                                  // );
+                                  buscarQuartos();
                                   return;
                                 }
-
-                                // await buscarQuartoBusca(buscaController.text);
+                                buscarQuartoBusca(buscaController.text);
 
                                 // await buscarQuartoBusca(value);
                               },
@@ -328,18 +354,18 @@ class _AlocacaoState extends State<Alocacao> {
                         const SizedBox(width: 10),
                         CupertinoButton(
                           color: Cores.preto,
-                          onPressed: () async {
+                          onPressed: () {
                             if (buscaController.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Digite algo para buscar!"),
-                                  backgroundColor: Cores.vermelhoMedio,
-                                ),
-                              );
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(
+                              //     content: Text("Digite algo para buscar!"),
+                              //     backgroundColor: Cores.vermelhoMedio,
+                              //   ),
+                              // );
+                              buscarQuartos();
                               return;
                             }
-                            buscarEventos();
-                            // await buscarQuartoBusca(buscaController.text);
+                            buscarQuartoBusca(buscaController.text);
 
                             // await buscarQuartoBusca(buscaController.text);
                           },
@@ -501,6 +527,7 @@ class _AlocacaoState extends State<Alocacao> {
                                   SizedBox(
                                     child: CheckinQuartos(
                                       codigoEvento: codigoEvento,
+                                      quartosBusca: quartosBusca,
                                       voltar: () {
                                         Rotas.alocacaoPageController
                                             .animateToPage(
