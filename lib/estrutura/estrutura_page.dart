@@ -51,7 +51,8 @@ class _EstruturaPageState extends State<EstruturaPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CCMN', style: TextStyle(color: Cores.preto)),
+        title: Text('CCMN: ${Globais.moduloLogado}',
+            style: const TextStyle(color: Cores.preto)),
         centerTitle: true,
         backgroundColor: Cores.branco,
         actions: [

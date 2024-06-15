@@ -34,7 +34,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     usuSenha: "",
     usuCodigoFirebase: "",
     usuAcessoHospede: false,
-    usuACessoFinanceiro: false,
+    usuAcessoFinanceiro: false,
     usuAcessoEstoque: false,
   );
 
@@ -45,7 +45,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       emailController.text = usuario.usuEmail;
       senhaController.text = usuario.usuSenha;
       hospedagem = usuario.usuAcessoHospede;
-      financeiro = usuario.usuACessoFinanceiro;
+      financeiro = usuario.usuAcessoFinanceiro;
       estoque = usuario.usuAcessoEstoque;
     }
   }
@@ -61,7 +61,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
         usuario.usuEmail = emailController.text;
         usuario.usuSenha = senhaController.text;
         usuario.usuAcessoHospede = hospedagem;
-        usuario.usuACessoFinanceiro = financeiro;
+        usuario.usuAcessoFinanceiro = financeiro;
         usuario.usuAcessoEstoque = estoque;
         await gravarUsuario(usuario);
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -106,7 +106,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       usuSenha: senhaController.text,
       usuCodigoFirebase: usuario.usuCodigoFirebase,
       usuAcessoHospede: hospedagem,
-      usuACessoFinanceiro: financeiro,
+      usuAcessoFinanceiro: financeiro,
       usuAcessoEstoque: estoque,
     ));
     if (retorno.statusCode == 200) {

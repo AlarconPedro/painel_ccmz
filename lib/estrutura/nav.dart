@@ -34,169 +34,139 @@ class NavState extends State<Nav> {
     super.initState();
   }
 
+  List<SideMenuItem> gerarMenuLateral() {
+    switch (Globais.moduloLogado) {
+      case "Hospedagem":
+        return Globais.isAdmin
+            ? [
+                SideMenuItem(
+                  title: 'Dashboard',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.chart_pie_fill),
+                ),
+                SideMenuItem(
+                  title: 'Pessoas',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.person),
+                  // badgeContent: const Text(
+                  //   '3',
+                  //   style: TextStyle(color: Colors.white),
+                  // ),
+                ),
+                SideMenuItem(
+                  title: 'Comunidades',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.person_3),
+                ),
+                SideMenuItem(
+                  title: 'Bloco',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.building_2_fill),
+                ),
+                SideMenuItem(
+                  title: 'Quartos',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.bed_double),
+                ),
+                SideMenuItem(
+                  title: 'Eventos',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.calendar),
+                ),
+                SideMenuItem(
+                  title: 'Check-In',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  // icon: const Icon(CupertinoIcons.tag_fill),
+                  icon: const Icon(CupertinoIcons.checkmark_alt_circle),
+                ),
+                SideMenuItem(
+                  title: 'Configurações',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.settings),
+                )
+              ]
+            : [
+                SideMenuItem(
+                  title: 'Dashboard',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.chart_pie_fill),
+                ),
+                SideMenuItem(
+                  title: 'Pessoas',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.person),
+                  // badgeContent: const Text(
+                  //   '3',
+                  //   style: TextStyle(color: Colors.white),
+                  // ),
+                ),
+                SideMenuItem(
+                  title: 'Comunidades',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.person_3),
+                ),
+                SideMenuItem(
+                  title: 'Bloco',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.building_2_fill),
+                ),
+                SideMenuItem(
+                  title: 'Quartos',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.bed_double),
+                ),
+                SideMenuItem(
+                  title: 'Eventos',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  icon: const Icon(CupertinoIcons.calendar),
+                ),
+                SideMenuItem(
+                  title: 'Check-In',
+                  onTap: (index, sideMenu) {
+                    sideMenu.changePage(index);
+                  },
+                  // icon: const Icon(CupertinoIcons.tag_fill),
+                  icon: const Icon(CupertinoIcons.checkmark_alt_circle),
+                ),
+              ];
+      case "Estoque":
+      case "Financeiro":
+      default:
+        return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<SideMenuItem> items = Globais.isAdmin
-        ? [
-            SideMenuItem(
-              title: 'Dashboard',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.chart_pie_fill),
-            ),
-            SideMenuItem(
-              title: 'Pessoas',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.person),
-              // badgeContent: const Text(
-              //   '3',
-              //   style: TextStyle(color: Colors.white),
-              // ),
-            ),
-            SideMenuItem(
-              title: 'Comunidades',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.person_3),
-            ),
-            SideMenuItem(
-              title: 'Bloco',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.building_2_fill),
-            ),
-            SideMenuItem(
-              title: 'Quartos',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.bed_double),
-            ),
-            SideMenuItem(
-              title: 'Eventos',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.calendar),
-            ),
-            SideMenuItem(
-              title: 'Check-In',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              // icon: const Icon(CupertinoIcons.tag_fill),
-              icon: const Icon(CupertinoIcons.checkmark_alt_circle),
-            ),
-            SideMenuItem(
-              title: 'Configurações',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.settings),
-            )
-          ]
-        : [
-            SideMenuItem(
-              title: 'Dashboard',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.chart_pie_fill),
-            ),
-            SideMenuItem(
-              title: 'Pessoas',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.person),
-              // badgeContent: const Text(
-              //   '3',
-              //   style: TextStyle(color: Colors.white),
-              // ),
-            ),
-            SideMenuItem(
-              title: 'Comunidades',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.person_3),
-            ),
-            SideMenuItem(
-              title: 'Bloco',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.building_2_fill),
-            ),
-            SideMenuItem(
-              title: 'Quartos',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.bed_double),
-            ),
-            SideMenuItem(
-              title: 'Eventos',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              icon: const Icon(CupertinoIcons.calendar),
-            ),
-            SideMenuItem(
-              title: 'Check-In',
-              onTap: (index, sideMenu) {
-                sideMenu.changePage(index);
-              },
-              // icon: const Icon(CupertinoIcons.tag_fill),
-              icon: const Icon(CupertinoIcons.checkmark_alt_circle),
-            ),
-
-            // SideMenuItem(
-            //   title: 'Cadastro',
-
-            //   // icon: const Icon(Icons.settings),
-            //   builder: (context, displayMode) {
-            //     return SideMenuItem(
-            //       title: 'Produtos',
-            //       onTap: (index, _) {
-            //         sideMenu.changePage(index);
-            //       },
-            //     );
-            //     return ExpansionTile(
-            //       title: const Text('Cadastro'),
-            //       iconColor: Cores.cinzaEscuro,
-            //       textColor: Cores.cinzaEscuro,
-            //       // leading: const Icon(CupertinoIcons.plus_circle),
-            //       children: [
-            //         SideMenuItem(
-            //           title: 'Produtos',
-            //           onTap: (index, sideMenu) {
-            //             sideMenu.changePage(index);
-            //           },
-            //         ),
-            //         SideMenuItem(
-            //           title: 'Produtos',
-            //           onTap: (index, sideMenu) {
-            //             sideMenu.changePage(index);
-            //           },
-            //         ),
-            //         SideMenuItem(
-            //           title: 'Produtos',
-            //           onTap: (index, sideMenu) {
-            //             sideMenu.changePage(index);
-            //           },
-            //         ),
-            //       ],
-            //     );
-            // },
-            // ),
-          ];
-
+    List<SideMenuItem> items = gerarMenuLateral();
     return SideMenu(
       items: items,
       controller: sideMenu,

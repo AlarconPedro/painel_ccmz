@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:painel_ccmn/data/models/usuario_model.dart';
+import 'package:painel_ccmn/pages/login/seletor_modulo.dart';
 
 import '../../classes/classes.dart';
 import '../../classes/cores.dart';
@@ -22,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  final PageController _pageController = PageController();
+
   String _errorMessage = '';
   String _suceessMessage = '';
 
@@ -35,12 +38,13 @@ class _LoginPageState extends State<LoginPage> {
         });
         var retorno = await buscarDadosUsuario(value.user!.uid);
         if (retorno) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              PageTransition(
-                  child: const EstruturaPage(),
-                  type: PageTransitionType.rightToLeft),
-              (route) => false);
+          logarModulo();
+          // Navigator.pushAndRemoveUntil(
+          //     context,
+          //     PageTransition(
+          //         child: const EstruturaPage(),
+          //         type: PageTransitionType.rightToLeft),
+          //     (route) => false);
         }
       },
     ).catchError((error) {
@@ -51,6 +55,59 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  logarModulo() {
+    List<bool> modulosPermitidos = [
+      Globais.moduloHospedagem,
+      Globais.moduloControleEstoque,
+      Globais.moduloFinanceiro
+    ];
+    for (var modulo in modulosPermitidos) {
+      if (modulo) Globais.modulosPermitidos.add(modulo);
+    }
+
+    if (Globais.modulosPermitidos.length > 1) {
+      _pageController.animateToPage(
+        1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOutCubic,
+      );
+    } else {
+      if (Globais.moduloHospedagem) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            PageTransition(
+                child: const EstruturaPage(),
+                type: PageTransitionType.rightToLeft),
+            (route) => false);
+      } else if (Globais.moduloControleEstoque) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            PageTransition(
+                child: const EstruturaPage(),
+                type: PageTransitionType.rightToLeft),
+            (route) => false);
+      } else if (Globais.moduloFinanceiro) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            PageTransition(
+                child: const EstruturaPage(),
+                type: PageTransitionType.rightToLeft),
+            (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Usuário sem acesso ao sistema"),
+            backgroundColor: Cores.vermelhoMedio,
+          ),
+        );
+        setState(() {
+          _errorMessage = 'Sem Permissão !';
+          _suceessMessage = '';
+        });
+      }
+    }
+  }
+
   Future<bool> buscarDadosUsuario(String idFirebase) async {
     var response = await ApiUsuario().loginSistema(idFirebase);
     if (response.statusCode == 200) {
@@ -58,6 +115,9 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         Globais.nomePessoa = decoded.usuNome;
         Globais.codigoUsuario = decoded.usuCodigo;
+        Globais.moduloHospedagem = decoded.usuAcessoHospede;
+        Globais.moduloControleEstoque = decoded.usuAcessoEstoque;
+        Globais.moduloFinanceiro = decoded.usuAcessoFinanceiro;
       });
       if (decoded.usuAcessoHospede) {
         return true;
@@ -89,270 +149,248 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     double largura = MediaQuery.of(context).size.width;
     double altura = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Cores.branco,
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 180),
-          width: 550,
-          height: 500,
-          decoration: const BoxDecoration(
-            color: Cores.branco,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                offset: Offset(0, 5),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 25),
-                width: largura,
-                height: 100,
-                child: const Text(
-                  // 'Painel CCMN',
-                  'CCMN Manager',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Cores.cinzaEscuro,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 180),
+              width: 550,
+              height: 500,
+              decoration: const BoxDecoration(
+                color: Cores.branco,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
                   ),
-                ),
-                // decoration: const BoxDecoration(
-                //   image: DecorationImage(
-                //     image: AssetImage('images/logo.png'),
-                //   ),
-                // ),
+                ],
               ),
-              Container(
-                margin: EdgeInsets.symmetric(
-                    horizontal: largura / 30, vertical: altura / 60),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Form(
-                      key: _formKey,
-                      // autovalidateMode: AutovalidateMode.onUserInteraction,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            enableSuggestions: true,
-                            autofillHints: const [AutofillHints.email],
-                            decoration: const InputDecoration(
-                              labelText: 'E-mail',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              labelStyle: TextStyle(
-                                color: Cores.cinzaEscuro,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.red,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              focusColor: Cores.cinzaEscuro,
-                              hintStyle: TextStyle(
-                                color: Cores.cinzaEscuro,
-                              ),
-                              hintText: 'Digite seu e-mail',
-                              counterStyle: TextStyle(
-                                color: Cores.cinzaEscuro,
-                              ),
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: Cores.cinzaEscuro,
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value != "Administrador") {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    !value.contains('@') ||
-                                    !value.contains('.') ||
-                                    !value.contains('com') ||
-                                    value.length < 10) {
-                                  return 'Por favor, digite seu e-mail';
-                                }
-                                return null;
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: _passwordController,
-                            obscureText: true,
-                            textInputAction: TextInputAction.next,
-                            enableSuggestions: true,
-                            decoration: const InputDecoration(
-                              labelText: 'Senha',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              labelStyle: TextStyle(
-                                color: Cores.cinzaEscuro,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.red,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Cores.cinzaEscuro,
-                                ),
-                              ),
-                              focusColor: Cores.cinzaEscuro,
-                              hintStyle: TextStyle(
-                                color: Cores.cinzaEscuro,
-                              ),
-                              hintText: 'Digite sua senha',
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: Cores.cinzaEscuro,
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  value.length < 6) {
-                                return 'Por favor, digite sua senha';
-                              }
-                              // setState(() {
-                              //   _errorMessage = '';
-                              //   _suceessMessage = '';
-                              // });
-                              return null;
-                            },
-                          ),
-                        ],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    width: largura,
+                    height: 100,
+                    child: const Text(
+                      // 'Painel CCMN',
+                      'CCMN Manager',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Cores.cinzaEscuro,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    // decoration: const BoxDecoration(
+                    //   image: DecorationImage(
+                    //     image: AssetImage('images/logo.png'),
+                    //   ),
+                    // ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: largura / 30, vertical: altura / 60),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Form(
+                          key: _formKey,
+                          // autovalidateMode: AutovalidateMode.onUserInteraction,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: _emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                enableSuggestions: true,
+                                autofillHints: const [AutofillHints.email],
+                                decoration: const InputDecoration(
+                                  labelText: 'E-mail',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Cores.cinzaEscuro,
+                                    ),
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Cores.cinzaEscuro,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Cores.cinzaEscuro,
+                                    ),
+                                  ),
+                                  focusColor: Cores.cinzaEscuro,
+                                  hintStyle: TextStyle(
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                  hintText: 'Digite seu e-mail',
+                                  counterStyle: TextStyle(
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                  prefixIcon: Icon(
+                                    Icons.email,
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value != "Administrador") {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !value.contains('@') ||
+                                        !value.contains('.') ||
+                                        !value.contains('com') ||
+                                        value.length < 10) {
+                                      return 'Por favor, digite seu e-mail';
+                                    }
+                                    return null;
+                                  }
+                                },
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                textInputAction: TextInputAction.next,
+                                enableSuggestions: true,
+                                decoration: const InputDecoration(
+                                  labelText: 'Senha',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Cores.cinzaEscuro,
+                                    ),
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Cores.cinzaEscuro,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Cores.cinzaEscuro,
+                                    ),
+                                  ),
+                                  focusColor: Cores.cinzaEscuro,
+                                  hintStyle: TextStyle(
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                  hintText: 'Digite sua senha',
+                                  prefixIcon: Icon(
+                                    Icons.lock,
+                                    color: Cores.cinzaEscuro,
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      value.length < 6) {
+                                    return 'Por favor, digite sua senha';
+                                  }
+                                  // setState(() {
+                                  //   _errorMessage = '';
+                                  //   _suceessMessage = '';
+                                  // });
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          _errorMessage,
+                          style: const TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                        Text(
+                          _suceessMessage,
+                          style: const TextStyle(
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      _errorMessage,
-                      style: const TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                    Text(
-                      _suceessMessage,
-                      style: const TextStyle(
-                        color: Colors.green,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      if (_emailController.text == "Administrador" &&
-                          _passwordController.text == "P807265@") {
-                        setState(() {
-                          Globais.isAdmin = true;
-                          Globais.nomePessoa = "Administrador";
-                        });
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            PageTransition(
-                              child: const EstruturaPage(),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          if (_emailController.text == "Administrador" &&
+                              _passwordController.text == "P807265@") {
+                            setState(() {
+                              Globais.isAdmin = true;
+                              Globais.nomePessoa = "Administrador";
+                            });
+                            _pageController.animateToPage(
+                              1,
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeInOutCubic,
-                              type: PageTransitionType.rightToLeft,
-                            ),
-                            (route) => false);
-                      } else {
-                        logarUsuario(
-                            _emailController.text, _passwordController.text);
-                      }
-                      // bool retorno = await verificaLogin();
-                      // if (retorno) {
-                      // FirebaseAuth.instance
-                      //     .signInWithEmailAndPassword(
-                      //         email: _emailController.text,
-                      //         password: _passwordController.text)
-                      //     .then(
-                      //   (value) {
-                      //     Navigator.pop(context);
-                      //     Navigator.push(
-                      //         context,
-                      //         PageTransition(
-                      //             child: const EstruturaPage(),
-                      //             type: PageTransitionType.rightToLeft));
-                      //     setState(() {
-                      //       Globais.logado = true;
-                      //     });
-                      //   },
-                      // ).catchError((error) {
-                      //   setState(() {
-                      //     _errorMessage =
-                      //         'Erro ao autenticar usuário, verifique e-mail e senha e tente novamente';
-                      //   });
-                      // });
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Cores.verdeEscuro,
-                    fixedSize: const Size(150, 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                            );
+                          } else {
+                            logarUsuario(_emailController.text,
+                                _passwordController.text);
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Cores.verdeEscuro,
+                        fixedSize: const Size(150, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Logar'),
                     ),
                   ),
-                  child: const Text('Logar'),
-                ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Cores.cinzaEscuro,
+                    ),
+                    onPressed: () {},
+                    onHover: (value) {},
+                    child: const Text('Esqueceu a senha?'),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Cores.cinzaEscuro,
-                ),
-                onPressed: () {},
-                onHover: (value) {},
-                child: const Text('Esqueceu a senha?'),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
+            ),
           ),
-        ),
+          const SeletorModulo(),
+        ],
       ),
     );
   }

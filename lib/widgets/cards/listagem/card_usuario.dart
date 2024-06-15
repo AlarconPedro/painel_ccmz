@@ -49,7 +49,7 @@ class CardUsuario extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: CupertinoCheckbox(
-                            value: usuario.usuACessoFinanceiro,
+                            value: usuario.usuAcessoFinanceiro,
                             onChanged: (value) {}),
                       ),
                       Expanded(

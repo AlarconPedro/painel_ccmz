@@ -5,7 +5,7 @@ class UsuarioModel {
   String usuSenha;
   String usuCodigoFirebase;
   bool usuAcessoHospede;
-  bool usuACessoFinanceiro;
+  bool usuAcessoFinanceiro;
   bool usuAcessoEstoque;
 
   UsuarioModel({
@@ -15,7 +15,7 @@ class UsuarioModel {
     required this.usuSenha,
     required this.usuCodigoFirebase,
     required this.usuAcessoHospede,
-    required this.usuACessoFinanceiro,
+    required this.usuAcessoFinanceiro,
     required this.usuAcessoEstoque,
   });
 
@@ -27,7 +27,7 @@ class UsuarioModel {
       usuSenha: json['usuSenha'] ?? '',
       usuCodigoFirebase: json['usuCodigoFirebase'] ?? '',
       usuAcessoHospede: json['usuAcessoHospedagem'] ?? false,
-      usuACessoFinanceiro: json['usuAcessoFinanceiro'] ?? false,
+      usuAcessoFinanceiro: json['usuAcessoFinanceiro'] ?? false,
       usuAcessoEstoque: json['usuAcessoEstoque'] ?? false,
     );
   }
@@ -40,7 +40,7 @@ class UsuarioModel {
       'usuSenha': usuSenha,
       'usuCodigoFirebase': usuCodigoFirebase,
       'usuAcessoHospedagem': usuAcessoHospede,
-      'usuAcessoFinanceiro': usuACessoFinanceiro,
+      'usuAcessoFinanceiro': usuAcessoFinanceiro,
       'usuAcessoEstoque': usuAcessoEstoque,
     };
   }

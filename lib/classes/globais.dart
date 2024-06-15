@@ -4,6 +4,14 @@ class Globais {
 
   static bool isAdmin = false;
 
+  static bool moduloHospedagem = false;
+  static bool moduloControleEstoque = false;
+  static bool moduloFinanceiro = false;
+
+  static List<bool> modulosPermitidos = [];
+
+  static String moduloLogado = "";
+
   static int codigoUsuario = 0;
   static String nomePessoa = "CCMN Manager";
 }
