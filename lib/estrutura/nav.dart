@@ -90,7 +90,6 @@ class NavState extends State<Nav> {
                   onTap: (index, sideMenu) {
                     sideMenu.changePage(index);
                   },
-                  // icon: const Icon(CupertinoIcons.tag_fill),
                   icon: const Icon(CupertinoIcons.checkmark_alt_circle),
                 ),
                 SideMenuItem(
