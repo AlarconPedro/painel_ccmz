@@ -114,10 +114,11 @@ class _AlocacaoState extends State<Alocacao> {
     setState(() => carregando = false);
   }
 
-  buscarQuartos() async {
+  buscarQuartos({int? codigo}) async {
     setState(() => carregando = true);
     quartosBusca.clear();
-    var retorno = await ApiCheckin().getCheckinQuartos(codigoEvento);
+    var retorno = await ApiCheckin().getCheckinQuartos(codigo ?? codigoEvento);
+    print(retorno.body);
     if (retorno.statusCode == 200) {
       quartos.clear();
       var dados = json.decode(retorno.body);
@@ -135,13 +136,13 @@ class _AlocacaoState extends State<Alocacao> {
         ),
       );
     }
-
     setState(() => carregando = false);
-    Rotas.alocacaoPageController.animateToPage(1,
-        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+    // Rotas.alocacaoPageController.animateToPage(1,
+    //     duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
-  gerarPDFQuartos() {
+  gerarPDFQuartos(int codigoEvento) async {
+    await buscarQuartos(codigo: codigoEvento);
     pdf.addPage(
       pw.MultiPage(
         orientation: pw.PageOrientation.landscape,
@@ -152,118 +153,41 @@ class _AlocacaoState extends State<Alocacao> {
             level: 0,
             child: pw.Text("Alocação de Quartos"),
           ),
-          // pw.ListView.builder(
-          //   itemCount: 10,
-          //   itemBuilder: (context, index) {
-          //     return pw.Container(
-          //       width: 80,
-          //       height: 80,
-          //       color: PdfColor.fromInt(Colors.red.value),
-          //     );
-          //   },
-          // ),
-
-          pw.ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return
-                    // pw.Expanded(
-                    //   child: pw.Column(
-                    //     children: [
-                    pw.Padding(
-                  padding: const pw.EdgeInsets.symmetric(
-                      vertical: 10, horizontal: 20),
-                  child: pw.Row(
-                    mainAxisAlignment: pw.MainAxisAlignment.center,
-                    children: [
-                      pw.Text(
-                        quartos[index].bloNome,
-                        // "Bloco 1",
-                        style: pw.TextStyle(
-                          fontSize: 20,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  // ),
-                  // pw.Wrap(
-                  //   direction: pw.Axis.horizontal,
-                  //   children: [
-                  //     // for (var quarto in quartos)
-                  //     pw.Padding(
-                  //       padding: const pw.EdgeInsets.all(10),
-                  //       child: pw.Column(
-                  //         children: [
-                  //           pw.Text(
-                  //             // quarto.quaNome,
-                  //             "Quarto 1",
-                  //             style: pw.TextStyle(
-                  //               fontSize: 20,
-                  //               fontWeight: pw.FontWeight.bold,
-                  //             ),
-                  //           ),
-                  //           pw.Text(
-                  //             // "Vagas: ${quarto.vagas}",
-                  //             "Vagas: 2",
-                  //             style: const pw.TextStyle(
-                  //               fontSize: 20,
-                  //             ),
-                  //           ),
-                  //           pw.Text(
-                  //             // "Pessoas: ${quarto.pessoasQuarto.length}",
-                  //             "Pessoas: 2",
-                  //             style: const pw.TextStyle(
-                  //               fontSize: 20,
-                  //             ),
-                  //           ),
-                  //           pw.Padding(
-                  //             padding: const pw.EdgeInsets.symmetric(
-                  //               vertical: 10,
-                  //               horizontal: 20,
-                  //             ),
-                  //             child: pw.Divider(
-                  //                 color:
-                  //                     PdfColor.fromInt(Colors.grey.value)),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     // MouseRegion(
-                  //     //   cursor: SystemMouseCursors.click,
-                  //     //   child: CardQuartoAlocacao(
-                  //     //     quarto: quarto,
-                  //     //   ),
-                  //     // ),
-                  //   ],
-                  // ),
-                  // pw.Padding(
-                  //   padding: const pw.EdgeInsets.symmetric(
-                  //     vertical: 10,
-                  //     horizontal: 20,
-                  //   ),
-                  //   child: pw.Divider(
-                  //       color: PdfColor.fromInt(Colors.grey.value)),
-                  // ),
+          pw.Table.fromTextArray(
+            context: context,
+            data: [
+              for (var i = 0; i < quartos.length; i++)
+                [
+                  quartos[i].bloNome,
+                  // for (var j = 0; j < quartos[i].pessoasQuarto.length; j++) ...[
+                  //   quartos[i].pessoasQuarto[j].pessoasQuarto[j].pesNome,
+                  // quartos[i].pessoasQuarto[j].pessoasQuarto[j].pesCheckin
+                  //     ? "Sim"
+                  //     : "Não",
                   // ],
-                  // ),
-                );
-              }),
-
-          // pw.Table.fromTextArray(
-          //   context: context,
-          //   data: <List<String>>[
-          //     <String>["Quarto", "Bloco", "Vagas", "Pessoas"],
-          //     ...quartos.map(
-          //       (e) => [
-          //         e.quaNome,
-          //         e.bloNome,
-          //         e.vagas.toString(),
-          //         e.pessoasQuarto.length.toString(),
-          //       ],
-          //     ),
-          //   ],
-          // ),
+                ],
+            ],
+            // data: [
+            //   <String>[
+            //     "Bloco",
+            //     "Quarto",
+            //     "Pessoas",
+            //     "Checkin",
+            //   ],
+            //   for (var quarto in quartos)
+            //     [
+            //       quarto.bloNome,
+            //       // quarto.pessoasQuarto[quarto.pessoasQuarto.length - 1].quaNome,
+            //       quarto.pessoasQuarto.length.toString(),
+            //       // quarto
+            //       //         .pessoasQuarto[quarto.pessoasQuarto.length - 1]
+            //       //         .pessoasQuarto[quarto.pessoasQuarto.length - 1]
+            //       //         .pesCheckin
+            //       //     ? "Sim"
+            //       //     : "Não",
+            //     ],
+            // ],
+          ),
         ],
       ),
     );
@@ -507,8 +431,8 @@ class _AlocacaoState extends State<Alocacao> {
                                         return CardEventoCheckin(
                                           eventoDados: eventos[index],
                                           quartos: () async {
-                                            await buscarQuartos();
-                                            gerarPDFQuartos();
+                                            gerarPDFQuartos(
+                                                eventos[index].eveCodigo);
                                           },
                                           checkin: () {
                                             setState(() {
