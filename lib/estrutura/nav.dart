@@ -157,6 +157,89 @@ class NavState extends State<Nav> {
                 ),
               ];
       case "Estoque":
+        // return Globais.isAdmin
+        //     ?
+        return [
+          SideMenuItem(
+            title: 'Dashboard',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.chart_pie_fill),
+          ),
+          SideMenuItem(
+            title: 'Produtos',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.cube_box),
+          ),
+          SideMenuItem(
+            title: 'Fornecedores',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.person_2_fill),
+          ),
+          SideMenuItem(
+            title: 'Movimentos',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.arrow_right_arrow_left),
+          ),
+          // SideMenuItem(
+          //   title: 'Saídas',
+          //   onTap: (index, sideMenu) {
+          //     sideMenu.changePage(index);
+          //   },
+          //   icon: const Icon(CupertinoIcons.arrow_up_circle_fill),
+          // ),
+          // SideMenuItem(
+          //   title: 'Configurações',
+          //   onTap: (index, sideMenu) {
+          //     sideMenu.changePage(index);
+          //   },
+          //   icon: const Icon(CupertinoIcons.settings),
+          // )
+        ];
+      // : [
+      //     SideMenuItem(
+      //       title: 'Dashboard',
+      //       onTap: (index, sideMenu) {
+      //         sideMenu.changePage(index);
+      //       },
+      //       icon: const Icon(CupertinoIcons.chart_pie_fill),
+      //     ),
+      //     SideMenuItem(
+      //       title: 'Produtos',
+      //       onTap: (index, sideMenu) {
+      //         sideMenu.changePage(index);
+      //       },
+      //       icon: const Icon(CupertinoIcons.cart_fill),
+      //     ),
+      //     SideMenuItem(
+      //       title: 'Fornecedores',
+      //       onTap: (index, sideMenu) {
+      //         sideMenu.changePage(index);
+      //       },
+      //       icon: const Icon(CupertinoIcons.person_2_fill),
+      //     ),
+      //     SideMenuItem(
+      //       title: 'Entradas',
+      //       onTap: (index, sideMenu) {
+      //         sideMenu.changePage(index);
+      //       },
+      //       icon: const Icon(CupertinoIcons.arrow_down_circle_fill),
+      //     ),
+      //     SideMenuItem(
+      //       title: 'Saídas',
+      //       onTap: (index, sideMenu) {
+      //         sideMenu.changePage(index);
+      //       },
+      //       icon: const Icon(CupertinoIcons.arrow_up_circle_fill),
+      //     ),
+      //   ];
       case "Financeiro":
       default:
         return [];
