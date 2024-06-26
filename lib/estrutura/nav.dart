@@ -160,13 +160,13 @@ class NavState extends State<Nav> {
         // return Globais.isAdmin
         //     ?
         return [
-          SideMenuItem(
-            title: 'Dashboard',
-            onTap: (index, sideMenu) {
-              sideMenu.changePage(index);
-            },
-            icon: const Icon(CupertinoIcons.chart_pie_fill),
-          ),
+          // SideMenuItem(
+          //   title: 'Dashboard',
+          //   onTap: (index, sideMenu) {
+          //     sideMenu.changePage(index);
+          //   },
+          //   icon: const Icon(CupertinoIcons.chart_pie_fill),
+          // ),
           SideMenuItem(
             title: 'Produtos',
             onTap: (index, sideMenu) {
@@ -175,19 +175,26 @@ class NavState extends State<Nav> {
             icon: const Icon(CupertinoIcons.cube_box),
           ),
           SideMenuItem(
-            title: 'Fornecedores',
-            onTap: (index, sideMenu) {
-              sideMenu.changePage(index);
-            },
-            icon: const Icon(CupertinoIcons.person_2_fill),
-          ),
-          SideMenuItem(
             title: 'Movimentos',
             onTap: (index, sideMenu) {
               sideMenu.changePage(index);
             },
             icon: const Icon(CupertinoIcons.arrow_right_arrow_left),
           ),
+          SideMenuItem(
+            title: 'Categorias',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.tags),
+          ),
+          // SideMenuItem(
+          //   title: 'Fornecedores',
+          //   onTap: (index, sideMenu) {
+          //     sideMenu.changePage(index);
+          //   },
+          //   icon: const Icon(CupertinoIcons.person_2_fill),
+          // ),
         ];
       case "Financeiro":
       default:

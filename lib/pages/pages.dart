@@ -1,33 +1,46 @@
 export 'login/login_page.dart';
 
-export 'dashboard/dashboard.dart';
+///////////////////////////////HOSPEDAGEM/////////////////////////////////////
+export 'hospedagem/dashboard/dashboard.dart';
 
-export 'pessoas/pessoas.dart';
-export 'pessoas/cadastro_pessoas.dart';
+export 'hospedagem/pessoas/pessoas.dart';
+export 'hospedagem/pessoas/cadastro_pessoas.dart';
 
-export 'bloco/bloco.dart';
-export 'bloco/cadastro_bloco.dart';
+export 'hospedagem/bloco/bloco.dart';
+export 'hospedagem/bloco/cadastro_bloco.dart';
 
-export 'quartos/quartos.dart';
-export 'quartos/cadastro_quarto.dart';
+export 'hospedagem/quartos/quartos.dart';
+export 'hospedagem/quartos/cadastro_quarto.dart';
 
-export 'comunidade/comunidade.dart';
-export 'comunidade/cadastro_comunidade.dart';
+export 'hospedagem/comunidade/comunidade.dart';
+export 'hospedagem/comunidade/cadastro_comunidade.dart';
 
-export 'esqueleto/esqueleto.dart';
-export 'esqueleto/cadastro_form.dart';
+export 'hospedagem/esqueleto/esqueleto.dart';
+export 'hospedagem/esqueleto/cadastro_form.dart';
 
-export 'evento/evento.dart';
-export 'evento/cadastro_evento.dart';
-export 'evento/quartos_evento.dart';
-export 'evento/pessoas_evento.dart';
-export 'evento/alocacao_evento.dart';
-export 'evento/alocacao_evento_pessoas.dart';
-export 'evento/estrutura_alocacao_evento.dart';
-export 'evento/acerto_evento.dart';
+export 'hospedagem/evento/evento.dart';
+export 'hospedagem/evento/cadastro_evento.dart';
+export 'hospedagem/evento/quartos_evento.dart';
+export 'hospedagem/evento/pessoas_evento.dart';
+export 'hospedagem/evento/alocacao_evento.dart';
+export 'hospedagem/evento/alocacao_evento_pessoas.dart';
+export 'hospedagem/evento/estrutura_alocacao_evento.dart';
+export 'hospedagem/evento/acerto_evento.dart';
 
-export 'alocacao/alocacao.dart';
-export 'alocacao/checkin_quartos.dart';
-export 'alocacao/editar_checkin.dart';
+export 'hospedagem/alocacao/alocacao.dart';
+export 'hospedagem/alocacao/checkin_quartos.dart';
+export 'hospedagem/alocacao/editar_checkin.dart';
 
-export 'configuracoes/usuarios.dart';
+export 'hospedagem/configuracoes/usuarios.dart';
+
+///////////////////////////////ESTOQUE/////////////////////////////////////
+
+export 'estoque/produtos/produtos.dart';
+export 'estoque/produtos/cadastro_produtos.dart';
+
+export 'estoque/categorias/categorias.dart';
+export 'estoque/categorias/cadastro_categorias.dart';
+
+export 'estoque/movimento/movimento_estoque.dart';
+
+///////////////////////////////FINANCEIRO/////////////////////////////////////

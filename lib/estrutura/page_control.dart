@@ -11,44 +11,101 @@ class PageControl extends StatefulWidget {
 }
 
 class _PageControlState extends State<PageControl> {
+  List<Widget> retornaMenus() {
+    switch (Globais.moduloLogado) {
+      case 'Hospedagem':
+        if (Globais.isAdmin) {
+          return [
+            const DashBoard(),
+            const Pessoas(),
+            const Comunidade(),
+            const Bloco(),
+            const Quartos(),
+            const Evento(),
+            const Alocacao(),
+            const Usuarios(),
+          ];
+        } else {
+          return [
+            const DashBoard(),
+            const Pessoas(),
+            const Comunidade(),
+            const Bloco(),
+            const Quartos(),
+            const Evento(),
+            const Alocacao(),
+          ];
+        }
+      case 'Estoque':
+        if (Globais.isAdmin) {
+          return [
+            const Produtos(),
+            const MovimentoEstoque(),
+            const Categorias(),
+            // const Usuarios(),
+          ];
+        } else {
+          return [
+            const Produtos(),
+            const MovimentoEstoque(),
+            const Categorias(),
+          ];
+        }
+      case 'Financeiro':
+        if (Globais.isAdmin) {
+          return [
+            const DashBoard(),
+            const Pessoas(),
+            const Comunidade(),
+            const Bloco(),
+            const Quartos(),
+            const Evento(),
+            const Alocacao(),
+            const Usuarios(),
+          ];
+        } else {
+          return [
+            const DashBoard(),
+            const Pessoas(),
+            const Comunidade(),
+            const Bloco(),
+            const Quartos(),
+            const Evento(),
+            const Alocacao(),
+          ];
+        }
+      default:
+        if (Globais.isAdmin) {
+          return [
+            const DashBoard(),
+            const Pessoas(),
+            const Comunidade(),
+            const Bloco(),
+            const Quartos(),
+            const Evento(),
+            const Alocacao(),
+            const Usuarios(),
+          ];
+        } else {
+          return [
+            const DashBoard(),
+            const Pessoas(),
+            const Comunidade(),
+            const Bloco(),
+            const Quartos(),
+            const Evento(),
+            const Alocacao(),
+          ];
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PageView(
       controller: Rotas.navController,
       physics: const NeverScrollableScrollPhysics(),
-      children: Globais.isAdmin
-          ? [
-              const DashBoard(),
-              const Pessoas(),
-              const Comunidade(),
-              const Bloco(),
-              const Quartos(),
-              const Evento(),
-              const Alocacao(),
-              const Usuarios(),
-            ]
-          : [
-              const DashBoard(),
-              const Pessoas(),
-              const Comunidade(),
-              const Bloco(),
-              const Quartos(),
-              const Evento(),
-              const Alocacao(),
-              // const DashBoard(),
-              // const OrdemServico(),
-              // const Clientes(),
-              // const Produtos(),
-              // Container(
-              //   color: CupertinoColors.systemBlue,
-              // ),
-              // Container(
-              //   color: CupertinoColors.systemGreen,'
-              // ),
-              // Container(
-              //   color: CupertinoColors.systemYellow,
-              // ),
-            ],
+      children: retornaMenus(),
     );
   }
 }
