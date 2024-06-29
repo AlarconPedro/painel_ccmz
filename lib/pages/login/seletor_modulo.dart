@@ -97,9 +97,8 @@ class _SeletorModuloState extends State<SeletorModulo> {
                       width: 150,
                       height: 150,
                       decoration: const BoxDecoration(
-                        color: Cores.azulMedio,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
+                          color: Cores.azulMedio,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
