@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:painel_ccmn/pages/pages.dart';
 
 class CadastroCategorias extends StatefulWidget {
   const CadastroCategorias({super.key});
@@ -8,8 +9,22 @@ class CadastroCategorias extends StatefulWidget {
 }
 
 class _CadastroCategoriasState extends State<CadastroCategorias> {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return CadastroForm(
+      titulo: "Cadastro de Categorias",
+      formKey: _formKey,
+      altura: 4,
+      largura: 2.5,
+      cancelar: () {
+        // Navigator.pop(context);
+      },
+      gravar: () {
+        Navigator.pop(context);
+      },
+      campos: [],
+    );
   }
 }

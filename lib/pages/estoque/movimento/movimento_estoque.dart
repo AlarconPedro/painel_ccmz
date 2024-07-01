@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:painel_ccmn/pages/hospedagem/esqueleto/esqueleto.dart';
 
 class MovimentoEstoque extends StatefulWidget {
   const MovimentoEstoque({super.key});
@@ -10,6 +11,20 @@ class MovimentoEstoque extends StatefulWidget {
 class _MovimentoEstoqueState extends State<MovimentoEstoque> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Esqueleto(
+      tituloBoto: "Novo Movimento",
+      tituloPagina: "Movimento de Estoque",
+      buscaNome: (busca) {},
+      abrirTelaCadastro: () {
+        // Navigator.push(
+        //   context,
+        //   CupertinoDialogRoute(
+        //     builder: (context) => const CadastroMovimentoEstoque(),
+        //     context: context,
+        //   ),
+        // );
+      },
+      corpo: [],
+    );
   }
 }

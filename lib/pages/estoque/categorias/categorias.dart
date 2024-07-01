@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:painel_ccmn/pages/pages.dart';
 
 class Categorias extends StatefulWidget {
   const Categorias({super.key});
@@ -10,6 +11,22 @@ class Categorias extends StatefulWidget {
 class _CategoriasState extends State<Categorias> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Esqueleto(
+      label: "Categorias",
+      tituloBoto: "Nova Categoria",
+      tituloPagina: "Categorias",
+      filtro: false,
+      buscaNome: (busca) {},
+      abrirTelaCadastro: () {
+        Navigator.push(
+          context,
+          CupertinoDialogRoute(
+            builder: (context) => const CadastroCategorias(),
+            context: context,
+          ),
+        );
+      },
+      corpo: [],
+    );
   }
 }
