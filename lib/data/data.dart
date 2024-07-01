@@ -7,6 +7,10 @@ export 'api/api_quarto.dart';
 export 'api/api_evento.dart';
 export 'api/api_alocacao.dart';
 export 'api/api_checkin.dart';
+export 'api/api_acerto.dart';
+export 'api/api_categoria.dart';
+export 'api/api_usuario.dart';
+export 'api/api_dashboard.dart';
 
 export 'models/pessoa_model.dart';
 export 'models/comunidade_model.dart';
@@ -26,3 +30,4 @@ export 'models/evento_despesas_model.dart';
 export 'models/pagantes_cobrantes_model.dart';
 export 'models/quarto_pessoas_model.dart';
 export 'models/usuario_model.dart';
+export 'models/categoria_model.dart';
