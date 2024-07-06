@@ -70,6 +70,8 @@ class _CategoriasState extends State<Categorias> {
           )
         else
           DataTable(
+            checkboxHorizontalMargin: 0,
+            horizontalMargin: 0,
             columns: const [
               DataColumn(label: Text("Código")),
               DataColumn(label: Text("Nome")),
