@@ -6,6 +6,7 @@ import 'package:painel_ccmn/pages/pages.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/data.dart';
+import '../../../widgets/cards/listagem/estoque/card_categoria.dart';
 
 class Categorias extends StatefulWidget {
   const Categorias({super.key});
@@ -69,70 +70,85 @@ class _CategoriasState extends State<Categorias> {
             child: CircularProgressIndicator(),
           )
         else
-          DataTable(
-            checkboxHorizontalMargin: 0,
-            horizontalMargin: 0,
-            columns: const [
-              DataColumn(label: Text("Código")),
-              DataColumn(label: Text("Nome")),
-              DataColumn(label: Text("Ações")),
-            ],
-            rows: categorias
-                .map(
-                  (categoria) => DataRow(
-                    cells: [
-                      DataCell(Text(categoria.catCodigo.toString())),
-                      DataCell(Text(categoria.catNome)),
-                      DataCell(
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  CupertinoDialogRoute(
-                                    builder: (context) => CadastroCategorias(
-                                      categoria: categoria,
-                                    ),
-                                    context: context,
-                                  ),
-                                );
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () async {
-                                // var retorno = await ApiCategoria()
-                                //     .deleteCategoria(categoria.catCodigo);
-                                // if (retorno.statusCode == 200) {
-                                //   ScaffoldMessenger.of(context).showSnackBar(
-                                //     const SnackBar(
-                                //       backgroundColor: Cores.verdeEscuro,
-                                //       content: Text(
-                                //           "Categoria excluida com sucesso !"),
-                                //     ),
-                                //   );
-                                buscarCategorias();
-                                // } else {
-                                //   ScaffoldMessenger.of(context).showSnackBar(
-                                //     const SnackBar(
-                                //       backgroundColor: Cores.vermelhoMedio,
-                                //       content:
-                                //           Text("Erro ao excluir categoria !"),
-                                //     ),
-                                //   );
-                                // }
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-                .toList(),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: ListView.builder(
+                itemCount: categorias.length,
+                itemBuilder: (context, index) {
+                  var categoria = categorias[index];
+                  return CardCategoria(
+                    categoria: categoria,
+                    excluir: () {},
+                  );
+                },
+              ),
+            ),
           ),
+        // DataTable(
+        //   checkboxHorizontalMargin: 0,
+        //   horizontalMargin: 0,
+        //   columns: const [
+        //     DataColumn(label: Text("Código")),
+        //     DataColumn(label: Text("Nome")),
+        //     DataColumn(label: Text("Ações")),
+        //   ],
+        //   rows: categorias
+        //       .map(
+        //         (categoria) => DataRow(
+        //           cells: [
+        //             DataCell(Text(categoria.catCodigo.toString())),
+        //             DataCell(Text(categoria.catNome)),
+        //             DataCell(
+        //               Row(
+        //                 children: [
+        //                   IconButton(
+        //                     icon: const Icon(Icons.edit),
+        //                     onPressed: () async {
+        //                       await Navigator.push(
+        //                         context,
+        //                         CupertinoDialogRoute(
+        //                           builder: (context) => CadastroCategorias(
+        //                             categoria: categoria,
+        //                           ),
+        //                           context: context,
+        //                         ),
+        //                       );
+        //                     },
+        //                   ),
+        //                   IconButton(
+        //                     icon: const Icon(Icons.delete),
+        //                     onPressed: () async {
+        //                       // var retorno = await ApiCategoria()
+        //                       //     .deleteCategoria(categoria.catCodigo);
+        //                       // if (retorno.statusCode == 200) {
+        //                       //   ScaffoldMessenger.of(context).showSnackBar(
+        //                       //     const SnackBar(
+        //                       //       backgroundColor: Cores.verdeEscuro,
+        //                       //       content: Text(
+        //                       //           "Categoria excluida com sucesso !"),
+        //                       //     ),
+        //                       //   );
+        //                       buscarCategorias();
+        //                       // } else {
+        //                       //   ScaffoldMessenger.of(context).showSnackBar(
+        //                       //     const SnackBar(
+        //                       //       backgroundColor: Cores.vermelhoMedio,
+        //                       //       content:
+        //                       //           Text("Erro ao excluir categoria !"),
+        //                       //     ),
+        //                       //   );
+        //                       // }
+        //                     },
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       )
+        //       .toList(),
+        // ),
       ],
     );
   }
