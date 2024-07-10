@@ -351,12 +351,14 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               Globais.isAdmin = true;
                               Globais.nomePessoa = "Administrador";
+                              Globais.moduloLogado = "Admin";
                             });
-                            _pageController.animateToPage(
-                              1,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOutCubic,
-                            );
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                    child: const EstruturaPage(),
+                                    type: PageTransitionType.rightToLeft),
+                                (route) => false);
                           } else {
                             logarUsuario(_emailController.text,
                                 _passwordController.text);

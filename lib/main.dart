@@ -31,8 +31,8 @@ Future<void> main() async {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PageTeste(),
-      // home: const LoginPage(),
+      // home: PageTeste(),
+      home: const LoginPage(),
       // home: const EstruturaPage(),
     ),
   );

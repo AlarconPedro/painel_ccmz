@@ -31,7 +31,7 @@ export 'hospedagem/alocacao/alocacao.dart';
 export 'hospedagem/alocacao/checkin_quartos.dart';
 export 'hospedagem/alocacao/editar_checkin.dart';
 
-export 'hospedagem/configuracoes/usuarios.dart';
+export 'admin/configuracoes/usuarios.dart';
 
 ///////////////////////////////ESTOQUE/////////////////////////////////////
 
@@ -44,3 +44,8 @@ export 'estoque/categorias/cadastro_categorias.dart';
 export 'estoque/movimento/movimento_estoque.dart';
 
 ///////////////////////////////FINANCEIRO/////////////////////////////////////
+
+///////////////////////////////ADMIN/////////////////////////////////////
+export 'admin/formularios.dart';
+export 'admin/configuracoes/usuarios.dart';
+export 'admin/configuracoes/cadastro_usuario.dart';

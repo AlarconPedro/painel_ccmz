@@ -3,6 +3,8 @@ import 'package:painel_ccmn/classes/classes.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
+import '../pages/admin/formularios.dart';
+
 class PageControl extends StatefulWidget {
   const PageControl({super.key});
 
@@ -14,18 +16,7 @@ class _PageControlState extends State<PageControl> {
   List<Widget> retornaMenus() {
     switch (Globais.moduloLogado) {
       case 'Hospedagem':
-        if (Globais.isAdmin) {
-          return [
-            const DashBoard(),
-            const Pessoas(),
-            const Comunidade(),
-            const Bloco(),
-            const Quartos(),
-            const Evento(),
-            const Alocacao(),
-            const Usuarios(),
-          ];
-        } else {
+        {
           return [
             const DashBoard(),
             const Pessoas(),
@@ -37,14 +28,7 @@ class _PageControlState extends State<PageControl> {
           ];
         }
       case 'Estoque':
-        if (Globais.isAdmin) {
-          return [
-            const Produtos(),
-            const MovimentoEstoque(),
-            const Categorias(),
-            // const Usuarios(),
-          ];
-        } else {
+        {
           return [
             const Produtos(),
             const MovimentoEstoque(),
@@ -52,18 +36,7 @@ class _PageControlState extends State<PageControl> {
           ];
         }
       case 'Financeiro':
-        if (Globais.isAdmin) {
-          return [
-            const DashBoard(),
-            const Pessoas(),
-            const Comunidade(),
-            const Bloco(),
-            const Quartos(),
-            const Evento(),
-            const Alocacao(),
-            const Usuarios(),
-          ];
-        } else {
+        {
           return [
             const DashBoard(),
             const Pessoas(),
@@ -77,14 +50,8 @@ class _PageControlState extends State<PageControl> {
       default:
         if (Globais.isAdmin) {
           return [
-            const DashBoard(),
-            const Pessoas(),
-            const Comunidade(),
-            const Bloco(),
-            const Quartos(),
-            const Evento(),
-            const Alocacao(),
             const Usuarios(),
+            const Formularios(),
           ];
         } else {
           return [
