@@ -20,6 +20,7 @@ Future<void> main() async {
     ),
   );
   // usePathUrlStrategy();
+  
   runApp(
     MaterialApp(
       localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
