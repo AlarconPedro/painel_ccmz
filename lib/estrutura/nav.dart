@@ -150,6 +150,13 @@ class NavState extends State<Nav> {
             },
             icon: const Icon(CupertinoIcons.doc_plaintext),
           ),
+          SideMenuItem(
+            title: 'Sorteios',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.gift),
+          )
         ];
     }
   }

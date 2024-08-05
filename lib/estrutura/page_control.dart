@@ -4,6 +4,7 @@ import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
 import '../pages/admin/formularios.dart';
+import '../pages/admin/sorteios.dart';
 
 class PageControl extends StatefulWidget {
   const PageControl({super.key});
@@ -52,6 +53,7 @@ class _PageControlState extends State<PageControl> {
           return [
             const Usuarios(),
             const Formularios(),
+            const Sorteios(),
           ];
         } else {
           return [
