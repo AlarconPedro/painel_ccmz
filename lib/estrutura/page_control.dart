@@ -4,7 +4,7 @@ import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
 import '../pages/admin/formularios.dart';
-import '../pages/admin/sorteios.dart';
+import '../pages/admin/sorteios/sorteios.dart';
 
 class PageControl extends StatefulWidget {
   const PageControl({super.key});
