@@ -42,7 +42,7 @@ class _SortearState extends State<Sortear> {
           altura = 150;
         });
 
-        int total = 20;
+        int total = 60;
         int progress = 0;
 
         // Confetti.launch(
@@ -126,47 +126,55 @@ class _SortearState extends State<Sortear> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-          width: largura,
-          height: altura,
-          decoration: BoxDecoration(
-            color: Cores.verdeMedio,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: sorteado
-                    ? MainAxisAlignment.center
-                    : MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    texto,
-                    style: const TextStyle(
-                      color: Cores.branco,
-                      fontSize: 20,
-                    ),
-                  ),
-                  sorteado
-                      ? const Text(
-                          "Fulano de Tal",
-                          style: TextStyle(
-                            color: Cores.branco,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: LoadingAnimationWidget.inkDrop(
-                            color: Cores.branco,
-                            size: 200,
-                          ),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () {
+              sorteado ? Navigator.pop(context) : null;
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              width: largura,
+              height: altura,
+              decoration: BoxDecoration(
+                color: Cores.verdeMedio,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisAlignment: sorteado
+                        ? MainAxisAlignment.center
+                        : MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        texto,
+                        style: const TextStyle(
+                          color: Cores.branco,
+                          fontSize: 20,
                         ),
-                ],
+                      ),
+                      sorteado
+                          ? const Text(
+                              "Fulano de Tal",
+                              style: TextStyle(
+                                color: Cores.branco,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: LoadingAnimationWidget.inkDrop(
+                                color: Cores.branco,
+                                size: 200,
+                              ),
+                            ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
