@@ -67,7 +67,7 @@ class _SortearState extends State<Sortear> {
         // );
 
         Future.doWhile(() async {
-          await Future.delayed(const Duration(milliseconds: 250));
+          await Future.delayed(const Duration(milliseconds: 350));
 
           progress++;
 
@@ -76,9 +76,11 @@ class _SortearState extends State<Sortear> {
           Confetti.launch(context,
               options: ConfettiOptions(
                 particleCount: count,
-                startVelocity: 30,
+                // startVelocity: 5,
                 spread: 360,
-                ticks: 60,
+                scalar: 1.5,
+                gravity: 0.5,
+                ticks: 350,
                 x: randomInRange(0.1, 0.3),
                 y: Random().nextDouble() - 0.2,
               ));
@@ -86,9 +88,11 @@ class _SortearState extends State<Sortear> {
           Confetti.launch(context,
               options: ConfettiOptions(
                 particleCount: count,
-                startVelocity: 30,
+                // startVelocity: 30,
                 spread: 360,
-                ticks: 60,
+                scalar: 1.5,
+                gravity: 0.5,
+                ticks: 350,
                 x: randomInRange(0.7, 0.9),
                 y: Random().nextDouble() - 0.2,
               ));

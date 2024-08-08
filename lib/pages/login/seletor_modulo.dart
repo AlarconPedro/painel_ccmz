@@ -31,134 +31,132 @@ class _SeletorModuloState extends State<SeletorModulo> {
             ),
           ],
         ),
-        child: Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              const Text(
-                "Selecione o módulo",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            const Text(
+              "Selecione o módulo",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CupertinoButton(
+                  onPressed: () {
+                    Globais.moduloLogado = "Hospedagem";
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                            child: const EstruturaPage(),
+                            type: PageTransitionType.rightToLeft),
+                        (route) => false);
+                  },
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    decoration: const BoxDecoration(
+                      color: Cores.azulMedio,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          CupertinoIcons.bed_double_fill,
+                          size: 50,
+                          color: Cores.branco,
+                        ),
+                        Text(
+                          "Hospedagem",
+                          style: TextStyle(
+                            color: Cores.branco,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CupertinoButton(
-                    onPressed: () {
-                      Globais.moduloLogado = "Hospedagem";
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          PageTransition(
-                              child: const EstruturaPage(),
-                              type: PageTransitionType.rightToLeft),
-                          (route) => false);
-                    },
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: const BoxDecoration(
+                CupertinoButton(
+                  onPressed: () {
+                    Globais.moduloLogado = "Estoque";
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                            child: const EstruturaPage(),
+                            type: PageTransitionType.rightToLeft),
+                        (route) => false);
+                  },
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    decoration: const BoxDecoration(
                         color: Cores.azulMedio,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            CupertinoIcons.bed_double_fill,
-                            size: 50,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          CupertinoIcons.cube_box_fill,
+                          size: 50,
+                          color: Cores.branco,
+                        ),
+                        Text(
+                          "Controle Estoque",
+                          style: TextStyle(
                             color: Cores.branco,
+                            fontSize: 18,
                           ),
-                          Text(
-                            "Hospedagem",
-                            style: TextStyle(
-                              color: Cores.branco,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  CupertinoButton(
-                    onPressed: () {
-                      Globais.moduloLogado = "Estoque";
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          PageTransition(
-                              child: const EstruturaPage(),
-                              type: PageTransitionType.rightToLeft),
-                          (route) => false);
-                    },
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: const BoxDecoration(
-                          color: Cores.azulMedio,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            CupertinoIcons.cube_box_fill,
-                            size: 50,
+                ),
+                CupertinoButton(
+                  onPressed: () {
+                    Globais.moduloLogado = "Financeiro";
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                            child: const EstruturaPage(),
+                            type: PageTransitionType.rightToLeft),
+                        (route) => false);
+                  },
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    decoration: const BoxDecoration(
+                      color: Cores.azulMedio,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          CupertinoIcons.money_dollar,
+                          size: 50,
+                          color: Cores.branco,
+                        ),
+                        Text(
+                          "Financeiro",
+                          style: TextStyle(
                             color: Cores.branco,
+                            fontSize: 18,
                           ),
-                          Text(
-                            "Controle Estoque",
-                            style: TextStyle(
-                              color: Cores.branco,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  CupertinoButton(
-                    onPressed: () {
-                      Globais.moduloLogado = "Financeiro";
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          PageTransition(
-                              child: const EstruturaPage(),
-                              type: PageTransitionType.rightToLeft),
-                          (route) => false);
-                    },
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: const BoxDecoration(
-                        color: Cores.azulMedio,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            CupertinoIcons.money_dollar,
-                            size: 50,
-                            color: Cores.branco,
-                          ),
-                          Text(
-                            "Financeiro",
-                            style: TextStyle(
-                              color: Cores.branco,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
-            ],
-          ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+          ],
         ),
       ),
     );

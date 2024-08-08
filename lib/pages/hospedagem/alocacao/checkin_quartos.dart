@@ -94,65 +94,62 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
                       child: ListView.builder(
                           itemCount: quartos.length,
                           itemBuilder: (context, index) {
-                            return Expanded(
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          quartos[index].bloNome,
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Wrap(
-                                    direction: Axis.horizontal,
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      for (var quarto
-                                          in quartos[index].pessoasQuarto)
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await Navigator.push(
-                                              context,
-                                              CupertinoDialogRoute(
-                                                builder: (context) {
-                                                  return EditarCheckin(
-                                                    dadosQuarto: quarto,
-                                                    refresh: () {},
-                                                  );
-                                                },
-                                                context: context,
-                                              ),
-                                            );
-                                            buscarQuartos();
-                                          },
-                                          child: MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: CardQuartoAlocacao(
-                                              quarto: quarto,
-                                            ),
-                                          ),
+                                      Text(
+                                        quartos[index].bloNome,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
                                         ),
+                                      ),
                                     ],
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 20,
-                                    ),
-                                    child: Divider(color: Cores.cinzaMedio),
+                                ),
+                                Wrap(
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    for (var quarto
+                                        in quartos[index].pessoasQuarto)
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await Navigator.push(
+                                            context,
+                                            CupertinoDialogRoute(
+                                              builder: (context) {
+                                                return EditarCheckin(
+                                                  dadosQuarto: quarto,
+                                                  refresh: () {},
+                                                );
+                                              },
+                                              context: context,
+                                            ),
+                                          );
+                                          buscarQuartos();
+                                        },
+                                        child: MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: CardQuartoAlocacao(
+                                            quarto: quarto,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 20,
                                   ),
-                                ],
-                              ),
+                                  child: Divider(color: Cores.cinzaMedio),
+                                ),
+                              ],
                             );
                           }),
                     ),

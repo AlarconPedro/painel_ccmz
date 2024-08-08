@@ -315,7 +315,7 @@ class _AlocacaoState extends State<Alocacao> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Expanded(child: SizedBox()),
+                        // const Expanded(child: SizedBox()),
                         SizedBox(
                           width: 500,
                           height: 60,
