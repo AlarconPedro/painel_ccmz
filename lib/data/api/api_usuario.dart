@@ -20,7 +20,8 @@ class ApiUsuario {
   final String _urlExcluirUsuario = '${Globais.urlBase}Usuario';
 
   Future<dynamic> loginSistema(String codigoFirebase) async {
-    return await _request.getJson("$_urlLoginSistema$codigoFirebase");
+    var retorno = await _request.getJson("$_urlLoginSistema$codigoFirebase");
+    return retorno;
   }
 
   Future<dynamic> getUsuarios() async {
