@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:painel_ccmn/data/models/usuario_model.dart';
 import 'package:painel_ccmn/pages/login/seletor_modulo.dart';
+import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
 import '../../classes/classes.dart';
 import '../../classes/cores.dart';
@@ -28,6 +30,8 @@ class _LoginPageState extends State<LoginPage> {
   String _errorMessage = '';
   String _suceessMessage = '';
 
+  bool carregando = false;
+
   logarUsuario(String usuario, String senha) {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: usuario, password: senha)
@@ -45,10 +49,17 @@ class _LoginPageState extends State<LoginPage> {
           //         child: const EstruturaPage(),
           //         type: PageTransitionType.rightToLeft),
           //     (route) => false);
+        } else {
+          setState(() {
+            carregando = false;
+            _errorMessage = 'Erro ao buscar dados do usuário';
+            _suceessMessage = '';
+          });
         }
       },
     ).catchError((error) {
       setState(() {
+        carregando = false;
         _errorMessage =
             'Erro ao autenticar usuário, verifique e-mail e senha e tente novamente';
       });
@@ -346,6 +357,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          setState(() => carregando = true);
                           if (_emailController.text == "Administrador" &&
                               _passwordController.text == "P807265@") {
                             setState(() {
@@ -373,7 +385,11 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: const Text('Logar'),
+                      child: carregando
+                          ? const CupertinoActivityIndicator(
+                              color: Cores.branco,
+                            )
+                          : const Text('Logar'),
                     ),
                   ),
                   TextButton(
