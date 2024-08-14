@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
+import 'package:painel_ccmn/pages/login/seletor_modulo.dart';
 
 import '../classes/classes.dart';
 import '../classes/cores.dart';
@@ -82,7 +83,7 @@ class _EstruturaPageState extends State<EstruturaPage> {
                 offset: const Offset(-10, -4),
               ),
               onChanged: (value) {
-                if (value == 1) {
+                if (value == 2) {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -112,6 +113,14 @@ class _EstruturaPageState extends State<EstruturaPage> {
                       );
                     },
                   );
+                } else if (value == 1) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SeletorModulo()),
+                    (route) => false,
+                  );
+                  // print('Perfil');
                 } else {
                   Navigator.push(
                     context,
@@ -137,7 +146,6 @@ class _EstruturaPageState extends State<EstruturaPage> {
                       context: context,
                     ),
                   );
-                  // print('Perfil');
                 }
               },
               customButton: Padding(
@@ -201,7 +209,21 @@ class _EstruturaPageState extends State<EstruturaPage> {
                     )),
                 // DropdownMenuItem(enabled: false, child: Divider()),
                 DropdownMenuItem(
-                    value: 1,
+                  value: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Trocar de Modulo'),
+                      SizedBox(width: 10),
+                      Icon(
+                        CupertinoIcons.arrow_2_squarepath,
+                        color: Cores.cinzaEscuro,
+                      ),
+                    ],
+                  ),
+                ),
+                DropdownMenuItem(
+                    value: 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
