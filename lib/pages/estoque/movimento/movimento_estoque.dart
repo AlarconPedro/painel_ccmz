@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/esqueleto.dart';
 
+import '../../../widgets/widgets.dart';
+
 class MovimentoEstoque extends StatefulWidget {
   const MovimentoEstoque({super.key});
 
@@ -9,6 +11,8 @@ class MovimentoEstoque extends StatefulWidget {
 }
 
 class _MovimentoEstoqueState extends State<MovimentoEstoque> {
+  bool carregando = false;
+
   @override
   Widget build(BuildContext context) {
     return Esqueleto(
@@ -24,7 +28,19 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
         //   ),
         // );
       },
-      corpo: [],
+      corpo: [
+        carregando
+            ? const Expanded(
+                child: Center(
+                  child: CarregamentoIOS(),
+                ),
+              )
+            : const Expanded(
+                child: Center(
+                  child: Text("Movimento de Estoque"),
+                ),
+              ),
+      ],
     );
   }
 }

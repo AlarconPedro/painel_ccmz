@@ -6,6 +6,8 @@ import 'package:painel_ccmn/data/models/produto_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/esqueleto.dart';
 
 import '../../../data/api/api_produtos.dart';
+import '../../../widgets/widgets.dart';
+import '../../pages.dart';
 
 class Produtos extends StatefulWidget {
   const Produtos({super.key});
@@ -50,18 +52,20 @@ class _ProdutosState extends State<Produtos> {
       tituloPagina: "Produtos",
       buscaNome: (busca) {},
       abrirTelaCadastro: () {
-        // Navigator.push(
-        //   context,
-        //   CupertinoDialogRoute(
-        //     builder: (context) => const CadastroProdutos(),
-        //     context: context,
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          CupertinoDialogRoute(
+            builder: (context) => const CadastroProdutos(),
+            context: context,
+          ),
+        );
       },
       corpo: [
         carregando
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? const Expanded(
+                child: Center(
+                  child: CarregamentoIOS(),
+                ),
               )
             : ListView.builder(
                 itemCount: produtos.length,

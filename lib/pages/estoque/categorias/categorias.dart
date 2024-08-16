@@ -7,6 +7,7 @@ import 'package:painel_ccmn/pages/pages.dart';
 import '../../../classes/classes.dart';
 import '../../../data/data.dart';
 import '../../../widgets/cards/listagem/estoque/card_categoria.dart';
+import '../../../widgets/widgets.dart';
 
 class Categorias extends StatefulWidget {
   const Categorias({super.key});
@@ -66,8 +67,10 @@ class _CategoriasState extends State<Categorias> {
       },
       corpo: [
         if (carregando)
-          const Center(
-            child: CircularProgressIndicator(),
+          const Expanded(
+            child: Center(
+              child: CarregamentoIOS(),
+            ),
           )
         else
           Expanded(
