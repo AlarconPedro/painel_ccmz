@@ -1,4 +1,4 @@
-import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/data/models/web/pessoa_model.dart';
 
 class QuartoModel {
   int quaCodigo;

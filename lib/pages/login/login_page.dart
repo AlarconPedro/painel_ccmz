@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:painel_ccmn/data/models/usuario_model.dart';
+import 'package:painel_ccmn/data/models/web/usuario_model.dart';
 import 'package:painel_ccmn/pages/login/seletor_modulo.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
@@ -67,16 +67,22 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   logarModulo() {
-    List<bool> modulosPermitidos = [
-      Globais.moduloHospedagem,
-      Globais.moduloControleEstoque,
-      Globais.moduloFinanceiro
-    ];
-    for (var modulo in modulosPermitidos) {
-      if (modulo) Globais.modulosPermitidos.add(modulo);
-    }
+    // List<bool> modulosPermitidos = [
+    //   Globais.moduloHospedagem,
+    //   Globais.moduloControleEstoque,
+    //   Globais.moduloFinanceiro,
+    //   Globais.moduloSorteios,
+    //   Globais.moduloAdmin,
+    // ];
+    // for (var modulo in modulosPermitidos) {
+    //   if (modulo) Globais.modulosPermitidos.add(modulo);
+    // }
 
-    if (Globais.modulosPermitidos.length > 1) {
+    //verificar se existe mais de um modulo permitido
+    //se sim, exibir tela de seleção de modulo
+    //se não, logar no modulo permitido
+    int qtdModulos = Globais.modulosPermitidos.getModulosPermitidos();
+    if (qtdModulos > 1) {
       _pageController.animateToPage(
         1,
         duration: const Duration(milliseconds: 300),

@@ -190,6 +190,33 @@ class NavState extends State<Nav> {
             icon: const Icon(CupertinoIcons.checkmark_alt_circle),
           ),
         ];
+      case "Sorteios":
+        return [
+          SideMenuItem(
+            title: 'Sorteios',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.gift),
+          ),
+        ];
+      case "Admin":
+        return [
+          SideMenuItem(
+            title: 'Usuários',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.person_2_fill),
+          ),
+          SideMenuItem(
+            title: 'Formulários',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.doc_plaintext),
+          ),
+        ];
       default:
         return [
           SideMenuItem(

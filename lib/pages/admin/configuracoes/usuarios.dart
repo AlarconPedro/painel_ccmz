@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/data/models/usuario_model.dart';
+import 'package:painel_ccmn/data/models/web/usuario_model.dart';
 import 'package:painel_ccmn/widgets/cards/listagem/card_usuario.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 

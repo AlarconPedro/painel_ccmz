@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../estrutura/estrutura.dart';
+import '../data/models/local/modulos.dart';
 
 class Globais {
   static const String urlBase = "https://localhost:7050/api/";
@@ -11,8 +11,16 @@ class Globais {
   static bool moduloHospedagem = false;
   static bool moduloControleEstoque = false;
   static bool moduloFinanceiro = false;
+  static bool moduloSorteios = true;
+  static bool moduloAdmin = true;
 
-  static List<bool> modulosPermitidos = [];
+  static Modulos modulosPermitidos = Modulos(
+    moduloHospedagem: moduloHospedagem,
+    moduloControleEstoque: moduloControleEstoque,
+    moduloFinanceiro: moduloFinanceiro,
+    moduloSorteios: moduloSorteios,
+    moduloAdmin: moduloAdmin,
+  );
 
   static String moduloLogado = "";
 

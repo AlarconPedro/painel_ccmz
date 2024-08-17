@@ -1,4 +1,4 @@
-import 'package:painel_ccmn/data/models/quarto_pessoas_model.dart';
+import 'package:painel_ccmn/data/models/web/quarto_pessoas_model.dart';
 
 class CheckinListagemQuartosModel {
   String bloNome;

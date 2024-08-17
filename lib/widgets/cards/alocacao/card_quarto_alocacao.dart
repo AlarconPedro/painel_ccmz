@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/data/models/quarto_pessoas_model.dart';
+import 'package:painel_ccmn/data/models/web/quarto_pessoas_model.dart';
 
 import '../../../classes/classes.dart';
-import '../../../data/models/checkin_model.dart';
+import '../../../data/models/web/checkin_model.dart';
 
 class CardQuartoAlocacao extends StatelessWidget {
   QuartoPessoasModel quarto;

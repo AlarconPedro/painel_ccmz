@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/data/models/produto_model.dart';
+import 'package:painel_ccmn/data/models/web/produto_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/esqueleto.dart';
 
 import '../../../data/api/api_produtos.dart';
-import '../../../widgets/widgets.dart';
-import '../../pages.dart';
 
 class Produtos extends StatefulWidget {
   const Produtos({super.key});
@@ -52,20 +50,18 @@ class _ProdutosState extends State<Produtos> {
       tituloPagina: "Produtos",
       buscaNome: (busca) {},
       abrirTelaCadastro: () {
-        Navigator.push(
-          context,
-          CupertinoDialogRoute(
-            builder: (context) => const CadastroProdutos(),
-            context: context,
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   CupertinoDialogRoute(
+        //     builder: (context) => const CadastroProdutos(),
+        //     context: context,
+        //   ),
+        // );
       },
       corpo: [
         carregando
-            ? const Expanded(
-                child: Center(
-                  child: CarregamentoIOS(),
-                ),
+            ? const Center(
+                child: CircularProgressIndicator(),
               )
             : ListView.builder(
                 itemCount: produtos.length,

@@ -48,6 +48,19 @@ class _PageControlState extends State<PageControl> {
             const Alocacao(),
           ];
         }
+      case 'Sorteios':
+        {
+          return [
+            const Sorteios(),
+          ];
+        }
+      case 'Admin':
+        {
+          return [
+            const Usuarios(),
+            const Formularios(),
+          ];
+        }
       default:
         if (Globais.isAdmin) {
           return [

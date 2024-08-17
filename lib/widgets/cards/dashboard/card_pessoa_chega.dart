@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/classes.dart';
-import '../../../data/models/dashboard_pessoas_model.dart';
+import '../../../data/models/web/dashboard_pessoas_model.dart';
 
 class CardPessoaChega extends StatelessWidget {
   DashboardPessoasModel pessoas;
