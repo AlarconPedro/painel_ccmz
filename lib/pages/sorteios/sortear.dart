@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../../../classes/classes.dart';
+import '../../classes/classes.dart';
 
 class Sortear extends StatefulWidget {
   const Sortear({super.key});
