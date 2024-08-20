@@ -1,4 +1,4 @@
-import 'package:painel_ccmn/data/models/web/pagantes_cobrantes_model.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/pagantes_cobrantes_model.dart';
 
 class AcertoModel {
   int comCodigo;

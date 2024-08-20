@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/models/web/hospedagem/evento_pessoas_model.dart';
+import '../../../data/models/web/hospedagem/pessoa_model.dart';
 
 class CardPessoasEvento extends StatefulWidget {
   PessoaModel pessoa;

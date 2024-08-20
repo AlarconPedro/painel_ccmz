@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/models/web/hospedagem/quarto_model.dart';
 
 class CardQuartosEvento extends StatelessWidget {
   QuartoModel quarto;

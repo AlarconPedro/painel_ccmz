@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/data/models/web/produto_model.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/produto_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/esqueleto.dart';
 
 import '../../../data/api/hospedagem/api_produtos.dart';

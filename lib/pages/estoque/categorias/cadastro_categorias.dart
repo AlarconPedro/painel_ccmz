@@ -5,6 +5,7 @@ import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/data.dart';
+import '../../../data/models/web/hospedagem/categoria_model.dart';
 
 class CadastroCategorias extends StatefulWidget {
   CategoriaModel? categoria;

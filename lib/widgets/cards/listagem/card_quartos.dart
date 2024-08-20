@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/quarto_model.dart';
 
 import '../../../classes/classes.dart';
 

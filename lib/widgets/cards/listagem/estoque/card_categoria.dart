@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
 
 import '../../../../classes/classes.dart';
+import '../../../../data/models/web/hospedagem/categoria_model.dart';
 
 class CardCategoria extends StatelessWidget {
   CategoriaModel categoria;

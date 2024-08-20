@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmn/classes/cores.dart';
 
 import '../../../data/data.dart';
+import '../../../data/models/web/hospedagem/pessoa_model.dart';
 
 class CardPessoa extends StatelessWidget {
   PessoaModel pessoa;

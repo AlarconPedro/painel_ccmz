@@ -1,5 +1,9 @@
 import '../../../classes/classes.dart';
 import '../../data.dart';
+import '../../models/web/promocoes/cupom_model.dart';
+import '../../models/web/promocoes/participante_model.dart';
+import '../../models/web/promocoes/promocao_model.dart';
+import '../../models/web/promocoes/sorteio_model.dart';
 
 class ApiPromocao {
   static final _request = HttpRequest();

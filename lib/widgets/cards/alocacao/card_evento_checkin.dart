@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/data.dart';
-import '../../../data/models/web/checkin_listagem_quartos_model.dart';
 import '../../../funcoes/funcoes.dart';
 
 class CardEventoCheckin extends StatelessWidget {

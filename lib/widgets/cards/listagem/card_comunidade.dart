@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/models/web/hospedagem/comunidade_model.dart';
 
 class CardComunidade extends StatelessWidget {
   ComunidadeModel comunidade;

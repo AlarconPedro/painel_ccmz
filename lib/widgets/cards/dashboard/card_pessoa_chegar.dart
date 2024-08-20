@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/data/models/web/dashboard_pessoas_model.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/data.dart';
 
 class CardPessoaChegar extends StatelessWidget {
   DashboardPessoasModel pessoas;
