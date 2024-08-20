@@ -1,8 +1,6 @@
 import 'package:painel_ccmn/classes/classes.dart';
 import 'package:painel_ccmn/data/data.dart';
 
-import '../models/web/usuario_model.dart';
-
 class ApiUsuario {
   static final _request = HttpRequest();
 

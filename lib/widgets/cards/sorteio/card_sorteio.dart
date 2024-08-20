@@ -8,6 +8,7 @@ import '../../../funcoes/funcoes.dart';
 Widget cardSorteio({
   required BuildContext context,
   required SorteiosModel sorteio,
+  required bool sorteado,
   required Function() onTap,
 }) {
   return Container(
@@ -59,29 +60,27 @@ Widget cardSorteio({
           ),
         ),
         Card(
+          color: Cores.branco,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
           elevation: 5,
-          child: CupertinoButton(
-            child: const Icon(
-              CupertinoIcons.person_2_fill,
-              color: Cores.preto,
+          child: Container(
+            height: 55,
+            width: 55,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white,
             ),
-            onPressed: () {},
-          ),
-        ),
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          elevation: 5,
-          child: CupertinoButton(
-            child: const Icon(
-              CupertinoIcons.tags,
-              color: Cores.preto,
+            child: IconButton(
+              icon: Icon(
+                sorteado
+                    ? CupertinoIcons.check_mark_circled
+                    : CupertinoIcons.xmark_octagon,
+                color: sorteado ? Cores.verdeMedio : Cores.cinzaMedio,
+              ),
+              onPressed: onTap,
             ),
-            onPressed: () {},
           ),
         ),
       ],

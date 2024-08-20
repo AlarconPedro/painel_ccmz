@@ -1,7 +1,7 @@
 import 'package:painel_ccmn/data/models/web/evento_despesas_model.dart';
 
-import '../../classes/classes.dart';
-import '../http/http_request.dart';
+import '../../../classes/classes.dart';
+import '../../http/http_request.dart';
 
 class ApiAcerto {
   static final _request = HttpRequest();

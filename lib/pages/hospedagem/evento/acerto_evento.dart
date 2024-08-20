@@ -2,18 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/data.dart';
-import 'package:painel_ccmn/data/models/web/acerto_comunidade_model.dart';
-import 'package:painel_ccmn/data/models/web/evento_despesas_model.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 import 'package:pdf/pdf.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:pdf/widgets.dart' as pw;
 import '../../../classes/classes.dart';
-import '../../../data/api/api_acerto.dart';
 
 class AcertoEvento extends StatefulWidget {
   int codigoEvento;

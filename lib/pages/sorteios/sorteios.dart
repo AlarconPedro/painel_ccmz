@@ -23,6 +23,12 @@ class _SorteiosState extends State<Sorteios> {
       sorData: '20/08/2024',
       sorNomeGanhador: 'Ganhador 1',
     ),
+    SorteiosModel(
+      sorCodigo: 1,
+      sorNome: 'Teste 2',
+      sorData: '20/08/2024',
+      sorNomeGanhador: 'Ganhador 2',
+    ),
   ];
 
   @override
@@ -64,6 +70,7 @@ class _SorteiosState extends State<Sorteios> {
                     itemBuilder: (context, index) {
                       return cardSorteio(
                         context: context,
+                        sorteado: index.isEven ? true : false,
                         sorteio: sorteios[index],
                         onTap: () {
                           Navigator.push(

@@ -1,5 +1,5 @@
-import '../../classes/classes.dart';
-import '../data.dart';
+import '../../../classes/classes.dart';
+import '../../data.dart';
 
 class ApiDashboard {
   static final _request = HttpRequest();

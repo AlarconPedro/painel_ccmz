@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmn/widgets/cards/dashboard/card_pessoa_chegar.dart';
 
 import '../../../classes/classes.dart';
-import '../../../data/api/api_dashboard.dart';
 import '../../../data/data.dart';
 import '../../../widgets/widgets.dart';
 import '../../pages.dart';

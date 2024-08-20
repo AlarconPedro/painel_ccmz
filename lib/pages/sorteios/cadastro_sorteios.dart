@@ -70,7 +70,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
             vertical: 5,
           ),
           child: DropDownForm(
-            label: "Ação do Sorteio",
+            label: "Promoção do Sorteio",
             itens: [],
             selecionado: 0,
             onChange: (value) {},

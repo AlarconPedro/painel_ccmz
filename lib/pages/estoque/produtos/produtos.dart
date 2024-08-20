@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/models/web/produto_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/esqueleto.dart';
 
-import '../../../data/api/api_produtos.dart';
+import '../../../data/api/hospedagem/api_produtos.dart';
 
 class Produtos extends StatefulWidget {
   const Produtos({super.key});

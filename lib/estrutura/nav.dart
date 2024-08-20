@@ -193,6 +193,13 @@ class NavState extends State<Nav> {
       case "Sorteios":
         return [
           SideMenuItem(
+            title: 'Promoções',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.tickets),
+          ),
+          SideMenuItem(
             title: 'Sorteios',
             onTap: (index, sideMenu) {
               sideMenu.changePage(index);
@@ -233,13 +240,6 @@ class NavState extends State<Nav> {
             },
             icon: const Icon(CupertinoIcons.doc_plaintext),
           ),
-          SideMenuItem(
-            title: 'Sorteios',
-            onTap: (index, sideMenu) {
-              sideMenu.changePage(index);
-            },
-            icon: const Icon(CupertinoIcons.gift),
-          )
         ];
     }
   }

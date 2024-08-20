@@ -1,6 +1,6 @@
 import 'package:painel_ccmn/data/data.dart';
 
-import '../../classes/classes.dart';
+import '../../../classes/classes.dart';
 
 class ApiComunidade {
   static final _request = HttpRequest();

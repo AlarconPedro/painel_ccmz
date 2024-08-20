@@ -1,7 +1,7 @@
 import 'package:painel_ccmn/classes/classes.dart';
 import 'package:painel_ccmn/data/data.dart';
 
-import '../models/web/produto_model.dart';
+import '../../models/web/produto_model.dart';
 
 class ApiProdutos {
   static final _request = HttpRequest();

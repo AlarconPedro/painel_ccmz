@@ -59,11 +59,15 @@ Widget cardCupons({
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: SizedBox(
-                  width: 55,
+              child: Container(
                   height: 55,
-                  child:
-                      Icon(CupertinoIcons.trash, color: Cores.vermelhoMedio)),
+                  width: 55,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
+                  child: const Icon(CupertinoIcons.trash,
+                      color: Cores.vermelhoMedio)),
             ),
           ),
         ),

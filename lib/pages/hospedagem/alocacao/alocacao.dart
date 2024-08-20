@@ -2,19 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/data/api/api_evento.dart';
 import 'package:painel_ccmn/data/data.dart';
-import 'package:painel_ccmn/data/models/web/checkin_listagem_quartos_model.dart';
-import 'package:painel_ccmn/data/models/web/eventos_checkin_model.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/funcoes/funcoes.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/cards/alocacao/card_evento_checkin.dart';
-import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import 'package:pdf/pdf.dart';
-import 'package:universal_html/html.dart' as html;
 import 'package:pdf/widgets.dart' as pw;
 
 import '../../../classes/classes.dart';

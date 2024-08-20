@@ -1,16 +1,16 @@
 export './http/http_request.dart';
 
-export 'api/api_pessoas.dart';
-export 'api/api_comunidade.dart';
-export 'api/api_bloco.dart';
-export 'api/api_quarto.dart';
-export 'api/api_evento.dart';
-export 'api/api_alocacao.dart';
-export 'api/api_checkin.dart';
-export 'api/api_acerto.dart';
-export 'api/api_categoria.dart';
+export 'api/hospedagem/api_pessoas.dart';
+export 'api/hospedagem/api_comunidade.dart';
+export 'api/hospedagem/api_bloco.dart';
+export 'api/hospedagem/api_quarto.dart';
+export 'api/hospedagem/api_evento.dart';
+export 'api/hospedagem/api_alocacao.dart';
+export 'api/hospedagem/api_checkin.dart';
+export 'api/hospedagem/api_acerto.dart';
+export 'api/hospedagem/api_categoria.dart';
 export 'api/api_usuario.dart';
-export 'api/api_dashboard.dart';
+export 'api/hospedagem/api_dashboard.dart';
 
 export 'models/web/pessoa_model.dart';
 export 'models/web/comunidade_model.dart';
