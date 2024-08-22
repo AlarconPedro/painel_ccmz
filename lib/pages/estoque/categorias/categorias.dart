@@ -65,6 +65,7 @@ class _CategoriasState extends State<Categorias> {
             context: context,
           ),
         );
+        buscarCategorias();
       },
       corpo: [
         if (carregando)

@@ -38,7 +38,8 @@ class CardCategoria extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
-                      const Icon(CupertinoIcons.tag_fill),
+                      // const Icon(CupertinoIcons.tag_fill),
+                      const Icon(CupertinoIcons.tag),
                       const SizedBox(width: 10),
                       Expanded(
                         flex: 3,

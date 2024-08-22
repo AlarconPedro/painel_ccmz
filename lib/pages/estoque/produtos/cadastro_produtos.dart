@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../widgets/form/campo_texto.dart';
 
@@ -26,17 +27,37 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
       gravar: () {},
       cancelar: () {},
       campos: [
-        campoTexto(
-          controlador: nomeController,
-          titulo: "Nome",
-          dica: "Nome do Produto",
-          icone: CupertinoIcons.tag,
-          validador: (value) {
-            if (value.isEmpty) {
-              return "Campo Obrigatório";
-            }
-            return null;
-          },
+        Row(
+          children: [
+            Expanded(
+              child: campoTexto(
+                controlador: nomeController,
+                titulo: "Nome",
+                dica: "Nome do Produto",
+                icone: CupertinoIcons.tag,
+                validador: (value) {
+                  if (value.isEmpty) {
+                    return "Campo Obrigatório";
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: SizedBox(
+                  height: 52,
+                  child: DropDownForm(
+                    label: "Categoria",
+                    itens: [],
+                    selecionado: 0,
+                    onChange: (value) {},
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         campoTexto(
           controlador: descricaoController,
