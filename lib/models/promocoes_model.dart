@@ -1,3 +1,5 @@
+import '../funcoes/funcoes.dart';
+
 class PromocoesModel {
   int proCodigo;
   String proNome;
@@ -15,11 +17,11 @@ class PromocoesModel {
 
   factory PromocoesModel.fromJson(Map<String, dynamic> json) {
     return PromocoesModel(
-      proCodigo: json['proCodigo'],
-      proNome: json['proNome'],
-      proDataInicio: json['proDataInicio'],
-      proDataFim: json['proDataFim'],
-      proDescricao: json['proDescricao'],
+      proCodigo: json['proCodigo'] ?? 0,
+      proNome: json['proNome'] ?? '',
+      proDataInicio: FuncoesData.dataFormatadaHora(json['proDatainicio'] ?? ''),
+      proDataFim: FuncoesData.dataFormatadaHora(json['proDatafim'] ?? ''),
+      proDescricao: json['proDescricao'] ?? '',
     );
   }
 

@@ -33,6 +33,10 @@ class _LoginPageState extends State<LoginPage> {
   bool carregando = false;
 
   logarUsuario(String usuario, String senha) {
+    setState(() {
+      _errorMessage = '';
+      _suceessMessage = '';
+    });
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: usuario, password: senha)
         .then(

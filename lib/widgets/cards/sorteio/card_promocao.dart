@@ -29,9 +29,9 @@ Widget cardPromocao({
                 child: Row(
                   children: [
                     const Icon(CupertinoIcons.tickets),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 30),
                     Expanded(
-                      flex: 1,
+                      flex: 2,
                       child: Text(promocao.proNome),
                     ),
                     Expanded(
