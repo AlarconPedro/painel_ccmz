@@ -28,13 +28,14 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
       cancelar: () {},
       campos: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: campoTexto(
                 controlador: nomeController,
                 titulo: "Nome",
                 dica: "Nome do Produto",
-                icone: CupertinoIcons.tag,
+                icone: CupertinoIcons.cube_box,
                 validador: (value) {
                   if (value.isEmpty) {
                     return "Campo Obrigatório";
@@ -44,32 +45,51 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
-                  height: 52,
-                  child: DropDownForm(
-                    label: "Categoria",
-                    itens: [],
-                    selecionado: 0,
-                    onChange: (value) {},
-                  ),
-                ),
+              child: campoTexto(
+                controlador: nomeController,
+                titulo: "Código de Barras",
+                dica: "Código de Barras",
+                // icone: CupertinoIcons.barcode_viewfinder,
+                icone: CupertinoIcons.barcode,
+                validador: (value) {
+                  if (value.isEmpty) {
+                    return "Campo Obrigatório";
+                  }
+                  return null;
+                },
               ),
             ),
           ],
         ),
-        campoTexto(
-          controlador: descricaoController,
-          titulo: "Descrição",
-          dica: "Descrição do Produto",
-          icone: CupertinoIcons.text_badge_checkmark,
-          validador: (value) {
-            if (value.isEmpty) {
-              return "Campo Obrigatório";
-            }
-            return null;
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(width: 10),
+            Expanded(
+              child: SizedBox(
+                height: 55,
+                child: DropDownForm(
+                  label: "Categoria",
+                  itens: [],
+                  selecionado: 0,
+                  onChange: (value) {},
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: SizedBox(
+                height: 55,
+                child: DropDownForm(
+                  label: "Unidade de Medida",
+                  itens: [],
+                  selecionado: 0,
+                  onChange: (value) {},
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+          ],
         ),
         campoTexto(
           controlador: descricaoController,
@@ -83,6 +103,19 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
             return null;
           },
         ),
+        campoTexto(
+          controlador: descricaoController,
+          titulo: "Descrição",
+          dica: "Descrição do Produto",
+          icone: CupertinoIcons.text_badge_checkmark,
+          validador: (value) {
+            if (value.isEmpty) {
+              return "Campo Obrigatório";
+            }
+            return null;
+          },
+        ),
+
         // CampoNumero(
         //   titulo: "Quantidade",
         //   dica: "Quantidade do Produto",
