@@ -37,15 +37,15 @@ class ProdutoModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'proCodigo': proCodigo,
-      'proNome': proNome,
-      'proCodBarras': proCodBarras,
-      'proValor': proValor,
-      'proMedida': proMedida,
-      'proUniMedida': proUniMedida,
-      'proQuantidade': proQuantidade,
-      'catCodigo': catCodigo,
-      'proDescricao': proDescricao,
+      'proCodigo': proCodigo ?? 0,
+      'proNome': proNome ?? '',
+      'proCodBarras': proCodBarras ?? '',
+      'proValor': proValor ?? 0.0,
+      'proMedida': proMedida ?? '',
+      'proUniMedida': proUniMedida ?? '',
+      'proQuantidade': proQuantidade ?? 0,
+      'catCodigo': catCodigo ?? 0,
+      'proDescricao': proDescricao ?? '',
     };
   }
 }
