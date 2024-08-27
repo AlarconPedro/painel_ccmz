@@ -7,6 +7,8 @@ import '../../../classes/classes.dart';
 Widget cardPromocao({
   required PromocoesModel promocao,
   required Function() onTap,
+  required Function() abrirCupons,
+  required Function() abrirParticipantes,
 }) {
   return Container(
     color: Colors.transparent,
@@ -74,7 +76,9 @@ Widget cardPromocao({
                 CupertinoIcons.person_2_fill,
                 color: Cores.preto,
               ),
-              onPressed: () {},
+              onPressed: () {
+                abrirParticipantes();
+              },
             ),
           ),
         ),
@@ -96,7 +100,9 @@ Widget cardPromocao({
                 CupertinoIcons.tags,
                 color: Cores.preto,
               ),
-              onPressed: () {},
+              onPressed: () {
+                abrirCupons();
+              },
             ),
           ),
         ),

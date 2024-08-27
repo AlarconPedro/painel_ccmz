@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/models/sorteios_model.dart';
+import 'package:painel_ccmn/pages/sorteios/participantes.dart';
 import 'package:painel_ccmn/pages/sorteios/sorteios.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
@@ -10,6 +11,7 @@ import '../../models/promocoes_model.dart';
 import '../../widgets/cards/sorteio/card_promocao.dart';
 import '../pages.dart';
 import 'cadastro_promocoes.dart';
+import 'cupons.dart';
 
 class Promocoes extends StatefulWidget {
   const Promocoes({super.key});
@@ -110,8 +112,27 @@ class _PromocoesState extends State<Promocoes> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            CupertinoPageRoute(
+                            CupertinoDialogRoute(
                               builder: (context) => const Sorteios(),
+                              context: context,
+                            ),
+                          );
+                        },
+                        abrirCupons: () {
+                          Navigator.push(
+                            context,
+                            CupertinoDialogRoute(
+                              builder: (context) => const Cupons(),
+                              context: context,
+                            ),
+                          );
+                        },
+                        abrirParticipantes: () {
+                          Navigator.push(
+                            context,
+                            CupertinoDialogRoute(
+                              builder: (context) => const Participantes(),
+                              context: context,
                             ),
                           );
                         },

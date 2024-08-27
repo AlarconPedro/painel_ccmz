@@ -10,7 +10,7 @@ class ApiPromocao {
 
   //GET
   final String _urlGetPromocoes = "${Globais.urlBase}promocao";
-  final String _urlGetSorteiosPromocao = "${Globais.urlBase}sorteio";
+  final String _urlGetSorteiosPromocao = "${Globais.urlBase}promocao/sorteios";
   final String _urlGetCuponsPromocao = "${Globais.urlBase}promocao/cupons";
   final String _urlGetParticipantesPromocao =
       "${Globais.urlBase}promocao/participantes";
