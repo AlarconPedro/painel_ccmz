@@ -221,42 +221,40 @@ class _SeletorModuloState extends State<SeletorModulo> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Flexible(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 180),
-            height: 280,
-            decoration: const BoxDecoration(
-              color: Cores.branco,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  offset: Offset(0, 5),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 180),
+          height: 280,
+          decoration: const BoxDecoration(
+            color: Cores.branco,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10,
+                offset: Offset(0, 5),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                "Selecione o módulo",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20),
-                const Text(
-                  "Selecione o módulo",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ...criarModulos(),
-                  ],
-                ),
-                const SizedBox(height: 15),
-              ],
-            ),
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ...criarModulos(),
+                ],
+              ),
+              const SizedBox(height: 15),
+            ],
           ),
         ),
       ),

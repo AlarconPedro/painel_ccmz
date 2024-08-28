@@ -61,9 +61,7 @@ class _AlocacaoState extends State<Alocacao> {
       quartosBusca.clear();
       var dados = json.decode(retorno.body);
       for (var dado in dados) {
-        setState(() {
-          quartosBusca.add(QuartoPessoasModel.fromJson(dado));
-        });
+        quartosBusca.add(QuartoPessoasModel.fromJson(dado));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -405,155 +403,132 @@ class _AlocacaoState extends State<Alocacao> {
                           ),
                         )
                       : const SizedBox(),
-                  Expanded(
-                    child: carregando
-                        ? const Center(child: CarregamentoIOS())
-                        :
-                        //  quartos.isEmpty
-                        //     ?
-                        quartosBusca.isEmpty
-                            ? Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: PageView(
-                                  controller: Rotas.alocacaoPageController,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  children: [
-                                    ListView.builder(
-                                      itemCount: eventos.length,
-                                      itemBuilder: (context, index) {
-                                        return CardEventoCheckin(
-                                          eventoDados: eventos[index],
-                                          quartos: () async {
-                                            gerarPDFQuartos(
-                                                eventos[index].eveCodigo);
-                                          },
-                                          checkin: () {
-                                            setState(() {
-                                              codigoEvento =
-                                                  eventos[index].eveCodigo;
-                                            });
-                                            Rotas.alocacaoPageController
-                                                .animateToPage(
-                                              1,
-                                              duration: const Duration(
-                                                  milliseconds: 500),
-                                              curve: Curves.easeInOut,
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
-                                    SizedBox(
-                                      child: CheckinQuartos(
-                                        codigoEvento: codigoEvento,
-                                        quartosBusca: quartosBusca,
-                                        voltar: () {
+                  carregando
+                      ? const Center(child: CarregamentoIOS())
+                      :
+                      //  quartos.isEmptys
+                      //     ?
+                      quartosBusca.isEmpty
+                          ? Expanded(
+                              child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: PageView(
+                                controller: Rotas.alocacaoPageController,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  ListView.builder(
+                                    itemCount: eventos.length,
+                                    itemBuilder: (context, index) {
+                                      return CardEventoCheckin(
+                                        eventoDados: eventos[index],
+                                        quartos: () async {
+                                          gerarPDFQuartos(
+                                              eventos[index].eveCodigo);
+                                        },
+                                        checkin: () {
+                                          setState(() {
+                                            codigoEvento =
+                                                eventos[index].eveCodigo;
+                                          });
                                           Rotas.alocacaoPageController
                                               .animateToPage(
-                                            0,
+                                            1,
                                             duration: const Duration(
                                                 milliseconds: 500),
                                             curve: Curves.easeInOut,
                                           );
                                         },
-                                      ),
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    child: CheckinQuartos(
+                                      codigoEvento: codigoEvento,
+                                      quartosBusca: quartosBusca,
+                                      voltar: () {
+                                        Rotas.alocacaoPageController
+                                            .animateToPage(
+                                          0,
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          curve: Curves.easeInOut,
+                                        );
+                                      },
                                     ),
-                                  ],
-                                ),
-                              )
-                            : Padding(
+                                  ),
+                                ],
+                              ),
+                            ))
+                          : Expanded(
+                              child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: ListView.builder(
-                                          itemCount: 1,
-                                          itemBuilder: (context, index) {
-                                            return Expanded(
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 20),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          quartosBusca[index]
-                                                              .bloNome,
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ],
+                                child: ListView.builder(
+                                    itemCount: 1,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 20),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  quartosBusca[index].bloNome,
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Wrap(
+                                            direction: Axis.horizontal,
+                                            children: [
+                                              for (var quarto in quartosBusca)
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    await Navigator.push(
+                                                      context,
+                                                      CupertinoDialogRoute(
+                                                        builder: (context) {
+                                                          return EditarCheckin(
+                                                            dadosQuarto: quarto,
+                                                            refresh: () {},
+                                                          );
+                                                        },
+                                                        context: context,
+                                                      ),
+                                                    );
+                                                    buscarQuartos();
+                                                  },
+                                                  child: MouseRegion(
+                                                    cursor: SystemMouseCursors
+                                                        .click,
+                                                    child: CardQuartoAlocacao(
+                                                      quarto: quarto,
                                                     ),
                                                   ),
-                                                  Wrap(
-                                                    direction: Axis.horizontal,
-                                                    children: [
-                                                      for (var quarto
-                                                          in quartosBusca)
-                                                        GestureDetector(
-                                                          onTap: () async {
-                                                            await Navigator
-                                                                .push(
-                                                              context,
-                                                              CupertinoDialogRoute(
-                                                                builder:
-                                                                    (context) {
-                                                                  return EditarCheckin(
-                                                                    dadosQuarto:
-                                                                        quarto,
-                                                                    refresh:
-                                                                        () {},
-                                                                  );
-                                                                },
-                                                                context:
-                                                                    context,
-                                                              ),
-                                                            );
-                                                            buscarQuartos();
-                                                          },
-                                                          child: MouseRegion(
-                                                            cursor:
-                                                                SystemMouseCursors
-                                                                    .click,
-                                                            child:
-                                                                CardQuartoAlocacao(
-                                                              quarto: quarto,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                    ],
-                                                  ),
-                                                  const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 20,
-                                                    ),
-                                                    child: Divider(
-                                                        color:
-                                                            Cores.cinzaMedio),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                    ),
-                                  ],
-                                ),
+                                                ),
+                                            ],
+                                          ),
+                                          const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 10,
+                                              horizontal: 20,
+                                            ),
+                                            child: Divider(
+                                                color: Cores.cinzaMedio),
+                                          ),
+                                        ],
+                                      );
+                                    }),
                               ),
-                  ),
+                            ),
                 ],
               ),
             ),
