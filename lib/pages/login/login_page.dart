@@ -276,7 +276,7 @@ class _LoginPageState extends State<LoginPage> {
                                         value.isEmpty ||
                                         !value.contains('@') ||
                                         !value.contains('.') ||
-                                        !value.contains('com') ||
+                                        // !value.contains('com') ||
                                         value.length < 10) {
                                       return 'Por favor, digite seu e-mail';
                                     }
