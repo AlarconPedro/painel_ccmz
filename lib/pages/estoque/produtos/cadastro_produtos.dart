@@ -6,6 +6,7 @@ import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
+import '../../../classes/classes.dart';
 import '../../../data/api/hospedagem/api_produtos.dart';
 import '../../../data/data.dart';
 import '../../../data/models/web/hospedagem/produto_model.dart';
@@ -52,6 +53,7 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
     setState(() => carregando = true);
     var response = await ApiCategoria().getCategorias();
     if (response.statusCode == 200) {
+      print(response.body);
       categorias.clear();
       var decoded = json.decode(response.body);
       for (var item in decoded) {
@@ -88,12 +90,12 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
       proQuantidade: int.parse(quantidadeController.text),
       proValor: double.parse(valorController.text),
       // proMedida: medidas[medidaSelecionada].value,
-      proMedida: "uni",
+      proMedida: "Uni",
       proCodigo: 0,
       proCodBarras: codigoBarrasController.text,
       // proUniMedida: medidas[medidaSelecionada].value,
-      proUniMedida: "uni",
-      catCodigo: 0,
+      proUniMedida: "Un",
+      catCodigo: categoriaSelecionada,
     );
     var response = await ApiProdutos().addProduto(produto);
     if (response.statusCode == 200) {
@@ -106,11 +108,19 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
           content: Text("Erro ao Cadastrar Produto"),
         ),
       );
     }
     setState(() => carregando = false);
+  }
+
+  @override
+  initState() {
+    super.initState();
+    buscarCategorias();
+    // buscarMedidas();
   }
 
   @override
@@ -202,6 +212,7 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                       controlador: quantidadeController,
                       titulo: "Quantidade",
                       dica: "Quantidade do Produto",
+                      tipo: TextInputType.number,
                       icone: CupertinoIcons.number,
                       validador: (value) {
                         if (value.isEmpty) {
@@ -216,6 +227,7 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                       controlador: valorController,
                       titulo: "Valor",
                       dica: "Valor do Produto",
+                      tipo: TextInputType.number,
                       icone: CupertinoIcons.money_dollar,
                       validador: (value) {
                         if (value.isEmpty) {

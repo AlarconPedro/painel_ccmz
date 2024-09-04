@@ -1,8 +1,6 @@
 import 'package:painel_ccmn/data/data.dart';
-import 'package:painel_ccmn/data/models/web/hospedagem/checkin_model.dart';
 
 import '../../../classes/classes.dart';
-import '../../models/web/hospedagem/quarto_pessoas_model.dart';
 
 class ApiCheckin {
   static final _request = HttpRequest();
