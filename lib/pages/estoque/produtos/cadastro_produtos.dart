@@ -89,7 +89,7 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
       proDescricao: descricaoController.text,
       proQuantidade: int.parse(quantidadeController.text),
       proValor: double.parse(valorController.text),
-      // proMedida: medidas[medidaSelecionada].value,
+      // proMedida: medidas[medidaSelecionada].value,i
       proMedida: "Uni",
       proCodigo: 0,
       proCodBarras: codigoBarrasController.text,
