@@ -24,6 +24,7 @@ class _ProdutosState extends State<Produtos> {
     setState(() => carregando = true);
     var retorno = await ApiProdutos().getProdutos();
     if (retorno.statusCode == 200) {
+      produtos.clear();
       if (retorno.body != "[]") {
         var decoded = json.decode(retorno.body);
         for (var item in decoded) {
@@ -34,6 +35,23 @@ class _ProdutosState extends State<Produtos> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Erro ao buscar produtos"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  deletarProduto(int id) async {
+    setState(() => carregando = true);
+    var retorno = await ApiProdutos().deleteProduto(id);
+    if (retorno.statusCode == 200) {
+      buscarProdutos();
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao deletar produto"),
           backgroundColor: Colors.red,
         ),
       );
@@ -175,7 +193,9 @@ class _ProdutosState extends State<Produtos> {
                                                         color:
                                                             Cores.verdeMedio)),
                                                 onPressed: () {
-                                                  Navigator.pop(context);
+                                                  // Navigator.pop(context);
+                                                  deletarProduto(produtos[index]
+                                                      .proCodigo);
                                                   // excluir();
                                                 },
                                               ),
