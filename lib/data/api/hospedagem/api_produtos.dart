@@ -29,7 +29,6 @@ class ApiProdutos {
   }
 
   Future<dynamic> deleteProduto(int codigoProduto) async {
-    return await _request
-        .deleteJson(_urlDeleteProduto + codigoProduto.toString());
+    return await _request.deleteJson("$_urlDeleteProduto$codigoProduto");
   }
 }
