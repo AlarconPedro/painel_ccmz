@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Widget campoTexto({
   required String titulo,
@@ -13,6 +14,9 @@ Widget campoTexto({
     child: TextFormField(
       controller: controlador,
       keyboardType: tipo ?? TextInputType.text,
+      inputFormatters: tipo == TextInputType.number
+          ? [FilteringTextInputFormatter.digitsOnly]
+          : [],
       decoration: InputDecoration(
         labelText: titulo,
         hintText: dica,

@@ -37,6 +37,22 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
     setState(() => carregando = false);
   }
 
+  excluirItemMovimentoEstoque(int codigoMovimento) async {
+    setState(() => carregando = true);
+    var response =
+        await ApiMovimentoEstoque().deleteMovimentoEstoque(codigoMovimento);
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Movimento excluído com sucesso !"),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+      buscarMovimentoEstoque();
+    }
+    setState(() => carregando = false);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -86,7 +102,9 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
                                   height: 55,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: Cores.branco,
+                                    color: movimento[index].movTipo == "E"
+                                        ? Cores.verdeClaro.withOpacity(0.5)
+                                        : Cores.vermelhoClaro.withOpacity(0.5),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -97,11 +115,19 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
                                         const SizedBox(width: 10),
                                         Expanded(
                                           flex: 4,
-                                          child: Text(movimento[index].movTipo),
+                                          child: Text(movimento[index].proNome),
                                         ),
                                         Expanded(
                                           flex: 2,
                                           child: Text(movimento[index].movData),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            movimento[index]
+                                                .movQuantidade
+                                                .toString(),
+                                          ),
                                         ),
                                         Expanded(
                                           flex: 2,
@@ -166,7 +192,9 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
                                                 style: TextStyle(
                                                     color: Cores.verdeMedio)),
                                             onPressed: () {
-                                              // Navigator.pop(context);
+                                              Navigator.pop(context);
+                                              excluirItemMovimentoEstoque(
+                                                  movimento[index].movCodigo);
                                               // deletarProduto(
                                               //     produtos[index].proCodigo);
                                               // excluir();

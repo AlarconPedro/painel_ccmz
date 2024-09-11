@@ -245,9 +245,9 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                 dica: "Descrição do Produto",
                 icone: CupertinoIcons.text_badge_checkmark,
                 validador: (value) {
-                  if (value.isEmpty) {
-                    return "Campo Obrigatório";
-                  }
+                  // if (value.isEmpty) {
+                  //   return "Campo Obrigatório";
+                  // }
                   return null;
                 },
               ),
