@@ -8,6 +8,7 @@ import '../../../classes/classes.dart';
 import '../../../data/api/produto/api_movimento_estoque.dart';
 import '../../../data/models/web/movimento_estoque_model.dart';
 import '../../../widgets/widgets.dart';
+import 'cadastro_movimento_estoque.dart';
 
 class MovimentoEstoque extends StatefulWidget {
   const MovimentoEstoque({super.key});
@@ -67,13 +68,13 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
       tituloPagina: "Movimento de Estoque",
       buscaNome: (busca) {},
       abrirTelaCadastro: () {
-        // Navigator.push(
-        //   context,
-        //   CupertinoDialogRoute(
-        //     builder: (context) => const CadastroMovimentoEstoque(),
-        //     context: context,
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          CupertinoDialogRoute(
+            builder: (context) => const CadastroMovimentoEstoque(),
+            context: context,
+          ),
+        );
       },
       corpo: [
         carregando
