@@ -30,7 +30,7 @@ Widget cardPromocao({
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: [
-                    const Icon(CupertinoIcons.tickets),
+                    const Icon(CupertinoIcons.tag),
                     const SizedBox(width: 30),
                     Expanded(
                       flex: 2,
@@ -97,7 +97,7 @@ Widget cardPromocao({
             ),
             child: CupertinoButton(
               child: const Icon(
-                CupertinoIcons.tags,
+                CupertinoIcons.tickets,
                 color: Cores.preto,
               ),
               onPressed: () {

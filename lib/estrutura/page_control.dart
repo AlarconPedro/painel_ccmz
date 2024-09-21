@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/classes/classes.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/pages/sorteios/lista_ganhador_cupon.dart';
 
 import '../pages/admin/formularios.dart';
 import '../pages/sorteios/promocoes.dart';
@@ -54,6 +55,7 @@ class _PageControlState extends State<PageControl> {
           return [
             const Promocoes(),
             const Sorteios(),
+            const ListaGanhadorCupon(),
           ];
         }
       case 'Admin':
