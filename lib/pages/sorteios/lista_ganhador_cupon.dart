@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
 import '../../classes/classes.dart';
+import '../../data/api/promocao/api_promocao.dart';
 import '../../models/ganhador_model.dart';
 
 class ListaGanhadorCupon extends StatefulWidget {
@@ -15,6 +19,19 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
   List<GanhadorModel> ganhador = [];
 
   final TextEditingController busca = TextEditingController();
+
+  bool carregando = false;
+
+  buscarGanhador(String cupom) async {
+    setState(() => carregando = true);
+    var response = await ApiPromocao().getGanhadorCupom(cupom);
+    if (response.statusCode == 200) {
+      for (var item in json.decode(response.body)) {
+        ganhador.add(GanhadorModel.fromJson(item));
+      }
+    }
+    setState(() => carregando = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +74,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                               controller: busca,
                               onSubmitted: (value) async {
                                 if (busca.text.isNotEmpty) {
-                                  // await buscaNome(value);
+                                  await buscarGanhador(value);
                                   busca.clear();
                                 }
                               },
@@ -78,7 +95,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                           color: Cores.preto,
                           onPressed: () async {
                             if (busca.text.isNotEmpty) {
-                              // await buscaNome(busca.text);
+                              await buscarGanhador(busca.text);
                               busca.clear();
                             }
                           },
@@ -113,21 +130,23 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: ganhador.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(ganhador[index].parNome),
-                          subtitle: Text(ganhador[index].cupNumero),
-                          trailing: IconButton(
-                            icon: const Icon(CupertinoIcons.delete),
-                            onPressed: () async {
-                              // await deletarCupon(cupons[index].id);
+                    child: carregando
+                        ? const Center(child: CarregamentoIOS())
+                        : ListView.builder(
+                            itemCount: ganhador.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(ganhador[index].parNome),
+                                subtitle: Text(ganhador[index].cupNumero),
+                                trailing: IconButton(
+                                  icon: const Icon(CupertinoIcons.delete),
+                                  onPressed: () async {
+                                    // await deletarCupon(cupons[index].id);
+                                  },
+                                ),
+                              );
                             },
                           ),
-                        );
-                      },
-                    ),
                   ),
                 ],
               ),

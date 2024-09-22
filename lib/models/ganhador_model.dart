@@ -19,13 +19,13 @@ class GanhadorModel {
 
   factory GanhadorModel.fromJson(Map<String, dynamic> json) {
     return GanhadorModel(
-      parCodigo: json['parCodigo'],
-      parNome: json['parNome'],
-      parFone: json['parFone'],
-      parCidade: json['parCidade'],
-      parUf: json['parUf'],
-      cupCodigo: json['cupCodigo'],
-      cupNumero: json['cupNumero'],
+      parCodigo: json['parCodigo'] ?? 0,
+      parNome: json['parNome'] ?? '',
+      parFone: json['parFone'] ?? '',
+      parCidade: json['parCidade'] ?? '',
+      parUf: json['parUf'] ?? '',
+      cupCodigo: json['cupCodigo'] ?? 0,
+      cupNumero: json['cupNumero'] ?? '',
     );
   }
 }
