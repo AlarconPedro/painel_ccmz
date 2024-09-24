@@ -22,15 +22,22 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
 
   bool carregando = false;
 
-  buscarGanhador(String cupom) async {
+  buscarGanhador(String cupom, {String? filtro}) async {
     setState(() => carregando = true);
-    var response = await ApiPromocao().getGanhadorCupom(cupom);
+    var response = await ApiPromocao().getGanhadorCupom("", cupom);
     if (response.statusCode == 200) {
       for (var item in json.decode(response.body)) {
         ganhador.add(GanhadorModel.fromJson(item));
       }
     }
     setState(() => carregando = false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarGanhador('T');
   }
 
   @override
@@ -113,7 +120,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(children: [
                       Text(
-                        "Ganhadores",
+                        "Cupons",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
