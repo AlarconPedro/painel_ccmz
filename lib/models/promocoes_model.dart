@@ -1,4 +1,4 @@
-import '../funcoes/funcoes.dart';
+import '../../../funcoes/funcoes.dart';
 
 class PromocoesModel {
   int proCodigo;

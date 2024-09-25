@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/widgets/cards/sorteio/card_cupons.dart';
+import 'package:painel_ccmn/widgets/cards/sorteio/card_promocao.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
 import '../../classes/classes.dart';
@@ -22,9 +24,11 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
 
   bool carregando = false;
 
-  buscarGanhador(String cupom, {String? filtro}) async {
+  buscarGanhador(String filtro,
+      {String? cupom, int? skip = 0, int? take = 30}) async {
     setState(() => carregando = true);
-    var response = await ApiPromocao().getGanhadorCupom("", cupom);
+    var response = await ApiPromocao()
+        .getGanhadorCupom(filtro, cupom: cupom, skip: skip, take: take);
     if (response.statusCode == 200) {
       for (var item in json.decode(response.body)) {
         ganhador.add(GanhadorModel.fromJson(item));
@@ -139,21 +143,33 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                   Expanded(
                     child: carregando
                         ? const Center(child: CarregamentoIOS())
-                        : ListView.builder(
-                            itemCount: ganhador.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(ganhador[index].parNome),
-                                subtitle: Text(ganhador[index].cupNumero),
-                                trailing: IconButton(
-                                  icon: const Icon(CupertinoIcons.delete),
-                                  onPressed: () async {
-                                    // await deletarCupon(cupons[index].id);
-                                  },
-                                ),
-                              );
-                            },
-                          ),
+                        : ganhador.isEmpty
+                            ? const Center(
+                                child: Text("Nenhum Cupom Encontrado !"))
+                            : ListView.builder(
+                                itemCount: ganhador.length,
+                                itemBuilder: (context, index) {
+                                  return cardCupons(
+                                    onTap: () {},
+                                    context: context,
+                                    nome: ganhador[index].parNome,
+                                    ganhador: ganhador[index].cupNumero,
+                                    data: ganhador[index].parCidade,
+                                    // abrirCupons: () {},
+                                    // abrirParticipantes: () {},
+                                  );
+                                  // return ListTile(
+                                  //   title: Text(ganhador[index].parNome),
+                                  //   subtitle: Text(ganhador[index].cupNumero),
+                                  //   trailing: IconButton(
+                                  //     icon: const Icon(CupertinoIcons.delete),
+                                  //     onPressed: () async {
+                                  //       // await deletarCupon(cupons[index].id);
+                                  //     },
+                                  //   ),
+                                  // );
+                                },
+                              ),
                   ),
                 ],
               ),

@@ -64,124 +64,122 @@ class _SorteiosState extends State<Sorteios> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: PageView(
-        children: [
-          Esqueleto(
-            abrirTelaCadastro: () async {
-              var retorno = await Navigator.push(
-                context,
-                CupertinoDialogRoute(
-                  builder: (context) => CadastroSorteio(),
-                  context: context,
-                ),
-              );
-              if (retorno != null) {
-                setState(() {
-                  sorteios.add(retorno);
-                });
-              }
-            },
-            buscaNome: (value) {},
-            tituloBoto: 'Novo Sorteio',
-            tituloPagina: 'Sorteios',
-            filtro: false,
-            itens: [],
-            label: 'Sorteios',
-            onChange: () {},
-            selecionado: 0,
-            corpo: [
-              carregando
-                  ? const CarregamentoIOS()
-                  : sorteios.isNotEmpty
-                      ? Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 10),
-                            child: ListView.builder(
-                              // itemCount: sorteios.length,
-                              itemCount: sorteios.length,
-                              itemBuilder: (context, index) {
-                                return cardSorteio(
-                                  context: context,
-                                  sorteado: index.isEven ? true : false,
-                                  sorteio: sorteios[index],
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      CupertinoDialogRoute(
-                                        builder: (context) => const Sortear(),
-                                        context: context,
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        )
-                      : const Expanded(
-                          child: Center(
-                            child: Text('Nenhum sorteio cadastrado !'),
+    return PageView(
+      children: [
+        Esqueleto(
+          abrirTelaCadastro: () async {
+            var retorno = await Navigator.push(
+              context,
+              CupertinoDialogRoute(
+                builder: (context) => CadastroSorteio(),
+                context: context,
+              ),
+            );
+            if (retorno != null) {
+              setState(() {
+                sorteios.add(retorno);
+              });
+            }
+          },
+          buscaNome: (value) {},
+          tituloBoto: 'Novo Sorteio',
+          tituloPagina: 'Sorteios',
+          filtro: false,
+          itens: [],
+          label: 'Sorteios',
+          onChange: () {},
+          selecionado: 0,
+          corpo: [
+            carregando
+                ? const CarregamentoIOS()
+                : sorteios.isNotEmpty
+                    ? Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 10),
+                          child: ListView.builder(
+                            // itemCount: sorteios.length,
+                            itemCount: sorteios.length,
+                            itemBuilder: (context, index) {
+                              return cardSorteio(
+                                context: context,
+                                sorteado: index.isEven ? true : false,
+                                sorteio: sorteios[index],
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoDialogRoute(
+                                      builder: (context) => const Sortear(),
+                                      context: context,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ),
-            ],
-          ),
-          Esqueleto(
-            abrirTelaCadastro: () async {
-              var retorno = await Navigator.push(
-                context,
-                CupertinoDialogRoute(
-                  builder: (context) => CadastroSorteio(),
-                  context: context,
-                ),
-              );
-              if (retorno != null) {
-                setState(() {
-                  sorteios.add(retorno);
-                });
-              }
-            },
-            buscaNome: (value) {},
-            tituloBoto: 'Novo Cupom',
-            tituloPagina: 'Cupons',
-            filtro: false,
-            itens: [],
-            label: 'Cupons',
-            onChange: () {},
-            selecionado: 0,
-            corpo: [
-              Expanded(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: ListView.builder(
-                    // itemCount: sorteios.length,
-                    itemCount: sorteios.length,
-                    itemBuilder: (context, index) {
-                      return cardCupons(
-                        context: context,
-                        data: sorteios[index].sorData,
-                        ganhador: sorteios[index].sorNomeGanhador,
-                        nome: sorteios[index].sorNome,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoDialogRoute(
-                              builder: (context) => const Sortear(),
-                              context: context,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
+                      )
+                    : const Expanded(
+                        child: Center(
+                          child: Text('Nenhum sorteio cadastrado !'),
+                        ),
+                      ),
+          ],
+        ),
+        Esqueleto(
+          abrirTelaCadastro: () async {
+            var retorno = await Navigator.push(
+              context,
+              CupertinoDialogRoute(
+                builder: (context) => CadastroSorteio(),
+                context: context,
+              ),
+            );
+            if (retorno != null) {
+              setState(() {
+                sorteios.add(retorno);
+              });
+            }
+          },
+          buscaNome: (value) {},
+          tituloBoto: 'Novo Cupom',
+          tituloPagina: 'Cupons',
+          filtro: false,
+          itens: [],
+          label: 'Cupons',
+          onChange: () {},
+          selecionado: 0,
+          corpo: [
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: ListView.builder(
+                  // itemCount: sorteios.length,
+                  itemCount: sorteios.length,
+                  itemBuilder: (context, index) {
+                    return cardCupons(
+                      context: context,
+                      data: sorteios[index].sorData,
+                      ganhador: sorteios[index].sorNomeGanhador,
+                      nome: sorteios[index].sorNome,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoDialogRoute(
+                            builder: (context) => const Sortear(),
+                            context: context,
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

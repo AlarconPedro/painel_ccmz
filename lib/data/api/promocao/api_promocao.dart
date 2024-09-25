@@ -42,9 +42,10 @@ class ApiPromocao {
     return await _request.getJson(_urlGetPromocoes);
   }
 
-  Future<dynamic> getGanhadorCupom(String filtro, String cupom) async {
+  Future<dynamic> getGanhadorCupom(String filtro,
+      {String? cupom, int? skip = 0, int? take = 30}) async {
     return await _request.getJson(
-        "$_urlGetGanhadorCupom/$cupom/${filtro == "" ? null : filtro}");
+        "$_urlGetGanhadorCupom/$filtro/$skip/$take${cupom != null ? "?$cupom" : ""}");
   }
 
   Future<dynamic> getSorteiosPromocao() async {

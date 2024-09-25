@@ -30,7 +30,7 @@ Widget cardCupons({
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: [
-                    const Icon(CupertinoIcons.tag_solid),
+                    const Icon(CupertinoIcons.tickets),
                     const SizedBox(width: 10),
                     Expanded(
                       flex: 1,
