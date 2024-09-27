@@ -25,16 +25,16 @@ class GanhadorCupomModel {
 
   factory GanhadorCupomModel.fromJson(Map<String, dynamic> json) {
     return GanhadorCupomModel(
-      parCodigo: json['parCodigo'],
-      parNome: json['parNome'],
-      parFone: json['parFone'],
-      parCidade: json['parCidade'],
-      parUf: json['parUf'],
-      cupCodigo: json['cupCodigo'],
-      cupSorteado: json['cupSorteado'],
-      cupVendido: json['cupVendido'],
-      cupNumero: json['cupNumero'],
-      qtdCupons: json['qtdCupons'],
+      parCodigo: json['parCodigo'] ?? 0,
+      parNome: json['parNome'] ?? '',
+      parFone: json['parFone'] ?? '',
+      parCidade: json['parCidade'] ?? '',
+      parUf: json['parUf'] ?? '',
+      cupCodigo: json['cupCodigo'] ?? 0,
+      cupSorteado: json['cupSorteado'] ?? false,
+      cupVendido: json['cupVendido'] ?? false,
+      cupNumero: json['cupNumero'] ?? '',
+      qtdCupons: json['qtdCupons'] ?? 0,
     );
   }
 }

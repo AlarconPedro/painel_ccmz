@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/data/models/web/promocoes/ganhador_cupom_model.dart';
 import 'package:painel_ccmn/widgets/cards/sorteio/card_cupons.dart';
-import 'package:painel_ccmn/widgets/cards/sorteio/card_promocao.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
 import '../../classes/classes.dart';
 import '../../data/api/promocao/api_promocao.dart';
-import '../../models/ganhador_model.dart';
 
 class ListaGanhadorCupon extends StatefulWidget {
   const ListaGanhadorCupon({super.key});
@@ -18,7 +17,7 @@ class ListaGanhadorCupon extends StatefulWidget {
 }
 
 class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
-  List<GanhadorModel> ganhador = [];
+  List<GanhadorCupomModel> ganhador = [];
 
   final TextEditingController busca = TextEditingController();
 
@@ -31,7 +30,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
         .getGanhadorCupom(filtro, cupom: cupom, skip: skip, take: take);
     if (response.statusCode == 200) {
       for (var item in json.decode(response.body)) {
-        ganhador.add(GanhadorModel.fromJson(item));
+        ganhador.add(GanhadorCupomModel.fromJson(item));
       }
     }
     setState(() => carregando = false);
@@ -85,7 +84,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                               controller: busca,
                               onSubmitted: (value) async {
                                 if (busca.text.isNotEmpty) {
-                                  await buscarGanhador(value);
+                                  await buscarGanhador("T", cupom: value);
                                   busca.clear();
                                 }
                               },
@@ -106,7 +105,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                           color: Cores.preto,
                           onPressed: () async {
                             if (busca.text.isNotEmpty) {
-                              await buscarGanhador(busca.text);
+                              await buscarGanhador("T", cupom: busca.text);
                               busca.clear();
                             }
                           },
@@ -146,30 +145,48 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                         : ganhador.isEmpty
                             ? const Center(
                                 child: Text("Nenhum Cupom Encontrado !"))
-                            : ListView.builder(
-                                itemCount: ganhador.length,
-                                itemBuilder: (context, index) {
-                                  return cardCupons(
-                                    onTap: () {},
-                                    context: context,
-                                    nome: ganhador[index].parNome,
-                                    ganhador: ganhador[index].cupNumero,
-                                    data: ganhador[index].parCidade,
-                                    // abrirCupons: () {},
-                                    // abrirParticipantes: () {},
-                                  );
-                                  // return ListTile(
-                                  //   title: Text(ganhador[index].parNome),
-                                  //   subtitle: Text(ganhador[index].cupNumero),
-                                  //   trailing: IconButton(
-                                  //     icon: const Icon(CupertinoIcons.delete),
-                                  //     onPressed: () async {
-                                  //       // await deletarCupon(cupons[index].id);
-                                  //     },
-                                  //   ),
-                                  // );
-                                },
+                            : Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: ListView.builder(
+                                  itemCount: ganhador.length,
+                                  itemBuilder: (context, index) {
+                                    return cardCupons(
+                                      onTap: () {},
+                                      context: context,
+                                      nome: ganhador[index].parNome,
+                                      ganhador: ganhador[index].cupNumero,
+                                      data: ganhador[index].parCidade,
+                                      // abrirCupons: () {},
+                                      // abrirParticipantes: () {},
+                                    );
+                                    // return ListTile(
+                                    //   title: Text(ganhador[index].parNome),
+                                    //   subtitle: Text(ganhador[index].cupNumero),
+                                    //   trailing: IconButton(
+                                    //     icon: const Icon(CupertinoIcons.delete),
+                                    //     onPressed: () async {
+                                    //       // await deletarCupon(cupons[index].id);
+                                    //     },
+                                    //   ),
+                                    // );
+                                  },
+                                ),
                               ),
+                  ),
+                  SizedBox(
+                    height: 35,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Total de Cupons: ${ganhador.isNotEmpty ? ganhador[0].qtdCupons : 0}",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ), // Text("Total de Cupons: ${cupons.length}"),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
