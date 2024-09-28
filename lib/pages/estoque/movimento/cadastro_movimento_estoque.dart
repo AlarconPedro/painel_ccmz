@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/data/models/web/movimento_estoque_model.dart';
 import 'package:painel_ccmn/pages/estoque/produtos/produtos.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/cadastro_form.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/api/produto/api_movimento_estoque.dart';
+import '../../../funcoes/funcoes.dart';
 import '../../../widgets/form/campo_texto.dart';
+import '../../pages.dart';
 
 class CadastroMovimentoEstoque extends StatefulWidget {
   const CadastroMovimentoEstoque({super.key});
@@ -36,6 +40,40 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
       altura = pageController.page == 0 ? 2 : 1.2;
       largura = pageController.page == 0 ? 3 : 1.5;
     });
+  }
+
+  gravarMovimentoEstoque() async {
+    final movimentoEstoque = MovimentoEstoqueModel(
+      movCodigo: 0,
+      proCodigo: codigoProdutoSelecionado,
+      proNome: nomeController.text,
+      movQuantidade: int.parse(quantidadeController.text),
+      movData: FuncoesData.stringToDateTime(DateTime.now().toString()),
+      movTipo: tipoSelecionado == 1 ? "E" : "S",
+    );
+
+    var retorno =
+        await ApiMovimentoEstoque().postMovimentoEstoque(movimentoEstoque);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.verdeMedio,
+          content: Text(
+            'Movimento de Estoque gravado com sucesso',
+          ),
+        ),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text(
+            'Erro ao gravar Movimento de Estoque',
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -280,7 +318,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                           CupertinoButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // gravar();
+                                gravarMovimentoEstoque();
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

@@ -27,4 +27,15 @@ class MovimentoEstoqueModel {
       movTipo: json['movTipo'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'movCodigo': movCodigo,
+      'proCodigo': proCodigo,
+      'proNome': proNome,
+      'movQuantidade': movQuantidade,
+      'movData': movData,
+      'movTipo': movTipo,
+    };
+  }
 }

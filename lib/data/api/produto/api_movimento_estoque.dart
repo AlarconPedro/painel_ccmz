@@ -1,6 +1,7 @@
 import 'package:painel_ccmn/data/data.dart';
 
 import '../../../classes/classes.dart';
+import '../../models/web/movimento_estoque_model.dart';
 
 class ApiMovimentoEstoque {
   static final _request = HttpRequest();
@@ -21,9 +22,11 @@ class ApiMovimentoEstoque {
   }
 
   // //POST
-  // Future<dynamic> postMovimentoEstoque(MovimentoEstoqueModel movimentoEstoque) async {
-  //   return await _request.postJson(_urlPostMovimentoEstoque, movimentoEstoque.toJson());
-  // }
+  Future<dynamic> postMovimentoEstoque(
+      MovimentoEstoqueModel movimentoEstoque) async {
+    return await _request.postJson(
+        _urlPostMovimentoEstoque, movimentoEstoque.toJson());
+  }
 
   //DELETE
   Future<dynamic> deleteMovimentoEstoque(int codigoMovimento) async {
