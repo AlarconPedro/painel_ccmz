@@ -29,6 +29,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
     var response = await ApiPromocao()
         .getGanhadorCupom(filtro, cupom: cupom, skip: skip, take: take);
     if (response.statusCode == 200) {
+      ganhador.clear();
       for (var item in json.decode(response.body)) {
         ganhador.add(GanhadorCupomModel.fromJson(item));
       }
@@ -86,6 +87,8 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                                 if (busca.text.isNotEmpty) {
                                   await buscarGanhador("T", cupom: value);
                                   busca.clear();
+                                } else {
+                                  await buscarGanhador("T");
                                 }
                               },
                               decoration: BoxDecoration(
@@ -107,6 +110,8 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
                             if (busca.text.isNotEmpty) {
                               await buscarGanhador("T", cupom: busca.text);
                               busca.clear();
+                            } else {
+                              await buscarGanhador("T");
                             }
                           },
                           padding: const EdgeInsets.symmetric(
