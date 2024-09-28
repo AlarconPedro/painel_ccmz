@@ -21,17 +21,19 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
   final PageController pageController = PageController();
 
   final TextEditingController nomeController = TextEditingController();
+  final TextEditingController quantidadeController = TextEditingController();
   final TextEditingController codigoBarrasController = TextEditingController();
   final TextEditingController descricaoController = TextEditingController();
 
-  double altura = 2.5;
+  double altura = 2;
   double largura = 3;
 
   int tipoSelecionado = 1;
+  int codigoProdutoSelecionado = 0;
 
   atualizarTamanho() {
     setState(() {
-      altura = pageController.page == 0 ? 2.5 : 1.5;
+      altura = pageController.page == 0 ? 2 : 1.2;
       largura = pageController.page == 0 ? 3 : 1.5;
     });
   }
@@ -50,7 +52,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
         padding: const EdgeInsets.all(32),
         child: Center(
           child: Card(
-            color: Colors.white,
+            color: Cores.branco,
             elevation: 10,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -58,6 +60,12 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
               ),
             ),
             child: AnimatedContainer(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                color: Cores.branco,
+              ),
               duration: const Duration(milliseconds: 300),
               height: MediaQuery.of(context).size.height / altura,
               width: MediaQuery.of(context).size.width / largura,
@@ -129,7 +137,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                                 children: [
                                   Expanded(
                                     child: campoTexto(
-                                      controlador: nomeController,
+                                      controlador: quantidadeController,
                                       titulo: "Quantidade",
                                       dica: "Quantiade do Produto",
                                       icone: CupertinoIcons.number,
@@ -226,7 +234,22 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                               ),
                             ],
                           ),
-                          const Produtos(),
+                          Produtos(
+                            selecionarProduto: true,
+                            selecionar: (produto) {
+                              setState(() {
+                                nomeController.text = produto.proNome;
+                                codigoBarrasController.text =
+                                    produto.proCodBarras;
+                                codigoProdutoSelecionado = produto.proCodigo;
+                              });
+                              pageController.animateToPage(
+                                0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeIn,
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

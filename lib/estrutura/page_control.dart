@@ -33,7 +33,7 @@ class _PageControlState extends State<PageControl> {
       case 'Estoque':
         {
           return [
-            const Produtos(),
+            Produtos(),
             const MovimentoEstoque(),
             const Categorias(),
           ];

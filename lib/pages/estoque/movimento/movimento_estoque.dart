@@ -103,16 +103,26 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
                                   height: 55,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: movimento[index].movTipo == "E"
-                                        ? Cores.verdeClaro.withOpacity(0.5)
-                                        : Cores.vermelhoClaro.withOpacity(0.5),
+                                    color: Cores.branco,
+                                    // color: movimento[index].movTipo == "E"
+                                    //     ? Cores.verdeClaro.withOpacity(0.5)
+                                    //     : Cores.vermelhoClaro.withOpacity(0.5),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10),
                                     child: Row(
                                       children: [
-                                        const Icon(CupertinoIcons.calendar),
+                                        Icon(
+                                            movimento[index].movTipo == "E"
+                                                ? CupertinoIcons
+                                                    .arrowshape_turn_up_right_fill
+                                                : CupertinoIcons
+                                                    .arrowshape_turn_up_left_fill,
+                                            color:
+                                                movimento[index].movTipo == "E"
+                                                    ? Cores.verdeMedio
+                                                    : Cores.vermelhoMedio),
                                         const SizedBox(width: 10),
                                         Expanded(
                                           flex: 4,
@@ -165,7 +175,10 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               elevation: 5,
+                              color: Cores.branco,
                               child: CupertinoButton(
+                                padding: const EdgeInsets.all(15),
+                                color: Cores.branco,
                                 child: const Icon(
                                   CupertinoIcons.trash,
                                   color: Cores.vermelhoMedio,
