@@ -28,6 +28,8 @@ class _ProdutosState extends State<Produtos> {
 
   bool carregando = false;
 
+  int produtoSelecionado = 0;
+
   buscarProdutos() async {
     setState(() => carregando = true);
     var retorno = await ApiProdutos().getProdutos();
@@ -111,6 +113,10 @@ class _ProdutosState extends State<Produtos> {
                               if (widget.selecionarProduto!) {
                                 if (widget.selecionar != null) {
                                   widget.selecionar!(produtos[index]);
+                                  setState(() {
+                                    produtoSelecionado =
+                                        produtos[index].proCodigo;
+                                  });
                                 } else {
                                   Navigator.pop(context, produtos[index]);
                                 }
@@ -121,7 +127,10 @@ class _ProdutosState extends State<Produtos> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
                               child: Container(
-                                color: Colors.transparent,
+                                color: produtoSelecionado ==
+                                        produtos[index].proCodigo
+                                    ? Cores.verdeMedio
+                                    : Colors.transparent,
                                 child: Row(
                                   children: [
                                     Expanded(

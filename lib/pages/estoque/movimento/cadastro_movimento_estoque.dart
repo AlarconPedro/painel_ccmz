@@ -281,11 +281,11 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                                     produto.proCodBarras;
                                 codigoProdutoSelecionado = produto.proCodigo;
                               });
-                              pageController.animateToPage(
-                                0,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeIn,
-                              );
+                              // pageController.animateToPage(
+                              //   0,
+                              //   duration: const Duration(milliseconds: 300),
+                              //   curve: Curves.easeIn,
+                              // );
                             },
                           ),
                         ],
@@ -317,17 +317,26 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                           const Spacer(),
                           CupertinoButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                gravarMovimentoEstoque();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    backgroundColor: Cores.vermelhoMedio,
-                                    content: Text(
-                                      'Preencha os campos corretamente',
-                                    ),
-                                  ),
+                              if (codigoProdutoSelecionado != 0) {
+                                pageController.animateToPage(
+                                  0,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeIn,
                                 );
+                                return;
+                              } else {
+                                if (_formKey.currentState!.validate()) {
+                                  gravarMovimentoEstoque();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      backgroundColor: Cores.vermelhoMedio,
+                                      content: Text(
+                                        'Preencha os campos corretamente',
+                                      ),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             color: Cores.verdeMedio,
@@ -335,7 +344,9 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                               vertical: 5,
                               horizontal: 30,
                             ),
-                            child: const Text("Gravar"),
+                            child: Text(codigoProdutoSelecionado != 0
+                                ? "Selecionar"
+                                : "Gravar"),
                           ),
                         ],
                       ),
