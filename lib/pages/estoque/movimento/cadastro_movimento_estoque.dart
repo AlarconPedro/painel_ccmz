@@ -177,7 +177,8 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                                     child: campoTexto(
                                       controlador: quantidadeController,
                                       titulo: "Quantidade",
-                                      dica: "Quantiade do Produto",
+                                      dica: "Quantidade do Produto",
+                                      tipo: TextInputType.number,
                                       icone: CupertinoIcons.number,
                                       validador: (value) {
                                         if (value.isEmpty) {

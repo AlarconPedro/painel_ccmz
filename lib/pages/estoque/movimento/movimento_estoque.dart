@@ -84,148 +84,200 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
                 ),
               )
             : Expanded(
-                child: ListView.builder(
-                  itemCount: movimento.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Card(
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Container(
-                                  height: 55,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Cores.branco,
-                                    // color: movimento[index].movTipo == "E"
-                                    //     ? Cores.verdeClaro.withOpacity(0.5)
-                                    //     : Cores.vermelhoClaro.withOpacity(0.5),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                            movimento[index].movTipo == "E"
-                                                ? CupertinoIcons
-                                                    .arrowshape_turn_up_right_fill
-                                                : CupertinoIcons
-                                                    .arrowshape_turn_up_left_fill,
-                                            color:
-                                                movimento[index].movTipo == "E"
-                                                    ? Cores.verdeMedio
-                                                    : Cores.vermelhoMedio),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          flex: 4,
-                                          child: Text(movimento[index].proNome),
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Tipo",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                          Expanded(
+                            flex: 4,
+                            child: Text(
+                              "Produto",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Data",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Quantidade",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 60),
+                          Text(
+                            "Excluir",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: movimento.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Container(
+                                        height: 55,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Cores.branco,
+                                          // color: movimento[index].movTipo == "E"
+                                          //     ? Cores.verdeClaro.withOpacity(0.5)
+                                          //     : Cores.vermelhoClaro.withOpacity(0.5),
                                         ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Text(movimento[index].movData),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Text(
-                                            movimento[index]
-                                                .movQuantidade
-                                                .toString(),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                  movimento[index].movTipo ==
+                                                          "E"
+                                                      ? CupertinoIcons
+                                                          .arrowshape_turn_up_right_fill
+                                                      : CupertinoIcons
+                                                          .arrowshape_turn_up_left_fill,
+                                                  color: movimento[index]
+                                                              .movTipo ==
+                                                          "E"
+                                                      ? Cores.verdeMedio
+                                                      : Cores.vermelhoMedio),
+                                              const SizedBox(width: 10),
+                                              Expanded(
+                                                flex: 4,
+                                                child: Text(
+                                                    movimento[index].proNome),
+                                              ),
+                                              Expanded(
+                                                flex: 2,
+                                                child: Text(
+                                                    movimento[index].movData),
+                                              ),
+                                              Expanded(
+                                                flex: 2,
+                                                child: Text(movimento[index]
+                                                    .movQuantidade
+                                                    .toString()),
+                                              ),
+                                              const SizedBox(width: 30),
+                                            ],
                                           ),
                                         ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Text(movimento[index]
-                                              .movQuantidade
-                                              .toString()),
-                                        ),
-                                        const SizedBox(width: 30),
-                                        const Icon(
-                                            CupertinoIcons.chevron_right),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  // Card(
+                                  //   shape: RoundedRectangleBorder(
+                                  //     borderRadius: BorderRadius.circular(5),
+                                  //   ),
+                                  //   elevation: 5,
+                                  //   child: CupertinoButton(
+                                  //     child: const Icon(
+                                  //       CupertinoIcons.bed_double,
+                                  //       color: Cores.cinzaEscuro,
+                                  //     ),
+                                  //     onPressed: () {
+                                  //       // quartos();
+                                  //     },
+                                  //   ),
+                                  // ),
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    elevation: 5,
+                                    color: Cores.branco,
+                                    child: CupertinoButton(
+                                      padding: const EdgeInsets.all(15),
+                                      color: Cores.branco,
+                                      child: const Icon(
+                                        CupertinoIcons.trash,
+                                        color: Cores.vermelhoMedio,
+                                      ),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return CupertinoAlertDialog(
+                                              title: const Text(
+                                                  "Excluir Movimento"),
+                                              content: const Text(
+                                                  "Deseja realmente excluir este movimento ?"),
+                                              actions: [
+                                                CupertinoDialogAction(
+                                                  child: const Text("Não",
+                                                      style: TextStyle(
+                                                          color: Cores
+                                                              .vermelhoMedio)),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                                CupertinoDialogAction(
+                                                  child: const Text("Sim",
+                                                      style: TextStyle(
+                                                          color: Cores
+                                                              .verdeMedio)),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    excluirItemMovimentoEstoque(
+                                                        movimento[index]
+                                                            .movCodigo);
+                                                    // deletarProduto(
+                                                    //     produtos[index].proCodigo);
+                                                    // excluir();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            // Card(
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(5),
-                            //   ),
-                            //   elevation: 5,
-                            //   child: CupertinoButton(
-                            //     child: const Icon(
-                            //       CupertinoIcons.bed_double,
-                            //       color: Cores.cinzaEscuro,
-                            //     ),
-                            //     onPressed: () {
-                            //       // quartos();
-                            //     },
-                            //   ),
-                            // ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              elevation: 5,
-                              color: Cores.branco,
-                              child: CupertinoButton(
-                                padding: const EdgeInsets.all(15),
-                                color: Cores.branco,
-                                child: const Icon(
-                                  CupertinoIcons.trash,
-                                  color: Cores.vermelhoMedio,
-                                ),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return CupertinoAlertDialog(
-                                        title: const Text("Excluir Evento"),
-                                        content: const Text(
-                                            "Deseja realmente excluir este evento ?"),
-                                        actions: [
-                                          CupertinoDialogAction(
-                                            child: const Text("Não",
-                                                style: TextStyle(
-                                                    color:
-                                                        Cores.vermelhoMedio)),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          CupertinoDialogAction(
-                                            child: const Text("Sim",
-                                                style: TextStyle(
-                                                    color: Cores.verdeMedio)),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              excluirItemMovimentoEstoque(
-                                                  movimento[index].movCodigo);
-                                              // deletarProduto(
-                                              //     produtos[index].proCodigo);
-                                              // excluir();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                  ],
                 ),
               ),
       ],

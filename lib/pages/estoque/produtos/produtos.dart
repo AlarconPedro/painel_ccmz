@@ -101,174 +101,246 @@ class _ProdutosState extends State<Produtos> {
               )
             : produtos.isNotEmpty
                 ? Expanded(
-                    child: ListView.builder(
-                      itemCount: produtos.length,
-                      itemBuilder: (context, index) {
-                        return MouseRegion(
-                          cursor: widget.selecionarProduto!
-                              ? SystemMouseCursors.click
-                              : SystemMouseCursors.basic,
-                          child: GestureDetector(
-                            onTap: () {
-                              if (widget.selecionarProduto!) {
-                                if (widget.selecionar != null) {
-                                  widget.selecionar!(produtos[index]);
-                                  setState(() {
-                                    produtoSelecionado =
-                                        produtos[index].proCodigo;
-                                  });
-                                } else {
-                                  Navigator.pop(context, produtos[index]);
-                                }
-                                // Navigator.pop(context, produtos[index]);
-                              }
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Container(
-                                color: produtoSelecionado ==
-                                        produtos[index].proCodigo
-                                    ? Cores.verdeMedio
-                                    : Colors.transparent,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Card(
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                        child: Container(
-                                          height: 55,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: Cores.branco,
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Row(
-                                              children: [
-                                                const Icon(
-                                                    CupertinoIcons.calendar),
-                                                const SizedBox(width: 10),
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: Text(
-                                                      produtos[index].proNome),
-                                                ),
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Text(produtos[index]
-                                                      .proDescricao),
-                                                ),
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Text(produtos[index]
-                                                      .proCodBarras
-                                                      .toString()),
-                                                ),
-                                                const SizedBox(width: 30),
-                                                const Icon(CupertinoIcons
-                                                    .chevron_right),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Card(
-                                    //   shape: RoundedRectangleBorder(
-                                    //     borderRadius: BorderRadius.circular(5),
-                                    //   ),
-                                    //   elevation: 5,
-                                    //   child: CupertinoButton(
-                                    //     child: const Icon(
-                                    //       CupertinoIcons.bed_double,
-                                    //       color: Cores.cinzaEscuro,
-                                    //     ),
-                                    //     onPressed: () {
-                                    //       // quartos();
-                                    //     },
-                                    //   ),
-                                    // ),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      elevation: 5,
-                                      child: CupertinoButton(
-                                        child: const Icon(
-                                          CupertinoIcons.trash,
-                                          color: Cores.vermelhoMedio,
-                                        ),
-                                        onPressed: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return CupertinoAlertDialog(
-                                                title: const Text(
-                                                    "Excluir Evento"),
-                                                content: const Text(
-                                                    "Deseja realmente excluir este evento ?"),
-                                                actions: [
-                                                  CupertinoDialogAction(
-                                                    child: const Text("Não",
-                                                        style: TextStyle(
-                                                            color: Cores
-                                                                .vermelhoMedio)),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                  CupertinoDialogAction(
-                                                    child: const Text("Sim",
-                                                        style: TextStyle(
-                                                            color: Cores
-                                                                .verdeMedio)),
-                                                    onPressed: () {
-                                                      // Navigator.pop(context);
-                                                      deletarProduto(
-                                                          produtos[index]
-                                                              .proCodigo);
-                                                      // excluir();
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Text(
+                                  "Nome",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Quantidade",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Descrição",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "Código de Barras",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 30),
+                              Text(
+                                "Excluir",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                        // return ListTile(
-                        //   title: Text(produtos[index].proNome),
-                        //   subtitle: Text(produtos[index].proDescricao),
-                        //   trailing: IconButton(
-                        //     icon: const Icon(Icons.edit),
-                        //     onPressed: () {
-                        //       // Navigator.push(
-                        //       //   context,
-                        //       //   CupertinoDialogRoute(
-                        //       //     builder: (context) => CadastroProdutos(
-                        //       //       produto: produtos[index],
-                        //       //     ),
-                        //       //     context: context,
-                        //       //   ),
-                        //       // );
-                        //     },
-                        //   ),
-                        // );
-                      },
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: produtos.length,
+                            itemBuilder: (context, index) {
+                              return MouseRegion(
+                                cursor: widget.selecionarProduto!
+                                    ? SystemMouseCursors.click
+                                    : SystemMouseCursors.basic,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (widget.selecionarProduto!) {
+                                      if (widget.selecionar != null) {
+                                        widget.selecionar!(produtos[index]);
+                                        setState(() {
+                                          produtoSelecionado =
+                                              produtos[index].proCodigo;
+                                        });
+                                      } else {
+                                        Navigator.pop(context, produtos[index]);
+                                      }
+                                      // Navigator.pop(context, produtos[index]);
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Container(
+                                      color: produtoSelecionado ==
+                                              produtos[index].proCodigo
+                                          ? Cores.verdeMedio
+                                          : Colors.transparent,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Card(
+                                              elevation: 5,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              child: Container(
+                                                height: 55,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: Cores.branco,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10),
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(CupertinoIcons
+                                                          .cube_box),
+                                                      const SizedBox(width: 10),
+                                                      Expanded(
+                                                        flex: 4,
+                                                        child: Text(
+                                                            produtos[index]
+                                                                .proNome),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Text(
+                                                            produtos[index]
+                                                                .proQuantidade
+                                                                .toString()),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Text(
+                                                            produtos[index]
+                                                                .proDescricao),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Text(
+                                                            produtos[index]
+                                                                .proCodBarras
+                                                                .toString()),
+                                                      ),
+                                                      const SizedBox(width: 30),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          // Card(
+                                          //   shape: RoundedRectangleBorder(
+                                          //     borderRadius: BorderRadius.circular(5),
+                                          //   ),
+                                          //   elevation: 5,
+                                          //   child: CupertinoButton(
+                                          //     child: const Icon(
+                                          //       CupertinoIcons.bed_double,
+                                          //       color: Cores.cinzaEscuro,
+                                          //     ),
+                                          //     onPressed: () {
+                                          //       // quartos();
+                                          //     },
+                                          //   ),
+                                          // ),
+                                          Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            elevation: 5,
+                                            child: CupertinoButton(
+                                              child: const Icon(
+                                                CupertinoIcons.trash,
+                                                color: Cores.vermelhoMedio,
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return CupertinoAlertDialog(
+                                                      title: const Text(
+                                                          "Excluir Evento"),
+                                                      content: const Text(
+                                                          "Deseja realmente excluir este evento ?"),
+                                                      actions: [
+                                                        CupertinoDialogAction(
+                                                          child: const Text(
+                                                              "Não",
+                                                              style: TextStyle(
+                                                                  color: Cores
+                                                                      .vermelhoMedio)),
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                        CupertinoDialogAction(
+                                                          child: const Text(
+                                                              "Sim",
+                                                              style: TextStyle(
+                                                                  color: Cores
+                                                                      .verdeMedio)),
+                                                          onPressed: () {
+                                                            // Navigator.pop(context);
+                                                            deletarProduto(
+                                                                produtos[index]
+                                                                    .proCodigo);
+                                                            // excluir();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                              // return ListTile(
+                              //   title: Text(produtos[index].proNome),
+                              //   subtitle: Text(produtos[index].proDescricao),
+                              //   trailing: IconButton(
+                              //     icon: const Icon(Icons.edit),
+                              //     onPressed: () {
+                              //       // Navigator.push(
+                              //       //   context,
+                              //       //   CupertinoDialogRoute(
+                              //       //     builder: (context) => CadastroProdutos(
+                              //       //       produto: produtos[index],
+                              //       //     ),
+                              //       //     context: context,
+                              //       //   ),
+                              //       // );
+                              //     },
+                              //   ),
+                              // );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 : const Expanded(
