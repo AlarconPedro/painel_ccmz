@@ -20,10 +20,12 @@ class _PessoasState extends State<Pessoas> {
 
   List<PessoaModel> pessoas = [];
 
+  List<DropdownMenuItem<int>> cidades = [];
   List<DropdownMenuItem<int>> comunidades = [];
 
   TextEditingController campoBusca = TextEditingController();
 
+  int codigoCidade = 0;
   int codigoComunidade = 0;
 
   buscarPessoas(int comunidade) async {
@@ -211,6 +213,25 @@ class _PessoasState extends State<Pessoas> {
                     child: Row(children: [
                       Flexible(
                         child: DropDownForm(
+                          label: "Cidade",
+                          itens: cidades,
+                          selecionado: codigoCidade,
+                          onChange: (value) {
+                            setState(() => codigoCidade = value);
+                            buscarPessoas(value);
+                          },
+                        ),
+                      ),
+                      const Spacer(),
+                      const Spacer(),
+                    ]),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(children: [
+                      Flexible(
+                        child: DropDownForm(
                           label: "Comunidade",
                           itens: comunidades,
                           selecionado: codigoComunidade,
@@ -224,7 +245,6 @@ class _PessoasState extends State<Pessoas> {
                       const Spacer(),
                     ]),
                   ),
-                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(children: [
