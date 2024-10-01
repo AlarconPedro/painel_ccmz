@@ -18,8 +18,8 @@ class ApiPessoas {
   final String _urlDeletePessoa = "${Globais.urlBase}pessoa/";
 
   //GET
-  Future<dynamic> getPessoas(int codigoComunidade) async {
-    return await _request.getJson("$_urlGetPessoas/$codigoComunidade");
+  Future<dynamic> getPessoas(int codigoComunidade, String cidade) async {
+    return await _request.getJson("$_urlGetPessoas/$codigoComunidade/$cidade");
   }
 
   Future<dynamic> getPessoasBusca(int codigoComunidade, String busca) async {

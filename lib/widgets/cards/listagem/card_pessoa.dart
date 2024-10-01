@@ -76,11 +76,14 @@ class CardPessoa extends StatelessWidget {
             ),
           ),
           Card(
+            color: Cores.branco,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
             elevation: 5,
             child: CupertinoButton(
+              color: Cores.branco,
+              padding: const EdgeInsets.all(15),
               child:
                   const Icon(CupertinoIcons.trash, color: Cores.vermelhoMedio),
               onPressed: () {

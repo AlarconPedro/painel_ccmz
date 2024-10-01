@@ -20,23 +20,56 @@ class _PessoasState extends State<Pessoas> {
 
   List<PessoaModel> pessoas = [];
 
-  List<DropdownMenuItem<int>> cidades = [];
+  List<String> cidades = [];
+  List<DropdownMenuItem<int>> cidadesListagem = [];
   List<DropdownMenuItem<int>> comunidades = [];
 
   TextEditingController campoBusca = TextEditingController();
 
-  int codigoCidade = 0;
+  int cidadeSelecionada = 0;
   int codigoComunidade = 0;
 
-  buscarPessoas(int comunidade) async {
+  buscarPessoas(int comunidade, {String? cidade = " "}) async {
     setState(() => carregando = true);
-    var retorno = await ApiPessoas().getPessoas(comunidade);
+    var retorno = await ApiPessoas().getPessoas(comunidade, cidade!);
     if (retorno.statusCode == 200) {
       pessoas.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
           pessoas.add(PessoaModel.fromJson(item));
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarCidades() async {
+    setState(() => carregando = true);
+    var retorno = await ApiComunidade().getCidades();
+    if (retorno.statusCode == 200) {
+      cidades.clear();
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          cidades.add(item);
+        });
+      }
+      for (var i = 0; i < cidades.length; i++) {
+        setState(() {
+          cidadesListagem.add(
+            DropdownMenuItem(
+              value: i,
+              child: Text(cidades[i]),
+            ),
+          );
         });
       }
     } else {
@@ -130,6 +163,7 @@ class _PessoasState extends State<Pessoas> {
     // TODO: implement initState
     super.initState();
     buscarComunidades();
+    buscarCidades();
   }
 
   @override
@@ -214,22 +248,20 @@ class _PessoasState extends State<Pessoas> {
                       Flexible(
                         child: DropDownForm(
                           label: "Cidade",
-                          itens: cidades,
-                          selecionado: codigoCidade,
+                          itens: cidadesListagem,
+                          selecionado: cidadeSelecionada,
                           onChange: (value) {
-                            setState(() => codigoCidade = value);
-                            buscarPessoas(value);
+                            setState(() =>
+                                cidadeSelecionada = value == 0 ? 0 : value);
+                            buscarPessoas(codigoComunidade,
+                                cidade: cidadeSelecionada == 0
+                                    ? " "
+                                    // : cidades[cidadeSelecionada - 1]);
+                                    : cidades[cidadeSelecionada]);
                           },
                         ),
                       ),
-                      const Spacer(),
-                      const Spacer(),
-                    ]),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(children: [
+                      const SizedBox(width: 20),
                       Flexible(
                         child: DropDownForm(
                           label: "Comunidade",
@@ -237,14 +269,18 @@ class _PessoasState extends State<Pessoas> {
                           selecionado: codigoComunidade,
                           onChange: (value) {
                             setState(() => codigoComunidade = value);
-                            buscarPessoas(value);
+                            buscarPessoas(value,
+                                cidade: cidadeSelecionada == 0
+                                    ? " "
+                                    // : cidades[cidadeSelecionada - 1]);
+                                    : cidades[cidadeSelecionada]);
                           },
                         ),
                       ),
                       const Spacer(),
-                      const Spacer(),
                     ]),
                   ),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(children: [
