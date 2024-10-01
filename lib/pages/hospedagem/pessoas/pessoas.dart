@@ -29,7 +29,7 @@ class _PessoasState extends State<Pessoas> {
   int cidadeSelecionada = 0;
   int codigoComunidade = 0;
 
-  buscarPessoas(int comunidade, {String? cidade = " "}) async {
+  buscarPessoas(int comunidade, {String? cidade = "Todos"}) async {
     setState(() => carregando = true);
     var retorno = await ApiPessoas().getPessoas(comunidade, cidade!);
     if (retorno.statusCode == 200) {
@@ -255,7 +255,7 @@ class _PessoasState extends State<Pessoas> {
                                 cidadeSelecionada = value == 0 ? 0 : value);
                             buscarPessoas(codigoComunidade,
                                 cidade: cidadeSelecionada == 0
-                                    ? " "
+                                    ? "Todos"
                                     // : cidades[cidadeSelecionada - 1]);
                                     : cidades[cidadeSelecionada]);
                           },
@@ -271,7 +271,7 @@ class _PessoasState extends State<Pessoas> {
                             setState(() => codigoComunidade = value);
                             buscarPessoas(value,
                                 cidade: cidadeSelecionada == 0
-                                    ? " "
+                                    ? "Todos"
                                     // : cidades[cidadeSelecionada - 1]);
                                     : cidades[cidadeSelecionada]);
                           },
