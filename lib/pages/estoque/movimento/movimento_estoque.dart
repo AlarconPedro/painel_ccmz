@@ -67,14 +67,15 @@ class _MovimentoEstoqueState extends State<MovimentoEstoque> {
       tituloBoto: "Novo Movimento",
       tituloPagina: "Movimento de Estoque",
       buscaNome: (busca) {},
-      abrirTelaCadastro: () {
-        Navigator.push(
+      abrirTelaCadastro: () async {
+        await Navigator.push(
           context,
           CupertinoDialogRoute(
             builder: (context) => const CadastroMovimentoEstoque(),
             context: context,
           ),
         );
+        buscarMovimentoEstoque();
       },
       corpo: [
         carregando

@@ -48,7 +48,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
       proCodigo: codigoProdutoSelecionado,
       proNome: nomeController.text,
       movQuantidade: int.parse(quantidadeController.text),
-      movData: FuncoesData.stringToDateTime(DateTime.now().toString()),
+      movData: DateTime.now().toString().replaceAll(" ", "T"),
       movTipo: tipoSelecionado == 1 ? "E" : "S",
     );
 
@@ -74,6 +74,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
         ),
       );
     }
+    codigoProdutoSelecionado = 0;
   }
 
   @override
@@ -318,7 +319,8 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                           const Spacer(),
                           CupertinoButton(
                             onPressed: () {
-                              if (codigoProdutoSelecionado != 0) {
+                              if (codigoProdutoSelecionado != 0 &&
+                                  pageController.page == 1) {
                                 pageController.animateToPage(
                                   0,
                                   duration: const Duration(milliseconds: 300),
