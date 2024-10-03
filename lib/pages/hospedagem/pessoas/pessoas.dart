@@ -21,7 +21,12 @@ class _PessoasState extends State<Pessoas> {
   List<PessoaModel> pessoas = [];
 
   List<String> cidades = [];
-  List<DropdownMenuItem<int>> cidadesListagem = [];
+  List<DropdownMenuItem<int>> cidadesListagem = [
+    const DropdownMenuItem(
+      value: 0,
+      child: Text("Todas"),
+    ),
+  ];
   List<DropdownMenuItem<int>> comunidades = [];
 
   TextEditingController campoBusca = TextEditingController();
@@ -62,7 +67,7 @@ class _PessoasState extends State<Pessoas> {
           cidades.add(item);
         });
       }
-      for (var i = 0; i < cidades.length; i++) {
+      for (var i = 1; i < cidades.length; i++) {
         setState(() {
           cidadesListagem.add(
             DropdownMenuItem(
@@ -83,13 +88,13 @@ class _PessoasState extends State<Pessoas> {
     setState(() => carregando = false);
   }
 
-  buscarComunidades() async {
+  buscarComunidades({String? cidade}) async {
     setState(() => carregando = true);
-    var retorno = await ApiComunidade().getComunidadesNomes();
+    // var retorno = await ApiComunidade().getComunidadesNomes();
+    var retorno = await ApiPessoas().getComunidades(cidade ?? "Todos");
     if (retorno.statusCode == 200) {
       comunidades.clear();
-      var decoded = json.decode(retorno.body);
-      for (var item in decoded) {
+      for (var item in json.decode(retorno.body)) {
         setState(() {
           comunidades.add(
             DropdownMenuItem(
@@ -251,13 +256,12 @@ class _PessoasState extends State<Pessoas> {
                           itens: cidadesListagem,
                           selecionado: cidadeSelecionada,
                           onChange: (value) {
-                            setState(() =>
-                                cidadeSelecionada = value == 0 ? 0 : value);
-                            buscarPessoas(codigoComunidade,
-                                cidade: cidadeSelecionada == 0
-                                    ? "Todos"
-                                    // : cidades[cidadeSelecionada - 1]);
-                                    : cidades[cidadeSelecionada]);
+                            setState(() {
+                              cidadeSelecionada = value == 0 ? 0 : value;
+                              codigoComunidade = 0;
+                            });
+                            buscarComunidades(
+                                cidade: cidades[cidadeSelecionada]);
                           },
                         ),
                       ),
@@ -270,14 +274,10 @@ class _PessoasState extends State<Pessoas> {
                           onChange: (value) {
                             setState(() => codigoComunidade = value);
                             buscarPessoas(value,
-                                cidade: cidadeSelecionada == 0
-                                    ? "Todos"
-                                    // : cidades[cidadeSelecionada - 1]);
-                                    : cidades[cidadeSelecionada]);
+                                cidade: cidades[cidadeSelecionada]);
                           },
                         ),
                       ),
-                      const Spacer(),
                     ]),
                   ),
                   const SizedBox(height: 10),

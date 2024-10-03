@@ -8,6 +8,7 @@ class ApiPessoas {
   //GET
   final String _urlGetPessoa = "${Globais.urlBase}pessoa/";
   final String _urlGetPessoas = "${Globais.urlBase}pessoa/comunidade";
+  final String _urlGetComunidades = "${Globais.urlBase}pessoa/comunidades/";
   final String _urlGetPessoasBusca = "${Globais.urlBase}pessoa/comunidade/";
   final String _urlGetPessoaDetalhe = "${Globais.urlBase}pessoa/detalhes/";
   //POST
@@ -29,6 +30,10 @@ class ApiPessoas {
 
   Future<dynamic> getPessoa(int codigoPessoa) async {
     return await _request.getJson(_urlGetPessoa + codigoPessoa.toString());
+  }
+
+  Future<dynamic> getComunidades(String cidade) async {
+    return await _request.getJson(_urlGetComunidades + cidade);
   }
 
   Future<dynamic> getPessoaDetalhe(int codigoPessoa) async {
