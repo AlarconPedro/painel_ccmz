@@ -25,6 +25,7 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
   TextEditingController nomeController = TextEditingController();
   TextEditingController descricaoController = TextEditingController();
   TextEditingController quantidadeController = TextEditingController();
+  TextEditingController quantidadeMinimaController = TextEditingController();
   TextEditingController valorController = TextEditingController();
   TextEditingController codigoBarrasController = TextEditingController();
 
@@ -93,6 +94,7 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
       proMedida: "Uni",
       proCodigo: 0,
       proCodBarras: codigoBarrasController.text,
+      proQuantidadeMinima: int.parse(quantidadeMinimaController.text),
       // proUniMedida: medidas[medidaSelecionada].value,
       proUniMedida: "Un",
       catCodigo: categoriaSelecionada,
@@ -223,6 +225,22 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                     ),
                   ),
                   Expanded(
+                    child: campoTexto(
+                      controlador: quantidadeMinimaController,
+                      titulo: "Quantidade Minima",
+                      dica: "Quantidade Minima Produto",
+                      tipo: TextInputType.number,
+                      icone: CupertinoIcons.number,
+                      validador: (value) {
+                        if (value.isEmpty) {
+                          return "Campo Obrigatório";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
                     child: campoTexto(
                       controlador: valorController,
                       titulo: "Valor",
