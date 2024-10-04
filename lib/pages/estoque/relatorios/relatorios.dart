@@ -26,9 +26,21 @@ class _RelatoriosState extends State<Relatorios> {
     var retorno = await ApiRelatorio().getRelatorioProdutosAcabando();
     if (retorno.statusCode == 200) {
       produtosAcabando.clear();
-      produtosAcabando = (json.decode(retorno.body))
-          .map((e) => ProdutosAcabandoModel.fromJson(e))
-          .toList();
+      for (var item in json.decode(retorno.body)) {
+        produtosAcabando.add(ProdutosAcabandoModel.fromJson(item));
+        // }
+        // produtosAcabando = (json.decode(retorno.body))
+        //     .map((e) => ProdutosAcabandoModel.fromJson(e))
+        //     .toList();
+      }
+    } else {
+      produtosAcabando.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao buscar produtos acabando'),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
     }
     setState(() => carregando = false);
     // produtosAcabando = [
@@ -114,6 +126,9 @@ class _RelatoriosState extends State<Relatorios> {
                           ),
                           Expanded(
                             child: DataTable(
+                              dataTextStyle: const TextStyle(fontSize: 14),
+                              headingTextStyle: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                               columns: const [
                                 DataColumn(label: Text('Código')),
                                 DataColumn(label: Text('Nome')),

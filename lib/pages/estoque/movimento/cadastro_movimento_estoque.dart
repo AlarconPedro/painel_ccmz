@@ -24,7 +24,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
 
   final PageController pageController = PageController();
 
-  final TextEditingController nomeController = TextEditingController();
+  // final TextEditingController nomeController = TextEditingController();
   final TextEditingController quantidadeController = TextEditingController();
   final TextEditingController codigoBarrasController = TextEditingController();
   final TextEditingController descricaoController = TextEditingController();
@@ -34,6 +34,8 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
 
   int tipoSelecionado = 1;
   int codigoProdutoSelecionado = 0;
+
+  String? nomeProdutoSelecionado;
 
   atualizarTamanho() {
     setState(() {
@@ -46,7 +48,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
     final movimentoEstoque = MovimentoEstoqueModel(
       movCodigo: 0,
       proCodigo: codigoProdutoSelecionado,
-      proNome: nomeController.text,
+      proNome: nomeProdutoSelecionado ?? "",
       movQuantidade: int.parse(quantidadeController.text),
       movData: DateTime.now().toString().replaceAll(" ", "T"),
       movTipo: tipoSelecionado == 1 ? "E" : "S",
@@ -141,18 +143,51 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: campoTexto(
-                                      controlador: nomeController,
-                                      titulo: "Nome do Produto",
-                                      dica: "Nome do Produto",
-                                      icone: CupertinoIcons.cube_box,
-                                      validador: (value) {
-                                        if (value.isEmpty) {
-                                          return "Campo Obrigatório";
-                                        }
-                                        return null;
-                                      },
+                                    child: MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          pageController.animateToPage(
+                                            1,
+                                            duration: const Duration(
+                                                milliseconds: 300),
+                                            curve: Curves.easeIn,
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 10),
+                                          child: Container(
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Cores.cinzaEscuro,
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                  nomeProdutoSelecionado ??
+                                                      "Selecione o Produto"),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
+                                    // child: campoTexto(
+                                    //   controlador: nomeController,
+                                    //   titulo: "Nome do Produto",
+                                    //   dica: "Nome do Produto",
+                                    //   icone: CupertinoIcons.cube_box,
+                                    //   validador: (value) {
+                                    //     if (value.isEmpty) {
+                                    //       return "Campo Obrigatório";
+                                    //     }
+                                    //     return null;
+                                    //   },
+                                    // ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 5),
@@ -278,7 +313,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                             selecionarProduto: true,
                             selecionar: (produto) {
                               setState(() {
-                                nomeController.text = produto.proNome;
+                                nomeProdutoSelecionado = produto.proNome;
                                 codigoBarrasController.text =
                                     produto.proCodBarras;
                                 codigoProdutoSelecionado = produto.proCodigo;

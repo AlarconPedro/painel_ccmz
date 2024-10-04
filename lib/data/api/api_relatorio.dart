@@ -7,7 +7,7 @@ class ApiRelatorio {
 
   //GET
   final String urlGetRelatorioProdutosAcabando =
-      "${Globais.urlBase}/Relatorio/ProdutosAcabando";
+      "${Globais.urlBase}Relatorio/ProdutosAcabando";
 
   //GET
   Future<dynamic> getRelatorioProdutosAcabando() async {

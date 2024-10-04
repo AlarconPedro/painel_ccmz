@@ -25,6 +25,7 @@ Widget campoTexto({
           borderRadius: BorderRadius.circular(10),
         ),
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) => validador(value!),
     ),
   );
