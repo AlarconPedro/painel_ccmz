@@ -125,6 +125,13 @@ class NavState extends State<Nav> {
             },
             icon: const Icon(CupertinoIcons.tags),
           ),
+          SideMenuItem(
+            title: 'Relatórios',
+            onTap: (index, sideMenu) {
+              sideMenu.changePage(index);
+            },
+            icon: const Icon(CupertinoIcons.doc_chart),
+          ),
           // SideMenuItem(
           //   title: 'Fornecedores',
           //   onTap: (index, sideMenu) {

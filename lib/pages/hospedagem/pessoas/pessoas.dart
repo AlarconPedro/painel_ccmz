@@ -24,7 +24,7 @@ class _PessoasState extends State<Pessoas> {
   List<DropdownMenuItem<int>> cidadesListagem = [
     const DropdownMenuItem(
       value: 0,
-      child: Text("Todas"),
+      child: Text("Todos"),
     ),
   ];
   List<DropdownMenuItem<int>> comunidades = [];
@@ -62,6 +62,7 @@ class _PessoasState extends State<Pessoas> {
     if (retorno.statusCode == 200) {
       cidades.clear();
       var decoded = json.decode(retorno.body);
+      cidades.add("Todos");
       for (var item in decoded) {
         setState(() {
           cidades.add(item);
@@ -257,7 +258,7 @@ class _PessoasState extends State<Pessoas> {
                           selecionado: cidadeSelecionada,
                           onChange: (value) {
                             setState(() {
-                              cidadeSelecionada = value == 0 ? 0 : value;
+                              cidadeSelecionada = value;
                               codigoComunidade = 0;
                             });
                             buscarComunidades(

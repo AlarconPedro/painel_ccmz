@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/classes/classes.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
+import 'package:painel_ccmn/pages/estoque/relatorios/relatorios.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/pages/sorteios/lista_ganhador_cupon.dart';
 
@@ -36,6 +37,7 @@ class _PageControlState extends State<PageControl> {
             Produtos(),
             const MovimentoEstoque(),
             const Categorias(),
+            const Relatorios(),
           ];
         }
       case 'Financeiro':

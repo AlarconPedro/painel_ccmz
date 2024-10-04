@@ -95,6 +95,7 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
       proCodigo: 0,
       proCodBarras: codigoBarrasController.text,
       proQuantidadeMinima: int.parse(quantidadeMinimaController.text),
+      proImagem: "",
       // proUniMedida: medidas[medidaSelecionada].value,
       proUniMedida: "Un",
       catCodigo: categoriaSelecionada,
