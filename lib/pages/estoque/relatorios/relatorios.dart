@@ -101,67 +101,65 @@ class _RelatoriosState extends State<Relatorios> {
                 borderRadius: BorderRadius.circular(10),
                 color: Cores.branco,
               ),
-              child: Expanded(
-                child: carregando
-                    ? const Center(child: CarregamentoIOS())
-                    : Column(
-                        children: [
-                          const SizedBox(
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                    'Produtos Acabando',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+              child: carregando
+                  ? const Center(child: CarregamentoIOS())
+                  : Column(
+                      children: [
+                        const SizedBox(
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  'Produtos Acabando',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: DataTable(
-                              dataTextStyle: const TextStyle(fontSize: 14),
-                              headingTextStyle: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                              columns: const [
-                                DataColumn(label: Text('Código')),
-                                DataColumn(label: Text('Nome')),
-                                // DataColumn(label: Text('Imagem')),
-                                DataColumn(label: Text('Quantidade')),
-                                DataColumn(label: Text('Valor')),
-                                DataColumn(label: Text('Medida')),
-                                DataColumn(label: Text('Unidade')),
-                                DataColumn(label: Text('Descrição')),
-                              ],
-                              rows: produtosAcabando
-                                  .map(
-                                    (e) => DataRow(
-                                      cells: [
-                                        DataCell(Text(e.proCodigo.toString())),
-                                        DataCell(Text(e.proNome)),
-                                        // DataCell(Text(e.proImagem)),
-                                        DataCell(
-                                            Text(e.proQuantidade.toString())),
-                                        DataCell(Text(e.proValor.toString())),
-                                        DataCell(Text(e.proMedida)),
-                                        DataCell(Text(e.proUniMedida)),
+                        ),
+                        Expanded(
+                          child: DataTable(
+                            dataTextStyle: const TextStyle(fontSize: 14),
+                            headingTextStyle: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                            columns: const [
+                              DataColumn(label: Text('Código')),
+                              DataColumn(label: Text('Nome')),
+                              // DataColumn(label: Text('Imagem')),
+                              DataColumn(label: Text('Quantidade')),
+                              DataColumn(label: Text('Valor')),
+                              DataColumn(label: Text('Medida')),
+                              DataColumn(label: Text('Unidade')),
+                              DataColumn(label: Text('Descrição')),
+                            ],
+                            rows: produtosAcabando
+                                .map(
+                                  (e) => DataRow(
+                                    cells: [
+                                      DataCell(Text(e.proCodigo.toString())),
+                                      DataCell(Text(e.proNome)),
+                                      // DataCell(Text(e.proImagem)),
+                                      DataCell(
+                                          Text(e.proQuantidade.toString())),
+                                      DataCell(Text(e.proValor.toString())),
+                                      DataCell(Text(e.proMedida)),
+                                      DataCell(Text(e.proUniMedida)),
 
-                                        DataCell(Text(e.proDescricao)),
-                                      ],
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
+                                      DataCell(Text(e.proDescricao)),
+                                    ],
+                                  ),
+                                )
+                                .toList(),
                           ),
-                        ],
-                      ),
-              ),
+                        ),
+                      ],
+                    ),
             ),
           ),
         ),
