@@ -163,6 +163,7 @@ class _SorteiosState extends State<Sorteios> {
                       data: sorteios[index].sorData,
                       ganhador: sorteios[index].sorNomeGanhador,
                       nome: sorteios[index].sorNome,
+                      telefone: sorteios[index].sorNomeGanhador,
                       onTap: () {
                         Navigator.push(
                           context,

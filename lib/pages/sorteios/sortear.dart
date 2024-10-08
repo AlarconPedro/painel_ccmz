@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:confetti/confetti.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -22,6 +23,8 @@ class _SortearState extends State<Sortear> {
   double largura = 300;
   double altura = 350;
 
+  Color corBackground = Cores.verdeMedio;
+
   // final ConfettiController confettiController = ConfettiController();
 
   double randomInRange(double min, double max) {
@@ -40,6 +43,7 @@ class _SortearState extends State<Sortear> {
           sorteado = true;
           largura = 350;
           altura = 150;
+          corBackground = Cores.verdeMedio;
         });
 
         int total = 60;
@@ -121,7 +125,7 @@ class _SortearState extends State<Sortear> {
   @override
   initState() {
     super.initState();
-    sortear();
+    // sortear();
     // confettiController.play();
   }
 
@@ -142,44 +146,73 @@ class _SortearState extends State<Sortear> {
               width: largura,
               height: altura,
               decoration: BoxDecoration(
-                color: Cores.verdeMedio,
+                color: corBackground,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisAlignment: sorteado
-                        ? MainAxisAlignment.center
-                        : MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        texto,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SizedBox(
+                      height: 50,
+                      child: CupertinoTextField(
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        maxLength: 6,
                         style: const TextStyle(
-                          color: Cores.branco,
+                          color: Cores.preto,
                           fontSize: 20,
                         ),
+                        decoration: BoxDecoration(
+                          color: Cores.branco,
+                          border: Border.all(
+                            color: Cores.preto,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        // placeholder: texto,
                       ),
-                      sorteado
-                          ? const Text(
-                              "Fulano de Tal",
-                              style: TextStyle(
-                                color: Cores.branco,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: LoadingAnimationWidget.inkDrop(
-                                color: Cores.branco,
-                                size: 200,
-                              ),
-                            ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
+              // Center(
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(10),
+              //     child: Column(
+              //       mainAxisAlignment: sorteado
+              //           ? MainAxisAlignment.center
+              //           : MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text(
+              //           texto,
+              //           style: const TextStyle(
+              //             color: Cores.branco,
+              //             fontSize: 20,
+              //           ),
+              //         ),
+              //         sorteado
+              //             ? const Text(
+              //                 "Fulano de Tal",
+              //                 style: TextStyle(
+              //                   color: Cores.branco,
+              //                   fontSize: 30,
+              //                   fontWeight: FontWeight.bold,
+              //                 ),
+              //               )
+              //             : Padding(
+              //                 padding: const EdgeInsets.only(bottom: 20),
+              //                 child: LoadingAnimationWidget.inkDrop(
+              //                   color: Cores.branco,
+              //                   size: 200,
+              //                 ),
+              //               ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ),
           ),
         ),
