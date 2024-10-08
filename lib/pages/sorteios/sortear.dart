@@ -23,7 +23,9 @@ class _SortearState extends State<Sortear> {
   double largura = 300;
   double altura = 350;
 
-  Color corBackground = Cores.verdeMedio;
+  Color corBackground = Cores.branco;
+
+  final busca = TextEditingController();
 
   // final ConfettiController confettiController = ConfettiController();
 
@@ -154,26 +156,52 @@ class _SortearState extends State<Sortear> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SizedBox(
-                      height: 50,
-                      child: CupertinoTextField(
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        maxLength: 6,
-                        style: const TextStyle(
-                          color: Cores.preto,
-                          fontSize: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Cores.branco,
-                          border: Border.all(
-                            color: Cores.preto,
-                            width: 2,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 55,
+                            child: CupertinoTextField(
+                              controller: busca,
+                              maxLength: 6,
+                              onSubmitted: (value) async {
+                                // if (busca.text.isNotEmpty) {
+                                //   await buscarGanhador("T", cupom: value);
+                                //   busca.clear();
+                                // } else {
+                                //   await buscarGanhador("T");
+                                // }
+                              },
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                border: Border.all(
+                                  color: Cores.cinzaEscuro,
+                                ),
+                              ),
+                              placeholder: 'Pesquisar',
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(10),
                         ),
-                        // placeholder: texto,
-                      ),
+                        // const SizedBox(width: 10),
+                        // CupertinoButton(
+                        //   color: Cores.preto,
+                        //   onPressed: () async {
+                        //     // if (busca.text.isNotEmpty) {
+                        //     //   await buscarGanhador("T", cupom: busca.text);
+                        //     //   busca.clear();
+                        //     // } else {
+                        //     //   await buscarGanhador("T");
+                        //     // }
+                        //   },
+                        //   padding: const EdgeInsets.symmetric(
+                        //     vertical: 16,
+                        //     horizontal: 16,
+                        //   ),
+                        //   child: const Icon(CupertinoIcons.search),
+                        // ),
+                      ],
                     ),
                   ),
                 ],
