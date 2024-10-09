@@ -6,6 +6,8 @@ class GanhadorModel {
   String parUf;
   int cupCodigo;
   String cupNumero;
+  bool cupSorteado;
+  bool cupVendido;
 
   GanhadorModel({
     required this.parCodigo,
@@ -15,6 +17,8 @@ class GanhadorModel {
     required this.parUf,
     required this.cupCodigo,
     required this.cupNumero,
+    required this.cupSorteado,
+    required this.cupVendido,
   });
 
   factory GanhadorModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,8 @@ class GanhadorModel {
       parUf: json['parUf'] ?? '',
       cupCodigo: json['cupCodigo'] ?? 0,
       cupNumero: json['cupNumero'] ?? '',
+      cupSorteado: json['cupSorteado'] ?? false,
+      cupVendido: json['cupVendido'] ?? false,
     );
   }
 }

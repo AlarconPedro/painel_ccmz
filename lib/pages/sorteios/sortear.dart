@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:confetti/confetti.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:painel_ccmn/models/ganhador_model.dart';
 
 import '../../classes/classes.dart';
 import '../../data/api/promocao/api_promocao.dart';
@@ -23,12 +25,24 @@ class _SortearState extends State<Sortear> {
   bool sorteado = false;
   bool carregando = false;
 
-  double largura = 400;
-  double altura = 250;
+  double largura = 350;
+  double altura = 180;
 
   Color corBackground = Cores.branco;
 
   final busca = TextEditingController();
+
+  GanhadorModel ganhador = GanhadorModel(
+    cupCodigo: 0,
+    cupNumero: "",
+    cupSorteado: false,
+    cupVendido: false,
+    parCidade: "",
+    parCodigo: 0,
+    parFone: "",
+    parNome: "",
+    parUf: "",
+  );
 
   // final ConfettiController confettiController = ConfettiController();
 
@@ -36,27 +50,43 @@ class _SortearState extends State<Sortear> {
     return min + Random().nextDouble() * (max - min);
   }
 
+  limparDados() async {
+    setState(() {
+      texto = 'Digite o Cupom';
+      largura = 350;
+      altura = 180;
+      corBackground = Cores.branco;
+      sorteado = false;
+      ganhador = GanhadorModel(
+        cupCodigo: 0,
+        cupNumero: "",
+        cupSorteado: false,
+        cupVendido: false,
+        parCidade: "",
+        parCodigo: 0,
+        parFone: "",
+        parNome: "",
+        parUf: "",
+      );
+    });
+  }
+
   sortear() async {
     setState(() => carregando = true);
+    limparDados();
     var ganhador = await ApiPromocao().sortearCupom(busca.text);
     if (ganhador.statusCode == 200) {
+      var decoded = json.decode(ganhador.body);
       setState(() {
-        texto = 'Parabéns + ${ganhador.body.nome}';
+        texto = 'Parabéns ';
         sorteado = true;
         largura = 600;
         altura = 400;
         corBackground = Cores.verdeMedio;
+        ganhador = GanhadorModel.fromJson(decoded);
       });
-      // Future.delayed(const Duration(seconds: 1), () {
-      //   setState(() {
-      //     texto = 'Parabéns';
-      //     sorteado = true;
-      //     largura = 600;
-      //     altura = 400;
-      //     corBackground = Cores.verdeMedio;
-      //   });
 
-      int total = 60;
+      int total = 40;
       int progress = 0;
 
       Future.doWhile(() async {
@@ -95,11 +125,25 @@ class _SortearState extends State<Sortear> {
     } else if (ganhador.statusCode == 404) {
       setState(() {
         texto = 'Nenhum Cupom Encontrado';
+        // sorteado = true;
       });
-    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Nenhum Cupom Encontrado !"),
+        ),
+      );
+    } else if (ganhador.statusCode == 400) {
       setState(() {
-        texto = 'Erro ao sortear o Cupom';
+        texto = 'Cupom já sorteado';
+        // sorteado = true;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Cupom já sorteado !"),
+        ),
+      );
     }
 
     // Confetti.launch(
@@ -193,152 +237,215 @@ class _SortearState extends State<Sortear> {
             onTap: () {
               sorteado ? Navigator.pop(context) : null;
             },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-              width: largura,
-              height: altura,
-              decoration: BoxDecoration(
-                color: corBackground,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      texto,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  )),
-                  Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: AbsorbPointer(
-                          absorbing: carregando,
-                          child: Opacity(
-                            opacity: carregando ? 0.5 : 1,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: SizedBox(
-                                    height: 55,
-                                    child: CupertinoTextField(
-                                      controller: busca,
-                                      maxLength: 6,
-                                      onSubmitted: (value) async {
-                                        // if (busca.text.isNotEmpty) {
-                                        //   await buscarGanhador("T", cupom: value);
-                                        //   busca.clear();
-                                        // } else {
-                                        //   await buscarGanhador("T");
-                                        // }
-                                      },
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                        border: Border.all(
-                                          color: Cores.cinzaEscuro,
-                                        ),
-                                      ),
-                                      placeholder: 'Cupon',
+            child: Card(
+              color: corBackground,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+                width: largura,
+                height: altura,
+                decoration: BoxDecoration(
+                  color: corBackground,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: sorteado
+                    ? Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Text(
+                                    "$texto ${ganhador.parNome}",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Cores.branco,
                                     ),
                                   ),
                                 ),
-                                // const SizedBox(width: 10),
-                                // CupertinoButton(
-                                //   color: Cores.preto,
-                                //   onPressed: () async {
-                                //     // if (busca.text.isNotEmpty) {
-                                //     //   await buscarGanhador("T", cupom: busca.text);
-                                //     //   busca.clear();
-                                //     // } else {
-                                //     //   await buscarGanhador("T");
-                                //     // }
-                                //   },
-                                //   padding: const EdgeInsets.symmetric(
-                                //     vertical: 16,
-                                //     horizontal: 16,
-                                //   ),
-                                //   child: const Icon(CupertinoIcons.search),
-                                // ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Cupom: ${ganhador.cupNumero}",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Cores.branco,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Cidade: ${ganhador.parCidade} - ${ganhador.parUf}",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Cores.branco,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Telefone: ${ganhador.parFone}",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Cores.branco,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          sorteado
+                              ? Center(
+                                  child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    texto,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ))
+                              : const SizedBox(),
+                          Stack(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: AbsorbPointer(
+                                  absorbing: carregando,
+                                  child: Opacity(
+                                    opacity: carregando ? 0.5 : 1,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: SizedBox(
+                                            height: 55,
+                                            child: CupertinoTextField(
+                                              controller: busca,
+                                              maxLength: 6,
+                                              onSubmitted: (value) async {
+                                                // if (busca.text.isNotEmpty) {
+                                                //   await buscarGanhador("T", cupom: value);
+                                                //   busca.clear();
+                                                // } else {
+                                                //   await buscarGanhador("T");
+                                                // }
+                                              },
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                                border: Border.all(
+                                                  color: Cores.cinzaEscuro,
+                                                ),
+                                              ),
+                                              placeholder: 'Cupon',
+                                            ),
+                                          ),
+                                        ),
+                                        // const SizedBox(width: 10),
+                                        // CupertinoButton(
+                                        //   color: Cores.preto,
+                                        //   onPressed: () async {
+                                        //     // if (busca.text.isNotEmpty) {
+                                        //     //   await buscarGanhador("T", cupom: busca.text);
+                                        //     //   busca.clear();
+                                        //     // } else {
+                                        //     //   await buscarGanhador("T");
+                                        //     // }
+                                        //   },
+                                        //   padding: const EdgeInsets.symmetric(
+                                        //     vertical: 16,
+                                        //     horizontal: 16,
+                                        //   ),
+                                        //   child: const Icon(CupertinoIcons.search),
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              carregando
+                                  ? Positioned(
+                                      right: 165,
+                                      top: 5,
+                                      child: LoadingAnimationWidget
+                                          .threeArchedCircle(
+                                              color: Cores.cinzaMedio,
+                                              size: 40),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          carregando || sorteado
+                              ? const SizedBox()
+                              : CupertinoButton(
+                                  color: Cores.verdeMedio,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 30),
+                                  onPressed: () {
+                                    sortear();
+                                  },
+                                  child: const Text("Sortear"),
+                                )
+                        ],
                       ),
-                      carregando
-                          ? Positioned(
-                              right: 180,
-                              top: 5,
-                              child: LoadingAnimationWidget.threeArchedCircle(
-                                  color: Cores.cinzaMedio, size: 40),
-                              // child: CupertinoButton(
-                              //   color: Cores.vermelhoMedio,
-                              //   onPressed: () {
-                              //     Navigator.pop(context);
-                              //   },
-                              //   padding: const EdgeInsets.all(10),
-                              //   child: const Icon(CupertinoIcons.clear),
-                              // ),
-                            )
-                          : const SizedBox(),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  carregando || sorteado
-                      ? const SizedBox()
-                      : CupertinoButton(
-                          color: Cores.verdeMedio,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 30),
-                          onPressed: () {
-                            sortear();
-                          },
-                          child: const Text("Sortear"),
-                        )
-                ],
+                // Center(
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(10),
+                //     child: Column(
+                //       mainAxisAlignment: sorteado
+                //           ? MainAxisAlignment.center
+                //           : MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Text(
+                //           texto,
+                //           style: const TextStyle(
+                //             color: Cores.branco,
+                //             fontSize: 20,
+                //           ),
+                //         ),
+                //         sorteado
+                //             ? const Text(
+                //                 "Fulano de Tal",
+                //                 style: TextStyle(
+                //                   color: Cores.branco,
+                //                   fontSize: 30,
+                //                   fontWeight: FontWeight.bold,
+                //                 ),
+                //               )
+                //             : Padding(
+                //                 padding: const EdgeInsets.only(bottom: 20),
+                //                 child: LoadingAnimationWidget.inkDrop(
+                //                   color: Cores.branco,
+                //                   size: 200,
+                //                 ),
+                //               ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ),
-              // Center(
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(10),
-              //     child: Column(
-              //       mainAxisAlignment: sorteado
-              //           ? MainAxisAlignment.center
-              //           : MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         Text(
-              //           texto,
-              //           style: const TextStyle(
-              //             color: Cores.branco,
-              //             fontSize: 20,
-              //           ),
-              //         ),
-              //         sorteado
-              //             ? const Text(
-              //                 "Fulano de Tal",
-              //                 style: TextStyle(
-              //                   color: Cores.branco,
-              //                   fontSize: 30,
-              //                   fontWeight: FontWeight.bold,
-              //                 ),
-              //               )
-              //             : Padding(
-              //                 padding: const EdgeInsets.only(bottom: 20),
-              //                 child: LoadingAnimationWidget.inkDrop(
-              //                   color: Cores.branco,
-              //                   size: 200,
-              //                 ),
-              //               ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ),
           ),
         ),

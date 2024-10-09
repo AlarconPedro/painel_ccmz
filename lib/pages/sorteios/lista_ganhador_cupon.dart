@@ -54,8 +54,9 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
       abrirTelaCadastro: () async {
         await Navigator.push(
           context,
-          CupertinoPageRoute(
+          CupertinoDialogRoute(
             builder: (context) => const Sortear(),
+            context: context,
           ),
         );
         buscarGanhador('T');
