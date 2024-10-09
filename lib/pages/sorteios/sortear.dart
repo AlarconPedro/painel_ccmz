@@ -41,58 +41,60 @@ class _SortearState extends State<Sortear> {
     var ganhador = await ApiPromocao().sortearCupom(busca.text);
     if (ganhador.statusCode == 200) {
       setState(() {
-        texto = 'O ganhador é: ${ganhador.data["nome"]}';
+        texto = 'Parabéns + ${ganhador.body.nome}';
+        sorteado = true;
+        largura = 600;
+        altura = 400;
+        corBackground = Cores.verdeMedio;
       });
+      // Future.delayed(const Duration(seconds: 1), () {
+      //   setState(() {
+      //     texto = 'Parabéns';
+      //     sorteado = true;
+      //     largura = 600;
+      //     altura = 400;
+      //     corBackground = Cores.verdeMedio;
+      //   });
 
-      Future.delayed(const Duration(seconds: 1), () {
-        setState(() {
-          texto = 'Parabéns';
-          sorteado = true;
-          largura = 600;
-          altura = 400;
-          corBackground = Cores.verdeMedio;
-        });
+      int total = 60;
+      int progress = 0;
 
-        int total = 60;
-        int progress = 0;
+      Future.doWhile(() async {
+        await Future.delayed(const Duration(milliseconds: 350));
 
-        Future.doWhile(() async {
-          await Future.delayed(const Duration(milliseconds: 350));
+        progress++;
 
-          progress++;
+        int count = ((1 - progress / total) * 50).toInt();
 
-          int count = ((1 - progress / total) * 50).toInt();
+        Confetti.launch(context,
+            options: ConfettiOptions(
+              particleCount: count,
+              // startVelocity: 5,
+              spread: 360,
+              scalar: 1.5,
+              gravity: 0.5,
+              ticks: 350,
+              x: randomInRange(0.1, 0.3),
+              y: Random().nextDouble() - 0.2,
+            ));
 
-          Confetti.launch(context,
-              options: ConfettiOptions(
-                particleCount: count,
-                // startVelocity: 5,
-                spread: 360,
-                scalar: 1.5,
-                gravity: 0.5,
-                ticks: 350,
-                x: randomInRange(0.1, 0.3),
-                y: Random().nextDouble() - 0.2,
-              ));
+        Confetti.launch(context,
+            options: ConfettiOptions(
+              particleCount: count,
+              // startVelocity: 30,
+              spread: 360,
+              scalar: 1.5,
+              gravity: 0.5,
+              ticks: 350,
+              x: randomInRange(0.7, 0.9),
+              y: Random().nextDouble() - 0.2,
+            ));
 
-          Confetti.launch(context,
-              options: ConfettiOptions(
-                particleCount: count,
-                // startVelocity: 30,
-                spread: 360,
-                scalar: 1.5,
-                gravity: 0.5,
-                ticks: 350,
-                x: randomInRange(0.7, 0.9),
-                y: Random().nextDouble() - 0.2,
-              ));
-
-          return progress < total;
-        });
+        return progress < total;
       });
     } else if (ganhador.statusCode == 404) {
       setState(() {
-        texto = 'Não foi encontrado nenhum Cupom com esse Código';
+        texto = 'Nenhum Cupom Encontrado';
       });
     } else {
       setState(() {
