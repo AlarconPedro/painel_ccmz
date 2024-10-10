@@ -307,6 +307,18 @@ class _SortearState extends State<Sortear> {
                               ),
                             ],
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CupertinoButton(
+                                color: Cores.verdeMedio,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Fechar"),
+                              ),
+                            ],
+                          ),
                         ],
                       )
                     : Column(
