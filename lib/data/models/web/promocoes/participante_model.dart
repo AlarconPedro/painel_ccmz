@@ -23,18 +23,18 @@ class ParticipanteModel {
     required this.proCodigo,
   });
 
-  factory ParticipanteModel.fromMap(Map<String, dynamic> map) {
+  factory ParticipanteModel.fromJson(Map<String, dynamic> map) {
     return ParticipanteModel(
-      parCodigo: map['parCodigo'],
-      parNome: map['parNome'],
-      parCpf: map['parCpf'],
-      parFone: map['parFone'],
-      parEndereco: map['parEndereco'],
-      parCidade: map['parCidade'],
-      parUF: map['parUF'],
-      parDataNasc: map['parDataNasc'],
-      parEmail: map['parEmail'],
-      proCodigo: map['proCodigo'],
+      parCodigo: map['parCodigo'] ?? 0,
+      parNome: map['parNome'] ?? '',
+      parCpf: map['parCpf'] ?? '',
+      parFone: map['parFone'] ?? '',
+      parEndereco: map['parEndereco'] ?? '',
+      parCidade: map['parCidade'] ?? '',
+      parUF: map['parUF'] ?? '',
+      parDataNasc: map['parDataNasc'] ?? '',
+      parEmail: map['parEmail'] ?? '',
+      proCodigo: map['proCodigo'] ?? 0,
     );
   }
 

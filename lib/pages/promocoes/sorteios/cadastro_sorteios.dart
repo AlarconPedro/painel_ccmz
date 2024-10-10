@@ -4,7 +4,7 @@ import 'package:painel_ccmn/models/sorteios_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/cadastro_form.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
-import '../../classes/classes.dart';
+import '../../../classes/classes.dart';
 
 class CadastroSorteio extends StatefulWidget {
   SorteiosModel? sorteio;

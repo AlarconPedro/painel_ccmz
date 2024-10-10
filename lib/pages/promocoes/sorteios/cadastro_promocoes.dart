@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
-import '../../classes/classes.dart';
+import '../../../classes/classes.dart';
 
 class CadastroPromocoes extends StatefulWidget {
   const CadastroPromocoes({super.key});

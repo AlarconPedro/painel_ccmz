@@ -3,10 +3,10 @@ import 'package:painel_ccmn/classes/classes.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/pages/estoque/relatorios/relatorios.dart';
 import 'package:painel_ccmn/pages/pages.dart';
-import 'package:painel_ccmn/pages/sorteios/lista_ganhador_cupon.dart';
+import 'package:painel_ccmn/pages/promocoes/sorteios/lista_ganhador_cupon.dart';
 
-import '../pages/sorteios/promocoes.dart';
-import '../pages/sorteios/sorteios.dart';
+import '../pages/promocoes/promocoes/promocoes.dart';
+import '../pages/promocoes/promocoes/sorteios.dart';
 
 class PageControl extends StatefulWidget {
   const PageControl({super.key});

@@ -1,17 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:painel_ccmn/models/sorteios_model.dart';
-import 'package:painel_ccmn/pages/sorteios/participantes.dart';
-import 'package:painel_ccmn/pages/sorteios/sorteios.dart';
+import 'package:painel_ccmn/pages/promocoes/promocoes/cupons.dart';
+import 'package:painel_ccmn/pages/promocoes/promocoes/participantes.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
-import '../../data/api/promocao/api_promocao.dart';
-import '../../models/promocoes_model.dart';
-import '../../widgets/cards/sorteio/card_promocao.dart';
-import '../pages.dart';
-import 'cadastro_promocoes.dart';
-import 'cupons.dart';
+import '../../../data/api/promocao/api_promocao.dart';
+import '../../../models/promocoes_model.dart';
+import '../../../widgets/cards/sorteio/card_promocao.dart';
+import '../../pages.dart';
+import '../sorteios/cadastro_promocoes.dart';
+import 'sorteios.dart';
 
 class Promocoes extends StatefulWidget {
   const Promocoes({super.key});
@@ -131,7 +130,8 @@ class _PromocoesState extends State<Promocoes> {
                           Navigator.push(
                             context,
                             CupertinoDialogRoute(
-                              builder: (context) => const Participantes(),
+                              builder: (context) => Participantes(
+                                  codigoPromocao: promocao[index].proCodigo),
                               context: context,
                             ),
                           );

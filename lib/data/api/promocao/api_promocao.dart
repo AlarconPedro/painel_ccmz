@@ -57,8 +57,9 @@ class ApiPromocao {
     return await _request.getJson(_urlGetCuponsPromocao);
   }
 
-  Future<dynamic> getParticipantesPromocao() async {
-    return await _request.getJson(_urlGetParticipantesPromocao);
+  Future<dynamic> getParticipantesPromocao(int codigoPromocao) async {
+    return await _request
+        .getJson("$_urlGetParticipantesPromocao/$codigoPromocao");
   }
 
   Future<dynamic> sortearCupom(String codigoCupom) async {

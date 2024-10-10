@@ -7,8 +7,8 @@ import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:painel_ccmn/models/ganhador_model.dart';
 
-import '../../classes/classes.dart';
-import '../../data/api/promocao/api_promocao.dart';
+import '../../../classes/classes.dart';
+import '../../../data/api/promocao/api_promocao.dart';
 
 class Sortear extends StatefulWidget {
   const Sortear({super.key});
