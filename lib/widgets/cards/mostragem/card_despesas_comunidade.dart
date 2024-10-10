@@ -158,7 +158,7 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                       height: 45,
                       child: Center(
                           child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Row(
                           children: [
                             Text(

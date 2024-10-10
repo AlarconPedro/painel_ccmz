@@ -19,7 +19,7 @@ class _PageTesteState extends State<PageTeste> {
         body: Center(
       child: Column(
         children: [
-          Text("Teste"),
+          const Text("Teste"),
           Row(
             children: [
               ElevatedButton(

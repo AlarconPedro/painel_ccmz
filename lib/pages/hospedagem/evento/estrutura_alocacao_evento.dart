@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/classes.dart';
-import '../../../widgets/widgets.dart';
 
 class EstruturaAlocacaoEvento extends StatefulWidget {
   GlobalKey<FormState> formKey;

@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:painel_ccmn/models/ganhador_model.dart';
@@ -74,14 +72,14 @@ class _SortearState extends State<Sortear> {
   sortear() async {
     setState(() => carregando = true);
     limparDados();
-    var ganhador = await ApiPromocao().sortearCupom(busca.text);
-    if (ganhador.statusCode == 200) {
-      var decoded = json.decode(ganhador.body);
+    var retorno = await ApiPromocao().sortearCupom(busca.text);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
       setState(() {
         texto = 'Parabéns ';
         sorteado = true;
-        largura = 600;
-        altura = 400;
+        largura = 500;
+        altura = 300;
         corBackground = Cores.verdeMedio;
         ganhador = GanhadorModel.fromJson(decoded);
       });
@@ -122,7 +120,7 @@ class _SortearState extends State<Sortear> {
 
         return progress < total;
       });
-    } else if (ganhador.statusCode == 404) {
+    } else if (retorno.statusCode == 404) {
       setState(() {
         texto = 'Nenhum Cupom Encontrado';
         // sorteado = true;
@@ -133,7 +131,7 @@ class _SortearState extends State<Sortear> {
           content: Text("Nenhum Cupom Encontrado !"),
         ),
       );
-    } else if (ganhador.statusCode == 400) {
+    } else if (retorno.statusCode == 400) {
       setState(() {
         texto = 'Cupom já sorteado';
         // sorteado = true;
@@ -251,23 +249,25 @@ class _SortearState extends State<Sortear> {
                 child: sorteado
                     ? Column(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
                                     "$texto ${ganhador.parNome}",
                                     style: const TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 22,
                                       fontWeight: FontWeight.bold,
                                       color: Cores.branco,
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
+                          const SizedBox(height: 10),
                           Row(
                             children: [
                               Expanded(
@@ -307,17 +307,23 @@ class _SortearState extends State<Sortear> {
                               ),
                             ],
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CupertinoButton(
-                                color: Cores.verdeMedio,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("Fechar"),
-                              ),
-                            ],
+                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CupertinoButton(
+                                  color: Cores.branco,
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Fechar",
+                                      style:
+                                          TextStyle(color: Cores.verdeMedio)),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       )

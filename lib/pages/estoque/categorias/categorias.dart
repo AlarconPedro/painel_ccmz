@@ -6,7 +6,6 @@ import 'package:painel_ccmn/pages/pages.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/data.dart';
-import '../../../data/models/web/hospedagem/categoria_model.dart';
 import '../../../widgets/cards/listagem/estoque/card_categoria.dart';
 import '../../../widgets/widgets.dart';
 

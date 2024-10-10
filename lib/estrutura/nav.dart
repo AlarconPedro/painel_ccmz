@@ -1,9 +1,7 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
 
-import '../../classes/cores.dart';
 import '../classes/classes.dart';
 
 class Nav extends StatefulWidget {

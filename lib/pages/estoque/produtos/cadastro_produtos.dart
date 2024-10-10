@@ -20,7 +20,7 @@ class CadastroProdutos extends StatefulWidget {
 }
 
 class _CadastroProdutosState extends State<CadastroProdutos> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController nomeController = TextEditingController();
   TextEditingController descricaoController = TextEditingController();

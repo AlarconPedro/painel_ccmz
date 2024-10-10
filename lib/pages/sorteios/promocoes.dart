@@ -65,7 +65,7 @@ class _PromocoesState extends State<Promocoes> {
       tituloBoto: 'Nova Promoção',
       tituloPagina: 'Promoções',
       filtro: false,
-      itens: [],
+      itens: const [],
       label: 'Promoções',
       onChange: () {},
       selecionado: 0,

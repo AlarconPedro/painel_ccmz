@@ -16,7 +16,7 @@ class CadastroUsuario extends StatefulWidget {
 }
 
 class _CadastroUsuarioState extends State<CadastroUsuario> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController senhaController = TextEditingController();
   TextEditingController emailController = TextEditingController();

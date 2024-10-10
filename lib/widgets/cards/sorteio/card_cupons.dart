@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../classes/classes.dart';
-
 Widget cardCupons({
   required BuildContext context,
   required String nome,

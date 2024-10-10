@@ -147,7 +147,7 @@ class _ParticipantesState extends State<Participantes> {
                         ),
                         CadastroForm(
                           formKey: GlobalKey<FormState>(),
-                          campos: [],
+                          campos: const [],
                           titulo: "Cadastro de Participantes",
                           gravar: () {},
                           cancelar: () {

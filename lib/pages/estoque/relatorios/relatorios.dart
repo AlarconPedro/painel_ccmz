@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:painel_ccmn/data/api/api_relatorio.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 

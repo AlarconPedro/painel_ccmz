@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../classes/classes.dart';
-import '../pages.dart';
 
 class Cupons extends StatefulWidget {
   const Cupons({super.key});

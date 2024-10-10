@@ -99,9 +99,9 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
     if (retorno.statusCode == 200) {
       listaComunidade.clear();
       listaComunidade.add(
-        DropdownMenuItem(
+        const DropdownMenuItem(
           value: 0,
-          child: const Text("Selecione a comunidade"),
+          child: Text("Selecione a comunidade"),
         ),
       );
       var decoded = json.decode(retorno.body);

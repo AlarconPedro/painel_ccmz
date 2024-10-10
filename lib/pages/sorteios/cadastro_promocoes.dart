@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
 import '../../classes/classes.dart';
-import '../../widgets/widgets.dart';
 
 class CadastroPromocoes extends StatefulWidget {
   const CadastroPromocoes({super.key});

@@ -17,7 +17,7 @@ class CadastroComunidade extends StatefulWidget {
 }
 
 class _CadastroComunidadeState extends State<CadastroComunidade> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController nomeController = TextEditingController();
   TextEditingController cidadeController = TextEditingController();

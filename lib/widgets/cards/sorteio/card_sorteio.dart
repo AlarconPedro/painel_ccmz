@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmn/models/sorteios_model.dart';
 
 import '../../../classes/classes.dart';
-import '../../../funcoes/funcoes.dart';
 
 Widget cardSorteio({
   required BuildContext context,

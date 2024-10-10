@@ -71,7 +71,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
           ),
           child: DropDownForm(
             label: "Promoção do Sorteio",
-            itens: [],
+            itens: const [],
             selecionado: 0,
             onChange: (value) {},
           ),
@@ -83,7 +83,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
           ),
           child: DropDownForm(
             label: "Prémio do Sorteio",
-            itens: [],
+            itens: const [],
             selecionado: 0,
             onChange: (value) {},
           ),

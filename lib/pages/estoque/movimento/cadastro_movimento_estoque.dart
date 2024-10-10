@@ -2,12 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/models/web/movimento_estoque_model.dart';
 import 'package:painel_ccmn/pages/estoque/produtos/produtos.dart';
-import 'package:painel_ccmn/pages/hospedagem/esqueleto/cadastro_form.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/api/produto/api_movimento_estoque.dart';
-import '../../../funcoes/funcoes.dart';
 import '../../../widgets/form/campo_texto.dart';
 import '../../pages.dart';
 

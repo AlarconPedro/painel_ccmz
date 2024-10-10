@@ -17,7 +17,7 @@ class CadastroCategorias extends StatefulWidget {
 }
 
 class _CadastroCategoriasState extends State<CadastroCategorias> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController nomeController = TextEditingController();
 

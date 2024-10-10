@@ -7,7 +7,6 @@ import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../classes/classes.dart';
-import '../../../estrutura/estrutura.dart';
 
 class Evento extends StatefulWidget {
   const Evento({super.key});
