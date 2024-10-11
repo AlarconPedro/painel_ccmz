@@ -22,7 +22,7 @@ class ApiPromocao {
   //POST
   final String _urlAddPromocao = "${Globais.urlBase}promocao";
   final String _urlAddSorteioPromocao = "${Globais.urlBase}sorteio";
-  final String _urlAddPremioPromocao = "${Globais.urlBase}premios";
+  final String _urlAddPremioPromocao = "${Globais.urlBase}promocao/premios";
   final String _urlAddCupomPromocao = "${Globais.urlBase}promocao/cupom";
   final String _urlAddParticipantePromocao =
       "${Globais.urlBase}promocao/participante";
@@ -37,6 +37,7 @@ class ApiPromocao {
   //DELETE
   final String _urlDeletePromocao = "${Globais.urlBase}promocao/";
   final String _urlDeleteSorteioPromocao = "${Globais.urlBase}sorteio/";
+  final String _urlDeletePremio = "${Globais.urlBase}promocao/premio/";
   final String _urlDeleteCupomPromocao = "${Globais.urlBase}promocao/cupom/";
   final String _urlDeleteParticipantePromocao =
       "${Globais.urlBase}promocao/participantes/";
@@ -124,6 +125,11 @@ class ApiPromocao {
   Future<dynamic> deleteSorteioPromocao(int codigoSorteio) async {
     return await _request
         .deleteJson(_urlDeleteSorteioPromocao + codigoSorteio.toString());
+  }
+
+  Future<dynamic> deletePremioPromocao(int codigoPremio) async {
+    return await _request
+        .deleteJson(_urlDeletePremio + codigoPremio.toString());
   }
 
   Future<dynamic> deleteCupomPromocao(int codigoCupom) async {

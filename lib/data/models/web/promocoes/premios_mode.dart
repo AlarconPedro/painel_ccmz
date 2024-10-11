@@ -15,11 +15,11 @@ class PremiosModel {
 
   factory PremiosModel.fromJson(Map<String, dynamic> json) {
     return PremiosModel(
-      preCodigo: json['preCodigo'],
-      preNome: json['preNome'],
-      preDescricao: json['preDescricao'],
-      proNome: json['proNome'],
-      proCodigo: json['proCodigo'],
+      preCodigo: json['preCodigo'] ?? 0,
+      preNome: json['preNome'] ?? '',
+      preDescricao: json['preDescricao'] ?? '',
+      proNome: json['proNome'] ?? '',
+      proCodigo: json['proCodigo'] ?? 0,
     );
   }
 
