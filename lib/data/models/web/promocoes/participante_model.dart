@@ -8,6 +8,10 @@ class ParticipanteModel {
   String parUF;
   String parDataNasc;
   String parEmail;
+  int codigo;
+  String nome;
+  String telefone;
+  String cpf;
   int proCodigo;
 
   ParticipanteModel({
@@ -21,6 +25,10 @@ class ParticipanteModel {
     required this.parDataNasc,
     required this.parEmail,
     required this.proCodigo,
+    required this.codigo,
+    required this.nome,
+    required this.telefone,
+    required this.cpf,
   });
 
   factory ParticipanteModel.fromJson(Map<String, dynamic> map) {
@@ -35,6 +43,10 @@ class ParticipanteModel {
       parDataNasc: map['parDataNasc'] ?? '',
       parEmail: map['parEmail'] ?? '',
       proCodigo: map['proCodigo'] ?? 0,
+      codigo: map['codigo'] ?? 0,
+      nome: map['nome'] ?? '',
+      telefone: map['telefone'] ?? '',
+      cpf: map['cpf'] ?? '',
     );
   }
 

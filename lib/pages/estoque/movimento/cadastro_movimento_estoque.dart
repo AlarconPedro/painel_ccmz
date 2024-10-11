@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/models/web/movimento_estoque_model.dart';
 import 'package:painel_ccmn/pages/estoque/produtos/produtos.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
@@ -214,6 +215,8 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                                       dica: "Quantidade do Produto",
                                       tipo: TextInputType.number,
                                       icone: CupertinoIcons.number,
+                                      mascara: MaskTextInputFormatter(),
+                                      temMascara: false,
                                       validador: (value) {
                                         if (value.isEmpty) {
                                           return "Campo Obrigatório";

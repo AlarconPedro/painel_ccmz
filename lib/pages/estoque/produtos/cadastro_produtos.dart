@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
@@ -149,6 +150,8 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                       titulo: "Nome",
                       dica: "Nome do Produto",
                       icone: CupertinoIcons.cube_box,
+                      mascara: MaskTextInputFormatter(),
+                      temMascara: false,
                       validador: (value) {
                         if (value.isEmpty) {
                           return "Campo Obrigatório";
@@ -164,6 +167,8 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                       dica: "Código de Barras",
                       // icone: CupertinoIcons.barcode_viewfinder,
                       icone: CupertinoIcons.barcode,
+                      mascara: MaskTextInputFormatter(),
+                      temMascara: false,
                       validador: (value) {
                         if (value.isEmpty) {
                           return "Campo Obrigatório";
@@ -217,6 +222,8 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                       dica: "Quantidade do Produto",
                       tipo: TextInputType.number,
                       icone: CupertinoIcons.number,
+                      mascara: MaskTextInputFormatter(),
+                      temMascara: false,
                       validador: (value) {
                         if (value.isEmpty) {
                           return "Campo Obrigatório";
@@ -232,6 +239,8 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                       dica: "Quantidade Minima Produto",
                       tipo: TextInputType.number,
                       icone: CupertinoIcons.number,
+                      mascara: MaskTextInputFormatter(),
+                      temMascara: false,
                       validador: (value) {
                         if (value.isEmpty) {
                           return "Campo Obrigatório";
@@ -248,6 +257,8 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                       dica: "Valor do Produto",
                       tipo: TextInputType.number,
                       icone: CupertinoIcons.money_dollar,
+                      mascara: MaskTextInputFormatter(),
+                      temMascara: false,
                       validador: (value) {
                         if (value.isEmpty) {
                           return "Campo Obrigatório";
@@ -262,6 +273,8 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
                 controlador: descricaoController,
                 titulo: "Descrição",
                 dica: "Descrição do Produto",
+                mascara: MaskTextInputFormatter(),
+                temMascara: false,
                 icone: CupertinoIcons.text_badge_checkmark,
                 validador: (value) {
                   // if (value.isEmpty) {

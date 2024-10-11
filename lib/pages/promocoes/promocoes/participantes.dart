@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/api/promocao/api_promocao.dart';
 import 'package:painel_ccmn/data/models/web/promocoes/participante_model.dart';
 import 'package:painel_ccmn/funcoes/funcoes_mascara.dart';
@@ -36,6 +37,7 @@ class _ParticipantesState extends State<Participantes> {
     var retorno =
         await ApiPromocao().getParticipantesPromocao(widget.codigoPromocao);
     if (retorno.statusCode == 200) {
+      participantes.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
@@ -99,6 +101,10 @@ class _ParticipantesState extends State<Participantes> {
                             titulo: titulo,
                             dica: "Nome",
                             icone: Icons.person,
+                            tipo: TextInputType.text,
+                            temMascara: false,
+                            mascara: MaskTextInputFormatter(
+                                mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
                             validador: (value) {
                               // if (value.isEmpty) {
                               //   return "Campo Obrigatório";
@@ -169,12 +175,29 @@ class _ParticipantesState extends State<Participantes> {
                                         itemCount: participantes.length,
                                         itemBuilder: (context, index) {
                                           return Card(
+                                            color: Cores.branco,
                                             elevation: 5,
                                             child: ListTile(
                                               title: Text(
-                                                  participantes[index].parNome),
-                                              subtitle: Text(
-                                                  "CPF: ${FuncoesMascara.mascaraCpf(participantes[index].parCpf)}"),
+                                                  participantes[index].nome),
+                                              subtitle: Expanded(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                        "CPF: ${FuncoesMascara.mascaraCpf(participantes[index].cpf)}"),
+                                                    Text(
+                                                      FuncoesMascara
+                                                          .mascaraTelefone(
+                                                              participantes[
+                                                                      index]
+                                                                  .telefone),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                               trailing: MouseRegion(
                                                 cursor:
                                                     SystemMouseCursors.click,
@@ -186,17 +209,22 @@ class _ParticipantesState extends State<Participantes> {
                                                   ),
                                                 ),
                                               ),
-                                              leading: Text(
-                                                FuncoesMascara.mascaraTelefone(
-                                                    participantes[index]
-                                                        .parFone),
-                                              ),
                                             ),
                                           );
                                         },
                                       ),
                                     ),
-                              CadastroParticipantes()
+                              CadastroParticipantes(
+                                codigoPromocao: widget.codigoPromocao,
+                                listarParticipantes: () {
+                                  pageController.animateToPage(
+                                    0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeIn,
+                                  );
+                                  buscarParticipantes();
+                                },
+                              ),
                               // CadastroForm(
                               //   formKey: GlobalKey<FormState>(),
                               //   campos: const [],
