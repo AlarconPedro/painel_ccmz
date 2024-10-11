@@ -8,6 +8,7 @@ import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/api/promocao/api_promocao.dart';
+import '../../../data/models/web/promocoes/sorteio_model.dart';
 import '../../../models/promocoes_model.dart';
 
 class CadastroSorteio extends StatefulWidget {
@@ -30,7 +31,12 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     sorNomeGanhador: '',
   );
 
+  int promocaoSelecionada = 0;
+  int premioSelecionado = 0;
+
   List<DropdownMenuItem> promocoes = [];
+
+  bool carregando = false;
 
   buscarPromocoes() async {
     var retorno = await ApiPromocao().getPromocoes("V");
@@ -50,20 +56,61 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   }
 
   buscarPremios(int codigoPromocao) async {
-    var retorno = await ApiPromocao().getCuponsPromocao(codigoPromocao);
+    var retorno = await ApiPromocao().getPremiosPromocao(codigoPromocao);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(
           () => promocoes.add(
             DropdownMenuItem(
-              value: item['cupCodigo'],
-              child: Text(item['cupNome']),
+              value: item['PreCodigo'],
+              child: Text(item['PreNome']),
             ),
           ),
         );
       }
     }
+  }
+
+  SorteioModel preparaDados() {
+    return SorteioModel(
+      sorCodigo: 0,
+      cupCodigo: 0,
+      parCodigo: 0,
+      sorData: DateTime.now().toString(),
+      proCodigo: promocaoSelecionada,
+      preCodigo: premioSelecionado,
+    );
+  }
+
+  gravarSorteio() async {
+    setState(() => carregando = true);
+    dynamic retorno = await ApiPromocao().addSorteioPromocao(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(
+        context,
+        SorteiosModel(
+          sorCodigo: 0,
+          sorNome: nomeController.text,
+          sorData: DateTime.now().toString(),
+          sorNomeGanhador: nomeController.text,
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sorteio cadastrado com sucesso!'),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao cadastrar o Sorteio!'),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
   }
 
   @override
@@ -78,7 +125,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     return CadastroForm(
       formKey: formKey,
       largura: 3,
-      altura: 2.8,
+      altura: 2.6,
       campos: [
         Padding(
           padding: const EdgeInsets.symmetric(
@@ -119,8 +166,13 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
           child: DropDownForm(
             label: "Promoção do Sorteio",
             itens: promocoes,
-            selecionado: 0,
-            onChange: (value) {},
+            selecionado: promocaoSelecionada,
+            onChange: (value) {
+              setState(() {
+                promocaoSelecionada = value;
+                buscarPremios(value);
+              });
+            },
           ),
         ),
         Padding(
@@ -131,14 +183,18 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
           child: DropDownForm(
             label: "Prémio do Sorteio",
             itens: const [],
-            selecionado: 0,
-            onChange: (value) {},
+            selecionado: premioSelecionado,
+            onChange: (value) {
+              setState(() {
+                premioSelecionado = value;
+              });
+            },
           ),
         ),
       ],
       titulo: "Novo Sorteio",
       gravar: () {
-        Navigator.pop(context, sorteio);
+        gravarSorteio();
       },
       cancelar: () {},
     );

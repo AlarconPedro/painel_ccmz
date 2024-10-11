@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
-import '../../../classes/classes.dart';
-import '../../../data/api/promocao/api_promocao.dart';
-import '../../../data/models/web/promocoes/participante_model.dart';
-import '../../../funcoes/funcoes.dart';
-import '../../../widgets/form/campo_texto.dart';
+import '../../../../classes/classes.dart';
+import '../../../../data/api/promocao/api_promocao.dart';
+import '../../../../data/models/web/promocoes/participante_model.dart';
+import '../../../../funcoes/funcoes.dart';
+import '../../../../widgets/form/campo_texto.dart';
 
 class CadastroParticipantes extends StatefulWidget {
   int codigoPromocao;
@@ -470,7 +470,7 @@ class _CadastroParticipantesState extends State<CadastroParticipantes> {
                                           temMascara: true,
                                           mascara: MaskTextInputFormatter(
                                             mask: '##',
-                                            filter: {'#': RegExp(r'[a-z]')},
+                                            filter: {'#': RegExp(r'[a-zA-Z]')},
                                           ),
                                           validador: (value) {
                                             if (value.isEmpty) {

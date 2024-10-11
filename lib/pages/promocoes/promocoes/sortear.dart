@@ -131,6 +131,17 @@ class _SortearState extends State<Sortear> {
           content: Text("Nenhum Cupom Encontrado !"),
         ),
       );
+    } else if (retorno.statusCode == 405) {
+      setState(() {
+        texto = 'Nenhum Sorteio Cadastrado';
+        // sorteado = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Nenhum Sorteio Cadastrado !"),
+        ),
+      );
     } else if (retorno.statusCode == 400) {
       setState(() {
         texto = 'Cupom já sorteado';

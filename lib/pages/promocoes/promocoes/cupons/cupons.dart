@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../classes/classes.dart';
-import '../../../data/api/promocao/api_promocao.dart';
-import '../../../data/models/web/promocoes/ganhador_cupom_model.dart';
-import '../../../widgets/cards/sorteio/card_cupons.dart';
-import '../../../widgets/widgets.dart';
+import '../../../../classes/classes.dart';
+import '../../../../data/api/promocao/api_promocao.dart';
+import '../../../../data/models/web/promocoes/ganhador_cupom_model.dart';
+import '../../../../widgets/cards/sorteio/card_cupons.dart';
+import '../../../../widgets/widgets.dart';
 
 class Cupons extends StatefulWidget {
   const Cupons({super.key});
@@ -86,12 +87,22 @@ class _CuponsState extends State<Cupons> {
                               ),
                   ),
                   SizedBox(
-                    height: 35,
+                    height: 65,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          CupertinoButton(
+                            color: Cores.vermelhoMedio,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 5),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Voltar"),
+                          ),
                           Text(
                             "Total de Cupons: ${ganhador.isNotEmpty ? ganhador[0].qtdCupons : 0}",
                             style: const TextStyle(fontWeight: FontWeight.bold),

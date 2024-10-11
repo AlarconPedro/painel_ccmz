@@ -2,6 +2,7 @@ import '../../../classes/classes.dart';
 import '../../data.dart';
 import '../../models/web/promocoes/cupom_model.dart';
 import '../../models/web/promocoes/participante_model.dart';
+import '../../models/web/promocoes/premios_mode.dart';
 import '../../models/web/promocoes/promocao_model.dart';
 import '../../models/web/promocoes/sorteio_model.dart';
 
@@ -12,6 +13,7 @@ class ApiPromocao {
   final String _urlGetPromocoes = "${Globais.urlBase}promocao";
   final String _urlGetGanhadorCupom = "${Globais.urlBase}promocao/ganhador";
   final String _urlGetSorteiosPromocao = "${Globais.urlBase}promocao/sorteios";
+  final String _urlGetPremiosPromocao = "${Globais.urlBase}promocao/premios";
   final String _urlGetCuponsPromocao = "${Globais.urlBase}promocao/cupons";
   final String _urlGetParticipantesPromocao =
       "${Globais.urlBase}promocao/participantes";
@@ -20,6 +22,7 @@ class ApiPromocao {
   //POST
   final String _urlAddPromocao = "${Globais.urlBase}promocao";
   final String _urlAddSorteioPromocao = "${Globais.urlBase}sorteio";
+  final String _urlAddPremioPromocao = "${Globais.urlBase}premios";
   final String _urlAddCupomPromocao = "${Globais.urlBase}promocao/cupom";
   final String _urlAddParticipantePromocao =
       "${Globais.urlBase}promocao/participante";
@@ -53,6 +56,10 @@ class ApiPromocao {
     return await _request.getJson(_urlGetSorteiosPromocao);
   }
 
+  Future<dynamic> getPremiosPromocao(int codigoPromocao) async {
+    return await _request.getJson("$_urlGetPremiosPromocao/$codigoPromocao");
+  }
+
   Future<dynamic> getCuponsPromocao() async {
     return await _request.getJson(_urlGetCuponsPromocao);
   }
@@ -73,6 +80,10 @@ class ApiPromocao {
 
   Future<dynamic> addSorteioPromocao(SorteioModel sorteio) async {
     return await _request.postJson(_urlAddSorteioPromocao, sorteio.toMap());
+  }
+
+  Future<dynamic> addPremioPromocao(PremiosModel premio) async {
+    return await _request.postJson(_urlAddPremioPromocao, premio.toMap());
   }
 
   Future<dynamic> addCupomPromocao(CupomModel cupom) async {

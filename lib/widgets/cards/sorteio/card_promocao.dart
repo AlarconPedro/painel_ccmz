@@ -9,6 +9,7 @@ Widget cardPromocao({
   required Function() onTap,
   required Function() abrirCupons,
   required Function() abrirParticipantes,
+  required Function() abrirPremios,
 }) {
   return Container(
     color: Colors.transparent,
@@ -55,6 +56,30 @@ Widget cardPromocao({
                   ],
                 ),
               ),
+            ),
+          ),
+        ),
+        Card(
+          color: Cores.branco,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          elevation: 5,
+          child: Container(
+            height: 55,
+            width: 55,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white,
+            ),
+            child: CupertinoButton(
+              child: const Icon(
+                CupertinoIcons.gift,
+                color: Cores.preto,
+              ),
+              onPressed: () {
+                abrirPremios();
+              },
             ),
           ),
         ),

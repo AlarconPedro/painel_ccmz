@@ -1,15 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:painel_ccmn/pages/promocoes/promocoes/cupons.dart';
-import 'package:painel_ccmn/pages/promocoes/promocoes/participantes.dart';
+import 'package:painel_ccmn/pages/promocoes/promocoes/cupons/cupons.dart';
+import 'package:painel_ccmn/pages/promocoes/promocoes/participantes/participantes.dart';
+import 'package:painel_ccmn/pages/promocoes/promocoes/premios.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../data/api/promocao/api_promocao.dart';
 import '../../../models/promocoes_model.dart';
 import '../../../widgets/cards/sorteio/card_promocao.dart';
 import '../../pages.dart';
-import '../sorteios/cadastro_promocoes.dart';
+import 'cadastro_promocoes.dart';
 import '../sorteios/sorteios.dart';
 
 class Promocoes extends StatefulWidget {
@@ -84,7 +85,9 @@ class _PromocoesState extends State<Promocoes> {
               Expanded(
                   child: Text("Data Fim",
                       style: TextStyle(fontWeight: FontWeight.bold))),
-              SizedBox(width: 50),
+              SizedBox(width: 42),
+              Text("Premios", style: TextStyle(fontWeight: FontWeight.bold)),
+              SizedBox(width: 8),
               Text("Particip. ", style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(width: 8),
               Text("Cupons", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -131,6 +134,16 @@ class _PromocoesState extends State<Promocoes> {
                             context,
                             CupertinoDialogRoute(
                               builder: (context) => Participantes(
+                                  codigoPromocao: promocao[index].proCodigo),
+                              context: context,
+                            ),
+                          );
+                        },
+                        abrirPremios: () {
+                          Navigator.push(
+                            context,
+                            CupertinoDialogRoute(
+                              builder: (context) => Premios(
                                   codigoPromocao: promocao[index].proCodigo),
                               context: context,
                             ),
