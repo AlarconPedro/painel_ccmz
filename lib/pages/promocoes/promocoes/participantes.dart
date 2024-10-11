@@ -8,6 +8,7 @@ import 'package:painel_ccmn/data/models/web/promocoes/participante_model.dart';
 import 'package:painel_ccmn/funcoes/funcoes_mascara.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/cadastro_form.dart';
 import 'package:painel_ccmn/pages/promocoes/promocoes/cadastro_participantes.dart';
+import 'package:painel_ccmn/widgets/dialogs/delete_dialog.dart';
 import 'package:painel_ccmn/widgets/form/campo_texto.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
@@ -48,6 +49,22 @@ class _ParticipantesState extends State<Participantes> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Erro ao buscar participantes"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  deleteParticipante(int codigo) async {
+    setState(() => carregando = true);
+    var retorno = await ApiPromocao().deleteParticipantePromocao(codigo);
+    if (retorno.statusCode == 200) {
+      buscarParticipantes();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao deletar participante"),
           backgroundColor: Cores.vermelhoMedio,
         ),
       );
@@ -202,7 +219,19 @@ class _ParticipantesState extends State<Participantes> {
                                                 cursor:
                                                     SystemMouseCursors.click,
                                                 child: GestureDetector(
-                                                  onTap: () {},
+                                                  onTap: () {
+                                                    deleteDialog(
+                                                        context: context,
+                                                        excluir: () {
+                                                          deleteParticipante(
+                                                              participantes[
+                                                                      index]
+                                                                  .codigo);
+                                                        },
+                                                        titulo: "Excluir",
+                                                        mensagem:
+                                                            "Deseja excluir o participante ${participantes[index].nome} ?");
+                                                  },
                                                   child: const Icon(
                                                     CupertinoIcons.delete,
                                                     color: Cores.vermelhoMedio,

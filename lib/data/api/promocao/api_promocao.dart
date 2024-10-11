@@ -36,11 +36,11 @@ class ApiPromocao {
   final String _urlDeleteSorteioPromocao = "${Globais.urlBase}sorteio/";
   final String _urlDeleteCupomPromocao = "${Globais.urlBase}promocao/cupom/";
   final String _urlDeleteParticipantePromocao =
-      "${Globais.urlBase}promocao/participante/";
+      "${Globais.urlBase}promocao/participantes/";
 
   //GET
-  Future<dynamic> getPromocoes() async {
-    return await _request.getJson(_urlGetPromocoes);
+  Future<dynamic> getPromocoes(String filtro) async {
+    return await _request.getJson("$_urlGetPromocoes/$filtro");
   }
 
   Future<dynamic> getGanhadorCupom(String filtro,

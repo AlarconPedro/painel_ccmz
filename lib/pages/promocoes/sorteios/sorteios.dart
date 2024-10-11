@@ -8,8 +8,8 @@ import 'package:painel_ccmn/widgets/cards/sorteio/card_cupons.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../widgets/cards/sorteio/card_sorteio.dart';
-import '../sorteios/cadastro_sorteios.dart';
-import 'sortear.dart';
+import 'cadastro_sorteios.dart';
+import '../promocoes/sortear.dart';
 
 class Sorteios extends StatefulWidget {
   const Sorteios({super.key});

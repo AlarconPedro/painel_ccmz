@@ -71,12 +71,12 @@ class _CadastroParticipantesState extends State<CadastroParticipantes> {
       parNome: nomeController.text,
       parCodigo: 0,
       parDataNasc: FuncoesData.stringToDateTime(dataNascimentoController.text),
-      parFone: telefoneController.text,
+      parFone: telefoneController.text.replaceAll(RegExp(r'[^\d]'), ''),
       parUF: ufController.text,
       proCodigo: widget.codigoPromocao,
       codigo: 0,
       nome: nomeController.text,
-      telefone: telefoneController.text,
+      telefone: telefoneController.text.replaceAll(RegExp(r'[^\d]'), ''),
       cpf: cpfController.text,
     );
   }

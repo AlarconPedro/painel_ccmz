@@ -6,7 +6,7 @@ import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/pages/promocoes/sorteios/lista_ganhador_cupon.dart';
 
 import '../pages/promocoes/promocoes/promocoes.dart';
-import '../pages/promocoes/promocoes/sorteios.dart';
+import '../pages/promocoes/sorteios/sorteios.dart';
 
 class PageControl extends StatefulWidget {
   const PageControl({super.key});

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/models/sorteios_model.dart';
@@ -5,6 +7,8 @@ import 'package:painel_ccmn/pages/hospedagem/esqueleto/cadastro_form.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/api/promocao/api_promocao.dart';
+import '../../../models/promocoes_model.dart';
 
 class CadastroSorteio extends StatefulWidget {
   SorteiosModel? sorteio;
@@ -25,6 +29,49 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     sorData: '',
     sorNomeGanhador: '',
   );
+
+  List<DropdownMenuItem> promocoes = [];
+
+  buscarPromocoes() async {
+    var retorno = await ApiPromocao().getPromocoes("V");
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(
+          () => promocoes.add(
+            DropdownMenuItem(
+              value: item['proCodigo'],
+              child: Text(item['proNome']),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  buscarPremios(int codigoPromocao) async {
+    var retorno = await ApiPromocao().getCuponsPromocao(codigoPromocao);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(
+          () => promocoes.add(
+            DropdownMenuItem(
+              value: item['cupCodigo'],
+              child: Text(item['cupNome']),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarPromocoes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +118,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
           ),
           child: DropDownForm(
             label: "Promoção do Sorteio",
-            itens: const [],
+            itens: promocoes,
             selecionado: 0,
             onChange: (value) {},
           ),

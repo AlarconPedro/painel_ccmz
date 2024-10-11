@@ -10,7 +10,7 @@ import '../../../models/promocoes_model.dart';
 import '../../../widgets/cards/sorteio/card_promocao.dart';
 import '../../pages.dart';
 import '../sorteios/cadastro_promocoes.dart';
-import 'sorteios.dart';
+import '../sorteios/sorteios.dart';
 
 class Promocoes extends StatefulWidget {
   const Promocoes({super.key});
@@ -26,7 +26,7 @@ class _PromocoesState extends State<Promocoes> {
 
   buscarPromocoes() async {
     setState(() => carregando = true);
-    var retorno = await ApiPromocao().getPromocoes();
+    var retorno = await ApiPromocao().getPromocoes("T");
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
