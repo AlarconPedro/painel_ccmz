@@ -116,7 +116,7 @@ class _CadastroPromocoesState extends State<CadastroPromocoes> {
                           colorScheme: const ColorScheme.light(
                             primary: Cores.cinzaEscuro,
                             onPrimary: Cores.branco,
-                            surface: Cores.cinzaEscuro,
+                            surface: Cores.branco,
                             onSurface: Cores.cinzaEscuro,
                           ),
                           dialogBackgroundColor: Colors.white,
@@ -174,7 +174,7 @@ class _CadastroPromocoesState extends State<CadastroPromocoes> {
                             colorScheme: const ColorScheme.light(
                               primary: Cores.cinzaEscuro,
                               onPrimary: Cores.branco,
-                              surface: Cores.cinzaEscuro,
+                              surface: Cores.branco,
                               onSurface: Cores.cinzaEscuro,
                             ),
                             dialogBackgroundColor: Colors.white,

@@ -30,9 +30,9 @@ class SorteioModel {
     return {
       'sorCodigo': sorCodigo,
       'sorData': sorData,
-      'parCodigo': parCodigo,
+      'parCodigo': parCodigo == 0 ? null : parCodigo,
       'preCodigo': preCodigo,
-      'cupCodigo': cupCodigo,
+      'cupCodigo': cupCodigo == 0 ? null : cupCodigo,
       'proCodigo': proCodigo,
     };
   }

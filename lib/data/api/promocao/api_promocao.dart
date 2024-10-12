@@ -21,7 +21,7 @@ class ApiPromocao {
 
   //POST
   final String _urlAddPromocao = "${Globais.urlBase}promocao";
-  final String _urlAddSorteioPromocao = "${Globais.urlBase}sorteio";
+  final String _urlAddSorteioPromocao = "${Globais.urlBase}promocao/sorteios";
   final String _urlAddPremioPromocao = "${Globais.urlBase}promocao/premios";
   final String _urlAddCupomPromocao = "${Globais.urlBase}promocao/cupom";
   final String _urlAddParticipantePromocao =
@@ -70,8 +70,9 @@ class ApiPromocao {
         .getJson("$_urlGetParticipantesPromocao/$codigoPromocao");
   }
 
-  Future<dynamic> sortearCupom(String codigoCupom) async {
-    return await _request.getJson("$_urlSortearCupom/$codigoCupom");
+  Future<dynamic> sortearCupom(String codigoCupom, int codigoSorteio) async {
+    return await _request
+        .getJson("$_urlSortearCupom/$codigoCupom/$codigoSorteio");
   }
 
   //POST

@@ -193,70 +193,59 @@ class _ParticipantesState extends State<Participantes> {
                                         : Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 5, horizontal: 10),
-                                            child: Column(
-                                              children: [
-                                                ListView.builder(
-                                                  itemCount:
-                                                      participantes.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return Card(
-                                                      color: Cores.branco,
-                                                      elevation: 5,
-                                                      child: ListTile(
-                                                        title: Text(
-                                                            participantes[index]
-                                                                .nome),
-                                                        subtitle: Expanded(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                  "CPF: ${FuncoesMascara.mascaraCpf(participantes[index].cpf)}"),
-                                                              Text(
-                                                                FuncoesMascara.mascaraTelefone(
+                                            child: ListView.builder(
+                                              itemCount: participantes.length,
+                                              itemBuilder: (context, index) {
+                                                return Card(
+                                                  color: Cores.branco,
+                                                  elevation: 5,
+                                                  child: ListTile(
+                                                    title: Text(
+                                                        participantes[index]
+                                                            .nome),
+                                                    subtitle: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                            "CPF: ${FuncoesMascara.mascaraCpf(participantes[index].cpf)}"),
+                                                        Text(
+                                                          FuncoesMascara
+                                                              .mascaraTelefone(
+                                                                  participantes[
+                                                                          index]
+                                                                      .telefone),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    trailing: MouseRegion(
+                                                      cursor: SystemMouseCursors
+                                                          .click,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          deleteDialog(
+                                                              context: context,
+                                                              excluir: () {
+                                                                deleteParticipante(
                                                                     participantes[
                                                                             index]
-                                                                        .telefone),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        trailing: MouseRegion(
-                                                          cursor:
-                                                              SystemMouseCursors
-                                                                  .click,
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              deleteDialog(
-                                                                  context:
-                                                                      context,
-                                                                  excluir: () {
-                                                                    deleteParticipante(
-                                                                        participantes[index]
-                                                                            .codigo);
-                                                                  },
-                                                                  titulo:
-                                                                      "Excluir",
-                                                                  mensagem:
-                                                                      "Deseja excluir o participante ${participantes[index].nome} ?");
-                                                            },
-                                                            child: const Icon(
-                                                              CupertinoIcons
-                                                                  .delete,
-                                                              color: Cores
-                                                                  .vermelhoMedio,
-                                                            ),
-                                                          ),
+                                                                        .codigo);
+                                                              },
+                                                              titulo: "Excluir",
+                                                              mensagem:
+                                                                  "Deseja excluir o participante ${participantes[index].nome} ?");
+                                                        },
+                                                        child: const Icon(
+                                                          CupertinoIcons.delete,
+                                                          color: Cores
+                                                              .vermelhoMedio,
                                                         ),
                                                       ),
-                                                    );
-                                                  },
-                                                ),
-                                              ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
                                             ),
                                           ),
                                     CadastroParticipantes(

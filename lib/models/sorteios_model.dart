@@ -1,22 +1,28 @@
 class SorteiosModel {
   int sorCodigo;
-  String sorNome;
   String sorData;
-  String sorNomeGanhador;
+  String preNome;
+  int preCodigo;
+  String parNome;
+  String cupNumero;
 
   SorteiosModel({
     required this.sorCodigo,
-    required this.sorNome,
     required this.sorData,
-    required this.sorNomeGanhador,
+    required this.preNome,
+    required this.preCodigo,
+    required this.parNome,
+    required this.cupNumero,
   });
 
   factory SorteiosModel.fromJson(Map<String, dynamic> json) {
     return SorteiosModel(
-      sorCodigo: json['sor_codigo'],
-      sorNome: json['sor_nome'],
-      sorData: json['sor_data'],
-      sorNomeGanhador: json['sor_nome_ganhador'],
+      sorCodigo: json['sorCodigo'] ?? 0,
+      sorData: json['sorData'] ?? '',
+      preNome: json['preNome'] ?? '',
+      preCodigo: json['preCodigo'] ?? 0,
+      parNome: json['parNome'] ?? '',
+      cupNumero: json['cupNumero'] ?? '',
     );
   }
 }

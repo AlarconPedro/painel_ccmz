@@ -209,47 +209,81 @@ class _PremiosState extends State<Premios> {
                                       child: Text("Nenhum Prêmio Cadastrado !"))
                                   : Padding(
                                       padding: const EdgeInsets.all(10),
-                                      child: ListView.builder(
-                                        itemCount: premios.length,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                            title: Text(premios[index].preNome),
-                                            subtitle:
-                                                Text(premios[index].proNome),
-                                            trailing: IconButton(
-                                              icon: const Icon(
-                                                CupertinoIcons.delete,
-                                                color: Cores.vermelhoMedio,
-                                              ),
-                                              onPressed: () async {
-                                                deleteDialog(
-                                                  context: context,
-                                                  excluir: () {
-                                                    deletarPremio(premios[index]
-                                                        .preCodigo);
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: ListView.builder(
+                                              itemCount: premios.length,
+                                              itemBuilder: (context, index) {
+                                                return ListTile(
+                                                  title: Text(
+                                                      premios[index].preNome),
+                                                  subtitle: Text(
+                                                      premios[index].proNome),
+                                                  trailing: IconButton(
+                                                    icon: const Icon(
+                                                      CupertinoIcons.delete,
+                                                      color:
+                                                          Cores.vermelhoMedio,
+                                                    ),
+                                                    onPressed: () async {
+                                                      deleteDialog(
+                                                        context: context,
+                                                        excluir: () {
+                                                          deletarPremio(
+                                                              premios[index]
+                                                                  .preCodigo);
+                                                        },
+                                                        titulo:
+                                                            "Deletar Prêmio",
+                                                        mensagem:
+                                                            "Deseja deletar o prêmio ${premios[index].preNome} ?",
+                                                      );
+                                                    },
+                                                  ),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      nomeController.text =
+                                                          premios[index]
+                                                              .preNome;
+                                                      descricaoController.text =
+                                                          premios[index]
+                                                              .preDescricao;
+                                                    });
+                                                    pageController
+                                                        .animateToPage(
+                                                      1,
+                                                      duration: const Duration(
+                                                          milliseconds: 300),
+                                                      curve: Curves.easeIn,
+                                                    );
                                                   },
-                                                  titulo: "Deletar Prêmio",
-                                                  mensagem:
-                                                      "Deseja deletar o prêmio ${premios[index].preNome} ?",
                                                 );
                                               },
                                             ),
-                                            onTap: () {
-                                              setState(() {
-                                                nomeController.text =
-                                                    premios[index].preNome;
-                                                descricaoController.text =
-                                                    premios[index].preDescricao;
-                                              });
-                                              pageController.animateToPage(
-                                                1,
-                                                duration: const Duration(
-                                                    milliseconds: 300),
-                                                curve: Curves.easeIn,
-                                              );
-                                            },
-                                          );
-                                        },
+                                          ),
+                                          Row(
+                                            children: [
+                                              CupertinoButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 30),
+                                                color: Cores.vermelhoMedio,
+                                                child: const Text(
+                                                  'Fechar',
+                                                  style: TextStyle(
+                                                    color: Cores.branco,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
                               Column(
@@ -312,24 +346,20 @@ class _PremiosState extends State<Premios> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CupertinoButton(
-                                          onPressed: pageController.page == 1
-                                              ? () {
-                                                  setState(() {
-                                                    nomeController.clear();
-                                                    descricaoController.clear();
-                                                  });
-                                                  pageController.animateToPage(
-                                                    0,
-                                                    duration: const Duration(
-                                                        milliseconds: 300),
-                                                    curve: Curves.easeIn,
-                                                  );
-                                                }
-                                              : () {
-                                                  Navigator.pop(context);
-                                                },
+                                          onPressed: () {
+                                            setState(() {
+                                              nomeController.clear();
+                                              descricaoController.clear();
+                                            });
+                                            pageController.animateToPage(
+                                              0,
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              curve: Curves.easeIn,
+                                            );
+                                          },
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 15),
+                                              vertical: 5, horizontal: 30),
                                           color: Cores.vermelhoMedio,
                                           child: const Text(
                                             'Voltar',

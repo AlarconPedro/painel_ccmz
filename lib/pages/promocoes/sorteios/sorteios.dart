@@ -43,12 +43,7 @@ class _SorteiosState extends State<Sorteios> {
       sorteios.clear();
       var decoded = json.decode(response.body);
       for (var item in decoded) {
-        sorteios.add(SorteiosModel(
-          sorCodigo: item['sorCodigo'],
-          sorNome: item['sorNome'],
-          sorData: item['sorData'],
-          sorNomeGanhador: item['sorNomeGanhador'],
-        ));
+        sorteios.add(SorteiosModel.fromJson(item));
       }
     }
     setState(() => carregando = false);
@@ -67,18 +62,19 @@ class _SorteiosState extends State<Sorteios> {
       children: [
         Esqueleto(
           abrirTelaCadastro: () async {
-            var retorno = await Navigator.push(
+            await Navigator.push(
               context,
               CupertinoDialogRoute(
                 builder: (context) => CadastroSorteio(),
                 context: context,
               ),
             );
-            if (retorno != null) {
-              setState(() {
-                sorteios.add(retorno);
-              });
-            }
+            buscarSorteios();
+            // if (retorno != null) {
+            //   setState(() {
+            //     sorteios.add(retorno);
+            //   });
+            // }
           },
           buscaNome: (value) {},
           tituloBoto: 'Novo Sorteio',
@@ -104,14 +100,19 @@ class _SorteiosState extends State<Sorteios> {
                                 context: context,
                                 sorteado: index.isEven ? true : false,
                                 sorteio: sorteios[index],
-                                onTap: () {
-                                  Navigator.push(
+                                onTap: () async {
+                                  await Navigator.push(
                                     context,
                                     CupertinoDialogRoute(
-                                      builder: (context) => const Sortear(),
+                                      builder: (context) => Sortear(
+                                        // Compare this line from lib/pages/promocoes/sorteios/sorteios.dart
+                                        codigoSorteio:
+                                            sorteios[index].sorCodigo,
+                                      ),
                                       context: context,
                                     ),
                                   );
+                                  buscarSorteios();
                                 },
                               );
                             },
@@ -160,14 +161,15 @@ class _SorteiosState extends State<Sorteios> {
                     return cardCupons(
                       context: context,
                       data: sorteios[index].sorData,
-                      ganhador: sorteios[index].sorNomeGanhador,
-                      nome: sorteios[index].sorNome,
-                      telefone: sorteios[index].sorNomeGanhador,
+                      ganhador: sorteios[index].parNome,
+                      nome: sorteios[index].preNome,
+                      telefone: sorteios[index].cupNumero,
                       onTap: () {
                         Navigator.push(
                           context,
                           CupertinoDialogRoute(
-                            builder: (context) => const Sortear(),
+                            builder: (context) => Sortear(
+                                codigoSorteio: sorteios[index].sorCodigo),
                             context: context,
                           ),
                         );

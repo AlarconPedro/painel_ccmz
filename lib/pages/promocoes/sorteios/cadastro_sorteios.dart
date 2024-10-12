@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/funcoes/funcoes.dart';
 import 'package:painel_ccmn/models/sorteios_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/esqueleto/cadastro_form.dart';
+import 'package:painel_ccmn/widgets/form/campo_data.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../classes/classes.dart';
@@ -23,24 +25,30 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   final formKey = GlobalKey<FormState>();
 
   final nomeController = TextEditingController();
+  final dataController = TextEditingController();
 
   SorteiosModel sorteio = SorteiosModel(
     sorCodigo: 0,
-    sorNome: '',
+    cupNumero: '',
+    parNome: '',
+    preCodigo: 0,
+    preNome: '',
     sorData: '',
-    sorNomeGanhador: '',
   );
 
   int promocaoSelecionada = 0;
   int premioSelecionado = 0;
 
   List<DropdownMenuItem> promocoes = [];
+  List<DropdownMenuItem> premios = [];
 
   bool carregando = false;
 
   buscarPromocoes() async {
     var retorno = await ApiPromocao().getPromocoes("V");
     if (retorno.statusCode == 200) {
+      premios.clear();
+      promocoes.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(
@@ -58,13 +66,14 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   buscarPremios(int codigoPromocao) async {
     var retorno = await ApiPromocao().getPremiosPromocao(codigoPromocao);
     if (retorno.statusCode == 200) {
+      premios.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(
-          () => promocoes.add(
+          () => premios.add(
             DropdownMenuItem(
-              value: item['PreCodigo'],
-              child: Text(item['PreNome']),
+              value: item['preCodigo'],
+              child: Text(item['preNome']),
             ),
           ),
         );
@@ -77,7 +86,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
       sorCodigo: 0,
       cupCodigo: 0,
       parCodigo: 0,
-      sorData: DateTime.now().toString(),
+      sorData: FuncoesData.stringToDateTime(dataController.text),
       proCodigo: promocaoSelecionada,
       preCodigo: premioSelecionado,
     );
@@ -89,12 +98,14 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     if (retorno.statusCode == 200) {
       Navigator.pop(
         context,
-        SorteiosModel(
-          sorCodigo: 0,
-          sorNome: nomeController.text,
-          sorData: DateTime.now().toString(),
-          sorNomeGanhador: nomeController.text,
-        ),
+        // SorteiosModel(
+        //   sorCodigo: 0,
+        //   cupNumero: '',
+        //   parNome: '',
+        //   preCodigo: 0,
+        //   preNome: '',
+        //   sorData: dataController.text,
+        // ),
       );
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -132,30 +143,43 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
             horizontal: 10,
             vertical: 5,
           ),
-          child: TextFormField(
-            controller: nomeController,
-            decoration: const InputDecoration(
-              labelText: 'Nome',
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                borderSide: BorderSide(
-                  color: Cores.cinzaEscuro,
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: nomeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nome',
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      borderSide: BorderSide(
+                        color: Cores.cinzaEscuro,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, digite o Nome do Sorteio';
+                    }
+                    return null;
+                  },
                 ),
               ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
+              const SizedBox(width: 10),
+              campoData(
+                context,
+                dataController,
+                1,
+                "Data do Sorteio",
               ),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor, digite o Nome do Sorteio';
-              }
-              return null;
-            },
+            ],
           ),
         ),
         Padding(
@@ -182,7 +206,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
           ),
           child: DropDownForm(
             label: "Prémio do Sorteio",
-            itens: const [],
+            itens: premios,
             selecionado: premioSelecionado,
             onChange: (value) {
               setState(() {

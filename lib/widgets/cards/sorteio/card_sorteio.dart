@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/funcoes/funcoes.dart';
 import 'package:painel_ccmn/models/sorteios_model.dart';
 
 import '../../../classes/classes.dart';
@@ -34,51 +35,65 @@ Widget cardSorteio({
                     const SizedBox(width: 10),
                     Expanded(
                       flex: 1,
-                      child: Text(sorteio.sorNome),
+                      child: Text(sorteio.preNome),
                     ),
                     Expanded(
                       flex: 2,
                       child: Text(
-                        sorteio.sorNomeGanhador,
+                        sorteio.parNome,
                         // FuncoesData.dataFormatada(sorteio.sorData),
                       ),
                     ),
                     Expanded(
+                      child: Text(
+                        sorteio.cupNumero,
+                        // FuncoesData.dataFormatada(sorteio.sorData),
+                      ),
+                    ),
+
+                    Expanded(
                       flex: 2,
                       child: Text(
-                        sorteio.sorData,
+                        FuncoesData.dataFormatada(sorteio.sorData),
                         // FuncoesData.dataFormatada(sorteio.sorData),
                       ),
                     ),
                     const SizedBox(width: 30),
-                    const Icon(CupertinoIcons.chevron_right),
+                    // const Icon(CupertinoIcons.chevron_right),
                   ],
                 ),
               ),
             ),
           ),
         ),
-        Card(
-          color: Cores.branco,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          elevation: 5,
-          child: Container(
-            height: 55,
-            width: 55,
-            decoration: BoxDecoration(
+        AbsorbPointer(
+          absorbing: sorteio.parNome.isNotEmpty,
+          child: Card(
+            color: Cores.branco,
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
             ),
-            child: IconButton(
-              icon: Icon(
-                sorteado
-                    ? CupertinoIcons.check_mark_circled
-                    : CupertinoIcons.xmark_octagon,
-                color: sorteado ? Cores.verdeMedio : Cores.cinzaMedio,
+            elevation: 5,
+            child: Container(
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
               ),
-              onPressed: onTap,
+              child: IconButton(
+                icon: Icon(
+                  size: sorteio.parNome.isEmpty ? 30 : 25,
+                  sorteio.parNome.isEmpty
+                      // Confetti icon
+                      ? Icons.celebration_rounded
+                      : CupertinoIcons.gift,
+                  color: sorteio.parNome.isEmpty
+                      ? Cores.verdeMedio
+                      : Cores.cinzaMedio,
+                ),
+                onPressed: onTap,
+              ),
             ),
           ),
         ),

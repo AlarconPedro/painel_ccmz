@@ -53,7 +53,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
         await Navigator.push(
           context,
           CupertinoDialogRoute(
-            builder: (context) => const Sortear(),
+            builder: (context) => Sortear(codigoSorteio: 0),
             context: context,
           ),
         );

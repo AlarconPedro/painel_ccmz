@@ -5,13 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:painel_ccmn/funcoes/funcoes_mascara.dart';
 import 'package:painel_ccmn/models/ganhador_model.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/api/promocao/api_promocao.dart';
 
 class Sortear extends StatefulWidget {
-  const Sortear({super.key});
+  int codigoSorteio;
+  Sortear({super.key, required this.codigoSorteio});
 
   @override
   State<Sortear> createState() => _SortearState();
@@ -72,7 +74,8 @@ class _SortearState extends State<Sortear> {
   sortear() async {
     setState(() => carregando = true);
     limparDados();
-    var retorno = await ApiPromocao().sortearCupom(busca.text);
+    var retorno =
+        await ApiPromocao().sortearCupom(busca.text, widget.codigoSorteio);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       setState(() {
@@ -305,7 +308,7 @@ class _SortearState extends State<Sortear> {
                                         ),
                                       ),
                                       Text(
-                                        "Telefone: ${ganhador.parFone}",
+                                        "Telefone: ${FuncoesMascara.mascaraTelefone(ganhador.parFone)}",
                                         style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
