@@ -47,7 +47,7 @@ class ApiPromocao {
     return await _request.getJson("$_urlGetPromocoes/$filtro");
   }
 
-  Future<dynamic> getGanhadorCupom(String filtro,
+  Future<dynamic> getCupons(String filtro,
       {String? cupom, int? skip = 0, int? take = 30}) async {
     return await _request.getJson(
         "$_urlGetGanhadorCupom/$filtro/$skip/$take${cupom != null ? "?codigoCupom=$cupom" : ""}");

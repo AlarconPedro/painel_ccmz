@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../../../classes/classes.dart';
 import '../../../../data/api/promocao/api_promocao.dart';
 import '../../../../data/models/web/promocoes/ganhador_cupom_model.dart';
 import '../../../../widgets/cards/sorteio/card_cupons.dart';
+import '../../../../widgets/form/campo_texto.dart';
 import '../../../../widgets/widgets.dart';
 
 class Cupons extends StatefulWidget {
@@ -19,14 +21,44 @@ class _CuponsState extends State<Cupons> {
   List<GanhadorCupomModel> ganhador = [];
 
   final TextEditingController busca = TextEditingController();
+  final TextEditingController buscaController = TextEditingController();
 
   bool carregando = false;
 
-  buscarGanhador(String filtro,
-      {String? cupom, int? skip = 0, int? take = 30}) async {
+  int filtroSelecionado = 1;
+
+  List<DropdownMenuItem> itensFiltro = [
+    const DropdownMenuItem(
+      value: 1,
+      child: Text("Todos"),
+    ),
+    const DropdownMenuItem(
+      value: 2,
+      child: Text("Vendidos"),
+    ),
+    const DropdownMenuItem(
+      value: 3,
+      child: Text("Sorteados"),
+    ),
+    const DropdownMenuItem(
+      value: 4,
+      child: Text("Cadastrados"),
+    ),
+  ];
+
+  buscarCupons({String? cupom, int? skip = 0, int? take = 30}) async {
+    String filtroBusca = filtroSelecionado == 1 || filtroSelecionado == 0
+        ? "T"
+        : filtroSelecionado == 2
+            ? "V"
+            : filtroSelecionado == 3
+                ? "S"
+                : filtroSelecionado == 4
+                    ? "C"
+                    : "T";
     setState(() => carregando = true);
     var response = await ApiPromocao()
-        .getGanhadorCupom(filtro, cupom: cupom, skip: skip, take: take);
+        .getCupons(filtroBusca, cupom: cupom, skip: skip, take: take);
     if (response.statusCode == 200) {
       ganhador.clear();
       for (var item in json.decode(response.body)) {
@@ -40,7 +72,7 @@ class _CuponsState extends State<Cupons> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    buscarGanhador('T');
+    buscarCupons();
   }
 
   @override
@@ -63,6 +95,84 @@ class _CuponsState extends State<Cupons> {
               height: MediaQuery.of(context).size.height * 0.6,
               child: Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 10, top: 5),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: campoTexto(
+                            titulo: "Buscar Cupom",
+                            dica: "Cupom",
+                            icone: Icons.person,
+                            tipo: TextInputType.text,
+                            temMascara: false,
+                            mascara: MaskTextInputFormatter(
+                                mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
+                            validador: (value) {
+                              return null;
+                            },
+                            controlador: buscaController,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        CupertinoButton(
+                          color: Cores.preto,
+                          padding: const EdgeInsets.all(13),
+                          onPressed: () {
+                            buscarCupons(cupom: buscaController.text);
+                          },
+                          child: const Icon(
+                            CupertinoIcons.search,
+                            color: Cores.branco,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        CupertinoButton(
+                          color: Cores.verdeMedio,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 13,
+                            horizontal: 30,
+                          ),
+                          onPressed: () {},
+                          child: const Row(
+                            children: [
+                              Text(
+                                "Adicionar",
+                                style: TextStyle(
+                                  color: Cores.branco,
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Icon(
+                                CupertinoIcons.add,
+                                color: Cores.branco,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: DropDownForm(
+                            label: "Filtro",
+                            itens: itensFiltro,
+                            selecionado: filtroSelecionado,
+                            onChange: (value) {
+                              setState(() {
+                                filtroSelecionado = value;
+                              });
+                              buscarCupons();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Expanded(
                     child: carregando
                         ? const Center(child: CarregamentoIOS())

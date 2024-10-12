@@ -211,13 +211,13 @@ class NavState extends State<Nav> {
             },
             icon: const Icon(CupertinoIcons.gift),
           ),
-          SideMenuItem(
-            title: 'Cupons',
-            onTap: (index, sideMenu) {
-              sideMenu.changePage(index);
-            },
-            icon: const Icon(CupertinoIcons.tickets),
-          ),
+          // SideMenuItem(
+          //   title: 'Cupons',
+          //   onTap: (index, sideMenu) {
+          //     sideMenu.changePage(index);
+          //   },
+          //   icon: const Icon(CupertinoIcons.tickets),
+          // ),
         ];
       case "Admin":
         return [
