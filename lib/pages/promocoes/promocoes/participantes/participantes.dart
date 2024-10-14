@@ -33,10 +33,10 @@ class _ParticipantesState extends State<Participantes> {
 
   bool carregando = false;
 
-  buscarParticipantes() async {
+  buscarParticipantes({String? busca}) async {
     setState(() => carregando = true);
-    var retorno =
-        await ApiPromocao().getParticipantesPromocao(widget.codigoPromocao);
+    var retorno = await ApiPromocao()
+        .getParticipantesPromocao(widget.codigoPromocao, busca ?? "");
     if (retorno.statusCode == 200) {
       participantes.clear();
       var decoded = json.decode(retorno.body);
@@ -137,7 +137,9 @@ class _ParticipantesState extends State<Participantes> {
                         CupertinoButton(
                           color: Cores.preto,
                           padding: const EdgeInsets.all(13),
-                          onPressed: () {},
+                          onPressed: () {
+                            buscarParticipantes(busca: controlador.text);
+                          },
                           child: const Icon(
                             CupertinoIcons.search,
                             color: Cores.branco,

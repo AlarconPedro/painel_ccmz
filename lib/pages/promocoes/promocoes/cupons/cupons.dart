@@ -46,7 +46,7 @@ class _CuponsState extends State<Cupons> {
     ),
   ];
 
-  buscarCupons({String? cupom, int? skip = 0, int? take = 30}) async {
+  buscarCupons({String? busca, int? skip = 0, int? take = 30}) async {
     String filtroBusca = filtroSelecionado == 1 || filtroSelecionado == 0
         ? "T"
         : filtroSelecionado == 2
@@ -58,7 +58,7 @@ class _CuponsState extends State<Cupons> {
                     : "T";
     setState(() => carregando = true);
     var response = await ApiPromocao()
-        .getCupons(filtroBusca, cupom: cupom, skip: skip, take: take);
+        .getCupons(filtroBusca, cupom: busca, skip: skip, take: take);
     if (response.statusCode == 200) {
       ganhador.clear();
       for (var item in json.decode(response.body)) {
@@ -119,7 +119,7 @@ class _CuponsState extends State<Cupons> {
                           color: Cores.preto,
                           padding: const EdgeInsets.all(13),
                           onPressed: () {
-                            buscarCupons(cupom: buscaController.text);
+                            buscarCupons(busca: buscaController.text);
                           },
                           child: const Icon(
                             CupertinoIcons.search,
