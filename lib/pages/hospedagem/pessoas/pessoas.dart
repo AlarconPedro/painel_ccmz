@@ -98,14 +98,19 @@ class _PessoasState extends State<Pessoas> {
       for (var item in json.decode(retorno.body)) {
         setState(() {
           comunidades.add(
-            DropdownMenuItem(
-              value: item['comCodigo'],
-              child: Text(item['comNome'] +
-                  " - " +
-                  item['comCidade'] +
-                  " - " +
-                  item['comUf']),
-            ),
+            cidade == "Todos"
+                ? DropdownMenuItem(
+                    value: item['comCodigo'],
+                    child: Text(item['comNome'] +
+                        " - " +
+                        item['comCidade'] +
+                        " - " +
+                        item['comUf']),
+                  )
+                : DropdownMenuItem(
+                    value: item['comCodigo'],
+                    child: Text(item['comNome']),
+                  ),
           );
         });
       }

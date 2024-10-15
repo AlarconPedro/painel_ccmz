@@ -74,7 +74,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
       ),
       child: Container(
         width: 380,
-        height: 150,
+        height: 128,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: widget.selecionado ? Cores.azulClaro : Cores.branco,
@@ -82,14 +82,20 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
         child: Row(
           children: [
             Container(
-              color: Cores.cinzaClaro,
-              width: 100,
+              width: 80,
+              decoration: const BoxDecoration(
+                color: Cores.cinzaClaro,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  bottomLeft: Radius.circular(5),
+                ),
+              ),
               child: Center(
                 child: Icon(
                   widget.pessoa.pesGenero == "F"
                       ? Icons.female_rounded
                       : Icons.male_rounded,
-                  size: 50,
+                  size: 40,
                 ),
               ),
             ),
@@ -98,7 +104,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
               child: Container(
                   color: widget.selecionado ? Cores.azulClaro : Cores.branco,
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
                     child: Column(
                       children: [
                         Padding(
@@ -123,7 +129,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
@@ -132,7 +138,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                               Text(
                                 "Comunidade:",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: widget.selecionado
                                       ? Cores.branco
@@ -145,12 +151,13 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                                   color: widget.selecionado
                                       ? Cores.branco
                                       : Cores.cinzaEscuro,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
@@ -159,7 +166,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                               Text(
                                 "Sexo:",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: widget.selecionado
                                       ? Cores.branco
@@ -184,7 +191,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                               Text(
                                 "Pagante:",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: widget.selecionado
                                       ? Cores.branco
@@ -219,7 +226,7 @@ class _CardPessoasEventoState extends State<CardPessoasEvento> {
                               Text(
                                 "Cobrar:",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: widget.selecionado
                                       ? Cores.branco

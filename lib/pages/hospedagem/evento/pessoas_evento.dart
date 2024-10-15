@@ -22,11 +22,20 @@ class _PessoasEventoState extends State<PessoasEvento> {
   List<ComunidadeModel> comunidades = [];
 
   int comunidadeSelecionada = 0;
+  int cidadeSelecionada = 0;
 
   List<int> pessoasSelecionadas = [];
   List<int> pessoasRemover = [];
 
   List<DropdownMenuItem<int>> listaComunidades = [];
+
+  List<String> cidades = [];
+  List<DropdownMenuItem<int>> cidadesListagem = [
+    const DropdownMenuItem(
+      value: 0,
+      child: Text("Todos"),
+    ),
+  ];
 
   buscarPessoas() async {
     setState(() => carregando = true);
@@ -70,9 +79,42 @@ class _PessoasEventoState extends State<PessoasEvento> {
     setState(() => carregando = false);
   }
 
-  buscarComunidades() async {
+  buscarCidades() async {
     setState(() => carregando = true);
-    var retorno = await ApiComunidade().getComunidades("Todos");
+    var retorno = await ApiComunidade().getCidades();
+    if (retorno.statusCode == 200) {
+      cidades.clear();
+      var decoded = json.decode(retorno.body);
+      cidades.add("Todos");
+      for (var item in decoded) {
+        setState(() {
+          cidades.add(item);
+        });
+      }
+      for (var i = 1; i < cidades.length; i++) {
+        setState(() {
+          cidadesListagem.add(
+            DropdownMenuItem(
+              value: i,
+              child: Text(cidades[i]),
+            ),
+          );
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer pessoas !"),
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarComunidades({String? cidade}) async {
+    setState(() => carregando = true);
+    var retorno = await ApiComunidade().getComunidades(cidade ?? "Todos");
     if (retorno.statusCode == 200) {
       comunidades.clear();
       var decoded = json.decode(retorno.body);
@@ -82,10 +124,16 @@ class _PessoasEventoState extends State<PessoasEvento> {
       listaComunidades.clear();
       for (var item in comunidades) {
         listaComunidades.add(
-          DropdownMenuItem(
-            value: item.comCodigo,
-            child: Text("${item.comNome} - ${item.comCidade} - ${item.comUF}"),
-          ),
+          cidade == "Todos"
+              ? DropdownMenuItem(
+                  value: item.comCodigo,
+                  child: Text(
+                      "${item.comNome} - ${item.comCidade} - ${item.comUF}"),
+                )
+              : DropdownMenuItem(
+                  value: item.comCodigo,
+                  child: Text(item.comNome),
+                ),
         );
       }
     } else {
@@ -208,8 +256,9 @@ class _PessoasEventoState extends State<PessoasEvento> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    buscarPessoas();
-    buscarComunidades();
+    // buscarPessoas();
+    // buscarComunidades();
+    buscarCidades();
   }
 
   @override
@@ -244,40 +293,6 @@ class _PessoasEventoState extends State<PessoasEvento> {
                     ),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: carregando
-                              ? const CarregamentoIOS()
-                              : DropdownButtonFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Comunidades',
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                      borderSide: BorderSide(
-                                        color: Cores.cinzaEscuro,
-                                      ),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                  value: comunidadeSelecionada == 0
-                                      ? null
-                                      : comunidadeSelecionada,
-                                  items: listaComunidades,
-                                  onChanged: (value) async {
-                                    setState(() {
-                                      pessoasSelecionadas.clear();
-                                      comunidadeSelecionada = value!;
-                                    });
-                                    await buscarPessoasAlocadas();
-                                    await buscarPessoas();
-                                  },
-                                ),
-                        ),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -333,6 +348,66 @@ class _PessoasEventoState extends State<PessoasEvento> {
                               const SizedBox(height: 30),
                             ],
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: carregando
+                              ? const CarregamentoIOS()
+                              : DropDownForm(
+                                  label: "Cidade",
+                                  itens: cidadesListagem,
+                                  selecionado: cidadeSelecionada,
+                                  onChange: (value) {
+                                    setState(() {
+                                      cidadeSelecionada = value;
+                                      comunidadeSelecionada = 0;
+                                    });
+                                    buscarComunidades(cidade: cidades[value]);
+                                    // cidade: cidades[cidadeSelecionada]);
+                                  },
+                                ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: carregando
+                              ? const CarregamentoIOS()
+                              : DropdownButtonFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Comunidades',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Cores.cinzaEscuro,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  value: comunidadeSelecionada == 0
+                                      ? null
+                                      : comunidadeSelecionada,
+                                  items: listaComunidades,
+                                  onChanged: (value) async {
+                                    setState(() {
+                                      pessoasSelecionadas.clear();
+                                      comunidadeSelecionada = value!;
+                                    });
+                                    await buscarPessoasAlocadas();
+                                    await buscarPessoas();
+                                  },
+                                ),
                         ),
                       ],
                     ),

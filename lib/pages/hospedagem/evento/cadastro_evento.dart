@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -71,7 +72,9 @@ class _CadastroEventoState extends State<CadastroEvento> {
       eveDataFim: FuncoesData.stringToDateTime(dataFimController.text),
       eveValor: valorEventoController.text == ""
           ? 0.0
-          : double.parse(valorEventoController.text),
+          : double.parse(valorEventoController.text
+              .replaceAll("R\$", "")
+              .replaceAll(",", ".")),
       eveTipoCobranca: tipoCobranca[selecionado - 1].values.first,
     );
   }
@@ -132,7 +135,9 @@ class _CadastroEventoState extends State<CadastroEvento> {
           TextEditingValue(text: widget.evento!.eveDataFim);
       dataInicioController.value =
           TextEditingValue(text: widget.evento!.eveDataInicio);
-      valorEventoController.text = widget.evento!.eveValor.toString();
+      valorEventoController.text = NumberFormat.simpleCurrency(locale: "pt_BR")
+          .format(widget.evento!.eveValor)
+          .toString();
       selecionado = widget.evento!.eveTipoCobranca == "P" ? 1 : 2;
     }
   }
@@ -142,7 +147,7 @@ class _CadastroEventoState extends State<CadastroEvento> {
     return CadastroForm(
       formKey: formKey,
       titulo: "Cadastro de Evento",
-      altura: 3.4,
+      altura: 3.1,
       largura: 2,
       gravar: () {
         if (formKey.currentState!.validate()) {
@@ -238,7 +243,7 @@ class _CadastroEventoState extends State<CadastroEvento> {
                           colorScheme: const ColorScheme.light(
                             primary: Cores.cinzaEscuro,
                             onPrimary: Cores.branco,
-                            surface: Cores.cinzaEscuro,
+                            surface: Cores.branco,
                             onSurface: Cores.cinzaEscuro,
                           ),
                           dialogBackgroundColor: Colors.white,
@@ -296,7 +301,7 @@ class _CadastroEventoState extends State<CadastroEvento> {
                             colorScheme: const ColorScheme.light(
                               primary: Cores.cinzaEscuro,
                               onPrimary: Cores.branco,
-                              surface: Cores.cinzaEscuro,
+                              surface: Cores.branco,
                               onSurface: Cores.cinzaEscuro,
                             ),
                             dialogBackgroundColor: Colors.white,
@@ -340,6 +345,14 @@ class _CadastroEventoState extends State<CadastroEvento> {
                   child: TextFormField(
                     controller: valorEventoController,
                     keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      CurrencyTextInputFormatter.currency(
+                        locale: "pt_BR",
+                        symbol: "R\$",
+                        decimalDigits: 2,
+                        name: "Real",
+                      ),
+                    ],
                     decoration: const InputDecoration(
                       labelText: 'Valor',
                       enabledBorder: OutlineInputBorder(
