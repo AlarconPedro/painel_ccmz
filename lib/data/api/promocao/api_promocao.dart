@@ -11,7 +11,7 @@ class ApiPromocao {
 
   //GET
   final String _urlGetPromocoes = "${Globais.urlBase}promocao";
-  final String _urlGetGanhadorCupom = "${Globais.urlBase}promocao/ganhador";
+  final String _urlGetGanhadorCupom = "${Globais.urlBase}promocao/cupons";
   final String _urlGetSorteiosPromocao = "${Globais.urlBase}promocao/sorteios";
   final String _urlGetPremiosPromocao = "${Globais.urlBase}promocao/premios";
   final String _urlGetCuponsPromocao = "${Globais.urlBase}promocao/cupons";
@@ -47,10 +47,10 @@ class ApiPromocao {
     return await _request.getJson("$_urlGetPromocoes/$filtro");
   }
 
-  Future<dynamic> getCupons(String filtro, String busca,
-      {String? cupom, int? skip = 0, int? take = 30}) async {
+  Future<dynamic> getCupons(String filtro,
+      {String? busca, int? skip = 0, int? take = 30}) async {
     return await _request.getJson(
-        "$_urlGetGanhadorCupom/$filtro/$busca/$skip/$take${cupom != null ? "?codigoCupom=$cupom" : ""}");
+        "$_urlGetGanhadorCupom/$filtro/$skip/$take${busca != null ? "?busca=$busca" : ""}");
   }
 
   Future<dynamic> getSorteiosPromocao() async {

@@ -27,7 +27,7 @@ class _ListaGanhadorCuponState extends State<ListaGanhadorCupon> {
       {String? cupom, int? skip = 0, int? take = 30}) async {
     setState(() => carregando = true);
     var response = await ApiPromocao()
-        .getCupons(filtro, cupom: cupom, skip: skip, take: take);
+        .getCupons(filtro, busca: cupom, skip: skip, take: take);
     if (response.statusCode == 200) {
       ganhador.clear();
       for (var item in json.decode(response.body)) {

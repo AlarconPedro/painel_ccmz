@@ -33,12 +33,13 @@ class _ParticipantesState extends State<Participantes> {
 
   bool carregando = false;
 
-  buscarParticipantes({String? busca}) async {
+  buscarParticipantes({String? busca = "T"}) async {
     setState(() => carregando = true);
     var retorno = await ApiPromocao()
-        .getParticipantesPromocao(widget.codigoPromocao, busca ?? "");
+        .getParticipantesPromocao(widget.codigoPromocao, busca!);
     if (retorno.statusCode == 200) {
       participantes.clear();
+      controlador.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
         setState(() {
@@ -138,6 +139,9 @@ class _ParticipantesState extends State<Participantes> {
                           color: Cores.preto,
                           padding: const EdgeInsets.all(13),
                           onPressed: () {
+                            if (controlador.text.isEmpty) {
+                              buscarParticipantes(busca: "T");
+                            }
                             buscarParticipantes(busca: controlador.text);
                           },
                           child: const Icon(

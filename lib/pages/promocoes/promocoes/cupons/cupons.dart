@@ -58,9 +58,10 @@ class _CuponsState extends State<Cupons> {
                     : "T";
     setState(() => carregando = true);
     var response = await ApiPromocao()
-        .getCupons(filtroBusca, cupom: busca, skip: skip, take: take);
+        .getCupons(filtroBusca, busca: busca, skip: skip, take: take);
     if (response.statusCode == 200) {
       ganhador.clear();
+      buscaController.clear();
       for (var item in json.decode(response.body)) {
         ganhador.add(GanhadorCupomModel.fromJson(item));
       }
@@ -101,8 +102,8 @@ class _CuponsState extends State<Cupons> {
                       children: [
                         Expanded(
                           child: campoTexto(
-                            titulo: "Buscar Cupom",
-                            dica: "Cupom",
+                            titulo: "Buscar",
+                            dica: "Buscar",
                             icone: Icons.person,
                             tipo: TextInputType.text,
                             temMascara: false,
@@ -166,7 +167,11 @@ class _CuponsState extends State<Cupons> {
                               setState(() {
                                 filtroSelecionado = value;
                               });
-                              buscarCupons();
+                              if (buscaController.text.isNotEmpty) {
+                                buscarCupons(busca: buscaController.text);
+                              } else {
+                                buscarCupons();
+                              }
                             },
                           ),
                         ),
