@@ -684,7 +684,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
             ),
             child: SizedBox(
               height: MediaQuery.of(context).size.height / 1,
-              width: MediaQuery.of(context).size.width / 1.5,
+              width: MediaQuery.of(context).size.width / 1.4,
               child: Column(
                 children: [
                   Container(
@@ -703,7 +703,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                             ),
                           )
                         : SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.5,
+                            width: MediaQuery.of(context).size.width / 1.4,
                             height: 350,
                             child: Padding(
                               padding: const EdgeInsets.all(10),
