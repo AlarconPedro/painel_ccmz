@@ -211,9 +211,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
       pessoas.clear();
       var decoded = json.decode(retorno.body);
       for (var item in decoded) {
-        setState(() {
-          pessoas.add(PessoaModel.fromJson(item));
-        });
+        pessoas.add(PessoaModel.fromJson(item));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

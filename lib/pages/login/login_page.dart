@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
           Center(
             child: Container(
               margin: const EdgeInsets.only(bottom: 180),
-              width: 550,
+              width: 500,
               height: 500,
               decoration: const BoxDecoration(
                 color: Cores.branco,

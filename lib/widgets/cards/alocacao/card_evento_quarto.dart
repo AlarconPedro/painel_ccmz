@@ -125,7 +125,7 @@ class _CardEventoQuartoState extends State<CardEventoQuarto> {
           color: definirCorCard(),
         ),
         width: 300,
-        height: 200,
+        height: 220,
         child: Column(
           children: [
             Row(

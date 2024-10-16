@@ -7,6 +7,7 @@ import '../../../../classes/classes.dart';
 import '../../../../data/api/promocao/api_promocao.dart';
 import '../../../../data/models/web/promocoes/ganhador_cupom_model.dart';
 import '../../../../widgets/cards/sorteio/card_cupons.dart';
+import '../../../../widgets/form/campo_busca.dart';
 import '../../../../widgets/form/campo_texto.dart';
 import '../../../../widgets/widgets.dart';
 
@@ -97,28 +98,35 @@ class _CuponsState extends State<Cupons> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 10, top: 5),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       children: [
                         Expanded(
-                          child: campoTexto(
-                            titulo: "Buscar",
-                            dica: "Buscar",
-                            icone: Icons.person,
-                            tipo: TextInputType.text,
-                            temMascara: false,
-                            mascara: MaskTextInputFormatter(
-                                mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
-                            validador: (value) {
-                              return null;
+                          child: campoBusca(
+                            busca: () {
+                              buscarCupons(busca: buscaController.text);
                             },
+                            titulo: "Cupom",
                             controlador: buscaController,
                           ),
+                          // campoTexto(
+                          //   titulo: "Buscar",
+                          //   dica: "Buscar",
+                          //   icone: Icons.person,
+                          //   tipo: TextInputType.text,
+                          //   temMascara: false,
+                          //   mascara: MaskTextInputFormatter(
+                          //       mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
+                          //   validador: (value) {
+                          //     return null;
+                          //   },
+                          //   controlador: buscaController,
+                          // ),
                         ),
                         const SizedBox(width: 5),
                         CupertinoButton(
                           color: Cores.preto,
-                          padding: const EdgeInsets.all(13),
+                          padding: const EdgeInsets.all(8),
                           onPressed: () {
                             buscarCupons(busca: buscaController.text);
                           },
@@ -131,7 +139,7 @@ class _CuponsState extends State<Cupons> {
                         CupertinoButton(
                           color: Cores.verdeMedio,
                           padding: const EdgeInsets.symmetric(
-                            vertical: 13,
+                            vertical: 5,
                             horizontal: 30,
                           ),
                           onPressed: () {},
@@ -155,7 +163,7 @@ class _CuponsState extends State<Cupons> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 12, right: 12),
                     child: Row(
                       children: [
                         Expanded(

@@ -9,6 +9,7 @@ import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/api/promocao/api_promocao.dart';
+import '../../../widgets/form/campo_busca.dart';
 import '../../../widgets/form/campo_texto.dart';
 
 class Premios extends StatefulWidget {
@@ -137,27 +138,16 @@ class _PremiosState extends State<Premios> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: campoTexto(
+                          child: campoBusca(
+                            busca: () {},
                             titulo: "Prêmio",
-                            dica: "Nome",
-                            icone: Icons.person,
-                            tipo: TextInputType.text,
-                            temMascara: false,
-                            mascara: MaskTextInputFormatter(
-                                mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
-                            validador: (value) {
-                              // if (value.isEmpty) {
-                              //   return "Campo Obrigatório";
-                              // }
-                              return null;
-                            },
                             controlador: controlador,
                           ),
                         ),
                         const SizedBox(width: 5),
                         CupertinoButton(
                           color: Cores.preto,
-                          padding: const EdgeInsets.all(13),
+                          padding: const EdgeInsets.all(8),
                           onPressed: () {},
                           child: const Icon(
                             CupertinoIcons.search,
@@ -168,7 +158,7 @@ class _PremiosState extends State<Premios> {
                         CupertinoButton(
                           color: Cores.verdeMedio,
                           padding: const EdgeInsets.symmetric(
-                            vertical: 13,
+                            vertical: 5,
                             horizontal: 30,
                           ),
                           onPressed: () {

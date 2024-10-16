@@ -13,6 +13,7 @@ import 'package:painel_ccmn/widgets/form/campo_texto.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../../classes/classes.dart';
+import '../../../../widgets/form/campo_busca.dart';
 
 class Participantes extends StatefulWidget {
   int codigoPromocao;
@@ -117,27 +118,15 @@ class _ParticipantesState extends State<Participantes> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: campoTexto(
-                            titulo: titulo,
-                            dica: "Nome",
-                            icone: Icons.person,
-                            tipo: TextInputType.text,
-                            temMascara: false,
-                            mascara: MaskTextInputFormatter(
-                                mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
-                            validador: (value) {
-                              // if (value.isEmpty) {
-                              //   return "Campo Obrigatório";
-                              // }
-                              return null;
-                            },
-                            controlador: controlador,
-                          ),
+                          child: campoBusca(
+                              controlador: controlador,
+                              busca: buscarParticipantes,
+                              titulo: "Nome"),
                         ),
                         const SizedBox(width: 5),
                         CupertinoButton(
                           color: Cores.preto,
-                          padding: const EdgeInsets.all(13),
+                          padding: const EdgeInsets.all(8),
                           onPressed: () {
                             if (controlador.text.isEmpty) {
                               buscarParticipantes(busca: "T");
@@ -153,7 +142,7 @@ class _ParticipantesState extends State<Participantes> {
                         CupertinoButton(
                           color: Cores.verdeMedio,
                           padding: const EdgeInsets.symmetric(
-                            vertical: 13,
+                            vertical: 5,
                             horizontal: 30,
                           ),
                           onPressed: () {
@@ -215,14 +204,17 @@ class _ParticipantesState extends State<Participantes> {
                                                               .spaceBetween,
                                                       children: [
                                                         Text(
-                                                            "CPF: ${FuncoesMascara.mascaraCpf(participantes[index].cpf)}"),
+                                                            // "CPF: ${FuncoesMascara.mascaraCpf(participantes[index].cpf)}"),
+                                                            "CPF: ${participantes[index].cpf}"),
                                                         Text(
-                                                          FuncoesMascara
-                                                              .mascaraTelefone(
-                                                                  participantes[
-                                                                          index]
-                                                                      .telefone),
-                                                        ),
+                                                            participantes[index]
+                                                                .telefone
+                                                            // ,FuncoesMascara
+                                                            // .mascaraTelefone(
+                                                            //     participantes[
+                                                            //             index]
+                                                            //         .telefone),
+                                                            ),
                                                       ],
                                                     ),
                                                     trailing: MouseRegion(
