@@ -59,6 +59,7 @@ class _SorteiosState extends State<Sorteios> {
   @override
   Widget build(BuildContext context) {
     return PageView(
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         Esqueleto(
           abrirTelaCadastro: () async {

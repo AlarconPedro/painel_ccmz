@@ -6,7 +6,7 @@ class FuncoesMascara {
     if (telefone.length == 10) {
       return '(${telefone.substring(0, 2)}) ****-${telefone.substring(6, 10)}';
     } else {
-      return '(${telefone.substring(0, 2)}) *****-${telefone.substring(7, 11)}';
+      return '(${telefone.substring(0, 2)}) *****-${telefone.substring(8, 12)}';
     }
   }
 
