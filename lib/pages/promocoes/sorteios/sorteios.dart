@@ -86,27 +86,23 @@ class _SorteiosState extends State<Sorteios> {
           onChange: () {},
           selecionado: 0,
           corpo: [
-            carregando
-                ? const CarregamentoIOS()
-                : sorteios.isNotEmpty
-                    ? Expanded(
-                        child: Padding(
+            Expanded(
+              child: carregando
+                  ? const Center(child: CarregamentoIOS())
+                  : sorteios.isNotEmpty
+                      ? Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 10),
                           child: ListView.builder(
                             // itemCount: sorteios.length,
                             itemCount: sorteios.length,
                             itemBuilder: (context, index) {
-                              return cardSorteio(
-                                context: context,
-                                sorteado: index.isEven ? true : false,
-                                sorteio: sorteios[index],
+                              return GestureDetector(
                                 onTap: () async {
                                   await Navigator.push(
                                     context,
                                     CupertinoDialogRoute(
-                                      builder: (context) => Sortear(
-                                        // Compare this line from lib/pages/promocoes/sorteios/sorteios.dart
+                                      builder: (context) => CadastroSorteio(
                                         codigoSorteio:
                                             sorteios[index].sorCodigo,
                                       ),
@@ -115,16 +111,33 @@ class _SorteiosState extends State<Sorteios> {
                                   );
                                   buscarSorteios();
                                 },
+                                child: cardSorteio(
+                                  context: context,
+                                  sorteado: index.isEven ? true : false,
+                                  sorteio: sorteios[index],
+                                  onTap: () async {
+                                    await Navigator.push(
+                                      context,
+                                      CupertinoDialogRoute(
+                                        builder: (context) => Sortear(
+                                          // Compare this line from lib/pages/promocoes/sorteios/sorteios.dart
+                                          codigoSorteio:
+                                              sorteios[index].sorCodigo,
+                                        ),
+                                        context: context,
+                                      ),
+                                    );
+                                    buscarSorteios();
+                                  },
+                                ),
                               );
                             },
                           ),
-                        ),
-                      )
-                    : const Expanded(
-                        child: Center(
+                        )
+                      : const Center(
                           child: Text('Nenhum sorteio cadastrado !'),
                         ),
-                      ),
+            ),
           ],
         ),
         Esqueleto(

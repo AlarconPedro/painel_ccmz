@@ -15,7 +15,8 @@ import '../../../models/promocoes_model.dart';
 
 class CadastroSorteio extends StatefulWidget {
   SorteiosModel? sorteio;
-  CadastroSorteio({super.key, this.sorteio});
+  int? codigoSorteio;
+  CadastroSorteio({super.key, this.sorteio, this.codigoSorteio});
 
   @override
   State<CadastroSorteio> createState() => _CadastroSorteioState();
@@ -28,13 +29,12 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   final dataController = TextEditingController();
 
   SorteiosModel sorteio = SorteiosModel(
-    sorCodigo: 0,
-    cupNumero: '',
-    parNome: '',
-    preCodigo: 0,
-    preNome: '',
-    sorData: '',
-  );
+      sorCodigo: 0,
+      cupNumero: '',
+      parNome: '',
+      preCodigo: 0,
+      preNome: '',
+      sorData: '');
 
   int promocaoSelecionada = 0;
   int premioSelecionado = 0;
@@ -60,6 +60,16 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
           ),
         );
       }
+    }
+  }
+
+  buscarDadosPromocao(int codigoPromocao) async {
+    var retorno = await ApiPromocao().getPromocao(codigoPromocao);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        nomeController.text = decoded['proNome'];
+      });
     }
   }
 
@@ -129,6 +139,9 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     // TODO: implement initState
     super.initState();
     buscarPromocoes();
+    if (widget.codigoSorteio != null) {
+      buscarDadosPromocao(widget.codigoSorteio!);
+    }
   }
 
   @override
