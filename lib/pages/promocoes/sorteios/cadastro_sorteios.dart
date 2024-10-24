@@ -44,6 +44,23 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
 
   bool carregando = false;
 
+  alimentarCampos() {
+    nomeController.text = sorteio.sorNome;
+    dataController.text = sorteio.sorData;
+    promocaoSelecionada = sorteio.proCodigo;
+    premioSelecionado = sorteio.preCodigo;
+  }
+
+  buscarDadosSorteio() async {
+    setState(() => carregando = true);
+    var retorno = await ApiPromocao().getSorteio(widget.codigoSorteio!);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      sorteio = SorteiosModel.fromJson(decoded);
+    }
+    setState(() => carregando = false);
+  }
+
   buscarPromocoes() async {
     var retorno = await ApiPromocao().getPromocoes("V");
     if (retorno.statusCode == 200) {
@@ -139,9 +156,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     // TODO: implement initState
     super.initState();
     buscarPromocoes();
-    if (widget.codigoSorteio != null) {
-      buscarDadosPromocao(widget.codigoSorteio!);
-    }
+    if (widget.codigoSorteio != null) buscarDadosSorteio();
   }
 
   @override
