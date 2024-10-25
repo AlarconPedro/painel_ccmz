@@ -5,6 +5,7 @@ class SorteioModel {
   int preCodigo;
   int cupCodigo;
   int proCodigo;
+  String proVideo;
 
   SorteioModel({
     required this.sorCodigo,
@@ -13,6 +14,7 @@ class SorteioModel {
     required this.preCodigo,
     required this.cupCodigo,
     required this.proCodigo,
+    required this.proVideo,
   });
 
   factory SorteioModel.fromMap(Map<String, dynamic> map) {
@@ -23,6 +25,7 @@ class SorteioModel {
       preCodigo: map['preCodigo'],
       cupCodigo: map['cupCodigo'],
       proCodigo: map['proCodigo'],
+      proVideo: map['proVideo'],
     );
   }
 
@@ -34,6 +37,7 @@ class SorteioModel {
       'preCodigo': preCodigo,
       'cupCodigo': cupCodigo == 0 ? null : cupCodigo,
       'proCodigo': proCodigo,
+      'proVideo': proVideo,
     };
   }
 }

@@ -26,15 +26,19 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   final formKey = GlobalKey<FormState>();
 
   final nomeController = TextEditingController();
+  final videoController = TextEditingController();
   final dataController = TextEditingController();
 
   SorteiosModel sorteio = SorteiosModel(
-      sorCodigo: 0,
-      cupNumero: '',
-      parNome: '',
-      preCodigo: 0,
-      preNome: '',
-      sorData: '');
+    sorCodigo: 0,
+    cupNumero: '',
+    parNome: '',
+    preCodigo: 0,
+    preNome: '',
+    sorData: '',
+    proCodigo: 0,
+    proVideo: '',
+  );
 
   int promocaoSelecionada = 0;
   int premioSelecionado = 0;
@@ -44,19 +48,23 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
 
   bool carregando = false;
 
-  alimentarCampos() {
-    nomeController.text = sorteio.sorNome;
-    dataController.text = sorteio.sorData;
+  alimentarCampos(SorteiosModel sorteio) {
+    nomeController.text = sorteio.preNome;
+    dataController.text = FuncoesData.dataFormatada(sorteio.sorData);
     promocaoSelecionada = sorteio.proCodigo;
     premioSelecionado = sorteio.preCodigo;
+    videoController.text = sorteio.proVideo;
   }
 
   buscarDadosSorteio() async {
     setState(() => carregando = true);
+    await buscarPromocoes();
     var retorno = await ApiPromocao().getSorteio(widget.codigoSorteio!);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       sorteio = SorteiosModel.fromJson(decoded);
+      await buscarPremios(sorteio.proCodigo);
+      alimentarCampos(sorteio);
     }
     setState(() => carregando = false);
   }
@@ -109,6 +117,17 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   }
 
   SorteioModel preparaDados() {
+    if (widget.codigoSorteio != null) {
+      return SorteioModel(
+        sorCodigo: sorteio.sorCodigo,
+        cupCodigo: 0,
+        parCodigo: 0,
+        sorData: FuncoesData.stringToDateTime(dataController.text),
+        proCodigo: promocaoSelecionada,
+        preCodigo: premioSelecionado,
+        proVideo: videoController.text,
+      );
+    }
     return SorteioModel(
       sorCodigo: 0,
       cupCodigo: 0,
@@ -116,6 +135,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
       sorData: FuncoesData.stringToDateTime(dataController.text),
       proCodigo: promocaoSelecionada,
       preCodigo: premioSelecionado,
+      proVideo: videoController.text,
     );
   }
 
@@ -123,17 +143,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     setState(() => carregando = true);
     dynamic retorno = await ApiPromocao().addSorteioPromocao(preparaDados());
     if (retorno.statusCode == 200) {
-      Navigator.pop(
-        context,
-        // SorteiosModel(
-        //   sorCodigo: 0,
-        //   cupNumero: '',
-        //   parNome: '',
-        //   preCodigo: 0,
-        //   preNome: '',
-        //   sorData: dataController.text,
-        // ),
-      );
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Sorteio cadastrado com sucesso!'),
@@ -144,6 +154,28 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Erro ao cadastrar o Sorteio!'),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  updateSorteio() async {
+    setState(() => carregando = true);
+    dynamic retorno = await ApiPromocao().updateSorteioPromocao(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sorteio atualizado com sucesso!'),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao atualizar o Sorteio!'),
           backgroundColor: Cores.vermelhoMedio,
         ),
       );
@@ -243,10 +275,47 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
             },
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: videoController,
+                  decoration: const InputDecoration(
+                    labelText: 'Vídeo',
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      borderSide: BorderSide(
+                        color: Cores.cinzaEscuro,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
       titulo: "Novo Sorteio",
       gravar: () {
-        gravarSorteio();
+        if (widget.codigoSorteio != null) {
+          updateSorteio();
+        } else
+          gravarSorteio();
       },
       cancelar: () {},
     );

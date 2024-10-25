@@ -111,24 +111,27 @@ class _SorteiosState extends State<Sorteios> {
                                   );
                                   buscarSorteios();
                                 },
-                                child: cardSorteio(
-                                  context: context,
-                                  sorteado: index.isEven ? true : false,
-                                  sorteio: sorteios[index],
-                                  onTap: () async {
-                                    await Navigator.push(
-                                      context,
-                                      CupertinoDialogRoute(
-                                        builder: (context) => Sortear(
-                                          // Compare this line from lib/pages/promocoes/sorteios/sorteios.dart
-                                          codigoSorteio:
-                                              sorteios[index].sorCodigo,
+                                child: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: cardSorteio(
+                                    context: context,
+                                    sorteado: index.isEven ? true : false,
+                                    sorteio: sorteios[index],
+                                    onTap: () async {
+                                      await Navigator.push(
+                                        context,
+                                        CupertinoDialogRoute(
+                                          builder: (context) => Sortear(
+                                            // Compare this line from lib/pages/promocoes/sorteios/sorteios.dart
+                                            codigoSorteio:
+                                                sorteios[index].sorCodigo,
+                                          ),
+                                          context: context,
                                         ),
-                                        context: context,
-                                      ),
-                                    );
-                                    buscarSorteios();
-                                  },
+                                      );
+                                      buscarSorteios();
+                                    },
+                                  ),
                                 ),
                               );
                             },
