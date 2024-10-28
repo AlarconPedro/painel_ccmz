@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/pages/hospedagem/evento/alocacao/pessoas_alocadas.dart';
+import 'package:painel_ccmn/pages/hospedagem/evento/alocacao/alocacao_dragdrop.dart';
 
-import '../../../classes/classes.dart';
-import '../../../data/data.dart';
-import '../../../widgets/widgets.dart';
+import '../../../../classes/classes.dart';
+import '../../../../data/data.dart';
+import '../../../../widgets/widgets.dart';
 
 class AlocacaoEvento extends StatefulWidget {
   int codigoEvento;
@@ -71,43 +72,6 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
           ),
         );
       });
-      // var retorno = await ApiEvento().getEventosAtivos();
-      // if (retorno.statusCode == 200) {
-      //   if (retorno.body != "[]") {
-      //     eventos.clear();
-      //     var decoded = json.decode(retorno.body);
-      //     for (var item in decoded) {
-      //       setState(() {
-      //         eventos.add(
-      //           DropdownMenuItem(
-      //             value: item["eveCodigo"],
-      //             child: Text(item["eveNome"]),
-      //           ),
-      //         );
-      //       });
-      //     }
-      //   } else {
-      //     retorno = await ApiEvento().getEvento(widget.codigoEvento);
-      //     if (retorno.statusCode == 200) {
-      //       eventos.clear();
-      //       var decoded = json.decode(retorno.body);
-      //       setState(() {
-      //         eventos.add(
-      //           DropdownMenuItem(
-      //             value: decoded["eveCodigo"],
-      //             child: Text(decoded["eveNome"]),
-      //           ),
-      //         );
-      //       });
-      //     } else {
-      //       ScaffoldMessenger.of(context).showSnackBar(
-      //         const SnackBar(
-      //           content: Text("Erro ao buscar eventos!"),
-      //           backgroundColor: Cores.vermelhoMedio,
-      //         ),
-      //       );
-      //     }
-      //   }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -645,7 +609,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   @override
   Widget build(BuildContext context) {
-    return EstruturaAlocacaoEvento(
+    return AlocacaoDragDrop(
       formKey: formKey,
       buscar: (value) {
         setState(() {
@@ -851,17 +815,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                   ),
                 ),
               ),
-              AlocacaoEventoPessoas(
-                quarto: quarto,
-                // removePessoa: (int pessoa) {
-                //   setState(() {
-                //     pessoasSelecionadas.remove(pessoa);
-                //   });
-                //   removerPessoaQuarto(pessoa);
-                // },
-                vagasQuarto: vagasQuarto,
-                // pessoas: pessoasSelecionadas.map((e) => e.pesNome).toList(),
-              ),
+              AlocacaoEventoPessoas(quarto: quarto, vagasQuarto: vagasQuarto),
             ],
           ),
         ),

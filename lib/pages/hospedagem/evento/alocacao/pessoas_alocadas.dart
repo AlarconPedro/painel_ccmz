@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/data/data.dart';
 
-import '../../../classes/classes.dart';
+import '../../../../classes/classes.dart';
 
 class AlocacaoEventoPessoas extends StatelessWidget {
   QuartoModel quarto;
@@ -19,10 +19,7 @@ class AlocacaoEventoPessoas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: 130,
-        horizontal: 200,
-      ),
+      margin: const EdgeInsets.symmetric(vertical: 130, horizontal: 200),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Cores.branco,

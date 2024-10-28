@@ -22,9 +22,6 @@ export 'hospedagem/evento/evento.dart';
 export 'hospedagem/evento/cadastro_evento.dart';
 export 'hospedagem/evento/quartos_evento.dart';
 export 'hospedagem/evento/pessoas_evento.dart';
-export 'hospedagem/evento/alocacao_evento.dart';
-export 'hospedagem/evento/alocacao_evento_pessoas.dart';
-export 'hospedagem/evento/estrutura_alocacao_evento.dart';
 export 'hospedagem/evento/acerto_evento.dart';
 
 export 'hospedagem/alocacao/alocacao.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../classes/classes.dart';
+import '../../../../classes/classes.dart';
 
-class EstruturaAlocacaoEvento extends StatefulWidget {
+class AlocacaoDragDrop extends StatefulWidget {
   GlobalKey<FormState> formKey;
 
   Widget comboPessoas;
@@ -17,7 +17,7 @@ class EstruturaAlocacaoEvento extends StatefulWidget {
 
   Function(String) buscar;
 
-  EstruturaAlocacaoEvento({
+  AlocacaoDragDrop({
     super.key,
     required this.formKey,
     required this.comboPessoas,
@@ -32,11 +32,10 @@ class EstruturaAlocacaoEvento extends StatefulWidget {
   });
 
   @override
-  State<EstruturaAlocacaoEvento> createState() =>
-      _EstruturaAlocacaoEventoState();
+  State<AlocacaoDragDrop> createState() => _AlocacaoDragDropState();
 }
 
-class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
+class _AlocacaoDragDropState extends State<AlocacaoDragDrop> {
   TextEditingController buscaPessoas = TextEditingController();
 
   bool carregando = false;
