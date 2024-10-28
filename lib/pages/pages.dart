@@ -15,8 +15,8 @@ export 'hospedagem/quartos/cadastro_quarto.dart';
 export 'hospedagem/comunidade/comunidade.dart';
 export 'hospedagem/comunidade/cadastro_comunidade.dart';
 
-export 'hospedagem/esqueleto/esqueleto.dart';
-export 'hospedagem/esqueleto/cadastro_form.dart';
+export '../widgets/telas/esqueleto/esqueleto.dart';
+export '../widgets/telas/esqueleto/cadastro_form.dart';
 
 export 'hospedagem/evento/evento.dart';
 export 'hospedagem/evento/cadastro_evento.dart';

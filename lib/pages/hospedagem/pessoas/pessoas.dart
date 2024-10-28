@@ -235,6 +235,7 @@ class _PessoasState extends State<Pessoas> {
           context: context,
           camposCard: Row(
             children: [
+              SizedBox(width: 50),
               Expanded(
                   flex: 4,
                   child: Text(pessoa.pesNome,
@@ -257,12 +258,8 @@ class _PessoasState extends State<Pessoas> {
                   flex: 2,
                   child: Text(pessoa.pesCatequista,
                       style: const TextStyle(fontWeight: FontWeight.bold))),
-              Expanded(
-                  flex: 2,
-                  child: Text(pessoa.pesCatequista,
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-              const Text("Excluir",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(pessoa.pesCatequista,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(width: 25),
             ],
           ),
