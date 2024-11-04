@@ -36,13 +36,9 @@ class AlocacaoEventoPessoas extends StatelessWidget {
           Center(
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Text(
-                quarto.quaNome,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: Text(quarto.quaNome,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold)),
             ),
           ),
           Padding(

@@ -55,9 +55,12 @@ class _AlocacaoDragDropState extends State<AlocacaoDragDrop> {
                 Radius.circular(10),
               ),
             ),
-            child: SizedBox(
+            child: Container(
               height: MediaQuery.of(context).size.height / 1.1,
               width: MediaQuery.of(context).size.width / 1.1,
+              decoration: const BoxDecoration(
+                  color: Cores.branco,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
               child: Form(
                 key: widget.formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
