@@ -425,6 +425,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
       AlocacaoModel(
         pesCodigo: codigoPessoa,
         quaCodigo: quarto.quaCodigo,
+        eveCodigo: eventoSelecionado,
         qupCodigo: 0,
         pesChave: false,
         pesCheckin: false,
