@@ -213,11 +213,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Cores.verdeMedio.withOpacity(0.2),
-                    border: Border.all(
-                      // color: Cores.verdeMedio.withOpacity(0.2),
-                      color: Cores.preto,
-                      width: 2,
-                    ),
+                    border: Border.all(color: Cores.preto, width: 2),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10),

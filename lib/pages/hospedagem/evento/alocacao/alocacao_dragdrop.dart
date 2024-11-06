@@ -207,23 +207,7 @@ class _AlocacaoDragDropState extends State<AlocacaoDragDrop> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
-                                      children: [
-                                        // Padding(
-                                        //   padding: const EdgeInsets.only(
-                                        //     bottom: 10,
-                                        //     left: 2,
-                                        //     right: 2,
-                                        //   ),
-                                        //   child: Row(
-                                        //     children: [
-                                        //       // widget.comboEvento,
-                                        //       // const SizedBox(width: 10),
-                                        //       // widget.comboBloco,
-                                        //     ],
-                                        //   ),
-                                        // ),
-                                        widget.pageView,
-                                      ],
+                                      children: [widget.pageView],
                                     ),
                                   ),
                                 ),
