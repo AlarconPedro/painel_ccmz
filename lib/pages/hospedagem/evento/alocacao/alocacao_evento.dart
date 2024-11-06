@@ -468,7 +468,8 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
 
   removerPessoaQuarto(int codigoPessoa) async {
     setState(() => carregando = true);
-    var retorno = await ApiAlocacao().deletePessoaQuarto(codigoPessoa);
+    var retorno =
+        await ApiAlocacao().deletePessoaQuarto(codigoPessoa, eventoSelecionado);
     if (retorno.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
