@@ -235,7 +235,7 @@ class _PessoasState extends State<Pessoas> {
           context: context,
           camposCard: Row(
             children: [
-              SizedBox(width: 50),
+              SizedBox(width: 10),
               Expanded(
                   flex: 4,
                   child: Text(pessoa.pesNome,
@@ -301,6 +301,7 @@ class _PessoasState extends State<Pessoas> {
       },
       tituloColunas: const Row(
         children: [
+          SizedBox(width: 30),
           Expanded(
               flex: 4,
               child:
