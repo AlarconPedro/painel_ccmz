@@ -198,6 +198,33 @@ class _AlocacaoDragDropState extends State<AlocacaoDragDrop> {
                                           ),
                                         ),
                                         widget.comboPessoas,
+                                        const SizedBox(height: 5),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: CupertinoButton(
+                                            color: Cores.azulMedio,
+                                            onPressed: () async {
+                                              setState(() => carregando = true);
+                                              await widget.buscar("");
+                                              // buscarPessoasComunidade(comunidadeSelecionada);
+
+                                              setState(
+                                                  () => carregando = false);
+                                            },
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal: 10,
+                                            ),
+                                            child: carregando
+                                                ? const CupertinoActivityIndicator()
+                                                : const Text(
+                                                    "Listar Todos",
+                                                    style: TextStyle(
+                                                      color: Cores.branco,
+                                                    ),
+                                                  ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
