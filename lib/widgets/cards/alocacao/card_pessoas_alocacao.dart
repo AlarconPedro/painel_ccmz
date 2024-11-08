@@ -187,11 +187,18 @@ class _CardPessoasAlocacaoState extends State<CardPessoasAlocacao> {
               child: Container(
                 width: 60,
                 height: 60,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Cores.branco,
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Cores.preto.withOpacity(0.5),
+                      blurRadius: 5,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: const Icon(
                   CupertinoIcons.trash,

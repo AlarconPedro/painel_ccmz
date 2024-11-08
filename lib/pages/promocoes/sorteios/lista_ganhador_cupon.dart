@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/data/models/web/promocoes/ganhador_cupom_model.dart';
-import 'package:painel_ccmn/pages/hospedagem/esqueleto/esqueleto.dart';
+import 'package:painel_ccmn/widgets/telas/esqueleto/esqueleto.dart';
 import 'package:painel_ccmn/widgets/cards/sorteio/card_cupons.dart';
 import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 

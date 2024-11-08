@@ -1,17 +1,15 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/funcoes/funcoes.dart';
 import 'package:painel_ccmn/models/sorteios_model.dart';
-import 'package:painel_ccmn/pages/hospedagem/esqueleto/cadastro_form.dart';
+import 'package:painel_ccmn/widgets/telas/esqueleto/cadastro_form.dart';
 import 'package:painel_ccmn/widgets/form/campo_data.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/api/promocao/api_promocao.dart';
 import '../../../data/models/web/promocoes/sorteio_model.dart';
-import '../../../models/promocoes_model.dart';
 
 class CadastroSorteio extends StatefulWidget {
   SorteiosModel? sorteio;

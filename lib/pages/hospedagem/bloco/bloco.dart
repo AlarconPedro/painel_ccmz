@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/widgets/listas/listar_dados.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../classes/classes.dart';
@@ -113,8 +114,32 @@ class _BlocoState extends State<Bloco> {
         ),
         const SizedBox(height: 10),
         carregando
-            ? const Flexible(child: Center(child: CarregamentoIOS()))
-            : Flexible(
+            ? const Expanded(child: Center(child: CarregamentoIOS()))
+            :
+            // listarDados(
+            //     dados: blocos,
+            //     cardListagem: (dados) {
+            //       MouseRegion(
+            //         cursor: SystemMouseCursors.click,
+            //         child: GestureDetector(
+            //           onTap: () async {
+            //             await Navigator.push(
+            //               context,
+            //               CupertinoDialogRoute(
+            //                   builder: (context) => CadastroBloco(bloco: dados),
+            //                   context: context),
+            //             );
+            //             buscarBlocos();
+            //           },
+            //           child: CardBloco(
+            //               bloco: dados,
+            //               excluir: () => deletarBloco(dados.bloCodigo)),
+            //         ),
+            //       );
+            //     },
+            //     textoVazio: "Nenhum bloco cadastrado !"),
+
+            Flexible(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: ListView.builder(

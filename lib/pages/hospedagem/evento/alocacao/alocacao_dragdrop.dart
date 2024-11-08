@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../classes/classes.dart';
+import '../../../../classes/classes.dart';
 
-class EstruturaAlocacaoEvento extends StatefulWidget {
+class AlocacaoDragDrop extends StatefulWidget {
   GlobalKey<FormState> formKey;
 
   Widget comboPessoas;
@@ -17,7 +17,7 @@ class EstruturaAlocacaoEvento extends StatefulWidget {
 
   Function(String) buscar;
 
-  EstruturaAlocacaoEvento({
+  AlocacaoDragDrop({
     super.key,
     required this.formKey,
     required this.comboPessoas,
@@ -32,11 +32,10 @@ class EstruturaAlocacaoEvento extends StatefulWidget {
   });
 
   @override
-  State<EstruturaAlocacaoEvento> createState() =>
-      _EstruturaAlocacaoEventoState();
+  State<AlocacaoDragDrop> createState() => _AlocacaoDragDropState();
 }
 
-class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
+class _AlocacaoDragDropState extends State<AlocacaoDragDrop> {
   TextEditingController buscaPessoas = TextEditingController();
 
   bool carregando = false;
@@ -56,9 +55,12 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                 Radius.circular(10),
               ),
             ),
-            child: SizedBox(
+            child: Container(
               height: MediaQuery.of(context).size.height / 1.1,
               width: MediaQuery.of(context).size.width / 1.1,
+              decoration: const BoxDecoration(
+                  color: Cores.branco,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
               child: Form(
                 key: widget.formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -196,6 +198,33 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                           ),
                                         ),
                                         widget.comboPessoas,
+                                        const SizedBox(height: 5),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: CupertinoButton(
+                                            color: Cores.azulMedio,
+                                            onPressed: () async {
+                                              setState(() => carregando = true);
+                                              await widget.buscar("");
+                                              // buscarPessoasComunidade(comunidadeSelecionada);
+
+                                              setState(
+                                                  () => carregando = false);
+                                            },
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal: 10,
+                                            ),
+                                            child: carregando
+                                                ? const CupertinoActivityIndicator()
+                                                : const Text(
+                                                    "Listar Todos",
+                                                    style: TextStyle(
+                                                      color: Cores.branco,
+                                                    ),
+                                                  ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -205,23 +234,7 @@ class _EstruturaAlocacaoEventoState extends State<EstruturaAlocacaoEvento> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
-                                      children: [
-                                        // Padding(
-                                        //   padding: const EdgeInsets.only(
-                                        //     bottom: 10,
-                                        //     left: 2,
-                                        //     right: 2,
-                                        //   ),
-                                        //   child: Row(
-                                        //     children: [
-                                        //       // widget.comboEvento,
-                                        //       // const SizedBox(width: 10),
-                                        //       // widget.comboBloco,
-                                        //     ],
-                                        //   ),
-                                        // ),
-                                        widget.pageView,
-                                      ],
+                                      children: [widget.pageView],
                                     ),
                                   ),
                                 ),

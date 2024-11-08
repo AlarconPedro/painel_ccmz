@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../classes/classes.dart';
 
-deleteDialog({
+Future deleteDialog({
   required BuildContext context,
   required Function excluir,
   required String titulo,

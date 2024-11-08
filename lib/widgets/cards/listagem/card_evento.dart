@@ -69,6 +69,7 @@ class CardEvento extends StatelessWidget {
             ),
           ),
           Card(
+            color: Cores.branco,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -84,6 +85,7 @@ class CardEvento extends StatelessWidget {
             ),
           ),
           Card(
+            color: Cores.branco,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -99,6 +101,7 @@ class CardEvento extends StatelessWidget {
             ),
           ),
           Card(
+            color: Cores.branco,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -114,6 +117,7 @@ class CardEvento extends StatelessWidget {
             ),
           ),
           Card(
+            color: Cores.branco,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -131,6 +135,7 @@ class CardEvento extends StatelessWidget {
             ),
           ),
           Card(
+            color: Cores.branco,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
