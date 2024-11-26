@@ -47,12 +47,6 @@ class _LoginPageState extends State<LoginPage> {
         var retorno = await buscarDadosUsuario(value.user!.uid);
         if (retorno) {
           logarModulo();
-          // Navigator.pushAndRemoveUntil(
-          //     context,
-          //     PageTransition(
-          //         child: const EstruturaPage(),
-          //         type: PageTransitionType.rightToLeft),
-          //     (route) => false);
         } else {
           setState(() {
             carregando = false;
