@@ -231,72 +231,88 @@ class _PessoasState extends State<Pessoas> {
       ),
       cardListagem: (dados) {
         PessoaModel pessoa = dados;
-        return CardListagemPessoas(
-          context: context,
-          camposCard: Row(
-            children: [
-              SizedBox(width: 10),
-              Expanded(
-                  flex: 4,
-                  child: Text(pessoa.pesNome,
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-              Expanded(
-                  flex: 2,
-                  child: Text(pessoa.pesGenero,
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-              const SizedBox(width: 50),
-              Expanded(
-                  flex: 2,
-                  child: Text(pessoa.comunidade,
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-              const SizedBox(width: 50),
-              Expanded(
-                  flex: 2,
-                  child: Text(pessoa.pesResponsavel,
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-              Expanded(
-                  flex: 2,
-                  child: Text(pessoa.pesCatequista,
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-              Text(pessoa.pesCatequista,
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(width: 25),
-            ],
-          ),
-          icone: CupertinoIcons.person,
-          btnsOpcoes: [
-            BtnOpcoesCard(
-              icone: CupertinoIcons.trash,
-              cor: Cores.vermelhoMedio,
-              dialog: () => showDialog(
-                context: context,
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              CupertinoDialogRoute(
                 builder: (context) {
-                  return CupertinoAlertDialog(
-                    title: const Text("Excluir Pessoa"),
-                    content:
-                        const Text("Deseja realmente excluir esta pessoa ?"),
-                    actions: [
-                      CupertinoDialogAction(
-                        child: const Text("Não",
-                            style: TextStyle(color: Cores.vermelhoMedio)),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      CupertinoDialogAction(
-                        child: const Text("Sim",
-                            style: TextStyle(color: Cores.verdeMedio)),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          excluirPessoa(pessoas[0].pesCodigo);
-                        },
-                      ),
-                    ],
-                  );
+                  return CadastroPessoas(pessoa: pessoa);
                 },
+                context: context,
               ),
+            );
+          },
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: CardListagemPessoas(
+              context: context,
+              camposCard: Row(
+                children: [
+                  SizedBox(width: 10),
+                  Expanded(
+                      flex: 4,
+                      child: Text(pessoa.pesNome,
+                          style: const TextStyle(fontWeight: FontWeight.bold))),
+                  Expanded(
+                      flex: 2,
+                      child: Text(pessoa.pesGenero,
+                          style: const TextStyle(fontWeight: FontWeight.bold))),
+                  const SizedBox(width: 50),
+                  Expanded(
+                      flex: 2,
+                      child: Text(pessoa.comunidade,
+                          style: const TextStyle(fontWeight: FontWeight.bold))),
+                  const SizedBox(width: 50),
+                  Expanded(
+                      flex: 2,
+                      child: Text(pessoa.pesResponsavel,
+                          style: const TextStyle(fontWeight: FontWeight.bold))),
+                  Expanded(
+                      flex: 2,
+                      child: Text(pessoa.pesCatequista,
+                          style: const TextStyle(fontWeight: FontWeight.bold))),
+                  Text(pessoa.pesCatequista,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(width: 25),
+                ],
+              ),
+              icone: CupertinoIcons.person,
+              btnsOpcoes: [
+                BtnOpcoesCard(
+                  icone: CupertinoIcons.trash,
+                  cor: Cores.vermelhoMedio,
+                  dialog: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoAlertDialog(
+                        title: const Text("Excluir Pessoa"),
+                        content: const Text(
+                            "Deseja realmente excluir esta pessoa ?"),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: const Text("Não",
+                                style: TextStyle(color: Cores.vermelhoMedio)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          CupertinoDialogAction(
+                            child: const Text("Sim",
+                                style: TextStyle(color: Cores.verdeMedio)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              excluirPessoa(pessoas[0].pesCodigo);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
       tituloColunas: const Row(
