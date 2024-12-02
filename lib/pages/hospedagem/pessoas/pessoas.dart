@@ -232,8 +232,8 @@ class _PessoasState extends State<Pessoas> {
       cardListagem: (dados) {
         PessoaModel pessoa = dados;
         return GestureDetector(
-          onTap: () {
-            Navigator.push(
+          onTap: () async {
+            await Navigator.push(
               context,
               CupertinoDialogRoute(
                 builder: (context) {
@@ -242,6 +242,7 @@ class _PessoasState extends State<Pessoas> {
                 context: context,
               ),
             );
+            buscarPessoas(codigoComunidade);
           },
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
@@ -249,13 +250,13 @@ class _PessoasState extends State<Pessoas> {
               context: context,
               camposCard: Row(
                 children: [
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                       flex: 4,
                       child: Text(pessoa.pesNome,
                           style: const TextStyle(fontWeight: FontWeight.bold))),
                   Expanded(
-                      flex: 2,
+                      flex: 1,
                       child: Text(pessoa.pesGenero,
                           style: const TextStyle(fontWeight: FontWeight.bold))),
                   const SizedBox(width: 50),
@@ -322,11 +323,12 @@ class _PessoasState extends State<Pessoas> {
               flex: 4,
               child:
                   Text("Nome", style: TextStyle(fontWeight: FontWeight.bold))),
+          SizedBox(width: 40),
           Expanded(
               flex: 2,
               child: Text("Gênero",
                   style: TextStyle(fontWeight: FontWeight.bold))),
-          SizedBox(width: 50),
+          SizedBox(width: 20),
           Expanded(
               flex: 2,
               child: Text("Comunidade",

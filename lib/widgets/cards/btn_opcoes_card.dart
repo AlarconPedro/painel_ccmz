@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../classes/classes.dart';
+
 class BtnOpcoesCard extends StatelessWidget {
   Function dialog;
   IconData icone;
@@ -17,7 +19,11 @@ class BtnOpcoesCard extends StatelessWidget {
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         elevation: 5,
+        color: Cores.branco,
         child: CupertinoButton(
-            child: Icon(icone, color: cor), onPressed: () => dialog()));
+            color: Cores.branco,
+            padding: const EdgeInsets.all(15),
+            child: Icon(icone, color: cor),
+            onPressed: () => dialog()));
   }
 }

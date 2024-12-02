@@ -110,11 +110,11 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
           listaComunidade.add(
             DropdownMenuItem(
               value: item['comCodigo'],
-              child: Text(item['comNome'] +
-                  " - " +
-                  item['comCidade'] +
-                  " - " +
-                  item['comUf']),
+              child: Text(item['comNome']),
+              // " - " +
+              // item['comCidade'] +
+              // " - " +
+              // item['comUf']
             ),
           );
         });
@@ -196,7 +196,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
         Row(
           children: [
             Expanded(
-              flex: 5,
+              flex: 3,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -237,7 +237,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
                 : Expanded(
                     flex: 4,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.only(right: 10),
                       child: DropdownButtonFormField(
                         value: widget.pessoa != null &&
                                 widget.pessoa!.comCodigo != 0
@@ -268,37 +268,6 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
                       ),
                     ),
                   ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Sexo',
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      borderSide: BorderSide(
-                        color: Cores.cinzaEscuro,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                  ),
-                  value: sexoSelecionado > 0 ? sexoSelecionado : null,
-                  items: listaSexo,
-                  onChanged: (value) {
-                    setState(() {
-                      sexoSelecionado = value;
-                    });
-                  },
-                ),
-              ),
-            ),
           ],
         ),
         Padding(
@@ -306,6 +275,36 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Sexo',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        borderSide: BorderSide(
+                          color: Cores.cinzaEscuro,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                    value: sexoSelecionado > 0 ? sexoSelecionado : null,
+                    items: listaSexo,
+                    onChanged: (value) {
+                      setState(() {
+                        sexoSelecionado = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
               Row(
                 children: [
                   const Text(
