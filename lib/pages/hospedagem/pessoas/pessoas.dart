@@ -303,7 +303,7 @@ class _PessoasState extends State<Pessoas> {
                                 style: TextStyle(color: Cores.verdeMedio)),
                             onPressed: () {
                               Navigator.pop(context);
-                              excluirPessoa(pessoas[0].pesCodigo);
+                              excluirPessoa(pessoa.pesCodigo);
                             },
                           ),
                         ],
@@ -343,7 +343,6 @@ class _PessoasState extends State<Pessoas> {
               child: Text("Catequista",
                   style: TextStyle(fontWeight: FontWeight.bold))),
           Expanded(
-              flex: 2,
               child: Text("Catequizando",
                   style: TextStyle(fontWeight: FontWeight.bold))),
           Text("Excluir", style: TextStyle(fontWeight: FontWeight.bold)),

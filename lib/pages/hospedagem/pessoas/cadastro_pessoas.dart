@@ -190,7 +190,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
     return CadastroForm(
       formKey: _formKey,
       titulo: "Cadastro de Pessoas",
-      altura: 3.7,
+      altura: 3.6,
       largura: 1.9,
       campos: [
         Row(
