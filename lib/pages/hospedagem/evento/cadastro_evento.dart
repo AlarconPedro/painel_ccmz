@@ -61,7 +61,9 @@ class _CadastroEventoState extends State<CadastroEvento> {
         eveDataFim: FuncoesData.stringToDateTime(dataFimController.text),
         eveValor: valorEventoController.text == ""
             ? 0.0
-            : double.parse(valorEventoController.text),
+            : double.parse(valorEventoController.text
+                .replaceAll("R\$", "")
+                .replaceAll(",", ".")),
         eveTipoCobranca: tipoCobranca[selecionado - 1].values.first,
       );
     }
@@ -152,9 +154,11 @@ class _CadastroEventoState extends State<CadastroEvento> {
       gravar: () {
         if (formKey.currentState!.validate()) {
           if (widget.evento != null) {
+            print("Atualizar");
             atualizarEvento();
           } else {
             gravarEvento();
+            print("Gravar");
           }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
