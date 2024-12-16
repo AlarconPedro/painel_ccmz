@@ -62,12 +62,22 @@ class _CheckinQuartosState extends State<CheckinQuartos> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    buscarQuartos();
-    // if (widget.quartos.isNotEmpty) {
-    //   setState(() {
-    //     quartos = widget.quartos;
-    //   });
-    // }
+    // buscarQuartos();
+    if (widget.quartosBusca.isNotEmpty) {
+      for (var quarto in widget.quartosBusca) {
+        setState(() {
+          quartos.add(CheckinListagemQuartosModel(
+            bloNome: quarto.bloNome,
+            pessoasQuarto: [quarto],
+          ));
+        });
+      }
+      // setState(() {
+      //   quartos = widget.quartosBusca;
+      // });
+    } else {
+      buscarQuartos();
+    }
     // if (widget.codigoEvento != 0 && widget.codigoBloco != 0) {
     //   buscarQuartos();
     // }
