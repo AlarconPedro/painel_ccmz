@@ -261,9 +261,9 @@ class _AlocacaoState extends State<Alocacao> {
                                   //   ),
                                   // );
                                   await buscarQuartos();
+                                } else {
+                                  await buscarQuartoBusca(buscaController.text);
                                 }
-                                await buscarQuartoBusca(buscaController.text);
-
                                 // await buscarQuartoBusca(value);
                               },
                             ),

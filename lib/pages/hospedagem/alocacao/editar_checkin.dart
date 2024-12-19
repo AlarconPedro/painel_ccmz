@@ -63,7 +63,7 @@ class Editar_CheckinState extends State<EditarCheckin> {
     return CadastroForm(
       titulo: "Checkin",
       altura: 2.8,
-      largura: 2.7,
+      largura: 2.5,
       gravar: () {
         // for (var element in widget.dadosQuarto.pessoasQuarto) {
         //   setState(() {
