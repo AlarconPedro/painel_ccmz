@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class FuncoesMascara {
   static String mascaraTelefone(String telefone) {
     if (telefone.isEmpty) {
@@ -15,5 +17,11 @@ class FuncoesMascara {
       return '';
     }
     return '${cpf.substring(0, 3)}.***.${cpf.substring(6, 9)}-**';
+  }
+
+  static String mascaraDinheiro(double valor) {
+    return NumberFormat.currency(
+            locale: 'pt_BR', symbol: 'R\$', decimalDigits: 2)
+        .format(valor);
   }
 }
