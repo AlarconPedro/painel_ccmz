@@ -100,38 +100,41 @@ class _CadastroBlocoState extends State<CadastroBloco> {
       altura: 4.5,
       largura: 2,
       campos: [
-        Expanded(
-          flex: 5,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            child: TextFormField(
-              controller: nomeController,
-              maxLength: 255,
-              decoration: const InputDecoration(
-                labelText: 'Nome do bloco',
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                  borderSide: BorderSide(
-                    color: Cores.cinzaEscuro,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
+        SizedBox(
+          height: 75,
+          child: Expanded(
+            flex: 5,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor, digite o nome do bloco';
-                }
-                return null;
-              },
+              child: TextFormField(
+                controller: nomeController,
+                maxLength: 255,
+                decoration: const InputDecoration(
+                  labelText: 'Nome do bloco',
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    borderSide: BorderSide(
+                      color: Cores.cinzaEscuro,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, digite o nome do bloco';
+                  }
+                  return null;
+                },
+              ),
             ),
           ),
         ),

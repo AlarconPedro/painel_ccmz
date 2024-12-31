@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/pages/hospedagem/esqueleto/esqueleto.dart';
+import 'package:painel_ccmn/widgets/telas/esqueleto/esqueleto.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/api/produto/api_movimento_estoque.dart';

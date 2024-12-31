@@ -58,8 +58,8 @@ class ApiAlocacao {
   }
 
   //DELETE
-  Future<dynamic> deletePessoaQuarto(int codigoPessoa) async {
+  Future<dynamic> deletePessoaQuarto(int codigoPessoa, int codigoEvento) async {
     return await _request
-        .deleteJson(_urlDeletePessoaQuarto + codigoPessoa.toString());
+        .deleteJson("$_urlDeletePessoaQuarto$codigoPessoa/$codigoEvento");
   }
 }

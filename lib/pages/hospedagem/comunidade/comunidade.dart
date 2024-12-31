@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
 import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/widgets/listas/listar_dados.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../classes/classes.dart';
@@ -180,42 +181,68 @@ class _ComunidadeState extends State<Comunidade> {
         const SizedBox(height: 10),
         carregando
             ? const Flexible(child: Center(child: CarregamentoIOS()))
-            : Flexible(
-                fit: FlexFit.tight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ListView.builder(
-                    itemCount: comunidades.length,
-                    itemBuilder: (context, index) {
-                      return MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: GestureDetector(
-                          onTap: () async {
-                            await Navigator.push(
-                              context,
-                              CupertinoDialogRoute(
-                                builder: (context) {
-                                  return CadastroComunidade(
-                                    comunidade: comunidades[index],
-                                  );
-                                },
-                                context: context,
-                              ),
-                            );
-                            buscarComunidades(cidadeSelecionada);
-                          },
-                          child: CardComunidade(
-                            comunidade: comunidades[index],
-                            excluir: () {
-                              deleteComunidade(comunidades[index].comCodigo);
-                            },
-                          ),
+            : listarDados(
+                dados: comunidades,
+                cardListagem: (dados) => MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            CupertinoDialogRoute(
+                              builder: (context) {
+                                return CadastroComunidade(
+                                  comunidade: dados,
+                                );
+                              },
+                              context: context,
+                            ),
+                          );
+                          buscarComunidades(cidadeSelecionada);
+                        },
+                        child: CardComunidade(
+                          comunidade: dados,
+                          excluir: () => deleteComunidade(dados.comCodigo),
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+                      ),
+                    ),
+                textoVazio: "Nenhuma comunidade encontrada !"),
+        // Flexible(
+        //     fit: FlexFit.tight,
+        //     child: Padding(
+        //       padding: const EdgeInsets.symmetric(horizontal: 10),
+        //       child: ListView.builder(
+        //         itemCount: comunidades.length,
+        //         itemBuilder: (context, index) {
+        //           return MouseRegion(
+        //             cursor: SystemMouseCursors.click,
+        //             child: GestureDetector(
+        //               onTap: () async {
+        //                 await Navigator.push(
+        //                   context,
+        //                   CupertinoDialogRoute(
+        //                     builder: (context) {
+        //                       return CadastroComunidade(
+        //                         comunidade: comunidades[index],
+        //                       );
+        //                     },
+        //                     context: context,
+        //                   ),
+        //                 );
+        //                 buscarComunidades(cidadeSelecionada);
+        //               },
+        //               child: CardComunidade(
+        //                 comunidade: comunidades[index],
+        //                 excluir: () {
+        //                   deleteComunidade(comunidades[index].comCodigo);
+        //                 },
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       ),
+        //     ),
+        //   ),
       ],
     );
   }

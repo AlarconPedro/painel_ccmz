@@ -6,7 +6,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/api/promocao/api_promocao.dart';
 import 'package:painel_ccmn/data/models/web/promocoes/participante_model.dart';
 import 'package:painel_ccmn/funcoes/funcoes_mascara.dart';
-import 'package:painel_ccmn/pages/hospedagem/esqueleto/cadastro_form.dart';
+import 'package:painel_ccmn/widgets/telas/esqueleto/cadastro_form.dart';
 import 'package:painel_ccmn/pages/promocoes/promocoes/participantes/cadastro_participantes.dart';
 import 'package:painel_ccmn/widgets/dialogs/delete_dialog.dart';
 import 'package:painel_ccmn/widgets/form/campo_texto.dart';

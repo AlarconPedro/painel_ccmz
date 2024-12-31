@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/pages/hospedagem/evento/alocacao/alocacao_evento.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
@@ -198,31 +199,23 @@ class _EventoState extends State<Evento> {
                             await Navigator.push(
                               context,
                               CupertinoDialogRoute(
-                                builder: (context) {
-                                  return CadastroEvento(evento: eventos[index]);
-                                },
-                                context: context,
-                              ),
+                                  builder: (context) =>
+                                      CadastroEvento(evento: eventos[index]),
+                                  context: context),
                             );
                             buscarEventos();
                           },
                           child: CardEvento(
                             evento: eventos[index],
-                            excluir: () {
-                              deleteEvento(eventos[index].eveCodigo);
-                            },
+                            excluir: () =>
+                                deleteEvento(eventos[index].eveCodigo),
                             quartos: () {
                               Navigator.push(
                                 context,
                                 CupertinoDialogRoute(
-                                  builder: (context) {
-                                    return QuartosEvento(
-                                      codigoEvento: eventos[index].eveCodigo,
-                                      // evento: eventos[index],
-                                    );
-                                  },
-                                  context: context,
-                                ),
+                                    builder: (context) => QuartosEvento(
+                                        codigoEvento: eventos[index].eveCodigo),
+                                    context: context),
                               );
                             },
                             pessoas: () {
