@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:painel_ccmn/data/models/web/usuario_model.dart';
 import 'package:painel_ccmn/pages/login/seletor_modulo.dart';
-import 'package:painel_ccmn/widgets/loading/carregamento_ios.dart';
 
 import '../../classes/classes.dart';
-import '../../classes/cores.dart';
 import '../../data/api/api_usuario.dart';
 import '../../estrutura/estrutura.dart';
 

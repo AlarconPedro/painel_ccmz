@@ -2,13 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../../../classes/classes.dart';
 import '../../../../data/api/promocao/api_promocao.dart';
 import '../../../../data/models/web/promocoes/ganhador_cupom_model.dart';
 import '../../../../widgets/cards/sorteio/card_cupons.dart';
 import '../../../../widgets/form/campo_busca.dart';
-import '../../../../widgets/form/campo_texto.dart';
 import '../../../../widgets/widgets.dart';
 
 class Cupons extends StatefulWidget {

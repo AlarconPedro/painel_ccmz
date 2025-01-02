@@ -27,7 +27,7 @@ Future<void> main() async {
       routes: Globais.rotas,
       title: 'Painel CCMN',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue
       ),
       // home: PageTeste(),
       home: const LoginPage(),

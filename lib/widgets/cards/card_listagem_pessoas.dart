@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/widgets/cards/base/card_base_listagem.dart';
 
-import '../../data/data.dart';
 import 'btn_opcoes_card.dart';
 
 class CardListagemPessoas extends CardBaseListagem {
