@@ -9,6 +9,7 @@ import 'package:painel_ccmn/funcoes/funcoes_mascara.dart';
 import 'package:painel_ccmn/widgets/form/campo_texto.dart';
 import 'package:painel_ccmn/widgets/textos/textos.dart';
 import '../../../../classes/classes.dart';
+import '../../../../widgets/botoes/btn_primario.dart';
 import '../../../../widgets/widgets.dart';
 
 class AcertoEvento extends StatefulWidget {
@@ -590,20 +591,27 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                 vertical: 5, horizontal: 30),
                             child: Textos.textoPequenoNormal(
                                 texto: "Quebras/Outros", cor: Cores.branco)),
-                        CupertinoButton(
+                        btnPrimario(
+                            texto: "Gerar",
                             onPressed: () {},
-                            color: Cores.verdeMedio,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 30),
-                            child: Row(
-                              children: [
-                                const Icon(CupertinoIcons.printer,
-                                    color: Cores.branco),
-                                const SizedBox(width: 10),
-                                Textos.textoPequenoNormal(
-                                    texto: "Gerar", cor: Cores.branco),
-                              ],
-                            )),
+                            icon: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Icon(CupertinoIcons.printer,
+                                    color: Cores.branco))),
+                        // CupertinoButton(
+                        //     onPressed: () {},
+                        //     color: Cores.verdeMedio,
+                        //     padding: const EdgeInsets.symmetric(
+                        //         vertical: 5, horizontal: 30),
+                        //     child: Row(
+                        //       children: [
+                        //         const Icon(CupertinoIcons.printer,
+                        //             color: Cores.branco),
+                        //         const SizedBox(width: 10),
+                        //         Textos.textoPequenoNormal(
+                        //             texto: "Gerar", cor: Cores.branco),
+                        //       ],
+                        //     )),
                       ],
                     ),
                   ),
