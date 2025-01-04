@@ -1,142 +1,148 @@
+import 'dart:convert';
+
 import 'package:universal_html/html.dart' as html;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../data/data.dart';
+
 class AcertoEventoData {
-  // buscarComunidadesEvento() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().getComunidadesEvento(widget.codigoEvento);
-  //   if (retorno.statusCode == 200) {
-  //     var decoded = json.decode(retorno.body);
-  //     setState(() {
-  //       // codigoComunidade = decoded[0]["comCodigo"];
-  //       for (var element in decoded) {
-  //         comunidadesEvento.add(AcertoModel.fromJson(element));
-  //       }
-  //     });
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar pessoas pagantes e cobrantes"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
+  buscarComunidadesEvento({
+    required int codigoEvento,
+    required Function(dynamic) dadosRetorno,
+    required Function() erro,
+  }) async {
+    var retorno = await ApiAcerto().getComunidadesEvento(codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      dadosRetorno(decoded);
+    } else {
+      erro();
+    }
+  }
 
-  // buscarCustoEvento() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().getEventoCusto(widget.codigoEvento);
-  //   if (retorno.statusCode == 200) {
-  //     var decoded = json.decode(retorno.body);
-  //     setState(() {
-  //       valorEvento = decoded["eveValor"];
-  //       tipoCobrancaEvento = decoded["eveTipoCobranca"];
-  //     });
-  //     await busarDespesasExtraEvento();
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar custo do evento"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
+  buscarCustoEvento({
+    required int codigoEvento,
+    required Function(dynamic) dadosRetorno,
+    required Function() erro,
+  }) async {
+    var retorno = await ApiAcerto().getEventoCusto(codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      dadosRetorno(decoded);
+      // setState(() {
+      //   valorEvento = decoded["eveValor"];
+      //   tipoCobrancaEvento = decoded["eveTipoCobranca"];
+      // });
+      // await busarDespesasExtraEvento(codigoEvento, dadosRetorno, erro);
+    } else {
+      erro();
+    }
+  }
 
-  // buscarCustoCozinha() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().getValorCozinha(widget.codigoEvento);
-  //   if (retorno.statusCode == 200) {
-  //     setState(() {
-  //       valorCozinha = double.parse(retorno.body);
-  //       valorCozinhaController.text = NumberFormat.currency(
-  //         locale: 'pt_BR',
-  //         symbol: 'R\$',
-  //         decimalDigits: 2,
-  //       ).format(valorCozinha);
-  //     });
-  //   } else {
-  //     // ScaffoldMessenger.of(context).showSnackBar(
-  //     //   const SnackBar(
-  //     //     content: Text("Erro ao buscar custo da cozinha"),
-  //     //     backgroundColor: Cores.vermelhoMedio,
-  //     //   ),
-  //     // );
-  //   }
-  //   setState(() => carregando = false);
-  // }
+  buscarCustoCozinha({
+    required int codigoEvento,
+    required Function(dynamic) dadosRetorno,
+    required Function() erro,
+  }) async {
+    var retorno = await ApiAcerto().getValorCozinha(codigoEvento);
+    if (retorno.statusCode == 200) {
+      dadosRetorno(retorno.body);
+      // setState(() {
+      // valorCozinha = double.parse(retorno.body);
+      // valorCozinhaController.text = NumberFormat.currency(
+      //   locale: 'pt_BR',
+      //   symbol: 'R\$',
+      //   decimalDigits: 2,
+      // ).format(valorCozinha);
+      // });
+    } else {
+      erro();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao buscar custo da cozinha"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
+    }
+    // setState(() => carregando = false);
+  }
 
-  // buscarCustoHostiaria() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().getValorHostiaria(widget.codigoEvento);
-  //   if (retorno.statusCode == 200) {
-  //     setState(() {
-  //       valorHostiaria = double.parse(retorno.body);
-  //       valorHostiariaController.text = NumberFormat.currency(
-  //         locale: 'pt_BR',
-  //         symbol: 'R\$',
-  //         decimalDigits: 2,
-  //       ).format(valorHostiaria);
-  //     });
-  //   } else {
-  //     // ScaffoldMessenger.of(context).showSnackBar(
-  //     //   const SnackBar(
-  //     //     content: Text("Erro ao buscar custo da hostiaria"),
-  //     //     backgroundColor: Cores.vermelhoMedio,
-  //     //   ),
-  //     // );
-  //   }
-  //   setState(() => carregando = false);
-  // }
+  buscarCustoHostiaria({
+    required int codigoEvento,
+    required Function(dynamic) dadosRetorno,
+    required Function() erro,
+  }) async {
+    // setState(() => carregando = true);
+    var retorno = await ApiAcerto().getValorHostiaria(codigoEvento);
+    if (retorno.statusCode == 200) {
+      dadosRetorno(retorno.body);
+      // setState(() {
+      //   valorHostiaria = double.parse(retorno.body);
+      //   valorHostiariaController.text = NumberFormat.currency(
+      //     locale: 'pt_BR',
+      //     symbol: 'R\$',
+      //     decimalDigits: 2,
+      //   ).format(valorHostiaria);
+      // });
+    } else {
+      erro();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao buscar custo da hostiaria"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
+    }
+    // setState(() => carregando = false);
+  }
 
-  // buscarPessoasPagantesCobrantesEvento() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().getEventoPessoas(widget.codigoEvento);
-  //   if (retorno.statusCode == 200) {
-  //     var decoded = json.decode(retorno.body);
-  //     setState(() {
-  //       pagantesEvento = decoded["pagantes"];
-  //       cobrantesEvento = decoded["cobrantes"];
-  //       valorEvento = ((cobrantesEvento * valorEvento));
-  //       valorPorPessoa =
-  //           double.parse((valorEvento / pagantesEvento).toStringAsFixed(2));
-  //     });
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar pessoas pagantes e cobrantes"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
+  buscarPessoasPagantesCobrantesEvento({
+    required int codigoEvento,
+    required Function(dynamic) dadosRetorno,
+    required Function() erro,
+  }) async {
+    // setState(() => carregando = true);
+    var retorno = await ApiAcerto().getEventoPessoas(codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      dadosRetorno(decoded);
+      // setState(() {
+      //   pagantesEvento = decoded["pagantes"];
+      //   cobrantesEvento = decoded["cobrantes"];
+      //   valorEvento = ((cobrantesEvento * valorEvento));
+      //   valorPorPessoa =
+      //       double.parse((valorEvento / pagantesEvento).toStringAsFixed(2));
+      // });
+    } else {
+      erro();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao buscar pessoas pagantes e cobrantes"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
+    }
+    // setState(() => carregando = false);
+  }
 
-  // busarDespesasExtraEvento() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().getEventoDespesas(widget.codigoEvento);
-  //   if (retorno.statusCode == 200) {
-  //     var decoded = json.decode(retorno.body);
-  //     despesasExtra.clear();
-  //     setState(() {
-  //       for (var element in decoded) {
-  //         despesasExtra.add(EventoDespesasModel.fromJson(element));
-  //       }
-  //     });
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Erro ao buscar despesas extras do evento"),
-  //         backgroundColor: Cores.vermelhoMedio,
-  //       ),
-  //     );
-  //   }
-  //   setState(() => carregando = false);
-  // }
+  busarDespesasExtraEvento(
+      int codigoEvento, Function(dynamic) dadosRetorno, Function() erro) async {
+    var retorno = await ApiAcerto().getEventoDespesas(codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      dadosRetorno(decoded);
+      // despesasExtra.clear();
+      // setState(() {
+      //   for (var element in decoded) {
+      //     despesasExtra.add(EventoDespesasModel.fromJson(element));
+      //   }
+      // });
+    } else {
+      erro();
+    }
+  }
 
   // busarDespesasExtraComunidade() async {}
 

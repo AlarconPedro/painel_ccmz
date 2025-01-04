@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import '../../classes/classes.dart';
 import '../textos/textos.dart';
 
-CupertinoButton btnPrimario(
+CupertinoButton btnTerciario(
     {required String texto, required Function() onPressed, Widget? icon}) {
   return CupertinoButton(
     onPressed: () => onPressed(),
-    color: Cores.verdeMedio,
     borderRadius: const BorderRadius.all(Radius.circular(10)),
+    color: Cores.azulMedio,
     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
     child: Row(
       children: [
