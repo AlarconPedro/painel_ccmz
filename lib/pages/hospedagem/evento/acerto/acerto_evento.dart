@@ -5,6 +5,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/data.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
+import 'package:painel_ccmn/widgets/cards/mostragem/card_despesas_pessoas.dart';
 
 import '../../../../classes/classes.dart';
 import '../../../../widgets/botoes/btn_primario.dart';
@@ -49,6 +50,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     mask: '###.###.###.###.###,00',
     filter: {"#": RegExp(r'[0-9]')},
   );
+  double valorTotal = 0;
   double valorEvento = 0;
   double valorExtraEvento = 0;
   double valorComunidade = 0;
@@ -76,12 +78,20 @@ class _AcertoEventoState extends State<AcertoEvento> {
   }
 
   calcularValorTotalComunidade() {
-    double valorTotal = 0;
-    valorTotal += (200 * 10);
-    // for (var item in despesasExtra) {
-    //   valorTotal += item.values.first;
-    // }
-    return valorTotal;
+    // double valorTotal = 0;
+    // valorTotal += (valorPorPessoa * cobrantesComunidade);
+    double valorExtra = 0;
+    for (var item in despesasExtra) {
+      valorExtra += item.dseValor;
+    }
+    return valorExtra;
+  }
+
+  calcularValores() {
+    valorTotal = valorCozinha + valorHostiaria + valorEvento;
+    valorPorPessoa = valorEvento / pagantesEvento;
+    valorComunidade = valorPorPessoa * cobrantesComunidade;
+    valorExtraEvento = calcularValorTotalComunidade();
   }
 
   AcertoEventoData acertoEventoData = AcertoEventoData();
@@ -151,7 +161,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
           content: Text("Erro ao buscar despesas extras do evento")));
     });
     //// Caclular total do evento
-
+    calcularValores();
     setState(() => carregando = false);
   }
 
@@ -357,8 +367,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                       locale: 'pt_BR',
                                                       symbol: 'R\$',
                                                       decimalDigits: 2)
-                                                  .format(
-                                                      valorEvento.toString()),
+                                                  .format(valorEvento),
                                               cor: Cores.preto),
                                         ],
                                       ),
@@ -390,122 +399,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
                       : Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 10),
-                          child: Card(
-                            elevation: 5,
-                            color: Cores.branco,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            child: SizedBox(
-                              height: 100,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10)),
-                                      color: Cores.azulMedio,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                              "Comunidades: ${comunidadesEvento.length}",
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                                color: Cores.branco,
-                                              )),
-                                          const Spacer(),
-                                          Text("Cobrante: $cobrantesEvento",
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                                color: Cores.branco,
-                                              )),
-                                          const SizedBox(width: 10),
-                                          Text("Pagante: $pagantesEvento",
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                                color: Cores.branco,
-                                              )),
-                                          const SizedBox(width: 10),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Row(
-                                      children: [
-                                        const Text(
-                                          "Valor por Pessoa:",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                NumberFormat.currency(
-                                                        locale: 'pt_BR',
-                                                        symbol: 'R\$',
-                                                        decimalDigits: 2)
-                                                    .format(valorPorPessoa),
-                                                style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        const Text("Valor Total:",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold)),
-                                        const SizedBox(width: 10),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                NumberFormat.currency(
-                                                        decimalDigits: 2,
-                                                        locale: 'pt_BR',
-                                                        symbol: 'R\$',
-                                                        name: 'R\$')
-                                                    .format(dividirComunidade
-                                                        ? calcularValorTotalComunidade()
-                                                        : valorEvento),
-                                                style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          child: CardDespesasPessoas(
+                              valorPorPessoa: valorPorPessoa,
+                              qtdCobrantes: cobrantesEvento,
+                              qtdComunidades: comunidadesEvento.length,
+                              qtdPagantes: pagantesEvento,
+                              valorEvento: valorEvento),
                         ),
                 ),
                 Container(

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../classes/classes.dart';
 
-class CardDespesasComunidade extends StatefulWidget {
+class CardDespesasComunidade extends StatelessWidget {
   // TextEditingController nomeDespesaController;
   // TextEditingController valorDespesaController;
 
@@ -24,19 +24,15 @@ class CardDespesasComunidade extends StatefulWidget {
     required this.nomeComunidade,
   });
 
-  @override
-  State<CardDespesasComunidade> createState() => _CardDespesasComunidadeState();
-}
-
-class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
   List<Map<String, double>> despesasExtra = [];
 
   TextEditingController nomeDespesaController = TextEditingController();
+
   TextEditingController valorDespesaController = TextEditingController();
 
   calcularValorTotalComunidade() {
     double valorTotal = 0;
-    valorTotal += (widget.valorPorPessoa * widget.cobrante);
+    valorTotal += (valorPorPessoa * cobrante);
     for (var item in despesasExtra) {
       valorTotal += item.values.first;
     }
@@ -67,21 +63,21 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Comunidade: ${widget.nomeComunidade}",
+                    Text("Comunidade: $nomeComunidade",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Cores.branco,
                         )),
                     const Spacer(),
-                    Text("Cobrante: ${widget.cobrante}",
+                    Text("Cobrante: $cobrante",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Cores.branco,
                         )),
                     const SizedBox(width: 10),
-                    Text("Pagante: ${widget.pagante}",
+                    Text("Pagante: $pagante",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -111,7 +107,7 @@ class _CardDespesasComunidadeState extends State<CardDespesasComunidade> {
                                   locale: 'pt_BR',
                                   symbol: 'R\$',
                                   decimalDigits: 2)
-                              .format(widget.valorPorPessoa),
+                              .format(valorPorPessoa),
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
