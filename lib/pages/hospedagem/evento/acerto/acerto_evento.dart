@@ -55,6 +55,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
   double valorExtraEvento = 0;
   double valorComunidade = 0;
   double valorPorPessoa = 0;
+  double valorHospedagem = 0;
   double valorCozinha = 0;
   double valorHostiaria = 0;
 
@@ -88,8 +89,9 @@ class _AcertoEventoState extends State<AcertoEvento> {
   }
 
   calcularValores() {
-    valorTotal = valorCozinha + valorHostiaria + valorEvento;
-    valorPorPessoa = valorEvento / pagantesEvento;
+    valorHospedagem = valorEvento * cobrantesEvento;
+    valorTotal = valorCozinha + valorHostiaria + valorHospedagem;
+    valorPorPessoa = valorTotal / pagantesEvento;
     valorComunidade = valorPorPessoa * cobrantesComunidade;
     valorExtraEvento = calcularValorTotalComunidade();
   }
@@ -367,7 +369,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                       locale: 'pt_BR',
                                                       symbol: 'R\$',
                                                       decimalDigits: 2)
-                                                  .format(valorEvento),
+                                                  .format(valorTotal),
                                               cor: Cores.preto),
                                         ],
                                       ),
@@ -385,15 +387,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
                           itemCount: comunidadesEvento.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              child: CardDespesasComunidade(
-                                  valorPorPessoa: valorPorPessoa,
-                                  pagante: pagantesComunidade,
-                                  cobrante: cobrantesComunidade,
-                                  nomeComunidade:
-                                      comunidadesEvento[index].comNome),
-                            );
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                child: CardDespesasComunidade(
+                                    valorPorPessoa: valorPorPessoa,
+                                    pagante: pagantesComunidade,
+                                    cobrante: cobrantesComunidade,
+                                    nomeComunidade:
+                                        comunidadesEvento[index].comNome));
                           },
                         )
                       : Padding(
@@ -404,8 +405,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                               qtdCobrantes: cobrantesEvento,
                               qtdComunidades: comunidadesEvento.length,
                               qtdPagantes: pagantesEvento,
-                              valorEvento: valorEvento),
-                        ),
+                              valorEvento: valorTotal)),
                 ),
                 Container(
                   decoration: const BoxDecoration(
