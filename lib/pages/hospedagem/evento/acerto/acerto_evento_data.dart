@@ -146,32 +146,38 @@ class AcertoEventoData {
 
   // busarDespesasExtraComunidade() async {}
 
-  // inserirAtualizarValorCozinha() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().postDespesaCozinha(
-  //     widget.codigoEvento,
-  //     double.parse(valorCozinhaController.text),
-  //   );
-  //   if (retorno.statusCode == 200) {
-  //     calcularValorTotalEvento();
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Valor da cozinha atualizado com sucesso"),
-  //         backgroundColor: Cores.verdeMedio,
-  //       ),
-  //     );
-  //   } else {
-  //     // ScaffoldMessenger.of(context).showSnackBar(
-  //     //   const SnackBar(
-  //     //     content: Text("Erro ao atualizar valor da cozinha"),
-  //     //     backgroundColor: Cores.vermelhoMedio,
-  //     //   ),
-  //     // );
-  //   }
-  //   await buscarCustoCozinha();
-  //   calcularValorTotalEvento();
-  //   setState(() => carregando = false);
-  // }
+  inserirAtualizarValorCozinha(
+      {required int codigoEvento,
+      required String valorCozinha,
+      required Function(dynamic) dadosRetorno,
+      required Function() erro}) async {
+    // setState(() => carregando = true);
+    var retorno = await ApiAcerto().postDespesaCozinha(
+      codigoEvento,
+      double.parse(valorCozinha),
+    );
+    if (retorno.statusCode == 200) {
+      dadosRetorno(retorno.body);
+      // calcularValorTotalEvento();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Valor da cozinha atualizado com sucesso"),
+      //     backgroundColor: Cores.verdeMedio,
+      //   ),
+      // );
+    } else {
+      erro();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao atualizar valor da cozinha"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
+    }
+    // await buscarCustoCozinha();
+    // calcularValorTotalEvento();
+    // setState(() => carregando = false);
+  }
 
   // inserirAtualizarValorHostiaria() async {
   //   setState(() => carregando = true);

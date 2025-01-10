@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/data.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
+import 'package:painel_ccmn/widgets/botoes/btn_mini.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
 import 'package:painel_ccmn/widgets/cards/mostragem/card_despesas_pessoas.dart';
 
@@ -17,10 +18,12 @@ import '../../../../widgets/widgets.dart';
 class AcertoEvento extends StatefulWidget {
   int codigoEvento;
   String nomeEvento;
+  Function mudarPagina;
   AcertoEvento({
     super.key,
     required this.codigoEvento,
     required this.nomeEvento,
+    required this.mudarPagina,
   });
 
   @override
@@ -97,6 +100,21 @@ class _AcertoEventoState extends State<AcertoEvento> {
   }
 
   AcertoEventoData acertoEventoData = AcertoEventoData();
+
+  // inserirDadosEvento() async {
+  //   await acertoEventoData.inserirAtualizarValorCozinha(
+  //     erro: () {
+  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //           content: Text("Erro ao inserir valor da cozinha do evento")));
+  //     },
+  //     codigoEvento: widget.codigoEvento,
+  //     valorCozinha: '',
+  //     dadosRetorno: (dados) {
+  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //           content: Text("Valor da cozinha do evento atualizado")));
+  //     },
+  //   );
+  // }
 
   buscarDadosEvento() async {
     setState(() => carregando = true);
@@ -243,56 +261,131 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                       Expanded(
                                         child: Column(
                                           children: [
-                                            campoTexto(
-                                                titulo: "Valor Hospedagem:",
-                                                dica: "R\$ 0,00",
-                                                icone: CupertinoIcons.house,
-                                                temMascara: false,
-                                                tipo: TextInputType.number,
-                                                mascara: valorFormatter,
-                                                validador: (validador) {
-                                                  if (validador == null ||
-                                                      validador.isEmpty) {
-                                                    return 'Por favor, digite o valor da hospedagem';
-                                                  }
-                                                  return null;
-                                                },
-                                                controlador:
-                                                    valorDespesaController),
-                                            campoTexto(
-                                                titulo: "Valor Cozinha:",
-                                                dica: "R\$ 0,00",
-                                                icone: CupertinoIcons
-                                                    .shopping_cart,
-                                                tipo: TextInputType.number,
-                                                temMascara: false,
-                                                mascara: valorFormatter,
-                                                validador: (validador) {
-                                                  if (validador == null ||
-                                                      validador.isEmpty) {
-                                                    return 'Por favor, digite o valor da cozinha';
-                                                  }
-                                                  return null;
-                                                },
-                                                controlador:
-                                                    valorCozinhaController),
-                                            campoTexto(
-                                                titulo: "Valor Hostiária:",
-                                                dica: "R\$ 0,00",
-                                                icone: CupertinoIcons
-                                                    .person_3_fill,
-                                                tipo: TextInputType.number,
-                                                temMascara: false,
-                                                mascara: valorFormatter,
-                                                validador: (validador) {
-                                                  if (validador == null ||
-                                                      validador.isEmpty) {
-                                                    return 'Por favor, digite o valor da hostiária';
-                                                  }
-                                                  return null;
-                                                },
-                                                controlador:
-                                                    valorHostiariaController),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                    child: campoTexto(
+                                                        titulo:
+                                                            "Valor Hospedagem:",
+                                                        dica: "R\$ 0,00",
+                                                        icone: CupertinoIcons
+                                                            .house,
+                                                        temMascara: false,
+                                                        tipo: TextInputType
+                                                            .number,
+                                                        mascara: valorFormatter,
+                                                        validador: (validador) {
+                                                          if (validador ==
+                                                                  null ||
+                                                              validador
+                                                                  .isEmpty) {
+                                                            return 'Por favor, digite o valor da hospedagem';
+                                                          }
+                                                          return null;
+                                                        },
+                                                        controlador:
+                                                            valorDespesaController)),
+                                                btnMini(
+                                                    onPressed: () {},
+                                                    child: const Icon(
+                                                        Icons.save,
+                                                        color: Cores.branco))
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: campoTexto(
+                                                      titulo: "Valor Cozinha:",
+                                                      dica: "R\$ 0,00",
+                                                      icone: CupertinoIcons
+                                                          .shopping_cart,
+                                                      tipo:
+                                                          TextInputType.number,
+                                                      temMascara: false,
+                                                      mascara: valorFormatter,
+                                                      validador: (validador) {
+                                                        if (validador == null ||
+                                                            validador.isEmpty) {
+                                                          return 'Por favor, digite o valor da cozinha';
+                                                        }
+                                                        return null;
+                                                      },
+                                                      controlador:
+                                                          valorCozinhaController),
+                                                ),
+                                                btnMini(
+                                                    onPressed: () async {
+                                                      await acertoEventoData
+                                                          .inserirAtualizarValorCozinha(
+                                                              codigoEvento: widget
+                                                                  .codigoEvento,
+                                                              valorCozinha:
+                                                                  valorCozinhaController
+                                                                      .text,
+                                                              dadosRetorno:
+                                                                  (dados) {
+                                                                valorCozinhaController
+                                                                        .text =
+                                                                    NumberFormat
+                                                                        .currency(
+                                                                  locale:
+                                                                      'pt_BR',
+                                                                  symbol: 'R\$',
+                                                                  decimalDigits:
+                                                                      2,
+                                                                ).format(double
+                                                                        .parse(dados
+                                                                            .body));
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(const SnackBar(
+                                                                        content:
+                                                                            Text("Valor da cozinha do evento atualizado")));
+                                                              },
+                                                              erro: () {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(const SnackBar(
+                                                                        content:
+                                                                            Text("Erro ao inserir valor da cozinha do evento")));
+                                                              });
+                                                    },
+                                                    child: const Icon(
+                                                        Icons.save,
+                                                        color: Cores.branco))
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: campoTexto(
+                                                      titulo:
+                                                          "Valor Hostiária:",
+                                                      dica: "R\$ 0,00",
+                                                      icone: CupertinoIcons
+                                                          .person_3_fill,
+                                                      tipo:
+                                                          TextInputType.number,
+                                                      temMascara: false,
+                                                      mascara: valorFormatter,
+                                                      validador: (validador) {
+                                                        if (validador == null ||
+                                                            validador.isEmpty) {
+                                                          return 'Por favor, digite o valor da hostiária';
+                                                        }
+                                                        return null;
+                                                      },
+                                                      controlador:
+                                                          valorHostiariaController),
+                                                ),
+                                                btnMini(
+                                                    onPressed: () {},
+                                                    child: const Icon(
+                                                        Icons.save,
+                                                        color: Cores.branco))
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -339,7 +432,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                               child: btnTerciario(
                                                   texto:
                                                       "Quebras e outras Despesas",
-                                                  onPressed: () {},
+                                                  onPressed: () =>
+                                                      widget.mudarPagina(),
                                                   icon: const Padding(
                                                       padding:
                                                           EdgeInsets.symmetric(

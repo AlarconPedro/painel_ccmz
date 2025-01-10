@@ -432,9 +432,8 @@ class _DashBoardState extends State<DashBoard> {
                         color: Cores.branco,
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Cores.branco,
-                          ),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Cores.branco),
                           child: Column(
                             children: [
                               const Row(

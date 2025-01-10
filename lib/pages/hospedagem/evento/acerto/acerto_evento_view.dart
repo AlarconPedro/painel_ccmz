@@ -30,6 +30,7 @@ class AcertoEventoView extends StatefulWidget {
 }
 
 class _AcertoEventoViewState extends State<AcertoEventoView> {
+  PageController pageController = PageController();
   @override
   void initState() {
     // TODO: implement initState
@@ -43,10 +44,17 @@ class _AcertoEventoViewState extends State<AcertoEventoView> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: PageView(
+          controller: pageController,
           children: [
             AcertoEvento(
-                codigoEvento: widget.codigoEvento,
-                nomeEvento: widget.nomeEvento),
+              codigoEvento: widget.codigoEvento,
+              nomeEvento: widget.nomeEvento,
+              mudarPagina: () {
+                pageController.animateToPage(1,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn);
+              },
+            ),
             const AcertoEventoOutrasDespesas(),
           ],
         ),
