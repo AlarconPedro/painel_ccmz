@@ -42,6 +42,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
 
   TextEditingController valorCozinhaController = TextEditingController();
   TextEditingController valorHostiariaController = TextEditingController();
+  TextEditingController valorhHospedagemController = TextEditingController();
 
   TextEditingController nomeDespesaController = TextEditingController();
   TextEditingController valorDespesaController = TextEditingController();
@@ -93,6 +94,11 @@ class _AcertoEventoState extends State<AcertoEvento> {
 
   calcularValores() {
     valorHospedagem = valorEvento * cobrantesEvento;
+    valorhHospedagemController.text = NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: 'R\$',
+      decimalDigits: 2,
+    ).format(valorHospedagem);
     valorTotal = valorCozinha + valorHostiaria + valorHospedagem;
     valorPorPessoa = valorTotal / pagantesEvento;
     valorComunidade = valorPorPessoa * cobrantesComunidade;
@@ -122,6 +128,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     await acertoEventoData.buscarComunidadesEvento(
         codigoEvento: widget.codigoEvento,
         dadosRetorno: (dados) {
+          comunidadesEvento.clear();
           for (var item in dados)
             comunidadesEvento.add(AcertoModel.fromJson(item));
         },
@@ -140,7 +147,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     await acertoEventoData.buscarCustoCozinha(
         codigoEvento: widget.codigoEvento,
         dadosRetorno: (dados) {
-          valorCozinha = double.parse(dados.body);
+          valorCozinha = double.parse(dados);
           valorCozinhaController.text = NumberFormat.currency(
             locale: 'pt_BR',
             symbol: 'R\$',
@@ -153,7 +160,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     await acertoEventoData.buscarCustoHostiaria(
         codigoEvento: widget.codigoEvento,
         dadosRetorno: (dados) {
-          valorHostiaria = double.parse(dados.body);
+          valorHostiaria = double.parse(dados);
           valorHostiariaController.text = NumberFormat.currency(
             locale: 'pt_BR',
             symbol: 'R\$',
@@ -284,9 +291,35 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                           return null;
                                                         },
                                                         controlador:
-                                                            valorDespesaController)),
+                                                            valorhHospedagemController)),
                                                 btnMini(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      acertoEventoData
+                                                          .inserirAtualizarValorHospedagem(
+                                                              codigoEvento: widget
+                                                                  .codigoEvento,
+                                                              qtdPessoasPagantes:
+                                                                  pagantesEvento,
+                                                              valorHospedagem:
+                                                                  valorhHospedagemController
+                                                                      .text,
+                                                              dadosRetorno:
+                                                                  (dados) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(const SnackBar(
+                                                                        content:
+                                                                            Text("Valor da hospedagem do evento atualizado")));
+                                                                buscarDadosEvento();
+                                                              },
+                                                              erro: () {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(const SnackBar(
+                                                                        content:
+                                                                            Text("Erro ao inserir valor da hospedagem do evento")));
+                                                              });
+                                                    },
                                                     child: const Icon(
                                                         Icons.save,
                                                         color: Cores.branco))
@@ -325,23 +358,24 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                                       .text,
                                                               dadosRetorno:
                                                                   (dados) {
-                                                                valorCozinhaController
-                                                                        .text =
-                                                                    NumberFormat
-                                                                        .currency(
-                                                                  locale:
-                                                                      'pt_BR',
-                                                                  symbol: 'R\$',
-                                                                  decimalDigits:
-                                                                      2,
-                                                                ).format(double
-                                                                        .parse(dados
-                                                                            .body));
+                                                                // valorCozinhaController
+                                                                //         .text =
+                                                                //     NumberFormat
+                                                                //         .currency(
+                                                                //   locale:
+                                                                //       'pt_BR',
+                                                                //   symbol: 'R\$',
+                                                                //   decimalDigits:
+                                                                //       2,
+                                                                // ).format(double
+                                                                //         .parse(dados
+                                                                //             .body));
                                                                 ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(const SnackBar(
                                                                         content:
                                                                             Text("Valor da cozinha do evento atualizado")));
+                                                                buscarDadosEvento();
                                                               },
                                                               erro: () {
                                                                 ScaffoldMessenger.of(
@@ -380,7 +414,43 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                           valorHostiariaController),
                                                 ),
                                                 btnMini(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      acertoEventoData
+                                                          .inserirAtualizarValorHostiaria(
+                                                              codigoEvento: widget
+                                                                  .codigoEvento,
+                                                              valorHostiaria:
+                                                                  valorHostiariaController
+                                                                      .text,
+                                                              dadosRetorno:
+                                                                  (dados) {
+                                                                // valorHostiariaController
+                                                                //         .text =
+                                                                //     NumberFormat
+                                                                //         .currency(
+                                                                //   locale:
+                                                                //       'pt_BR',
+                                                                //   symbol: 'R\$',
+                                                                //   decimalDigits:
+                                                                //       2,
+                                                                // ).format(double
+                                                                //         .parse(dados
+                                                                //             .body));
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(const SnackBar(
+                                                                        content:
+                                                                            Text("Valor da hostiária do evento atualizado")));
+                                                                buscarDadosEvento();
+                                                              },
+                                                              erro: () {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(const SnackBar(
+                                                                        content:
+                                                                            Text("Erro ao inserir valor da hostiária do evento")));
+                                                              });
+                                                    },
                                                     child: const Icon(
                                                         Icons.save,
                                                         color: Cores.branco))

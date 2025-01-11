@@ -38,6 +38,9 @@ class ApiAcerto {
   final String _urlPostDespesaHostiaria =
       "${Globais.urlBase}Acerto/evento/despesas/hostiaria";
 
+  final String _urlPostDespesaHospedagem =
+      "${Globais.urlBase}Acerto/evento/despesas/hospedagem";
+
   final String _urlPostDespesaEvento =
       "${Globais.urlBase}Acerto/evento/despesas";
 
@@ -91,6 +94,12 @@ class ApiAcerto {
   Future<dynamic> postDespesaHostiaria(int codigoEvento, double valor) async {
     return await _request.postJson(
         "$_urlPostDespesaHostiaria?codigoEvento=$codigoEvento&valor=$valor",
+        {});
+  }
+
+  Future<dynamic> postDespesaHospedagem(int codigoEvento, double valor) async {
+    return await _request.postJson(
+        "$_urlPostDespesaHospedagem?codigoEvento=$codigoEvento&valor=$valor",
         {});
   }
 

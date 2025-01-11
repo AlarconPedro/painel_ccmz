@@ -158,10 +158,30 @@ class AcertoEventoData {
     );
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);
+    } else {
+      erro();
+    }
+    // await buscarCustoCozinha();
+    // calcularValorTotalEvento();
+    // setState(() => carregando = false);
+  }
+
+  inserirAtualizarValorHostiaria(
+      {required int codigoEvento,
+      required String valorHostiaria,
+      required Function(dynamic) dadosRetorno,
+      required Function() erro}) async {
+    // setState(() => carregando = true);
+    var retorno = await ApiAcerto().postDespesaHostiaria(
+      codigoEvento,
+      double.parse(valorHostiaria),
+    );
+    if (retorno.statusCode == 200) {
+      dadosRetorno(retorno.body);
       // calcularValorTotalEvento();
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(
-      //     content: Text("Valor da cozinha atualizado com sucesso"),
+      //     content: Text("Valor da hostiaria atualizado com sucesso"),
       //     backgroundColor: Cores.verdeMedio,
       //   ),
       // );
@@ -169,42 +189,49 @@ class AcertoEventoData {
       erro();
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(
-      //     content: Text("Erro ao atualizar valor da cozinha"),
+      //     content: Text("Erro ao atualizar valor da hostiaria"),
       //     backgroundColor: Cores.vermelhoMedio,
       //   ),
       // );
     }
-    // await buscarCustoCozinha();
+    // await buscarCustoHostiaria();
     // calcularValorTotalEvento();
     // setState(() => carregando = false);
   }
 
-  // inserirAtualizarValorHostiaria() async {
-  //   setState(() => carregando = true);
-  //   var retorno = await ApiAcerto().postDespesaHostiaria(
-  //     widget.codigoEvento,
-  //     double.parse(valorHostiariaController.text),
-  //   );
-  //   if (retorno.statusCode == 200) {
-  //     calcularValorTotalEvento();
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Valor da hostiaria atualizado com sucesso"),
-  //         backgroundColor: Cores.verdeMedio,
-  //       ),
-  //     );
-  //   } else {
-  //     // ScaffoldMessenger.of(context).showSnackBar(
-  //     //   const SnackBar(
-  //     //     content: Text("Erro ao atualizar valor da hostiaria"),
-  //     //     backgroundColor: Cores.vermelhoMedio,
-  //     //   ),
-  //     // );
-  //   }
-  //   await buscarCustoHostiaria();
-  //   calcularValorTotalEvento();
-  //   setState(() => carregando = false);
-  // }
+  inserirAtualizarValorHospedagem(
+      {required int codigoEvento,
+      required int qtdPessoasPagantes,
+      required String valorHospedagem,
+      required Function(dynamic) dadosRetorno,
+      required Function() erro}) async {
+    // setState(() => carregando = true);
+    var retorno = await ApiAcerto().postDespesaHospedagem(
+      codigoEvento,
+      (double.parse(valorHospedagem) / qtdPessoasPagantes),
+    );
+    if (retorno.statusCode == 200) {
+      dadosRetorno(retorno.body);
+      // calcularValorTotalEvento();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Valor da hospedagem atualizado com sucesso"),
+      //     backgroundColor: Cores.verdeMedio,
+      //   ),
+      // );
+    } else {
+      erro();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Erro ao atualizar valor da hospedagem"),
+      //     backgroundColor: Cores.vermelhoMedio,
+      //   ),
+      // );
+    }
+    // await buscarCustoEvento();
+    // calcularValorTotalEvento();
+    // setState(() => carregando = false);
+  }
 
   // calcularValorTotalEvento() {
   //   double total = 0;

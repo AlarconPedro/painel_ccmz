@@ -1,20 +1,6 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:painel_ccmn/data/data.dart';
-import 'package:painel_ccmn/funcoes/funcoes_mascara.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_outras_despesas.dart';
 import 'package:painel_ccmn/pages/pages.dart';
-import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
-import 'package:painel_ccmn/widgets/botoes/btn_terciario.dart';
-import 'package:painel_ccmn/widgets/form/campo_texto.dart';
-import 'package:painel_ccmn/widgets/textos/textos.dart';
-import '../../../../classes/classes.dart';
-import '../../../../widgets/botoes/btn_primario.dart';
-import '../../../../widgets/widgets.dart';
 
 class AcertoEventoView extends StatefulWidget {
   int codigoEvento;
