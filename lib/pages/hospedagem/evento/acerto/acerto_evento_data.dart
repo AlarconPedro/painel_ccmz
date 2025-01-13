@@ -1,10 +1,5 @@
 import 'dart:convert';
 
-import 'package:universal_html/html.dart' as html;
-import 'package:pdf/widgets.dart' as pw;
-import 'package:pdf/pdf.dart';
-import 'package:intl/intl.dart';
-
 import '../../../../data/data.dart';
 
 class AcertoEventoData {
@@ -15,6 +10,7 @@ class AcertoEventoData {
   }) async {
     var retorno = await ApiAcerto().getComunidadesEvento(codigoEvento);
     if (retorno.statusCode == 200) {
+      print(retorno.body);
       var decoded = json.decode(retorno.body);
       dadosRetorno(decoded);
     } else {
@@ -201,14 +197,14 @@ class AcertoEventoData {
 
   inserirAtualizarValorHospedagem(
       {required int codigoEvento,
-      required int qtdPessoasPagantes,
+      required int qtdPessoasCobrantes,
       required String valorHospedagem,
       required Function(dynamic) dadosRetorno,
       required Function() erro}) async {
     // setState(() => carregando = true);
     var retorno = await ApiAcerto().postDespesaHospedagem(
       codigoEvento,
-      (double.parse(valorHospedagem) / qtdPessoasPagantes),
+      (double.parse(valorHospedagem) / qtdPessoasCobrantes),
     );
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);

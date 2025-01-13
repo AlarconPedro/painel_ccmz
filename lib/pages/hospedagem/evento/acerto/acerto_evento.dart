@@ -129,8 +129,9 @@ class _AcertoEventoState extends State<AcertoEvento> {
         codigoEvento: widget.codigoEvento,
         dadosRetorno: (dados) {
           comunidadesEvento.clear();
-          for (var item in dados)
+          for (var item in dados) {
             comunidadesEvento.add(AcertoModel.fromJson(item));
+          }
         },
         erro: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Erro ao buscar comunidades do evento"))));
@@ -181,8 +182,9 @@ class _AcertoEventoState extends State<AcertoEvento> {
     //// Buscar Despesas extra do Evento
     await acertoEventoData.busarDespesasExtraEvento(widget.codigoEvento,
         (dados) {
-      for (var item in dados)
+      for (var item in dados) {
         despesasExtra.add(EventoDespesasModel.fromJson(item));
+      }
     }, () {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Erro ao buscar despesas extras do evento")));
@@ -282,10 +284,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                             .number,
                                                         mascara: valorFormatter,
                                                         validador: (validador) {
-                                                          if (validador ==
-                                                                  null ||
-                                                              validador
-                                                                  .isEmpty) {
+                                                          if (validador
+                                                              .isEmpty) {
                                                             return 'Por favor, digite o valor da hospedagem';
                                                           }
                                                           return null;
@@ -298,8 +298,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                           .inserirAtualizarValorHospedagem(
                                                               codigoEvento: widget
                                                                   .codigoEvento,
-                                                              qtdPessoasPagantes:
-                                                                  pagantesEvento,
+                                                              qtdPessoasCobrantes:
+                                                                  cobrantesEvento,
                                                               valorHospedagem:
                                                                   valorhHospedagemController
                                                                       .text,
@@ -338,8 +338,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                       temMascara: false,
                                                       mascara: valorFormatter,
                                                       validador: (validador) {
-                                                        if (validador == null ||
-                                                            validador.isEmpty) {
+                                                        if (validador.isEmpty) {
                                                           return 'Por favor, digite o valor da cozinha';
                                                         }
                                                         return null;
@@ -404,8 +403,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                       temMascara: false,
                                                       mascara: valorFormatter,
                                                       validador: (validador) {
-                                                        if (validador == null ||
-                                                            validador.isEmpty) {
+                                                        if (validador.isEmpty) {
                                                           return 'Por favor, digite o valor da hostiária';
                                                         }
                                                         return null;

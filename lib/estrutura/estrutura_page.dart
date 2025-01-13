@@ -63,7 +63,7 @@ class _EstruturaPageState extends State<EstruturaPage> {
               buttonStyleData: const ButtonStyleData(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 elevation: 5,
-                overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                overlayColor: WidgetStatePropertyAll(Colors.transparent),
                 // WidgetStatePropertyAll(Colors.transparent),
               ),
               isExpanded: false,
