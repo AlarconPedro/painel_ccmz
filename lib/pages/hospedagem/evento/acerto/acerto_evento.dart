@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -280,7 +281,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                       temMascara: false,
                                                       tipo:
                                                           TextInputType.number,
-                                                      mascara: valorFormatter,
+                                                      mascara:
+                                                          CurrencyTextInputFormatter
+                                                              .currency(
+                                                        locale: "pt_BR",
+                                                        symbol: "R\$",
+                                                        decimalDigits: 2,
+                                                        name: "Real",
+                                                      ),
                                                       validador: (validador) {
                                                         if (validador.isEmpty) {
                                                           return 'Por favor, digite o valor da hospedagem';
@@ -335,7 +343,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                         .shopping_cart,
                                                     tipo: TextInputType.number,
                                                     temMascara: false,
-                                                    mascara: valorFormatter,
+                                                    mascara:
+                                                        CurrencyTextInputFormatter
+                                                            .currency(
+                                                      locale: "pt_BR",
+                                                      symbol: "R\$",
+                                                      decimalDigits: 2,
+                                                      name: "Real",
+                                                    ),
                                                     validador: (validador) {
                                                       if (validador.isEmpty) {
                                                         return 'Por favor, digite o valor da cozinha';
@@ -401,7 +416,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                         .person_3_fill,
                                                     tipo: TextInputType.number,
                                                     temMascara: false,
-                                                    mascara: valorFormatter,
+                                                    mascara:
+                                                        CurrencyTextInputFormatter
+                                                            .currency(
+                                                      locale: "pt_BR",
+                                                      symbol: "R\$",
+                                                      decimalDigits: 2,
+                                                      name: "Real",
+                                                    ),
                                                     validador: (validador) {
                                                       if (validador.isEmpty) {
                                                         return 'Por favor, digite o valor da hostiária';

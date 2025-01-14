@@ -7,7 +7,7 @@ Widget campoTexto({
   required String dica,
   required IconData icone,
   required bool temMascara,
-  required MaskTextInputFormatter mascara,
+  required TextInputFormatter mascara,
   required Function(String) validador,
   Function()? enviarDados,
   TextInputType? tipo,

@@ -31,6 +31,7 @@ class _AcertoEventoViewState extends State<AcertoEventoView> {
       body: Center(
         child: PageView(
           controller: pageController,
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             AcertoEvento(
               codigoEvento: widget.codigoEvento,

@@ -6,7 +6,7 @@ import 'package:painel_ccmn/widgets/widgets.dart';
 import '../../classes/classes.dart';
 import '../botoes/btn_primario.dart';
 
-Widget modeloListagemCadsatro({
+Widget modeloListagemCadastro({
   required Function fncBusca,
   required Function fncAbrirCadastro,
   required TextEditingController ctlrBusca,

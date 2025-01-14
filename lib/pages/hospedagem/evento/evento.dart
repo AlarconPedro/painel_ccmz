@@ -223,28 +223,24 @@ class _EventoState extends State<Evento> {
                               Navigator.push(
                                 context,
                                 CupertinoDialogRoute(
-                                  builder: (context) {
-                                    return PessoasEvento(
-                                      codigoEvento: eventos[index].eveCodigo,
-                                      // evento: eventos[index],
-                                    );
-                                  },
-                                  context: context,
-                                ),
+                                    builder: (context) {
+                                      return PessoasEvento(
+                                          codigoEvento:
+                                              eventos[index].eveCodigo);
+                                    },
+                                    context: context),
                               );
                             },
                             alocacao: () {
                               Navigator.push(
                                 context,
                                 CupertinoDialogRoute(
-                                  builder: (context) {
-                                    return AlocacaoEvento(
-                                      codigoEvento: eventos[index].eveCodigo,
-                                      // evento: eventos[index],
-                                    );
-                                  },
-                                  context: context,
-                                ),
+                                    builder: (context) {
+                                      return AlocacaoEvento(
+                                          codigoEvento:
+                                              eventos[index].eveCodigo);
+                                    },
+                                    context: context),
                               );
                               // Rotas.navController.animateToPage(
                               //   6,

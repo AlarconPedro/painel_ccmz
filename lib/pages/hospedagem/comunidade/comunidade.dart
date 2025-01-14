@@ -122,7 +122,7 @@ class _ComunidadeState extends State<Comunidade> {
 
   @override
   Widget build(BuildContext context) {
-    return modeloListagemCadsatro(
+    return modeloListagemCadastro(
         fncBusca: (busca) {},
         fncAbrirCadastro: () async {
           await Navigator.push(

@@ -182,7 +182,7 @@ class _PessoasState extends State<Pessoas> {
 
   @override
   Widget build(BuildContext context) {
-    return modeloListagemCadsatro(
+    return modeloListagemCadastro(
       fncBusca: buscarComunidadeCampoBusca,
       fncAbrirCadastro: () async {
         await Navigator.push(

@@ -98,7 +98,7 @@ class AcertoEventoData {
     // setState(() => carregando = true);
     var retorno = await ApiAcerto().postDespesaCozinha(
       codigoEvento,
-      double.parse(valorCozinha),
+      double.parse(valorCozinha.replaceAll("R\$", "").replaceAll(",", ".")),
     );
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);
@@ -118,7 +118,7 @@ class AcertoEventoData {
     // setState(() => carregando = true);
     var retorno = await ApiAcerto().postDespesaHostiaria(
       codigoEvento,
-      double.parse(valorHostiaria),
+      double.parse(valorHostiaria.replaceAll("R\$", "").replaceAll(",", ".")),
     );
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);
@@ -137,10 +137,12 @@ class AcertoEventoData {
       required Function(dynamic) dadosRetorno,
       required Function() erro}) async {
     // setState(() => carregando = true);
-    var retorno = await ApiAcerto().postDespesaHospedagem(
-      codigoEvento,
-      (double.parse(valorHospedagem) / qtdPessoasCobrantes),
-    );
+    double valor = (double.parse(valorHospedagem
+            .replaceAll("R\$", "")
+            .replaceAll(",", ".")
+            .replaceAll(" ", "")) /
+        qtdPessoasCobrantes);
+    var retorno = await ApiAcerto().postDespesaHospedagem(codigoEvento, valor);
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);
     } else {

@@ -7,6 +7,7 @@ Widget campoBusca({
   required TextEditingController controlador,
   required Function() busca,
   required String titulo,
+  IconData? icone = CupertinoIcons.person,
 }) {
   return CupertinoTextField(
     controller: controlador,
@@ -19,19 +20,12 @@ Widget campoBusca({
       ),
       // color: Cores.cinzaClaro,
     ),
-    prefix: const Padding(
-      padding: EdgeInsets.only(left: 10),
-      child: Icon(
-        CupertinoIcons.person,
-        color: Cores.cinzaEscuro,
-      ),
-    ),
+    prefix: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: Icon(icone, color: Cores.cinzaEscuro)),
     keyboardType: TextInputType.text,
     inputFormatters: [
-      MaskTextInputFormatter(
-        mask: "",
-        filter: {"": RegExp(r'[a-zA-Z]')},
-      ),
+      MaskTextInputFormatter(mask: "", filter: {"": RegExp(r'[a-zA-Z]')})
     ],
     onSubmitted: (value) {
       if (controlador.text.isEmpty) {

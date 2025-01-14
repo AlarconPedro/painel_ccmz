@@ -239,7 +239,7 @@ class _DashBoardState extends State<DashBoard> {
     setState(() {
       listaPessoasBusca.clear();
       for (var item in listaPessoas) {
-        if (item.pesNome.contains(nome)) {
+        if (item.pesNome.toUpperCase().contains(nome.toUpperCase())) {
           listaPessoasBusca.add(item);
         }
       }
