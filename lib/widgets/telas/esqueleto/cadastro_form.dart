@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
 
 import '../../../classes/classes.dart';
+import '../../botoes/btn_primario.dart';
 
 class CadastroForm extends StatelessWidget {
   GlobalKey<FormState> formKey;
@@ -76,41 +78,63 @@ class CadastroForm extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          CupertinoButton(
-                            onPressed: () {
-                              cancelar();
-                              Navigator.pop(context);
-                            },
-                            color: Cores.vermelhoMedio,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 30,
-                            ),
-                            child: const Text("Cancelar"),
-                          ),
+                          btnSecundario(
+                              onPressed: () {
+                                cancelar();
+                                Navigator.pop(context);
+                              },
+                              texto: "Cancelar"),
+                          // CupertinoButton(
+                          //   onPressed: () {
+                          //     cancelar();
+                          //     Navigator.pop(context);
+                          //   },
+                          //   color: Cores.vermelhoMedio,
+                          //   padding: const EdgeInsets.symmetric(
+                          //     vertical: 5,
+                          //     horizontal: 30,
+                          //   ),
+                          //   child: const Text("Cancelar"),
+                          // ),
                           const Spacer(),
-                          CupertinoButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                gravar();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    backgroundColor: Cores.vermelhoMedio,
-                                    content: Text(
-                                      'Preencha os campos corretamente',
+                          btnPrimario(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  gravar();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      backgroundColor: Cores.vermelhoMedio,
+                                      content: Text(
+                                        'Preencha os campos corretamente',
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }
-                            },
-                            color: Cores.verdeMedio,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 30,
-                            ),
-                            child: const Text("Salvar"),
-                          ),
+                                  );
+                                }
+                              },
+                              texto: "Salvar"),
+                          // CupertinoButton(
+                          //   onPressed: () {
+                          //     if (formKey.currentState!.validate()) {
+                          //       gravar();
+                          //     } else {
+                          //       ScaffoldMessenger.of(context).showSnackBar(
+                          //         const SnackBar(
+                          //           backgroundColor: Cores.vermelhoMedio,
+                          //           content: Text(
+                          //             'Preencha os campos corretamente',
+                          //           ),
+                          //         ),
+                          //       );
+                          //     }
+                          //   },
+                          //   color: Cores.verdeMedio,
+                          //   padding: const EdgeInsets.symmetric(
+                          //     vertical: 5,
+                          //     horizontal: 30,
+                          //   ),
+                          //   child: const Text("Salvar"),
+                          // ),
                         ],
                       ),
                     ),

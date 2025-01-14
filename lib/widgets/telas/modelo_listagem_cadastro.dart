@@ -4,6 +4,7 @@ import 'package:painel_ccmn/widgets/listas/listar_dados.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../classes/classes.dart';
+import '../botoes/btn_primario.dart';
 
 Widget modeloListagemCadsatro({
   required Function fncBusca,
@@ -92,14 +93,17 @@ Widget modeloListagemCadsatro({
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     const Spacer(),
-                    CupertinoButton(
-                        color: Cores.verdeMedio,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 30,
-                        ),
-                        onPressed: () => fncAbrirCadastro(),
-                        child: Text(btnTitulo)),
+                    btnPrimario(
+                        onPressed: () async => await fncAbrirCadastro(),
+                        texto: btnTitulo),
+                    // CupertinoButton(
+                    //     color: Cores.verdeMedio,
+                    //     padding: const EdgeInsets.symmetric(
+                    //       vertical: 5,
+                    //       horizontal: 30,
+                    //     ),
+                    //     onPressed: () => fncAbrirCadastro(),
+                    //     child: Text(btnTitulo)),
                   ]),
                 ),
                 const SizedBox(height: 10),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../classes/classes.dart';
+import '../../botoes/btn_primario.dart';
 
 class Esqueleto extends StatelessWidget {
   String tituloPagina;
@@ -146,26 +147,28 @@ class Esqueleto extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      CupertinoButton(
-                        color: Cores.verdeMedio,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 30,
-                        ),
-                        onPressed: () {
-                          abrirTelaCadastro();
-                          // Navigator.push(
-                          //   context,
-                          //   CupertinoDialogRoute(
-                          //     builder: (context) {
-                          //       return const CadastroPessoas();
-                          //     },
-                          //     context: context,
-                          //   ),
-                          // );
-                        },
-                        child: Text(tituloBoto),
-                      ),
+                      btnPrimario(
+                          texto: tituloBoto, onPressed: abrirTelaCadastro),
+                      // CupertinoButton(
+                      //   color: Cores.verdeMedio,
+                      //   padding: const EdgeInsets.symmetric(
+                      //     vertical: 5,
+                      //     horizontal: 30,
+                      //   ),
+                      //   onPressed: () {
+                      //     abrirTelaCadastro();
+                      //     // Navigator.push(
+                      //     //   context,
+                      //     //   CupertinoDialogRoute(
+                      //     //     builder: (context) {
+                      //     //       return const CadastroPessoas();
+                      //     //     },
+                      //     //     context: context,
+                      //     //   ),
+                      //     // );
+                      //   },
+                      //   child: Text(tituloBoto),
+                      // ),
                     ]),
                   ),
                   const Padding(

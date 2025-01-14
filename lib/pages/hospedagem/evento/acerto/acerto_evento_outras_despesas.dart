@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../classes/classes.dart';
+
 class AcertoEventoOutrasDespesas extends StatefulWidget {
   const AcertoEventoOutrasDespesas({super.key});
 
@@ -26,6 +28,16 @@ class _AcertoEventoOutrasDespesasState extends State<AcertoEventoOutrasDespesas>
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: Card(
+            color: Cores.branco,
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: SizedBox(height: 350, width: 600, child: Column())),
+      ),
+    );
   }
 }

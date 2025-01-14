@@ -27,11 +27,6 @@ class AcertoEventoData {
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       dadosRetorno(decoded);
-      // setState(() {
-      //   valorEvento = decoded["eveValor"];
-      //   tipoCobrancaEvento = decoded["eveTipoCobranca"];
-      // });
-      // await busarDespesasExtraEvento(codigoEvento, dadosRetorno, erro);
     } else {
       erro();
     }
@@ -45,22 +40,8 @@ class AcertoEventoData {
     var retorno = await ApiAcerto().getValorCozinha(codigoEvento);
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);
-      // setState(() {
-      // valorCozinha = double.parse(retorno.body);
-      // valorCozinhaController.text = NumberFormat.currency(
-      //   locale: 'pt_BR',
-      //   symbol: 'R\$',
-      //   decimalDigits: 2,
-      // ).format(valorCozinha);
-      // });
     } else {
       erro();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Erro ao buscar custo da cozinha"),
-      //     backgroundColor: Cores.vermelhoMedio,
-      //   ),
-      // );
     }
     // setState(() => carregando = false);
   }
@@ -74,22 +55,8 @@ class AcertoEventoData {
     var retorno = await ApiAcerto().getValorHostiaria(codigoEvento);
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);
-      // setState(() {
-      //   valorHostiaria = double.parse(retorno.body);
-      //   valorHostiariaController.text = NumberFormat.currency(
-      //     locale: 'pt_BR',
-      //     symbol: 'R\$',
-      //     decimalDigits: 2,
-      //   ).format(valorHostiaria);
-      // });
     } else {
       erro();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Erro ao buscar custo da hostiaria"),
-      //     backgroundColor: Cores.vermelhoMedio,
-      //   ),
-      // );
     }
     // setState(() => carregando = false);
   }
@@ -104,21 +71,8 @@ class AcertoEventoData {
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       dadosRetorno(decoded);
-      // setState(() {
-      //   pagantesEvento = decoded["pagantes"];
-      //   cobrantesEvento = decoded["cobrantes"];
-      //   valorEvento = ((cobrantesEvento * valorEvento));
-      //   valorPorPessoa =
-      //       double.parse((valorEvento / pagantesEvento).toStringAsFixed(2));
-      // });
     } else {
       erro();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Erro ao buscar pessoas pagantes e cobrantes"),
-      //     backgroundColor: Cores.vermelhoMedio,
-      //   ),
-      // );
     }
     // setState(() => carregando = false);
   }
@@ -129,12 +83,6 @@ class AcertoEventoData {
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       dadosRetorno(decoded);
-      // despesasExtra.clear();
-      // setState(() {
-      //   for (var element in decoded) {
-      //     despesasExtra.add(EventoDespesasModel.fromJson(element));
-      //   }
-      // });
     } else {
       erro();
     }
@@ -174,21 +122,8 @@ class AcertoEventoData {
     );
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);
-      // calcularValorTotalEvento();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Valor da hostiaria atualizado com sucesso"),
-      //     backgroundColor: Cores.verdeMedio,
-      //   ),
-      // );
     } else {
       erro();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Erro ao atualizar valor da hostiaria"),
-      //     backgroundColor: Cores.vermelhoMedio,
-      //   ),
-      // );
     }
     // await buscarCustoHostiaria();
     // calcularValorTotalEvento();
@@ -208,21 +143,8 @@ class AcertoEventoData {
     );
     if (retorno.statusCode == 200) {
       dadosRetorno(retorno.body);
-      // calcularValorTotalEvento();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Valor da hospedagem atualizado com sucesso"),
-      //     backgroundColor: Cores.verdeMedio,
-      //   ),
-      // );
     } else {
       erro();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text("Erro ao atualizar valor da hospedagem"),
-      //     backgroundColor: Cores.vermelhoMedio,
-      //   ),
-      // );
     }
     // await buscarCustoEvento();
     // calcularValorTotalEvento();
