@@ -28,12 +28,12 @@ Widget campoBusca({
       MaskTextInputFormatter(mask: "", filter: {"": RegExp(r'[a-zA-Z]')})
     ],
     onSubmitted: (value) {
-      if (controlador.text.isEmpty) {
+      if (controlador.text.isNotEmpty) {
         busca();
       }
     },
     onChanged: (value) {
-      if (controlador.text.isEmpty) {
+      if (controlador.text.isNotEmpty) {
         busca();
       }
     },
