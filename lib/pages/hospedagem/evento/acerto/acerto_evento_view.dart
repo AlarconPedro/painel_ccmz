@@ -42,7 +42,7 @@ class _AcertoEventoViewState extends State<AcertoEventoView> {
                     curve: Curves.easeIn);
               },
             ),
-            const AcertoEventoOutrasDespesas(),
+            AcertoEventoOutrasDespesas(),
           ],
         ),
       ),

@@ -7,10 +7,12 @@ import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../../classes/classes.dart';
+import '../../../../data/data.dart';
 import '../../../../widgets/form/campo_texto.dart';
 
 class AcertoEventoOutrasDespesas extends StatefulWidget {
-  const AcertoEventoOutrasDespesas({super.key});
+  List<AcertoModel> comunidades;
+  AcertoEventoOutrasDespesas({super.key, required this.comunidades});
 
   @override
   State<AcertoEventoOutrasDespesas> createState() =>
@@ -116,7 +118,9 @@ class _AcertoEventoOutrasDespesasState
                           Expanded(
                             child: DropDownForm(
                                 label: "Comunidade",
-                                itens: [],
+                                itens: widget.comunidades
+                                    .map((e) => e.comNome)
+                                    .toList(),
                                 selecionado: comunidadeSelecionada,
                                 onChange: (valor) {
                                   setState(() => comunidadeSelecionada = valor);
@@ -180,7 +184,7 @@ class _AcertoEventoOutrasDespesasState
                                       curve: Curves.easeInOut);
                                 },
                               ),
-                              Spacer(),
+                              const Spacer(),
                               btnPrimario(
                                 texto: "Selecionar",
                                 onPressed: () {
