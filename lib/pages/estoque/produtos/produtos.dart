@@ -268,9 +268,8 @@ class _ProdutosState extends State<Produtos> {
                                             elevation: 5,
                                             child: CupertinoButton(
                                               child: const Icon(
-                                                CupertinoIcons.trash,
-                                                color: Cores.vermelhoMedio,
-                                              ),
+                                                  CupertinoIcons.trash,
+                                                  color: Cores.vermelhoMedio),
                                               onPressed: () {
                                                 showDialog(
                                                   context: context,

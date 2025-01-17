@@ -4,7 +4,6 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/pages/estoque/produtos/produtos.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_primario.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
-import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../../classes/classes.dart';
 import '../../../../data/data.dart';
@@ -115,17 +114,17 @@ class _AcertoEventoOutrasDespesasState
                       ),
                       Row(
                         children: [
-                          Expanded(
-                            child: DropDownForm(
-                                label: "Comunidade",
-                                itens: widget.comunidades
-                                    .map((e) => e.comNome)
-                                    .toList(),
-                                selecionado: comunidadeSelecionada,
-                                onChange: (valor) {
-                                  setState(() => comunidadeSelecionada = valor);
-                                }),
-                          ),
+                          // Expanded(
+                          //   child: DropDownForm(
+                          //       label: "Comunidade",
+                          //       itens: widget.comunidades
+                          //           .map((e) => e.comNome)
+                          //           .toList(),
+                          //       selecionado: comunidadeSelecionada,
+                          //       onChange: (valor) {
+                          //         setState(() => comunidadeSelecionada = valor);
+                          //       }),
+                          // ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: campoTexto(
@@ -164,9 +163,10 @@ class _AcertoEventoOutrasDespesasState
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Produtos(
-                                selecionar: (produto) => setState(
-                                    () => controlador.text = produto.proNome),
-                                selecionarProduto: true),
+                              selecionar: (produto) => setState(
+                                  () => controlador.text = produto.proNome),
+                              selecionarProduto: true,
+                            ),
                           ),
                         ),
                         Padding(

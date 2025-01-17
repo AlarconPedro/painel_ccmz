@@ -11,10 +11,11 @@ CupertinoButton btnTerciario(
     color: Cores.azulMedio,
     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
     child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         icon ?? const SizedBox(),
         // const Icon(CupertinoIcons.printer, color: Cores.branco),
-        // const SizedBox(width: 10),
+        const SizedBox(width: 15),
         Textos.textoPequenoNormal(texto: texto, cor: Cores.branco),
       ],
     ),
