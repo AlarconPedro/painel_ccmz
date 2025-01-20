@@ -169,7 +169,9 @@ class _CadastroEventoState extends State<CadastroEvento> {
           );
         }
       },
-      cancelar: () {},
+      cancelar: () {
+        Navigator.pop(context);
+      },
       campos: [
         Row(
           children: [

@@ -363,7 +363,7 @@ class _CadastroPessoasState extends State<CadastroPessoas> {
  */
       },
       cancelar: () {
-        // Navigator.pop(context);
+        Navigator.pop(context);
       },
     );
   }

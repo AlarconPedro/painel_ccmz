@@ -78,6 +78,7 @@ class Editar_CheckinState extends State<EditarCheckin> {
             element.pesCheckin = false;
           });
         }
+        Navigator.pop(context);
       },
       formKey: GlobalKey<FormState>(),
       campos: carregando

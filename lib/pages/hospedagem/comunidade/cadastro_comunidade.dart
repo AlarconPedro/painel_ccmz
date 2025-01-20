@@ -223,7 +223,7 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
         widget.comunidade == null ? gravarComunidade() : atualizarComunidade();
       },
       cancelar: () {
-        // Navigator.pop(context);
+        Navigator.pop(context);
       },
     );
   }

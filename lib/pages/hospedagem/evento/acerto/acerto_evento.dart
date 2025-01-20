@@ -54,9 +54,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
   List<AcertoModel> comunidadesEvento = [];
 
   MaskTextInputFormatter valorFormatter = MaskTextInputFormatter(
-    mask: '###.###.###.###.###,00',
-    filter: {"#": RegExp(r'[0-9]')},
-  );
+      mask: '###.###.###.###.###,00', filter: {"#": RegExp(r'[0-9]')});
   double valorTotal = 0;
   double valorEvento = 0;
   double valorExtraEvento = 0;
@@ -306,8 +304,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                               color: Cores.branco)),
                                       separador(),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
                                         child: Row(
                                           children: [
                                             Textos.textoPequeno(
@@ -348,7 +346,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                           child: btnTerciario(
                                             texto: "Serviços",
                                             onPressed: () =>
-                                                widget.mudarPagina(),
+                                                widget.mudarPagina(1),
                                             icon: const Padding(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 5),
@@ -368,7 +366,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                           child: btnTerciario(
                                             texto: "Outras Despesas",
                                             onPressed: () =>
-                                                widget.mudarPagina(),
+                                                widget.mudarPagina(2),
                                             icon: const Padding(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 5),

@@ -251,7 +251,9 @@ class _CadastroPromocoesState extends State<CadastroPromocoes> {
       ],
       titulo: '',
       gravar: () {},
-      cancelar: () {},
+      cancelar: () {
+        Navigator.pop(context);
+      },
     );
   }
 }

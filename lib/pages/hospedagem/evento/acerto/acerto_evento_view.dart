@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_outras_despesas.dart';
+import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_produtos.dart';
+import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_servicos.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
 class AcertoEventoView extends StatefulWidget {
@@ -36,13 +37,22 @@ class _AcertoEventoViewState extends State<AcertoEventoView> {
             AcertoEvento(
               codigoEvento: widget.codigoEvento,
               nomeEvento: widget.nomeEvento,
-              mudarPagina: () {
-                pageController.animateToPage(1,
+              mudarPagina: (int pagina) {
+                pageController.animateToPage(pagina,
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeIn);
               },
             ),
-            AcertoEventoOutrasDespesas(comunidades: []),
+            AcertoEventoServicos(
+                comunidades: [],
+                voltarTela: () => pageController.animateToPage(0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn)),
+            AcertoEventoProdutos(
+                comunidades: [],
+                voltarTela: () => pageController.animateToPage(0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn)),
           ],
         ),
       ),

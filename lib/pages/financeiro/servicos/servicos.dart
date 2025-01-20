@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:painel_ccmn/pages/financeiro/servicos/novo_servico.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
 class Servicos extends StatefulWidget {
@@ -9,12 +10,36 @@ class Servicos extends StatefulWidget {
 }
 
 class _ServicosState extends State<Servicos> {
+  bool carregando = false;
+
+  buscarServicos() async {
+    setState(() => carregando = true);
+    setState(() => carregando = false);
+    // setState(() => carregando = true);
+    // await Servico.buscarServicos().then((value) {
+    //   setState(() {
+    //     listaServicos = value;
+    //     carregando = false;
+    //   });
+    // });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buscarServicos();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Esqueleto(
       tituloBoto: "Novo Serviço",
       tituloPagina: "Serviços",
-      abrirTelaCadastro: () {},
+      abrirTelaCadastro: () => Navigator.push(
+          context,
+          CupertinoDialogRoute(
+              builder: (context) => const NovoServico(), context: context)),
       corpo: [],
       buscaNome: (busca) {},
     );

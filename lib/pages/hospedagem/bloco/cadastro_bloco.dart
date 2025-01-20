@@ -151,7 +151,7 @@ class _CadastroBlocoState extends State<CadastroBloco> {
         }
       },
       cancelar: () {
-        // Navigator.pop(context);
+        Navigator.pop(context);
       },
     );
   }

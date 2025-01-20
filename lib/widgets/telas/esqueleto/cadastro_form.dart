@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
+import 'package:painel_ccmn/widgets/separador.dart';
 
 import '../../../classes/classes.dart';
 import '../../botoes/btn_primario.dart';
@@ -70,7 +71,7 @@ class CadastroForm extends StatelessWidget {
                       ),
                     ),
                     ...campos,
-                    const Spacer(),
+                    separador(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
@@ -81,7 +82,6 @@ class CadastroForm extends StatelessWidget {
                           btnSecundario(
                               onPressed: () {
                                 cancelar();
-                                Navigator.pop(context);
                               },
                               texto: "Cancelar"),
                           // CupertinoButton(

@@ -58,7 +58,7 @@ class _CadastroCategoriasState extends State<CadastroCategorias> {
       altura: 4,
       largura: 2.5,
       cancelar: () {
-        // Navigator.pop(context);
+        Navigator.pop(context);
       },
       gravar: () {
         gravarCategoria();

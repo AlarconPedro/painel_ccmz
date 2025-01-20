@@ -218,7 +218,9 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
       gravar: () {
         gravarSorteio();
       },
-      cancelar: () {},
+      cancelar: () {
+        Navigator.pop(context);
+      },
     );
   }
 }
