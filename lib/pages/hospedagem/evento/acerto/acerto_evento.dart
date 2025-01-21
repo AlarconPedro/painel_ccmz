@@ -198,458 +198,487 @@ class _AcertoEventoState extends State<AcertoEvento> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: Card(
-          color: Cores.cinzaClaro,
-          elevation: 10,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: alturaFormulario,
-            width: larguraFormulario,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 320,
-                  child: Center(
-                    child: carregando
-                        ? const CarregamentoIOS()
-                        : Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Card(
-                              color: Cores.branco,
-                              elevation: 10,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(10)),
-                                        color: Cores.azulMedio),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
-                                      child: Row(children: [
-                                        Textos.textoMedioNormal(
-                                            texto:
-                                                "Evento: ${widget.nomeEvento}",
-                                            cor: Cores.branco),
-                                        const Spacer(),
-                                        Textos.textoMedioNormal(
-                                            texto: "Cobrante: $cobrantesEvento",
-                                            cor: Cores.branco),
-                                        const SizedBox(width: 10),
-                                        Textos.textoMedioNormal(
-                                            texto: "Pagante: $pagantesEvento",
-                                            cor: Cores.branco),
-                                        const SizedBox(width: 10)
-                                      ]),
-                                    ),
-                                  ),
-                                  Row(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              color: Cores.cinzaClaro,
+              elevation: 10,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: alturaFormulario,
+                width: larguraFormulario,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 320,
+                      child: Center(
+                        child: carregando
+                            ? const CarregamentoIOS()
+                            : Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Card(
+                                  color: Cores.branco,
+                                  elevation: 10,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  child: Column(
                                     children: [
-                                      Expanded(
-                                          child: campoTexto(
-                                              titulo: "Valor Hospedagem:",
-                                              dica: "R\$ 0,00",
-                                              icone: CupertinoIcons.house,
-                                              temMascara: false,
-                                              tipo: TextInputType.number,
-                                              mascara:
-                                                  CurrencyTextInputFormatter
-                                                      .currency(
-                                                locale: "pt_BR",
-                                                symbol: "R\$",
-                                                decimalDigits: 2,
-                                                name: "Real",
-                                              ),
-                                              validador: (validador) {
-                                                if (validador.isEmpty) {
-                                                  return 'Por favor, digite o valor da hospedagem';
-                                                }
-                                                return null;
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                topRight: Radius.circular(10)),
+                                            color: Cores.azulMedio),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 10),
+                                          child: Row(children: [
+                                            Textos.textoMedioNormal(
+                                                texto:
+                                                    "Evento: ${widget.nomeEvento}",
+                                                cor: Cores.branco),
+                                            const Spacer(),
+                                            Textos.textoMedioNormal(
+                                                texto:
+                                                    "Cobrante: $cobrantesEvento",
+                                                cor: Cores.branco),
+                                            const SizedBox(width: 10),
+                                            Textos.textoMedioNormal(
+                                                texto:
+                                                    "Pagante: $pagantesEvento",
+                                                cor: Cores.branco),
+                                            const SizedBox(width: 10)
+                                          ]),
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              child: campoTexto(
+                                                  titulo: "Valor Hospedagem:",
+                                                  dica: "R\$ 0,00",
+                                                  icone: CupertinoIcons.house,
+                                                  temMascara: false,
+                                                  tipo: TextInputType.number,
+                                                  mascara:
+                                                      CurrencyTextInputFormatter
+                                                          .currency(
+                                                    locale: "pt_BR",
+                                                    symbol: "R\$",
+                                                    decimalDigits: 2,
+                                                    name: "Real",
+                                                  ),
+                                                  validador: (validador) {
+                                                    if (validador.isEmpty) {
+                                                      return 'Por favor, digite o valor da hospedagem';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  controlador:
+                                                      valorhHospedagemController)),
+                                          btnMini(
+                                              onPressed: () {
+                                                acertoEventoData
+                                                    .inserirAtualizarValorHospedagem(
+                                                        codigoEvento:
+                                                            widget.codigoEvento,
+                                                        qtdPessoasCobrantes:
+                                                            cobrantesEvento,
+                                                        valorHospedagem:
+                                                            valorhHospedagemController
+                                                                .text,
+                                                        dadosRetorno: (dados) {
+                                                          snackNotification(
+                                                              context: context,
+                                                              mensage:
+                                                                  "Valor da hospedagem do evento atualizado",
+                                                              cor: Cores
+                                                                  .verdeMedio);
+                                                          buscarDadosEvento();
+                                                        },
+                                                        erro: () =>
+                                                            snackNotification(
+                                                                context:
+                                                                    context,
+                                                                mensage:
+                                                                    "Erro ao inserir valor da hospedagem"));
                                               },
-                                              controlador:
-                                                  valorhHospedagemController)),
-                                      btnMini(
-                                          onPressed: () {
-                                            acertoEventoData
-                                                .inserirAtualizarValorHospedagem(
-                                                    codigoEvento:
-                                                        widget.codigoEvento,
-                                                    qtdPessoasCobrantes:
-                                                        cobrantesEvento,
-                                                    valorHospedagem:
-                                                        valorhHospedagemController
-                                                            .text,
-                                                    dadosRetorno: (dados) {
-                                                      snackNotification(
-                                                          context: context,
-                                                          mensage:
-                                                              "Valor da hospedagem do evento atualizado",
-                                                          cor:
-                                                              Cores.verdeMedio);
-                                                      buscarDadosEvento();
-                                                    },
-                                                    erro: () => snackNotification(
-                                                        context: context,
-                                                        mensage:
-                                                            "Erro ao inserir valor da hospedagem"));
-                                          },
-                                          child: const Icon(Icons.save,
-                                              color: Cores.branco)),
-                                      separador(),
+                                              child: const Icon(Icons.save,
+                                                  color: Cores.branco)),
+                                          separador(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 10),
+                                            child: Row(
+                                              children: [
+                                                Textos.textoPequeno(
+                                                    texto: "Divisão :",
+                                                    cor: Cores.preto),
+                                                const SizedBox(width: 10),
+                                                Textos.textoPequeno(
+                                                    texto: "Pessoa",
+                                                    cor: Cores.preto),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  child: CupertinoSwitch(
+                                                      value: dividirComunidade,
+                                                      onChanged: (value) {
+                                                        alterarAlturaFormulario();
+                                                        setState(() =>
+                                                            dividirComunidade =
+                                                                value);
+                                                      }),
+                                                ),
+                                                Textos.textoPequeno(
+                                                    texto: "Comunidade",
+                                                    cor: Cores.preto),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            child: SizedBox(
+                                              width: 350,
+                                              child: btnTerciario(
+                                                texto: "Serviços",
+                                                onPressed: () =>
+                                                    widget.mudarPagina(1),
+                                                icon: const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 5),
+                                                    child: Icon(
+                                                        CupertinoIcons.wrench,
+                                                        size: 30,
+                                                        color: Cores.branco)),
+                                              ),
+                                            ),
+                                          ),
+                                          separador(),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            child: SizedBox(
+                                              width: 350,
+                                              child: btnTerciario(
+                                                texto: "Outras Despesas",
+                                                onPressed: () =>
+                                                    widget.mudarPagina(2),
+                                                icon: const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 5),
+                                                    child: Icon(
+                                                        CupertinoIcons.cube_box,
+                                                        size: 30,
+                                                        color: Cores.branco)),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      // Row(
+                                      //   children: [
+                                      //     Expanded(
+                                      //       child: campoTexto(
+                                      //           titulo: "Valor Cozinha:",
+                                      //           dica: "R\$ 0,00",
+                                      //           icone: CupertinoIcons
+                                      //               .shopping_cart,
+                                      //           tipo: TextInputType.number,
+                                      //           temMascara: false,
+                                      //           mascara:
+                                      //               CurrencyTextInputFormatter
+                                      //                   .currency(
+                                      //             locale: "pt_BR",
+                                      //             symbol: "R\$",
+                                      //             decimalDigits: 2,
+                                      //             name: "Real",
+                                      //           ),
+                                      //           validador: (validador) {
+                                      //             if (validador.isEmpty) {
+                                      //               return 'Por favor, digite o valor da cozinha';
+                                      //             }
+                                      //             return null;
+                                      //           },
+                                      //           controlador:
+                                      //               valorCozinhaController),
+                                      //     ),
+                                      //     btnMini(
+                                      //         onPressed: () async {
+                                      //           await acertoEventoData
+                                      //               .inserirAtualizarValorCozinha(
+                                      //                   codigoEvento: widget
+                                      //                       .codigoEvento,
+                                      //                   valorCozinha:
+                                      //                       valorCozinhaController
+                                      //                           .text,
+                                      //                   dadosRetorno:
+                                      //                       (dados) {
+                                      //                     // valorCozinhaController
+                                      //                     //         .text =
+                                      //                     //     NumberFormat
+                                      //                     //         .currency(
+                                      //                     //   locale:
+                                      //                     //       'pt_BR',
+                                      //                     //   symbol: 'R\$',
+                                      //                     //   decimalDigits:
+                                      //                     //       2,
+                                      //                     // ).format(double
+                                      //                     //         .parse(dados
+                                      //                     //             .body));
+                                      //                     ScaffoldMessenger
+                                      //                             .of(
+                                      //                                 context)
+                                      //                         .showSnackBar(
+                                      //                             const SnackBar(
+                                      //                                 content:
+                                      //                                     Text("Valor da cozinha do evento atualizado")));
+                                      //                     buscarDadosEvento();
+                                      //                   },
+                                      //                   erro: () {
+                                      //                     ScaffoldMessenger
+                                      //                             .of(
+                                      //                                 context)
+                                      //                         .showSnackBar(
+                                      //                             const SnackBar(
+                                      //                                 content:
+                                      //                                     Text("Erro ao inserir valor da cozinha do evento")));
+                                      //                   });
+                                      //         },
+                                      //         child: const Icon(Icons.save,
+                                      //             color: Cores.branco))
+                                      //   ],
+                                      // ),
+                                      // Row(
+                                      //   children: [
+                                      //     Expanded(
+                                      //       child: campoTexto(
+                                      //           titulo: "Valor Hostiária:",
+                                      //           dica: "R\$ 0,00",
+                                      //           icone: CupertinoIcons
+                                      //               .person_3_fill,
+                                      //           tipo: TextInputType.number,
+                                      //           temMascara: false,
+                                      //           mascara:
+                                      //               CurrencyTextInputFormatter
+                                      //                   .currency(
+                                      //             locale: "pt_BR",
+                                      //             symbol: "R\$",
+                                      //             decimalDigits: 2,
+                                      //             name: "Real",
+                                      //           ),
+                                      //           validador: (validador) {
+                                      //             if (validador.isEmpty) {
+                                      //               return 'Por favor, digite o valor da hostiária';
+                                      //             }
+                                      //             return null;
+                                      //           },
+                                      //           controlador:
+                                      //               valorHostiariaController),
+                                      //     ),
+                                      //     btnMini(
+                                      //         onPressed: () {
+                                      //           acertoEventoData
+                                      //               .inserirAtualizarValorHostiaria(
+                                      //                   codigoEvento: widget
+                                      //                       .codigoEvento,
+                                      //                   valorHostiaria:
+                                      //                       valorHostiariaController
+                                      //                           .text,
+                                      //                   dadosRetorno:
+                                      //                       (dados) {
+                                      //                     // valorHostiariaController
+                                      //                     //         .text =
+                                      //                     //     NumberFormat
+                                      //                     //         .currency(
+                                      //                     //   locale:
+                                      //                     //       'pt_BR',
+                                      //                     //   symbol: 'R\$',
+                                      //                     //   decimalDigits:
+                                      //                     //       2,
+                                      //                     // ).format(double
+                                      //                     //         .parse(dados
+                                      //                     //             .body));
+                                      //                     ScaffoldMessenger
+                                      //                             .of(
+                                      //                                 context)
+                                      //                         .showSnackBar(
+                                      //                             const SnackBar(
+                                      //                                 content:
+                                      //                                     Text("Valor da hostiária do evento atualizado")));
+                                      //                     buscarDadosEvento();
+                                      //                   },
+                                      //                   erro: () {
+                                      //                     ScaffoldMessenger
+                                      //                             .of(
+                                      //                                 context)
+                                      //                         .showSnackBar(
+                                      //                             const SnackBar(
+                                      //                                 content:
+                                      //                                     Text("Erro ao inserir valor da hostiária do evento")));
+                                      //                   });
+                                      //         },
+                                      //         child: const Icon(Icons.save,
+                                      //             color: Cores.branco))
+                                      // ],
+                                      // ),
+                                      //   ],
+                                      // ),
+                                      // ),
+                                      // const Spacer(),
+
+                                      const Spacer(),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 10),
                                         child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Textos.textoPequeno(
-                                                texto: "Divisão :",
+                                                texto: "Total Serviços:",
                                                 cor: Cores.preto),
-                                            const SizedBox(width: 10),
                                             Textos.textoPequeno(
-                                                texto: "Pessoa",
+                                                texto: NumberFormat.currency(
+                                                        locale: 'pt_BR',
+                                                        symbol: 'R\$',
+                                                        decimalDigits: 2)
+                                                    .format(valorTotal),
                                                 cor: Cores.preto),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              child: CupertinoSwitch(
-                                                  value: dividirComunidade,
-                                                  onChanged: (value) {
-                                                    alterarAlturaFormulario();
-                                                    setState(() =>
-                                                        dividirComunidade =
-                                                            value);
-                                                  }),
-                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
                                             Textos.textoPequeno(
-                                                texto: "Comunidade",
+                                                texto: "Total Outras Despesas:",
+                                                cor: Cores.preto),
+                                            Textos.textoPequeno(
+                                                texto: NumberFormat.currency(
+                                                        locale: 'pt_BR',
+                                                        symbol: 'R\$',
+                                                        decimalDigits: 2)
+                                                    .format(valorTotal),
+                                                cor: Cores.preto),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Textos.textoMedio(
+                                                texto: "Total Evento:",
+                                                cor: Cores.preto),
+                                            Textos.textoMedio(
+                                                texto: NumberFormat.currency(
+                                                        locale: 'pt_BR',
+                                                        symbol: 'R\$',
+                                                        decimalDigits: 2)
+                                                    .format(valorTotal),
                                                 cor: Cores.preto),
                                           ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5, horizontal: 10),
-                                        child: SizedBox(
-                                          width: 350,
-                                          child: btnTerciario(
-                                            texto: "Serviços",
-                                            onPressed: () =>
-                                                widget.mudarPagina(1),
-                                            icon: const Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 5),
-                                                child: Icon(
-                                                    CupertinoIcons.wrench,
-                                                    size: 30,
-                                                    color: Cores.branco)),
-                                          ),
-                                        ),
-                                      ),
-                                      separador(),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5, horizontal: 10),
-                                        child: SizedBox(
-                                          width: 350,
-                                          child: btnTerciario(
-                                            texto: "Outras Despesas",
-                                            onPressed: () =>
-                                                widget.mudarPagina(2),
-                                            icon: const Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 5),
-                                                child: Icon(
-                                                    CupertinoIcons.cube_box,
-                                                    size: 30,
-                                                    color: Cores.branco)),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Row(
-                                  //   children: [
-                                  //     Expanded(
-                                  //       child: campoTexto(
-                                  //           titulo: "Valor Cozinha:",
-                                  //           dica: "R\$ 0,00",
-                                  //           icone: CupertinoIcons
-                                  //               .shopping_cart,
-                                  //           tipo: TextInputType.number,
-                                  //           temMascara: false,
-                                  //           mascara:
-                                  //               CurrencyTextInputFormatter
-                                  //                   .currency(
-                                  //             locale: "pt_BR",
-                                  //             symbol: "R\$",
-                                  //             decimalDigits: 2,
-                                  //             name: "Real",
-                                  //           ),
-                                  //           validador: (validador) {
-                                  //             if (validador.isEmpty) {
-                                  //               return 'Por favor, digite o valor da cozinha';
-                                  //             }
-                                  //             return null;
-                                  //           },
-                                  //           controlador:
-                                  //               valorCozinhaController),
-                                  //     ),
-                                  //     btnMini(
-                                  //         onPressed: () async {
-                                  //           await acertoEventoData
-                                  //               .inserirAtualizarValorCozinha(
-                                  //                   codigoEvento: widget
-                                  //                       .codigoEvento,
-                                  //                   valorCozinha:
-                                  //                       valorCozinhaController
-                                  //                           .text,
-                                  //                   dadosRetorno:
-                                  //                       (dados) {
-                                  //                     // valorCozinhaController
-                                  //                     //         .text =
-                                  //                     //     NumberFormat
-                                  //                     //         .currency(
-                                  //                     //   locale:
-                                  //                     //       'pt_BR',
-                                  //                     //   symbol: 'R\$',
-                                  //                     //   decimalDigits:
-                                  //                     //       2,
-                                  //                     // ).format(double
-                                  //                     //         .parse(dados
-                                  //                     //             .body));
-                                  //                     ScaffoldMessenger
-                                  //                             .of(
-                                  //                                 context)
-                                  //                         .showSnackBar(
-                                  //                             const SnackBar(
-                                  //                                 content:
-                                  //                                     Text("Valor da cozinha do evento atualizado")));
-                                  //                     buscarDadosEvento();
-                                  //                   },
-                                  //                   erro: () {
-                                  //                     ScaffoldMessenger
-                                  //                             .of(
-                                  //                                 context)
-                                  //                         .showSnackBar(
-                                  //                             const SnackBar(
-                                  //                                 content:
-                                  //                                     Text("Erro ao inserir valor da cozinha do evento")));
-                                  //                   });
-                                  //         },
-                                  //         child: const Icon(Icons.save,
-                                  //             color: Cores.branco))
-                                  //   ],
-                                  // ),
-                                  // Row(
-                                  //   children: [
-                                  //     Expanded(
-                                  //       child: campoTexto(
-                                  //           titulo: "Valor Hostiária:",
-                                  //           dica: "R\$ 0,00",
-                                  //           icone: CupertinoIcons
-                                  //               .person_3_fill,
-                                  //           tipo: TextInputType.number,
-                                  //           temMascara: false,
-                                  //           mascara:
-                                  //               CurrencyTextInputFormatter
-                                  //                   .currency(
-                                  //             locale: "pt_BR",
-                                  //             symbol: "R\$",
-                                  //             decimalDigits: 2,
-                                  //             name: "Real",
-                                  //           ),
-                                  //           validador: (validador) {
-                                  //             if (validador.isEmpty) {
-                                  //               return 'Por favor, digite o valor da hostiária';
-                                  //             }
-                                  //             return null;
-                                  //           },
-                                  //           controlador:
-                                  //               valorHostiariaController),
-                                  //     ),
-                                  //     btnMini(
-                                  //         onPressed: () {
-                                  //           acertoEventoData
-                                  //               .inserirAtualizarValorHostiaria(
-                                  //                   codigoEvento: widget
-                                  //                       .codigoEvento,
-                                  //                   valorHostiaria:
-                                  //                       valorHostiariaController
-                                  //                           .text,
-                                  //                   dadosRetorno:
-                                  //                       (dados) {
-                                  //                     // valorHostiariaController
-                                  //                     //         .text =
-                                  //                     //     NumberFormat
-                                  //                     //         .currency(
-                                  //                     //   locale:
-                                  //                     //       'pt_BR',
-                                  //                     //   symbol: 'R\$',
-                                  //                     //   decimalDigits:
-                                  //                     //       2,
-                                  //                     // ).format(double
-                                  //                     //         .parse(dados
-                                  //                     //             .body));
-                                  //                     ScaffoldMessenger
-                                  //                             .of(
-                                  //                                 context)
-                                  //                         .showSnackBar(
-                                  //                             const SnackBar(
-                                  //                                 content:
-                                  //                                     Text("Valor da hostiária do evento atualizado")));
-                                  //                     buscarDadosEvento();
-                                  //                   },
-                                  //                   erro: () {
-                                  //                     ScaffoldMessenger
-                                  //                             .of(
-                                  //                                 context)
-                                  //                         .showSnackBar(
-                                  //                             const SnackBar(
-                                  //                                 content:
-                                  //                                     Text("Erro ao inserir valor da hostiária do evento")));
-                                  //                   });
-                                  //         },
-                                  //         child: const Icon(Icons.save,
-                                  //             color: Cores.branco))
-                                  // ],
-                                  // ),
-                                  //   ],
-                                  // ),
-                                  // ),
-                                  // const Spacer(),
-
-                                  const Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Textos.textoPequeno(
-                                            texto: "Total Serviços:",
-                                            cor: Cores.preto),
-                                        Textos.textoPequeno(
-                                            texto: NumberFormat.currency(
-                                                    locale: 'pt_BR',
-                                                    symbol: 'R\$',
-                                                    decimalDigits: 2)
-                                                .format(valorTotal),
-                                            cor: Cores.preto),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Textos.textoPequeno(
-                                            texto: "Total Outras Despesas:",
-                                            cor: Cores.preto),
-                                        Textos.textoPequeno(
-                                            texto: NumberFormat.currency(
-                                                    locale: 'pt_BR',
-                                                    symbol: 'R\$',
-                                                    decimalDigits: 2)
-                                                .format(valorTotal),
-                                            cor: Cores.preto),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Textos.textoMedio(
-                                            texto: "Total Evento:",
-                                            cor: Cores.preto),
-                                        Textos.textoMedio(
-                                            texto: NumberFormat.currency(
-                                                    locale: 'pt_BR',
-                                                    symbol: 'R\$',
-                                                    decimalDigits: 2)
-                                                .format(valorTotal),
-                                            cor: Cores.preto),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                  ),
-                ),
-                Expanded(
-                  child: dividirComunidade
-                      ? ListView.builder(
-                          itemCount: comunidadesEvento.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                child: CardDespesasComunidade(
-                                    valorPorPessoa: valorPorPessoa,
-                                    pagante: pagantesComunidade,
-                                    cobrante: cobrantesComunidade,
-                                    nomeComunidade:
-                                        comunidadesEvento[index].comNome));
-                          },
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          child: CardDespesasPessoas(
-                              valorPorPessoa: valorPorPessoa,
-                              qtdCobrantes: cobrantesEvento,
-                              qtdComunidades: comunidadesEvento.length,
-                              qtdPagantes: pagantesEvento,
-                              valorEvento: valorTotal)),
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                      color: Cores.branco,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        btnSecundario(
-                            texto: "Fechar",
-                            onPressed: () => Navigator.pop(context)),
-                        btnPrimario(
-                            texto: "Gerar",
-                            onPressed: () {},
-                            icon: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Icon(CupertinoIcons.printer,
-                                    color: Cores.branco))),
-                      ],
+                      ),
                     ),
+                    Expanded(
+                      child: dividirComunidade
+                          ? ListView.builder(
+                              itemCount: comunidadesEvento.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    child: CardDespesasComunidade(
+                                        valorPorPessoa: valorPorPessoa,
+                                        pagante: pagantesComunidade,
+                                        cobrante: cobrantesComunidade,
+                                        nomeComunidade:
+                                            comunidadesEvento[index].comNome));
+                              },
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              child: CardDespesasPessoas(
+                                  valorPorPessoa: valorPorPessoa,
+                                  qtdCobrantes: cobrantesEvento,
+                                  qtdComunidades: comunidadesEvento.length,
+                                  qtdPagantes: pagantesEvento,
+                                  valorEvento: valorTotal)),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: Cores.branco,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            btnSecundario(
+                                texto: "Fechar",
+                                onPressed: () => Navigator.pop(context)),
+                            btnPrimario(
+                                texto: "Gerar",
+                                onPressed: () {},
+                                icon: const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Icon(CupertinoIcons.printer,
+                                        color: Cores.branco))),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: btnMini(
+                    onPressed: () {},
+                    child: const Icon(CupertinoIcons.wrench),
+                    cor: Cores.azulMedio,
                   ),
                 ),
+                btnMini(
+                  onPressed: () {},
+                  child: const Icon(CupertinoIcons.cube_box),
+                  cor: Cores.azulMedio,
+                )
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

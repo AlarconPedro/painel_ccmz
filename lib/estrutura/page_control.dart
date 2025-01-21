@@ -42,7 +42,7 @@ class _PageControlState extends State<PageControl> {
         }
       case 'Financeiro':
         {
-          return [const Servicos()];
+          return [Servicos()];
         }
       case 'Sorteios':
         {

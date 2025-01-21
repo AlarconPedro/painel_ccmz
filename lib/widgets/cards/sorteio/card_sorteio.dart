@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/funcoes/funcoes.dart';
-import 'package:painel_ccmn/models/sorteios_model.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/models/web/sorteios_model.dart';
 
 Widget cardSorteio({
   required BuildContext context,
@@ -18,46 +18,25 @@ Widget cardSorteio({
         Expanded(
           child: Card(
             elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             child: Container(
               height: 55,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Cores.branco,
-              ),
+                  borderRadius: BorderRadius.circular(5), color: Cores.branco),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: [
                     const Icon(CupertinoIcons.gift),
                     const SizedBox(width: 10),
+                    Expanded(flex: 1, child: Text(sorteio.preNome)),
+                    Expanded(flex: 2, child: Text(sorteio.parNome)),
+                    Expanded(child: Text(sorteio.cupNumero)),
                     Expanded(
-                      flex: 1,
-                      child: Text(sorteio.preNome),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        sorteio.parNome,
-                        // FuncoesData.dataFormatada(sorteio.sorData),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        sorteio.cupNumero,
-                        // FuncoesData.dataFormatada(sorteio.sorData),
-                      ),
-                    ),
-
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        FuncoesData.dataFormatada(sorteio.sorData),
-                        // FuncoesData.dataFormatada(sorteio.sorData),
-                      ),
-                    ),
+                        flex: 2,
+                        child:
+                            Text(FuncoesData.dataFormatada(sorteio.sorData))),
                     const SizedBox(width: 30),
                     // const Icon(CupertinoIcons.chevron_right),
                   ],

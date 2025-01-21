@@ -173,7 +173,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
           ),
           child: Column(
             children: [
-              const Expanded(child: Servicos()),
+              Expanded(child: Servicos()),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Row(

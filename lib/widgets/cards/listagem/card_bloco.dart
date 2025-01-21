@@ -46,17 +46,11 @@ class CardBloco extends StatelessWidget {
                       ),
                       const SizedBox(width: 120),
                       Expanded(
-                        flex: 2,
-                        child: Text(bloco.qtdQuartos.toString()),
-                      ),
+                          flex: 2, child: Text(bloco.qtdQuartos.toString())),
                       Expanded(
-                        flex: 2,
-                        child: Text(bloco.qtdLivres.toString()),
-                      ),
+                          flex: 2, child: Text(bloco.qtdLivres.toString())),
                       Expanded(
-                        flex: 2,
-                        child: Text(bloco.qtdOcupados.toString()),
-                      ),
+                          flex: 2, child: Text(bloco.qtdOcupados.toString())),
                       const SizedBox(width: 30),
                       const Icon(CupertinoIcons.chevron_right),
                     ],
@@ -66,9 +60,8 @@ class CardBloco extends StatelessWidget {
             ),
           ),
           Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             elevation: 5,
             child: CupertinoButton(
               child: const Icon(

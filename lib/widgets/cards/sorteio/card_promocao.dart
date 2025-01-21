@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/models/promocoes_model.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/models/web/promocoes_model.dart';
 
 Widget cardPromocao({
   required PromocoesModel promocao,

@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:painel_ccmn/data/models/web/servicos_model.dart';
 import 'package:painel_ccmn/pages/financeiro/servicos/novo_servico.dart';
 import 'package:painel_ccmn/pages/pages.dart';
+import 'package:painel_ccmn/widgets/widgets.dart';
+
+import '../../../classes/classes.dart';
+import '../../../widgets/cards/listagem/card_servicos.dart';
 
 class Servicos extends StatefulWidget {
-  const Servicos({super.key});
+  bool selecionado;
+  Function(int, String)? selecionarServico;
+  Servicos({super.key, this.selecionado = false, this.selecionarServico});
 
   @override
   State<Servicos> createState() => _ServicosState();
@@ -11,6 +18,10 @@ class Servicos extends StatefulWidget {
 
 class _ServicosState extends State<Servicos> {
   bool carregando = false;
+
+  List<ServicosModel> servicos = [];
+
+  int servicoSelecionado = 0;
 
   buscarServicos() async {
     setState(() => carregando = true);
@@ -40,7 +51,39 @@ class _ServicosState extends State<Servicos> {
           context,
           CupertinoDialogRoute(
               builder: (context) => const NovoServico(), context: context)),
-      corpo: [],
+      corpo: [
+        carregando
+            ? const Expanded(child: Center(child: CarregamentoIOS()))
+            : Expanded(
+                child: servicos.isEmpty
+                    ? const Center(child: Text("Nenhum Serviço Cadastrado !"))
+                    : ListView.builder(
+                        itemBuilder: (context, index) => widget.selecionado
+                            ? MouseRegion(
+                                cursor: MouseCursor.defer,
+                                child: GestureDetector(
+                                    onTap: widget.selecionado
+                                        ? () {
+                                            setState(() => servicoSelecionado =
+                                                servicos[index].serCodigo);
+                                            widget.selecionarServico!(
+                                                servicos[index].serCodigo,
+                                                servicos[index].serNome);
+                                          }
+                                        : null,
+                                    child: cardServicos(
+                                        cor: servicoSelecionado ==
+                                                servicos[index].serCodigo
+                                            ? Cores.verdeMedio
+                                            : null,
+                                        servicos: servicos[index],
+                                        context: context)),
+                              )
+                            : cardServicos(
+                                context: context, servicos: servicos[index]),
+                      ),
+              )
+      ],
       buscaNome: (busca) {},
     );
     // return modeloListagemCadastro(

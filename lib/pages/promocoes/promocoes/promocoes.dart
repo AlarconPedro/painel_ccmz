@@ -7,7 +7,7 @@ import 'package:painel_ccmn/pages/promocoes/promocoes/premios.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../data/api/promocao/api_promocao.dart';
-import '../../../models/promocoes_model.dart';
+import '../../../data/models/web/promocoes_model.dart';
 import '../../../widgets/cards/sorteio/card_promocao.dart';
 import '../../pages.dart';
 import 'cadastro_promocoes.dart';
