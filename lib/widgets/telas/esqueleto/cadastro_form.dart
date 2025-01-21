@@ -40,11 +40,10 @@ class CadastroForm extends StatelessWidget {
             color: Cores.branco,
             elevation: 10,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            child: SizedBox(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: Cores.branco),
               height: altura == null
                   ? MediaQuery.of(context).size.height / 2
                   : MediaQuery.of(context).size.height / altura!,

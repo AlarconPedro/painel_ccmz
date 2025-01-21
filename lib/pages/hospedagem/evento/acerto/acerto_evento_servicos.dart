@@ -66,9 +66,8 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Container(
                   width: 300,
-                  decoration: BoxDecoration(
-                      color: Cores.cinzaClaro,
-                      borderRadius: BorderRadius.circular(10)),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
                   child: Expanded(
                     child: Column(
                       children: [
@@ -98,7 +97,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
                                   height: 50,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: Cores.cinzaClaro, width: 1),
+                                        color: Cores.cinzaMedio, width: 1),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Center(
@@ -132,10 +131,10 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Container(
-                    width: 300,
                     decoration: BoxDecoration(
-                        color: Cores.cinzaClaro,
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Cores.cinzaClaro,
+                    ),
                     child: Expanded(
                       child: servicos.isEmpty
                           ? const Center(child: Text("Nenhum Serviço"))
@@ -164,7 +163,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
           width: 800,
           height: 600,
           decoration: BoxDecoration(
-            color: Cores.branco,
+            color: Cores.cinzaClaro,
             borderRadius: BorderRadius.circular(10),
             boxShadow: const [
               BoxShadow(
