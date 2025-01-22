@@ -37,6 +37,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
   double alturaFormulario = 530;
   double larguraFormulario = 950;
 
+  double alturaBtnSevicos = 50;
+  double larguraBtnServicos = 50;
+
+  double alturaBtnProdutos = 50;
+  double larguraBtnProdutos = 50;
+
+  double larguraMenuLateral = 260;
+
   bool carregando = false;
   bool dividirComunidade = false;
 
@@ -387,157 +395,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                           ),
                                         ],
                                       ),
-                                      // Row(
-                                      //   children: [
-                                      //     Expanded(
-                                      //       child: campoTexto(
-                                      //           titulo: "Valor Cozinha:",
-                                      //           dica: "R\$ 0,00",
-                                      //           icone: CupertinoIcons
-                                      //               .shopping_cart,
-                                      //           tipo: TextInputType.number,
-                                      //           temMascara: false,
-                                      //           mascara:
-                                      //               CurrencyTextInputFormatter
-                                      //                   .currency(
-                                      //             locale: "pt_BR",
-                                      //             symbol: "R\$",
-                                      //             decimalDigits: 2,
-                                      //             name: "Real",
-                                      //           ),
-                                      //           validador: (validador) {
-                                      //             if (validador.isEmpty) {
-                                      //               return 'Por favor, digite o valor da cozinha';
-                                      //             }
-                                      //             return null;
-                                      //           },
-                                      //           controlador:
-                                      //               valorCozinhaController),
-                                      //     ),
-                                      //     btnMini(
-                                      //         onPressed: () async {
-                                      //           await acertoEventoData
-                                      //               .inserirAtualizarValorCozinha(
-                                      //                   codigoEvento: widget
-                                      //                       .codigoEvento,
-                                      //                   valorCozinha:
-                                      //                       valorCozinhaController
-                                      //                           .text,
-                                      //                   dadosRetorno:
-                                      //                       (dados) {
-                                      //                     // valorCozinhaController
-                                      //                     //         .text =
-                                      //                     //     NumberFormat
-                                      //                     //         .currency(
-                                      //                     //   locale:
-                                      //                     //       'pt_BR',
-                                      //                     //   symbol: 'R\$',
-                                      //                     //   decimalDigits:
-                                      //                     //       2,
-                                      //                     // ).format(double
-                                      //                     //         .parse(dados
-                                      //                     //             .body));
-                                      //                     ScaffoldMessenger
-                                      //                             .of(
-                                      //                                 context)
-                                      //                         .showSnackBar(
-                                      //                             const SnackBar(
-                                      //                                 content:
-                                      //                                     Text("Valor da cozinha do evento atualizado")));
-                                      //                     buscarDadosEvento();
-                                      //                   },
-                                      //                   erro: () {
-                                      //                     ScaffoldMessenger
-                                      //                             .of(
-                                      //                                 context)
-                                      //                         .showSnackBar(
-                                      //                             const SnackBar(
-                                      //                                 content:
-                                      //                                     Text("Erro ao inserir valor da cozinha do evento")));
-                                      //                   });
-                                      //         },
-                                      //         child: const Icon(Icons.save,
-                                      //             color: Cores.branco))
-                                      //   ],
-                                      // ),
-                                      // Row(
-                                      //   children: [
-                                      //     Expanded(
-                                      //       child: campoTexto(
-                                      //           titulo: "Valor Hostiária:",
-                                      //           dica: "R\$ 0,00",
-                                      //           icone: CupertinoIcons
-                                      //               .person_3_fill,
-                                      //           tipo: TextInputType.number,
-                                      //           temMascara: false,
-                                      //           mascara:
-                                      //               CurrencyTextInputFormatter
-                                      //                   .currency(
-                                      //             locale: "pt_BR",
-                                      //             symbol: "R\$",
-                                      //             decimalDigits: 2,
-                                      //             name: "Real",
-                                      //           ),
-                                      //           validador: (validador) {
-                                      //             if (validador.isEmpty) {
-                                      //               return 'Por favor, digite o valor da hostiária';
-                                      //             }
-                                      //             return null;
-                                      //           },
-                                      //           controlador:
-                                      //               valorHostiariaController),
-                                      //     ),
-                                      //     btnMini(
-                                      //         onPressed: () {
-                                      //           acertoEventoData
-                                      //               .inserirAtualizarValorHostiaria(
-                                      //                   codigoEvento: widget
-                                      //                       .codigoEvento,
-                                      //                   valorHostiaria:
-                                      //                       valorHostiariaController
-                                      //                           .text,
-                                      //                   dadosRetorno:
-                                      //                       (dados) {
-                                      //                     // valorHostiariaController
-                                      //                     //         .text =
-                                      //                     //     NumberFormat
-                                      //                     //         .currency(
-                                      //                     //   locale:
-                                      //                     //       'pt_BR',
-                                      //                     //   symbol: 'R\$',
-                                      //                     //   decimalDigits:
-                                      //                     //       2,
-                                      //                     // ).format(double
-                                      //                     //         .parse(dados
-                                      //                     //             .body));
-                                      //                     ScaffoldMessenger
-                                      //                             .of(
-                                      //                                 context)
-                                      //                         .showSnackBar(
-                                      //                             const SnackBar(
-                                      //                                 content:
-                                      //                                     Text("Valor da hostiária do evento atualizado")));
-                                      //                     buscarDadosEvento();
-                                      //                   },
-                                      //                   erro: () {
-                                      //                     ScaffoldMessenger
-                                      //                             .of(
-                                      //                                 context)
-                                      //                         .showSnackBar(
-                                      //                             const SnackBar(
-                                      //                                 content:
-                                      //                                     Text("Erro ao inserir valor da hostiária do evento")));
-                                      //                   });
-                                      //         },
-                                      //         child: const Icon(Icons.save,
-                                      //             color: Cores.branco))
-                                      // ],
-                                      // ),
-                                      //   ],
-                                      // ),
-                                      // ),
-                                      // const Spacer(),
-
                                       const Spacer(),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -660,23 +517,94 @@ class _AcertoEventoState extends State<AcertoEvento> {
                 ),
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: btnMini(
-                    onPressed: () {},
-                    child: const Icon(CupertinoIcons.wrench),
-                    cor: Cores.azulMedio,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: alturaBtnProdutos == 50 && alturaBtnSevicos == 50
+                  ? 50
+                  : larguraMenuLateral,
+              height: alturaFormulario,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //criar toggle para o botão virar uma lista de serviços
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    onHover: (event) {
+                      print("hover");
+                    },
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (alturaBtnSevicos == 50) {
+                            if (alturaBtnProdutos == (alturaFormulario - 60)) {
+                              alturaBtnProdutos = ((alturaFormulario / 2) - 5);
+                              larguraBtnProdutos = larguraMenuLateral;
+                              alturaBtnSevicos = ((alturaFormulario / 2) - 5);
+                              larguraBtnServicos = larguraMenuLateral;
+                            } else {
+                              alturaBtnSevicos = alturaFormulario - 60;
+                              larguraBtnServicos = larguraMenuLateral;
+                            }
+                          } else {
+                            alturaBtnSevicos = 50;
+                            larguraBtnServicos = 50;
+                          }
+                        });
+                      },
+                      child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          constraints: BoxConstraints(
+                              maxHeight: alturaFormulario, maxWidth: 250),
+                          height: alturaBtnSevicos,
+                          width: larguraBtnServicos,
+                          decoration: BoxDecoration(
+                              color: Cores.azulMedio,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Icon(CupertinoIcons.wrench,
+                              color: Cores.branco)),
+                    ),
                   ),
-                ),
-                btnMini(
-                  onPressed: () {},
-                  child: const Icon(CupertinoIcons.cube_box),
-                  cor: Cores.azulMedio,
-                )
-              ],
+                  const SizedBox(height: 10),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    onHover: (event) {
+                      print("hover");
+                    },
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (alturaBtnProdutos == 50) {
+                            if (alturaBtnSevicos == (alturaFormulario - 60)) {
+                              alturaBtnSevicos = ((alturaFormulario / 2) - 5);
+                              larguraBtnServicos = larguraMenuLateral;
+                              alturaBtnProdutos = ((alturaFormulario / 2) - 5);
+                              larguraBtnProdutos = larguraMenuLateral;
+                            } else {
+                              alturaBtnProdutos = alturaFormulario - 60;
+                              larguraBtnProdutos = larguraMenuLateral;
+                            }
+                          } else {
+                            alturaBtnProdutos = 50;
+                            larguraBtnProdutos = 50;
+                          }
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        constraints: BoxConstraints(
+                            maxHeight: alturaFormulario, maxWidth: 250),
+                        height: alturaBtnProdutos,
+                        width: larguraBtnProdutos,
+                        decoration: BoxDecoration(
+                            color: Cores.azulMedio,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Icon(CupertinoIcons.cube_box,
+                            color: Cores.branco),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
