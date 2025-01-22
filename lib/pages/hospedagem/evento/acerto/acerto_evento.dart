@@ -1,5 +1,6 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -37,7 +38,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
   double alturaFormulario = 530;
   double larguraFormulario = 950;
 
-  double alturaBtnSevicos = 50;
+  double alturaBtnServicos = 50;
   double larguraBtnServicos = 50;
 
   double alturaBtnProdutos = 50;
@@ -519,63 +520,49 @@ class _AcertoEventoState extends State<AcertoEvento> {
             ),
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              width: alturaBtnProdutos == 50 && alturaBtnSevicos == 50
+              width: alturaBtnProdutos == 50 && alturaBtnServicos == 50
                   ? 50
                   : larguraMenuLateral,
               height: alturaFormulario,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  //criar toggle para o botão virar uma lista de serviços
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    onHover: (event) {
-                      print("hover");
-                    },
-                    child: GestureDetector(
-                      onTap: () {
+                  menuLateral(
+                      onPressed: () {
                         setState(() {
-                          if (alturaBtnSevicos == 50) {
+                          if (alturaBtnServicos == 50) {
                             if (alturaBtnProdutos == (alturaFormulario - 60)) {
                               alturaBtnProdutos = ((alturaFormulario / 2) - 5);
                               larguraBtnProdutos = larguraMenuLateral;
-                              alturaBtnSevicos = ((alturaFormulario / 2) - 5);
+                              alturaBtnServicos = ((alturaFormulario / 2) - 5);
                               larguraBtnServicos = larguraMenuLateral;
                             } else {
-                              alturaBtnSevicos = alturaFormulario - 60;
+                              alturaBtnServicos = alturaFormulario - 60;
                               larguraBtnServicos = larguraMenuLateral;
                             }
                           } else {
-                            alturaBtnSevicos = 50;
+                            if (alturaBtnProdutos > 50) {
+                              alturaBtnProdutos = alturaFormulario - 60;
+                              larguraBtnProdutos = larguraMenuLateral;
+                            }
+                            alturaBtnServicos = 50;
                             larguraBtnServicos = 50;
                           }
                         });
                       },
-                      child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          constraints: BoxConstraints(
-                              maxHeight: alturaFormulario, maxWidth: 250),
-                          height: alturaBtnSevicos,
-                          width: larguraBtnServicos,
-                          decoration: BoxDecoration(
-                              color: Cores.azulMedio,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Icon(CupertinoIcons.wrench,
-                              color: Cores.branco)),
-                    ),
-                  ),
+                      onHover: (event) {
+                        print("hover");
+                      },
+                      icone: CupertinoIcons.wrench,
+                      altura: alturaBtnServicos,
+                      largura: larguraBtnServicos),
                   const SizedBox(height: 10),
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    onHover: (event) {
-                      print("hover");
-                    },
-                    child: GestureDetector(
-                      onTap: () {
+                  menuLateral(
+                      onPressed: () {
                         setState(() {
                           if (alturaBtnProdutos == 50) {
-                            if (alturaBtnSevicos == (alturaFormulario - 60)) {
-                              alturaBtnSevicos = ((alturaFormulario / 2) - 5);
+                            if (alturaBtnServicos == (alturaFormulario - 60)) {
+                              alturaBtnServicos = ((alturaFormulario / 2) - 5);
                               larguraBtnServicos = larguraMenuLateral;
                               alturaBtnProdutos = ((alturaFormulario / 2) - 5);
                               larguraBtnProdutos = larguraMenuLateral;
@@ -584,29 +571,116 @@ class _AcertoEventoState extends State<AcertoEvento> {
                               larguraBtnProdutos = larguraMenuLateral;
                             }
                           } else {
+                            if (alturaBtnServicos > 50) {
+                              alturaBtnServicos = alturaFormulario - 60;
+                              larguraBtnServicos = larguraMenuLateral;
+                            }
                             alturaBtnProdutos = 50;
                             larguraBtnProdutos = 50;
                           }
                         });
                       },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        constraints: BoxConstraints(
-                            maxHeight: alturaFormulario, maxWidth: 250),
-                        height: alturaBtnProdutos,
-                        width: larguraBtnProdutos,
-                        decoration: BoxDecoration(
-                            color: Cores.azulMedio,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Icon(CupertinoIcons.cube_box,
-                            color: Cores.branco),
-                      ),
-                    ),
-                  ),
+                      onHover: (event) {
+                        print("hover");
+                      },
+                      icone: CupertinoIcons.cube_box,
+                      altura: alturaBtnProdutos,
+                      largura: larguraBtnProdutos),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  menuLateral({
+    required Function onPressed,
+    required Function(PointerHoverEvent evento) onHover,
+    IconData? icone,
+    required double altura,
+    required double largura,
+  }) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onHover: (event) => onHover(event),
+      child: GestureDetector(
+        onTap: () => onPressed(),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          constraints:
+              BoxConstraints(maxHeight: alturaFormulario, maxWidth: 250),
+          // height: alturaBtnProdutos,
+          height: altura,
+          // width: larguraBtnProdutos,
+          width: largura,
+          decoration: BoxDecoration(
+              color: Cores.azulMedio, borderRadius: BorderRadius.circular(10)),
+          // child: const Icon(CupertinoIcons.cube_box, color: Cores.branco),
+          child: altura < ((alturaFormulario / 2) - 30)
+              ? Icon(icone, color: Cores.branco)
+              //criar uma tabela com duas colunas e 4 linhas e uma linha no rodapé com o total
+              : Expanded(
+                  child: SingleChildScrollView(
+                    child: DataTable(
+                      columns: [
+                        DataColumn(label: Textos.textoPequeno(texto: "Nome")),
+                        DataColumn(label: Textos.textoPequeno(texto: "Valor")),
+                      ],
+                      rows: [
+                        DataRow(cells: [
+                          DataCell(Textos.textoMuitoPequeno(
+                              texto: "Cozinha", cor: Cores.branco)),
+                          DataCell(Textos.textoMuitoPequeno(
+                              texto: NumberFormat.currency(
+                                      locale: 'pt_BR',
+                                      symbol: 'R\$',
+                                      decimalDigits: 2)
+                                  .format(valorCozinha),
+                              cor: Cores.branco)),
+                          // DataCell(Text("R\$ 0,00")),
+                        ]),
+                        DataRow(cells: [
+                          DataCell(Textos.textoMuitoPequeno(
+                              texto: "Hostiária", cor: Cores.branco)),
+                          DataCell(Textos.textoMuitoPequeno(
+                              texto: NumberFormat.currency(
+                                      locale: 'pt_BR',
+                                      symbol: 'R\$',
+                                      decimalDigits: 2)
+                                  .format(valorHostiaria),
+                              cor: Cores.branco)),
+                          // DataCell(Text("R\$ 0,00")),
+                        ]),
+                        DataRow(cells: [
+                          DataCell(Textos.textoMuitoPequeno(
+                              texto: "Hospedagem", cor: Cores.branco)),
+                          DataCell(Textos.textoMuitoPequeno(
+                              texto: NumberFormat.currency(
+                                      locale: 'pt_BR',
+                                      symbol: 'R\$',
+                                      decimalDigits: 2)
+                                  .format(valorHospedagem),
+                              cor: Cores.branco)),
+                          // DataCell(Text("R\$ 0,00")),
+                        ]),
+                        DataRow(cells: [
+                          DataCell(Textos.textoMuitoPequeno(
+                              texto: "Total", cor: Cores.branco)),
+                          DataCell(Textos.textoMuitoPequeno(
+                              texto: NumberFormat.currency(
+                                      locale: 'pt_BR',
+                                      symbol: 'R\$',
+                                      decimalDigits: 2)
+                                  .format(valorTotal),
+                              cor: Cores.branco)),
+                          // DataCell(Text("R\$ 0,00")),
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
         ),
       ),
     );

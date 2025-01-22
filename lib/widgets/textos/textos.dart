@@ -25,6 +25,14 @@ class Textos {
     );
   }
 
+  static Text textoMuitoPequeno(
+      {required String texto, Color? cor = Cores.preto}) {
+    return Text(
+      texto,
+      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: cor),
+    );
+  }
+
   static Text textoGrandeNormal(
       {required String texto, Color? cor = Cores.preto}) {
     return Text(
