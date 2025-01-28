@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:painel_ccmn/data/models/web/servicos_model.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/servicos_model.dart';
 import 'package:painel_ccmn/widgets/cards/btn_opcoes_card.dart';
 import 'package:painel_ccmn/widgets/cards/card_listagem_base.dart';
 import 'package:painel_ccmn/widgets/dialogs/delete_dialog.dart';

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/evento_despesas_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_mini.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
@@ -49,7 +50,9 @@ class _AcertoEventoState extends State<AcertoEvento> {
   bool carregando = false;
   bool dividirComunidade = false;
 
-  List<EventoDespesasModel> despesasExtra = [];
+  List<DespesasEventoModel> despesasExtra = [];
+  List<EventoDespesasModel> eventosDespesas = [];
+  List<EventoDespesasModel> produtosDespesas = [];
   List<Map<String, double>> despesasExtraComunidade = [];
 
   TextEditingController valorCozinhaController = TextEditingController();
@@ -178,7 +181,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     await acertoEventoData.busarDespesasExtraEvento(widget.codigoEvento,
         (dados) {
       for (var item in dados) {
-        despesasExtra.add(EventoDespesasModel.fromJson(item));
+        despesasExtra.add(DespesasEventoModel.fromJson(item));
       }
     }, () {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -186,6 +189,31 @@ class _AcertoEventoState extends State<AcertoEvento> {
     });
     //// Caclular total do evento
     calcularValores();
+    //// Buscar Servicos do Evento
+    await acertoEventoData.buscarServicosEvento(
+      codigoEvento: widget.codigoEvento,
+      dadosRetorno: (dados) {
+        if (dados.isNotEmpty) {
+          List<EventoDespesasModel> eventoDespesas = [];
+          for (var item in dados) {
+            eventoDespesas.add(EventoDespesasModel.fromJson(item));
+          }
+          // setState(() {
+          //TipoDespesa == false ? é servico : é produto
+          //Comunidade == 0 ? é Todos : é comunidade
+          //CodigoDespesa = Evento || despesa
+          produtosDespesas = eventoDespesas
+              .where((element) => element.edpTipoDespesa == true)
+              .toList();
+          eventosDespesas = eventoDespesas
+              .where((element) => element.edpTipoDespesa == false)
+              .toList();
+          // });
+        }
+      },
+      erro: () => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Erro ao buscar serviços do evento"))),
+    );
     setState(() => carregando = false);
   }
 
@@ -518,6 +546,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                 ),
               ),
             ),
+            //TODO: Menu Lateral
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               width: alturaBtnProdutos == 50 && alturaBtnServicos == 50

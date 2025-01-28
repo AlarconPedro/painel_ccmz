@@ -3,6 +3,19 @@ import 'dart:convert';
 import '../../../../data/data.dart';
 
 class AcertoEventoData {
+  buscarServicosEvento(
+      {required int codigoEvento,
+      required Function(dynamic) dadosRetorno,
+      required Function() erro}) async {
+    var retorno = await ApiAcerto().getServicosEvento(codigoEvento);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      dadosRetorno(decoded);
+    } else {
+      erro();
+    }
+  }
+
   buscarComunidadesEvento({
     required int codigoEvento,
     required Function(dynamic) dadosRetorno,
@@ -10,7 +23,6 @@ class AcertoEventoData {
   }) async {
     var retorno = await ApiAcerto().getComunidadesEvento(codigoEvento);
     if (retorno.statusCode == 200) {
-      print(retorno.body);
       var decoded = json.decode(retorno.body);
       dadosRetorno(decoded);
     } else {

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:painel_ccmn/data/models/web/servicos_model.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/servicos_model.dart';
 import 'package:painel_ccmn/pages/financeiro/servicos/novo_servico.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';

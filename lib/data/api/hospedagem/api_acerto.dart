@@ -1,4 +1,4 @@
-import 'package:painel_ccmn/data/models/web/hospedagem/evento_despesas_model.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/despesas_evento_model.dart';
 
 import '../../../classes/classes.dart';
 import '../../http/http_request.dart';
@@ -7,6 +7,9 @@ class ApiAcerto {
   static final _request = HttpRequest();
 
   //GET
+  final String _urlGetServicosEvento =
+      "${Globais.urlBase}Acerto/evento/servicos/";
+
   final String _urlGetEventoCusto = "${Globais.urlBase}Acerto/evento/custo/";
 
   final String _urlGetComunidadesEvento =
@@ -48,6 +51,10 @@ class ApiAcerto {
       "${Globais.urlBase}Acerto/comunidade/despesas";
 
   //GET
+  Future<dynamic> getServicosEvento(int codigoEvento) async {
+    return await _request.getJson("$_urlGetServicosEvento$codigoEvento");
+  }
+
   Future<dynamic> getComunidadesEvento(int codigoEvento) async {
     return await _request.getJson("$_urlGetComunidadesEvento$codigoEvento");
   }
@@ -103,11 +110,11 @@ class ApiAcerto {
         {});
   }
 
-  Future<dynamic> postDespesaEvento(EventoDespesasModel despesa) async {
+  Future<dynamic> postDespesaEvento(DespesasEventoModel despesa) async {
     return await _request.postJson(_urlPostDespesaEvento, despesa.toJson());
   }
 
-  Future<dynamic> postDespesaComunidade(EventoDespesasModel despesa) async {
+  Future<dynamic> postDespesaComunidade(DespesasEventoModel despesa) async {
     return await _request.postJson(_urlPostDespesaComunidade, despesa.toJson());
   }
 }

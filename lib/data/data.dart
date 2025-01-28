@@ -26,7 +26,7 @@ export 'models/web/hospedagem/acerto_comunidade_model.dart';
 export 'models/web/hospedagem/checkin_listagem_quartos_model.dart';
 export 'models/web/hospedagem/comunidade_despesa_model.dart';
 export 'models/web/hospedagem/dashboard_pessoas_model.dart';
-export 'models/web/hospedagem/evento_despesas_model.dart';
+export 'models/web/hospedagem/despesas_evento_model.dart';
 export 'models/web/hospedagem/pagantes_cobrantes_model.dart';
 export 'models/web/hospedagem/quarto_pessoas_model.dart';
 export 'models/web/usuario_model.dart';
