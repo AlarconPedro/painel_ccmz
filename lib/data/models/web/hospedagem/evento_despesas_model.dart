@@ -22,4 +22,14 @@ class EventoDespesasModel {
       edpTipoDespesa: json['edpTipoDespesa'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'edpCodigo': edpCodigo,
+      'eveCodigo': eveCodigo,
+      'edpCodigoDespesa': edpCodigoDespesa,
+      'edpQuantidade': edpQuantidade,
+      'edpTipoDespesa': edpTipoDespesa,
+    };
+  }
 }

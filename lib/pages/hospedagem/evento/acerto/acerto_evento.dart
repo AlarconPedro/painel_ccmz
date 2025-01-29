@@ -24,11 +24,13 @@ class AcertoEvento extends StatefulWidget {
   int codigoEvento;
   String nomeEvento;
   Function mudarPagina;
+  List<AcertoModel> comunidades;
   AcertoEvento({
     super.key,
     required this.codigoEvento,
     required this.nomeEvento,
     required this.mudarPagina,
+    required this.comunidades,
   });
 
   @override
@@ -62,8 +64,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
   TextEditingController nomeDespesaController = TextEditingController();
   TextEditingController valorDespesaController = TextEditingController();
   TextEditingController qtdDespesaController = TextEditingController();
-
-  List<AcertoModel> comunidadesEvento = [];
 
   MaskTextInputFormatter valorFormatter = MaskTextInputFormatter(
       mask: '###.###.###.###.###,00', filter: {"#": RegExp(r'[0-9]')});
@@ -122,17 +122,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
 
   buscarDadosEvento() async {
     setState(() => carregando = true);
-    //// Buscar Comuniades do Evento
-    await acertoEventoData.buscarComunidadesEvento(
-        codigoEvento: widget.codigoEvento,
-        dadosRetorno: (dados) {
-          comunidadesEvento.clear();
-          for (var item in dados) {
-            comunidadesEvento.add(AcertoModel.fromJson(item));
-          }
-        },
-        erro: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Erro ao buscar comunidades do evento"))));
     //// Buscar Despesas do Evento
     await acertoEventoData.buscarCustoEvento(
         codigoEvento: widget.codigoEvento,
@@ -190,7 +179,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     //// Caclular total do evento
     calcularValores();
     //// Buscar Servicos do Evento
-    await acertoEventoData.buscarServicosEvento(
+    await acertoEventoData.buscarEventoDespesas(
       codigoEvento: widget.codigoEvento,
       dadosRetorno: (dados) {
         if (dados.isNotEmpty) {
@@ -494,7 +483,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                     Expanded(
                       child: dividirComunidade
                           ? ListView.builder(
-                              itemCount: comunidadesEvento.length,
+                              itemCount: widget.comunidades.length,
                               itemBuilder: (context, index) {
                                 return Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -504,7 +493,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                         pagante: pagantesComunidade,
                                         cobrante: cobrantesComunidade,
                                         nomeComunidade:
-                                            comunidadesEvento[index].comNome));
+                                            widget.comunidades[index].comNome));
                               },
                             )
                           : Padding(
@@ -513,7 +502,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                               child: CardDespesasPessoas(
                                   valorPorPessoa: valorPorPessoa,
                                   qtdCobrantes: cobrantesEvento,
-                                  qtdComunidades: comunidadesEvento.length,
+                                  qtdComunidades: widget.comunidades.length,
                                   qtdPagantes: pagantesEvento,
                                   valorEvento: valorTotal)),
                     ),
@@ -547,77 +536,93 @@ class _AcertoEventoState extends State<AcertoEvento> {
               ),
             ),
             //TODO: Menu Lateral
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              width: alturaBtnProdutos == 50 && alturaBtnServicos == 50
-                  ? 50
-                  : larguraMenuLateral,
-              height: alturaFormulario,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  menuLateral(
-                      onPressed: () {
-                        setState(() {
-                          if (alturaBtnServicos == 50) {
-                            if (alturaBtnProdutos == (alturaFormulario - 60)) {
-                              alturaBtnProdutos = ((alturaFormulario / 2) - 5);
-                              larguraBtnProdutos = larguraMenuLateral;
-                              alturaBtnServicos = ((alturaFormulario / 2) - 5);
-                              larguraBtnServicos = larguraMenuLateral;
-                            } else {
-                              alturaBtnServicos = alturaFormulario - 60;
-                              larguraBtnServicos = larguraMenuLateral;
-                            }
-                          } else {
-                            if (alturaBtnProdutos > 50) {
-                              alturaBtnProdutos = alturaFormulario - 60;
-                              larguraBtnProdutos = larguraMenuLateral;
-                            }
-                            alturaBtnServicos = 50;
-                            larguraBtnServicos = 50;
-                          }
-                        });
-                      },
-                      onHover: (event) {
-                        print("hover");
-                      },
-                      icone: CupertinoIcons.wrench,
-                      altura: alturaBtnServicos,
-                      largura: larguraBtnServicos),
-                  const SizedBox(height: 10),
-                  menuLateral(
-                      onPressed: () {
-                        setState(() {
-                          if (alturaBtnProdutos == 50) {
-                            if (alturaBtnServicos == (alturaFormulario - 60)) {
-                              alturaBtnServicos = ((alturaFormulario / 2) - 5);
-                              larguraBtnServicos = larguraMenuLateral;
-                              alturaBtnProdutos = ((alturaFormulario / 2) - 5);
-                              larguraBtnProdutos = larguraMenuLateral;
-                            } else {
-                              alturaBtnProdutos = alturaFormulario - 60;
-                              larguraBtnProdutos = larguraMenuLateral;
-                            }
-                          } else {
-                            if (alturaBtnServicos > 50) {
-                              alturaBtnServicos = alturaFormulario - 60;
-                              larguraBtnServicos = larguraMenuLateral;
-                            }
-                            alturaBtnProdutos = 50;
-                            larguraBtnProdutos = 50;
-                          }
-                        });
-                      },
-                      onHover: (event) {
-                        print("hover");
-                      },
-                      icone: CupertinoIcons.cube_box,
-                      altura: alturaBtnProdutos,
-                      largura: larguraBtnProdutos),
-                ],
-              ),
-            ),
+            produtosDespesas.isNotEmpty && eventosDespesas.isNotEmpty
+                ? AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    width: alturaBtnProdutos == 50 && alturaBtnServicos == 50
+                        ? 50
+                        : larguraMenuLateral,
+                    height: alturaFormulario,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        eventosDespesas.isNotEmpty
+                            ? menuLateral(
+                                onPressed: () {
+                                  setState(() {
+                                    if (alturaBtnServicos == 50) {
+                                      if (alturaBtnProdutos ==
+                                          (alturaFormulario - 60)) {
+                                        alturaBtnProdutos =
+                                            ((alturaFormulario / 2) - 5);
+                                        larguraBtnProdutos = larguraMenuLateral;
+                                        alturaBtnServicos =
+                                            ((alturaFormulario / 2) - 5);
+                                        larguraBtnServicos = larguraMenuLateral;
+                                      } else {
+                                        alturaBtnServicos =
+                                            alturaFormulario - 60;
+                                        larguraBtnServicos = larguraMenuLateral;
+                                      }
+                                    } else {
+                                      if (alturaBtnProdutos > 50) {
+                                        alturaBtnProdutos =
+                                            alturaFormulario - 60;
+                                        larguraBtnProdutos = larguraMenuLateral;
+                                      }
+                                      alturaBtnServicos = 50;
+                                      larguraBtnServicos = 50;
+                                    }
+                                  });
+                                },
+                                onHover: (event) {
+                                  print("hover");
+                                },
+                                icone: CupertinoIcons.wrench,
+                                altura: alturaBtnServicos,
+                                largura: larguraBtnServicos)
+                            : null,
+                        const SizedBox(height: 10),
+                        produtosDespesas.isNotEmpty
+                            ? menuLateral(
+                                onPressed: () {
+                                  setState(() {
+                                    if (alturaBtnProdutos == 50) {
+                                      if (alturaBtnServicos ==
+                                          (alturaFormulario - 60)) {
+                                        alturaBtnServicos =
+                                            ((alturaFormulario / 2) - 5);
+                                        larguraBtnServicos = larguraMenuLateral;
+                                        alturaBtnProdutos =
+                                            ((alturaFormulario / 2) - 5);
+                                        larguraBtnProdutos = larguraMenuLateral;
+                                      } else {
+                                        alturaBtnProdutos =
+                                            alturaFormulario - 60;
+                                        larguraBtnProdutos = larguraMenuLateral;
+                                      }
+                                    } else {
+                                      if (alturaBtnServicos > 50) {
+                                        alturaBtnServicos =
+                                            alturaFormulario - 60;
+                                        larguraBtnServicos = larguraMenuLateral;
+                                      }
+                                      alturaBtnProdutos = 50;
+                                      larguraBtnProdutos = 50;
+                                    }
+                                  });
+                                },
+                                onHover: (event) {
+                                  print("hover");
+                                },
+                                icone: CupertinoIcons.cube_box,
+                                altura: alturaBtnProdutos,
+                                largura: larguraBtnProdutos)
+                            : null,
+                      ],
+                    ),
+                  )
+                : const SizedBox(),
           ],
         ),
       ),

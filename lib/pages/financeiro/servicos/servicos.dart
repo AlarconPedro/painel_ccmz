@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/data/models/web/hospedagem/servicos_model.dart';
 import 'package:painel_ccmn/pages/financeiro/servicos/novo_servico.dart';
@@ -5,7 +7,9 @@ import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../classes/classes.dart';
+import '../../../data/api/financeiro/api_servico.dart';
 import '../../../widgets/cards/listagem/card_servicos.dart';
+import '../../../widgets/snack_notification.dart';
 
 class Servicos extends StatefulWidget {
   bool selecionado;
@@ -25,6 +29,20 @@ class _ServicosState extends State<Servicos> {
 
   buscarServicos() async {
     setState(() => carregando = true);
+    var retorno = await ApiServico().getServicos();
+    if (retorno.statusCode == 200) {
+      servicos.clear();
+      for (var item in json.decode(retorno.data)) {
+        servicos.add(ServicosModel.fromJson(item));
+      }
+    } else {
+      if (mounted) {
+        snackNotification(
+            context: context,
+            mensage: "Erro ao Buscar Serviços !",
+            cor: Cores.vermelhoMedio);
+      }
+    }
     setState(() => carregando = false);
     // setState(() => carregando = true);
     // await Servico.buscarServicos().then((value) {
@@ -47,10 +65,13 @@ class _ServicosState extends State<Servicos> {
     return Esqueleto(
       tituloBoto: "Novo Serviço",
       tituloPagina: "Serviços",
-      abrirTelaCadastro: () => Navigator.push(
-          context,
-          CupertinoDialogRoute(
-              builder: (context) => const NovoServico(), context: context)),
+      abrirTelaCadastro: () async {
+        await Navigator.push(
+            context,
+            CupertinoDialogRoute(
+                builder: (context) => const NovoServico(), context: context));
+        buscarServicos();
+      },
       corpo: [
         carregando
             ? const Expanded(child: Center(child: CarregamentoIOS()))

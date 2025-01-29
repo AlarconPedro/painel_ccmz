@@ -3,6 +3,9 @@ import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_produto
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_servicos.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 
+import '../../../../data/data.dart';
+import 'acerto_evento_data.dart';
+
 class AcertoEventoView extends StatefulWidget {
   int codigoEvento;
   String nomeEvento;
@@ -18,10 +21,31 @@ class AcertoEventoView extends StatefulWidget {
 
 class _AcertoEventoViewState extends State<AcertoEventoView> {
   PageController pageController = PageController();
+
+  List<AcertoModel> comunidadesEvento = [];
+
+  AcertoEventoData acertoEventoData = AcertoEventoData();
+
+  buscarComunidades() async {
+    //// Buscar Comuniades do Evento
+    await acertoEventoData.buscarComunidadesEvento(
+      codigoEvento: widget.codigoEvento,
+      dadosRetorno: (dados) {
+        comunidadesEvento.clear();
+        for (var item in dados) {
+          comunidadesEvento.add(AcertoModel.fromJson(item));
+        }
+      },
+      erro: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Erro ao buscar comunidades do evento"))),
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    buscarComunidades();
     // buscaDadosPrimarios();
   }
 
@@ -35,21 +59,21 @@ class _AcertoEventoViewState extends State<AcertoEventoView> {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             AcertoEvento(
-              codigoEvento: widget.codigoEvento,
-              nomeEvento: widget.nomeEvento,
-              mudarPagina: (int pagina) {
-                pageController.animateToPage(pagina,
+                codigoEvento: widget.codigoEvento,
+                nomeEvento: widget.nomeEvento,
+                mudarPagina: (int pagina) => pageController.animateToPage(
+                    pagina,
                     duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeIn);
-              },
-            ),
+                    curve: Curves.easeIn),
+                comunidades: comunidadesEvento),
             AcertoEventoServicos(
-                comunidades: [],
+                comunidades: comunidadesEvento,
+                codigoEvento: widget.codigoEvento,
                 voltarTela: () => pageController.animateToPage(0,
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeIn)),
             AcertoEventoProdutos(
-                comunidades: [],
+                comunidades: comunidadesEvento,
                 voltarTela: () => pageController.animateToPage(0,
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeIn)),

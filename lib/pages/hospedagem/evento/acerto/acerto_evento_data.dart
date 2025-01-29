@@ -1,13 +1,15 @@
 import 'dart:convert';
 
+import 'package:painel_ccmn/data/api/hospedagem/api_evento_despesa.dart';
+
 import '../../../../data/data.dart';
 
 class AcertoEventoData {
-  buscarServicosEvento(
+  buscarEventoDespesas(
       {required int codigoEvento,
       required Function(dynamic) dadosRetorno,
       required Function() erro}) async {
-    var retorno = await ApiAcerto().getServicosEvento(codigoEvento);
+    var retorno = await ApiEventoDespesa().getEventoDespesas(codigoEvento);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
       dadosRetorno(decoded);

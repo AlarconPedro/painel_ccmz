@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/data/api/hospedagem/api_evento_despesa.dart';
+import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_primario.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
 import 'package:painel_ccmn/widgets/separador.dart';
+import 'package:painel_ccmn/widgets/snack_notification.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../../classes/classes.dart';
@@ -13,10 +16,12 @@ import '../../../financeiro/servicos/servicos.dart';
 class AcertoEventoServicos extends StatefulWidget {
   List<AcertoModel> comunidades;
   Function voltarTela;
+  int codigoEvento;
   AcertoEventoServicos({
     super.key,
     required this.comunidades,
     required this.voltarTela,
+    required this.codigoEvento,
   });
 
   @override
@@ -34,7 +39,9 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
 
   List<String> servicos = [];
 
-  buscarComunidadesEvento() async {
+  AcertoEventoData acertoEventoData = AcertoEventoData();
+
+  listarComunidadesEvento() async {
     setState(() => carregando = true);
     comunidades.clear();
     comunidades.add(const DropdownMenuItem(value: 0, child: Text("Todos")));
@@ -45,10 +52,30 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
     setState(() => carregando = false);
   }
 
+  buscarServicosEvento() async {
+    setState(() => carregando = true);
+    servicos.clear();
+    await acertoEventoData.buscarEventoDespesas(
+      codigoEvento: widget.codigoEvento,
+      dadosRetorno: (dados) {
+        for (var servico in dados) {
+          servicos.add(servico.serNome);
+        }
+      },
+      erro: () {
+        snackNotification(
+            context: context,
+            mensage: "Erro ao buscar serviços",
+            cor: Cores.vermelhoMedio);
+      },
+    );
+    setState(() => carregando = false);
+  }
+
   @override
   initState() {
     super.initState();
-    buscarComunidadesEvento();
+    listarComunidadesEvento();
   }
 
   @override
