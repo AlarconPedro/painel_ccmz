@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:painel_ccmn/data/api/hospedagem/api_evento_despesa.dart';
 
 import '../../../../data/data.dart';
+import '../../../../data/models/web/hospedagem/evento_despesas_model.dart';
 
 class AcertoEventoData {
   buscarEventoDespesas(
@@ -103,6 +104,18 @@ class AcertoEventoData {
   }
 
   // busarDespesasExtraComunidade() async {}
+
+  inserirDespesaEvento(
+      {required EventoDespesasModel despesa,
+      required Function(dynamic) dadosRetorno,
+      required Function() erro}) async {
+    var retorno = await ApiEventoDespesa().postEventoDespesa(despesa);
+    if (retorno.statusCode == 200) {
+      dadosRetorno(retorno.body);
+    } else {
+      erro();
+    }
+  }
 
   inserirAtualizarValorCozinha(
       {required int codigoEvento,

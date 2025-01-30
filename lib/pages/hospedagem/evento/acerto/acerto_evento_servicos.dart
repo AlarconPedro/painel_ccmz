@@ -11,6 +11,7 @@ import 'package:painel_ccmn/widgets/widgets.dart';
 
 import '../../../../classes/classes.dart';
 import '../../../../data/data.dart';
+import '../../../../data/models/web/hospedagem/evento_despesas_model.dart';
 import '../../../financeiro/servicos/servicos.dart';
 
 class AcertoEventoServicos extends StatefulWidget {
@@ -35,7 +36,8 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
 
   bool carregando = false;
 
-  List<DropdownMenuItem> comunidades = [];
+  List<DropdownMenuItem> comunidadesListar = [];
+  List<Map<int, String>> comunidades = [];
 
   List<String> servicos = [];
 
@@ -43,11 +45,14 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
 
   listarComunidadesEvento() async {
     setState(() => carregando = true);
-    comunidades.clear();
-    comunidades.add(const DropdownMenuItem(value: 0, child: Text("Todos")));
-    for (var comunidade in widget.comunidades) {
-      comunidades.add(DropdownMenuItem(
-          value: comunidade.comCodigo, child: Text(comunidade.comNome)));
+    comunidadesListar.clear();
+    comunidadesListar
+        .add(const DropdownMenuItem(value: 0, child: Text("Todos")));
+    for (var i = 0; i < widget.comunidades.length; i++) {
+      comunidades.add(
+          {widget.comunidades[i].comCodigo: widget.comunidades[i].comNome});
+      comunidadesListar.add(DropdownMenuItem(
+          value: i, child: Text(widget.comunidades[i].comNome)));
     }
     setState(() => carregando = false);
   }
@@ -67,6 +72,31 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
             context: context,
             mensage: "Erro ao buscar serviços",
             cor: Cores.vermelhoMedio);
+      },
+    );
+    setState(() => carregando = false);
+  }
+
+  gravarDespesaEvento() async {
+    setState(() => carregando = true);
+    await acertoEventoData.inserirDespesaEvento(
+      despesa: EventoDespesasModel(
+        edpCodigo: 0,
+        eveCodigo: widget.codigoEvento,
+        edpCodigoDespesa: servicoSelecionado.$1,
+        edpQuantidade: 1,
+        edpTipoDespesa: false,
+      ),
+      dadosRetorno: (dados) {
+        snackNotification(
+            context: context,
+            mensage: "Despesa inserida com sucesso !",
+            cor: Cores.verdeMedio);
+        buscarServicosEvento();
+      },
+      erro: () {
+        snackNotification(
+            context: context, mensage: "Erro ao inserir despesa !");
       },
     );
     setState(() => carregando = false);
@@ -123,14 +153,24 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
                                 child: Container(
                                   height: 50,
                                   decoration: BoxDecoration(
+                                    color: servicoSelecionado.$2.isNotEmpty
+                                        ? Cores.verdeMedio
+                                        : Cores.cinzaClaro,
                                     border: Border.all(
                                         color: Cores.cinzaMedio, width: 1),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Center(
-                                      child: Text(servicoSelecionado.$2.isEmpty
+                                    child: Text(
+                                      servicoSelecionado.$2.isEmpty
                                           ? "Selecione o Produto"
-                                          : servicoSelecionado.$2)),
+                                          : servicoSelecionado.$2,
+                                      style: TextStyle(
+                                          color: servicoSelecionado.$2.isEmpty
+                                              ? Cores.preto
+                                              : Cores.branco),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -142,7 +182,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
                                 horizontal: 10, vertical: 5),
                             child: DropDownForm(
                               label: "Comunidade",
-                              itens: comunidades,
+                              itens: comunidadesListar,
                               selecionado: comunidadeSelecionada,
                               onChange: (valor) =>
                                   setState(() => comunidadeSelecionada = valor),
@@ -177,7 +217,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
           ),
         ),
       ],
-      gravar: () {},
+      gravar: () => gravarDespesaEvento(),
       cancelar: () => widget.voltarTela(),
     );
   }
@@ -199,7 +239,12 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
           ),
           child: Column(
             children: [
-              Expanded(child: Servicos()),
+              Expanded(
+                  child: Servicos(
+                selecionado: true,
+                selecionarServico: (codigo, nome) =>
+                    setState(() => servicoSelecionado = (codigo, nome)),
+              )),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Row(

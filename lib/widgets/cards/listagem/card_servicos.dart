@@ -10,6 +10,7 @@ Widget cardServicos({
   Color? cor,
   required BuildContext context,
   required ServicosModel servicos,
+  required Function() excluir,
 }) {
   return cardListagemBase(
     cor: cor,
@@ -17,7 +18,7 @@ Widget cardServicos({
       BtnOpcoesCard(
           dialog: () => deleteDialog(
               context: context,
-              excluir: () {},
+              excluir: () => excluir(),
               titulo: "Excluir Serviço",
               mensagem: "Deseja excluir o serviço?"),
           icone: CupertinoIcons.trash,

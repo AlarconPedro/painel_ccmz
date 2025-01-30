@@ -32,7 +32,7 @@ class _ServicosState extends State<Servicos> {
     var retorno = await ApiServico().getServicos();
     if (retorno.statusCode == 200) {
       servicos.clear();
-      for (var item in json.decode(retorno.data)) {
+      for (var item in json.decode(retorno.body)) {
         servicos.add(ServicosModel.fromJson(item));
       }
     } else {
@@ -51,6 +51,25 @@ class _ServicosState extends State<Servicos> {
     //     carregando = false;
     //   });
     // });
+  }
+
+  excluirServico(int codigoServico) async {
+    setState(() => carregando = true);
+    var retorno = await ApiServico().deleteServico(codigoServico);
+    if (retorno.statusCode == 200) {
+      if (mounted) {
+        snackNotification(
+            context: context, mensage: "Serviço Excluído com Sucesso !");
+      }
+    } else {
+      if (mounted) {
+        snackNotification(
+            context: context,
+            mensage: "Erro ao Excluir Serviço !",
+            cor: Cores.vermelhoMedio);
+      }
+    }
+    setState(() => carregando = false);
   }
 
   @override
@@ -79,29 +98,44 @@ class _ServicosState extends State<Servicos> {
                 child: servicos.isEmpty
                     ? const Center(child: Text("Nenhum Serviço Cadastrado !"))
                     : ListView.builder(
+                        itemCount: servicos.length,
                         itemBuilder: (context, index) => widget.selecionado
                             ? MouseRegion(
                                 cursor: MouseCursor.defer,
                                 child: GestureDetector(
-                                    onTap: widget.selecionado
-                                        ? () {
-                                            setState(() => servicoSelecionado =
-                                                servicos[index].serCodigo);
-                                            widget.selecionarServico!(
-                                                servicos[index].serCodigo,
-                                                servicos[index].serNome);
-                                          }
-                                        : null,
+                                  onTap: widget.selecionado
+                                      ? () {
+                                          setState(() => servicoSelecionado =
+                                              servicos[index].serCodigo);
+                                          widget.selecionarServico!(
+                                              servicos[index].serCodigo,
+                                              servicos[index].serNome);
+                                        }
+                                      : null,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
                                     child: cardServicos(
+                                        excluir: () => excluirServico(
+                                            servicos[index].serCodigo),
                                         cor: servicoSelecionado ==
                                                 servicos[index].serCodigo
                                             ? Cores.verdeMedio
                                             : null,
                                         servicos: servicos[index],
-                                        context: context)),
+                                        context: context),
+                                  ),
+                                ),
                               )
-                            : cardServicos(
-                                context: context, servicos: servicos[index]),
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: cardServicos(
+                                    context: context,
+                                    servicos: servicos[index],
+                                    excluir: () => excluirServico(
+                                        servicos[index].serCodigo)),
+                              ),
                       ),
               )
       ],
