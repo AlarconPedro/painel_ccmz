@@ -39,8 +39,8 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
   List<String> produtos = [];
   List<DropdownMenuItem> comunidades = [];
 
-  double altura = 350;
-  double largura = 600;
+  // double altura = 350;
+  // double largura = 600;
 
   buscarComunidadesEvento() async {
     setState(() => carregando = true);
@@ -53,19 +53,19 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
     setState(() => carregando = false);
   }
 
-  abrirTelaProdutos() {
-    if (largura == 1000) {
-      setState(() {
-        altura = 350;
-        largura = 600;
-      });
-    } else {
-      setState(() {
-        altura = 600;
-        largura = 1000;
-      });
-    }
-  }
+  // abrirTelaProdutos() {
+  //   if (largura == 1000) {
+  //     setState(() {
+  //       altura = 350;
+  //       largura = 600;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       altura = 600;
+  //       largura = 1000;
+  //     });
+  //   }
+  // }
 
   @override
   void initState() {

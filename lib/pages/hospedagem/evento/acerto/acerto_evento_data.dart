@@ -13,6 +13,8 @@ class AcertoEventoData {
     var retorno = await ApiEventoDespesa().getEventoDespesas(codigoEvento);
     if (retorno.statusCode == 200) {
       var decoded = json.decode(retorno.body);
+      print(decoded);
+      print(retorno.body);
       dadosRetorno(decoded);
     } else {
       erro();
@@ -26,8 +28,7 @@ class AcertoEventoData {
   }) async {
     var retorno = await ApiAcerto().getComunidadesEvento(codigoEvento);
     if (retorno.statusCode == 200) {
-      var decoded = json.decode(retorno.body);
-      dadosRetorno(decoded);
+      dadosRetorno(json.decode(retorno.body));
     } else {
       erro();
     }
@@ -40,8 +41,7 @@ class AcertoEventoData {
   }) async {
     var retorno = await ApiAcerto().getEventoCusto(codigoEvento);
     if (retorno.statusCode == 200) {
-      var decoded = json.decode(retorno.body);
-      dadosRetorno(decoded);
+      dadosRetorno(json.decode(retorno.body));
     } else {
       erro();
     }
@@ -178,6 +178,18 @@ class AcertoEventoData {
     // await buscarCustoEvento();
     // calcularValorTotalEvento();
     // setState(() => carregando = false);
+  }
+
+  excluirDespesaEvento(
+      {required int codigoDespesa,
+      required Function(dynamic) dadosRetorno,
+      required Function() erro}) async {
+    var retorno = await ApiEventoDespesa().deleteEventoDespesa(codigoDespesa);
+    if (retorno.statusCode == 200) {
+      dadosRetorno(retorno.body);
+    } else {
+      erro();
+    }
   }
 
   // calcularValorTotalEvento() {

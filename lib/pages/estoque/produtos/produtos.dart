@@ -9,14 +9,13 @@ import '../../../classes/classes.dart';
 import '../../../data/api/hospedagem/api_produtos.dart';
 
 class Produtos extends StatefulWidget {
-  bool? selecionarProduto;
-
-  Function? selecionar;
+  bool? selecionar;
+  Function(int, String)? selecionarProduto;
 
   Produtos({
     super.key,
-    this.selecionarProduto = false,
-    this.selecionar,
+    this.selecionar = false,
+    this.selecionarProduto,
   });
 
   @override
@@ -161,14 +160,16 @@ class _ProdutosState extends State<Produtos> {
                             itemCount: produtos.length,
                             itemBuilder: (context, index) {
                               return MouseRegion(
-                                cursor: widget.selecionarProduto!
+                                cursor: widget.selecionar!
                                     ? SystemMouseCursors.click
                                     : SystemMouseCursors.basic,
                                 child: GestureDetector(
                                   onTap: () {
-                                    if (widget.selecionarProduto!) {
+                                    if (widget.selecionar!) {
                                       if (widget.selecionar != null) {
-                                        widget.selecionar!(produtos[index]);
+                                        widget.selecionarProduto!(
+                                            produtos[index].proCodigo,
+                                            produtos[index].proNome);
                                         setState(() {
                                           produtoSelecionado =
                                               produtos[index].proCodigo;

@@ -214,12 +214,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -293,11 +287,10 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                   mascara:
                                                       CurrencyTextInputFormatter
                                                           .currency(
-                                                    locale: "pt_BR",
-                                                    symbol: "R\$",
-                                                    decimalDigits: 2,
-                                                    name: "Real",
-                                                  ),
+                                                              locale: "pt_BR",
+                                                              symbol: "R\$",
+                                                              decimalDigits: 2,
+                                                              name: "Real"),
                                                   validador: (validador) {
                                                     if (validador.isEmpty) {
                                                       return 'Por favor, digite o valor da hospedagem';

@@ -3,6 +3,7 @@ class EventoDespesasModel {
   int eveCodigo;
   int edpCodigoDespesa;
   int edpQuantidade;
+  int edpComunidade;
   bool edpTipoDespesa;
 
   EventoDespesasModel({
@@ -10,6 +11,7 @@ class EventoDespesasModel {
     required this.eveCodigo,
     required this.edpCodigoDespesa,
     required this.edpQuantidade,
+    required this.edpComunidade,
     required this.edpTipoDespesa,
   });
 
@@ -19,6 +21,7 @@ class EventoDespesasModel {
       eveCodigo: json['eveCodigo'],
       edpCodigoDespesa: json['edpCodigoDespesa'],
       edpQuantidade: json['edpQuantidade'],
+      edpComunidade: json['edpComunidade'],
       edpTipoDespesa: json['edpTipoDespesa'],
     );
   }
@@ -29,6 +32,7 @@ class EventoDespesasModel {
       'eveCodigo': eveCodigo,
       'edpCodigoDespesa': edpCodigoDespesa,
       'edpQuantidade': edpQuantidade,
+      'edpComunidade': edpComunidade,
       'edpTipoDespesa': edpTipoDespesa,
     };
   }

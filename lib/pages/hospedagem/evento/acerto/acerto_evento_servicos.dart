@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/api/hospedagem/api_evento_despesa.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/servico_evento_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_primario.dart';
@@ -39,7 +42,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
   List<DropdownMenuItem> comunidadesListar = [];
   List<Map<int, String>> comunidades = [];
 
-  List<String> servicos = [];
+  List<ServicoEventoModel> servicos = [];
 
   AcertoEventoData acertoEventoData = AcertoEventoData();
 
@@ -63,8 +66,8 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
     await acertoEventoData.buscarEventoDespesas(
       codigoEvento: widget.codigoEvento,
       dadosRetorno: (dados) {
-        for (var servico in dados) {
-          servicos.add(servico.serNome);
+        for (var servico in json.decode(dados)) {
+          servicos.add(ServicoEventoModel.fromJson(servico));
         }
       },
       erro: () {
@@ -81,12 +84,14 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
     setState(() => carregando = true);
     await acertoEventoData.inserirDespesaEvento(
       despesa: EventoDespesasModel(
-        edpCodigo: 0,
-        eveCodigo: widget.codigoEvento,
-        edpCodigoDespesa: servicoSelecionado.$1,
-        edpQuantidade: 1,
-        edpTipoDespesa: false,
-      ),
+          edpCodigo: 0,
+          eveCodigo: widget.codigoEvento,
+          edpCodigoDespesa: servicoSelecionado.$1,
+          edpQuantidade: 1,
+          edpComunidade: comunidadeSelecionada == 0
+              ? 0
+              : comunidades[comunidadeSelecionada].keys.first,
+          edpTipoDespesa: false),
       dadosRetorno: (dados) {
         snackNotification(
             context: context,
@@ -105,6 +110,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
   @override
   initState() {
     super.initState();
+    buscarServicosEvento();
     listarComunidadesEvento();
   }
 
@@ -207,8 +213,35 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
                           ? const Center(child: Text("Nenhum Serviço"))
                           : ListView.builder(
                               itemCount: servicos.length,
-                              itemBuilder: (context, index) =>
-                                  ListTile(title: Text(servicos[index]))),
+                              itemBuilder: (context, index) => ListTile(
+                                    title: Text(servicos[index].serNome),
+                                    subtitle: servicos[index].serQuantidade == 0
+                                        ? const Text("Sem quantidade")
+                                        : Text(
+                                            "Quantidade: ${servicos[index].serQuantidade}"),
+                                    trailing: IconButton(
+                                      icon: const Icon(CupertinoIcons.delete,
+                                          color: Cores.vermelhoMedio),
+                                      onPressed: () =>
+                                          acertoEventoData.excluirDespesaEvento(
+                                              codigoDespesa:
+                                                  servicos[index].serCodigo,
+                                              dadosRetorno: (dados) {
+                                                snackNotification(
+                                                    context: context,
+                                                    mensage:
+                                                        "Despesa excluída com sucesso !",
+                                                    cor: Cores.verdeMedio);
+                                                buscarServicosEvento();
+                                              },
+                                              erro: () {
+                                                snackNotification(
+                                                    context: context,
+                                                    mensage:
+                                                        "Erro ao excluir despesa !");
+                                              }),
+                                    ),
+                                  )),
                     ),
                   ),
                 ),

@@ -311,20 +311,20 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                             ],
                           ),
                           Produtos(
-                            selecionarProduto: true,
-                            selecionar: (produto) {
-                              setState(() {
-                                nomeProdutoSelecionado = produto.proNome;
-                                codigoBarrasController.text =
-                                    produto.proCodBarras;
-                                codigoProdutoSelecionado = produto.proCodigo;
-                              });
+                            selecionarProduto: (codigo, produto) {
+                              // setState(() {
+                              //   nomeProdutoSelecionado = produto.proNome;
+                              //   codigoBarrasController.text =
+                              //       produto.proCodBarras;
+                              //   codigoProdutoSelecionado = produto.proCodigo;
+                              // });
                               // pageController.animateToPage(
                               //   0,
                               //   duration: const Duration(milliseconds: 300),
                               //   curve: Curves.easeIn,
                               // );
                             },
+                            selecionar: false,
                           ),
                         ],
                       ),
