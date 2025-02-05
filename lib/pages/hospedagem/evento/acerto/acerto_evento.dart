@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/data.dart';
 import 'package:painel_ccmn/data/models/web/hospedagem/evento_despesas_model.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/servico_evento_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_mini.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
@@ -53,8 +54,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
   bool dividirComunidade = false;
 
   List<DespesasEventoModel> despesasExtra = [];
-  List<EventoDespesasModel> eventosDespesas = [];
-  List<EventoDespesasModel> produtosDespesas = [];
+  List<ServicoEventoModel> eventosDespesas = [];
+  List<ServicoEventoModel> produtosDespesas = [];
   List<Map<String, double>> despesasExtraComunidade = [];
 
   TextEditingController valorCozinhaController = TextEditingController();
@@ -183,19 +184,19 @@ class _AcertoEventoState extends State<AcertoEvento> {
       codigoEvento: widget.codigoEvento,
       dadosRetorno: (dados) {
         if (dados.isNotEmpty) {
-          List<EventoDespesasModel> eventoDespesas = [];
+          List<ServicoEventoModel> eventoDespesas = [];
           for (var item in dados) {
-            eventoDespesas.add(EventoDespesasModel.fromJson(item));
+            eventoDespesas.add(ServicoEventoModel.fromJson(item));
           }
           // setState(() {
           //TipoDespesa == false ? é servico : é produto
           //Comunidade == 0 ? é Todos : é comunidade
           //CodigoDespesa = Evento || despesa
           produtosDespesas = eventoDespesas
-              .where((element) => element.edpTipoDespesa == true)
+              .where((element) => element.tipoServico == true)
               .toList();
           eventosDespesas = eventoDespesas
-              .where((element) => element.edpTipoDespesa == false)
+              .where((element) => element.tipoServico == false)
               .toList();
           // });
         }

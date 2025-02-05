@@ -1,3 +1,3 @@
 import 'package:flutter/widgets.dart';
 
-Expanded separador() => const Expanded(child: SizedBox());
+Flexible separador() => const Flexible(fit: FlexFit.tight, child: SizedBox());

@@ -12,10 +12,7 @@ class AcertoEventoData {
       required Function() erro}) async {
     var retorno = await ApiEventoDespesa().getEventoDespesas(codigoEvento);
     if (retorno.statusCode == 200) {
-      var decoded = json.decode(retorno.body);
-      print(decoded);
-      print(retorno.body);
-      dadosRetorno(decoded);
+      dadosRetorno(json.decode(retorno.body));
     } else {
       erro();
     }
