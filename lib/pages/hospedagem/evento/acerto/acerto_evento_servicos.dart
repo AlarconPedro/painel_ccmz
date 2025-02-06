@@ -4,7 +4,9 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:painel_ccmn/data/models/web/hospedagem/servico_evento_model.dart';
+import 'package:painel_ccmn/funcoes/funcoes_mascara.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_primario.dart';
@@ -60,7 +62,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
       comunidades.add(
           {widget.comunidades[i].comCodigo + 1: widget.comunidades[i].comNome});
       comunidadesListar.add(DropdownMenuItem(
-          value: i, child: Text(widget.comunidades[i].comNome)));
+          value: i + 1, child: Text(widget.comunidades[i].comNome)));
     }
     setState(() => carregando = false);
   }
@@ -104,14 +106,19 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
     setState(() => carregando = true);
     await acertoEventoData.inserirDespesaEvento(
       despesa: EventoDespesasModel(
-          edpCodigo: 0,
-          eveCodigo: widget.codigoEvento,
-          edpCodigoDespesa: servicoSelecionado.$1,
-          edpQuantidade: int.parse(quantidadeServico.text),
-          edpComunidade: comunidadeSelecionada == 0
-              ? 0
-              : comunidades[comunidadeSelecionada].keys.first,
-          edpTipoDespesa: false),
+        edpCodigo: 0,
+        eveCodigo: widget.codigoEvento,
+        edpCodigoDespesa: servicoSelecionado.$1,
+        edpQuantidade: int.parse(quantidadeServico.text),
+        edpComunidade: comunidadeSelecionada == 0
+            ? 0
+            : comunidades[comunidadeSelecionada].keys.first,
+        edpTipoDespesa: false,
+        edpValor: double.parse(valorServico.text
+            .replaceAll("R\$", "")
+            .replaceAll(".", "")
+            .replaceAll(",", ".")),
+      ),
       dadosRetorno: (dados) {
         snackNotification(
             context: context,
@@ -138,12 +145,12 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
   Widget build(BuildContext context) {
     return CadastroForm(
       formKey: GlobalKey<FormState>(),
-      altura: 2.5,
+      altura: 2.3,
       largura: 1.5,
       titulo: "Serviços do Evento",
       campos: [
         Expanded(
-          flex: 11,
+          flex: 12,
           child: Row(
             children: [
               Padding(
@@ -287,7 +294,8 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
                           : ListView.builder(
                               itemCount: servicos.length,
                               itemBuilder: (context, index) => Container(
-                                    margin: const EdgeInsets.all(5),
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 3, horizontal: 5),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Cores.branco),
@@ -298,12 +306,12 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                              "Valor: ${servicos[index].serValor}"),
+                                              "Valor: ${FuncoesMascara.mascaraDinheiro(servicos[index].serValor)}"),
                                           Text(
                                               "Quantidade: ${servicos[index].serQuantidade}"),
                                           Text(
-                                              "Total: ${servicos[index].serValor * servicos[index].serQuantidade}"),
-                                          const SizedBox(width: 5)
+                                              "Total: ${FuncoesMascara.mascaraDinheiro((servicos[index].serValor * servicos[index].serQuantidade))}"),
+                                          const SizedBox()
                                         ],
                                       ),
                                       trailing: IconButton(

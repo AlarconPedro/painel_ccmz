@@ -5,6 +5,7 @@ class EventoDespesasModel {
   int edpQuantidade;
   int edpComunidade;
   bool edpTipoDespesa;
+  double edpValor;
 
   EventoDespesasModel({
     required this.edpCodigo,
@@ -13,6 +14,7 @@ class EventoDespesasModel {
     required this.edpQuantidade,
     required this.edpComunidade,
     required this.edpTipoDespesa,
+    required this.edpValor,
   });
 
   factory EventoDespesasModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class EventoDespesasModel {
       edpQuantidade: json['edpQuantidade'],
       edpComunidade: json['edpComunidade'],
       edpTipoDespesa: json['edpTipoDespesa'],
+      edpValor: json['edpValor'],
     );
   }
 
@@ -34,6 +37,7 @@ class EventoDespesasModel {
       'edpQuantidade': edpQuantidade,
       'edpComunidade': edpComunidade,
       'edpTipoDespesa': edpTipoDespesa,
+      'edpValor': edpValor,
     };
   }
 }

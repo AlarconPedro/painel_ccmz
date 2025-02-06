@@ -69,20 +69,20 @@ class _AcertoEventoState extends State<AcertoEvento> {
   MaskTextInputFormatter valorFormatter = MaskTextInputFormatter(
       mask: '###.###.###.###.###,00', filter: {"#": RegExp(r'[0-9]')});
   double valorTotal = 0;
+  double valorTotalServicos = 0;
+  double valorOutrasDespesas = 0;
   double valorEvento = 0;
   double valorExtraEvento = 0;
   double valorComunidade = 0;
   double valorPorPessoa = 0;
   double valorHospedagem = 0;
-  double valorCozinha = 0;
-  double valorHostiaria = 0;
+  // double valorCozinha = 0;
+  // double valorHostiaria = 0;
 
   String tipoCobrancaEvento = "";
 
   int pagantesEvento = 0;
   int cobrantesEvento = 0;
-  int pagantesComunidade = 0;
-  int cobrantesComunidade = 0;
 
   int codigoComunidade = 0;
 
@@ -113,9 +113,24 @@ class _AcertoEventoState extends State<AcertoEvento> {
       symbol: 'R\$',
       decimalDigits: 2,
     ).format(valorHospedagem);
-    valorTotal = valorCozinha + valorHostiaria + valorHospedagem;
-    valorPorPessoa = valorTotal / pagantesEvento;
-    valorComunidade = valorPorPessoa * cobrantesComunidade;
+    //somar todos os valores presentes em serviços e produtos
+    double valorServicos = eventosDespesas.isNotEmpty
+        ? eventosDespesas
+            .map((e) => e.serValor * e.serQuantidade)
+            .reduce((value, element) => value + element)
+        : 0;
+    double valorProdutos = produtosDespesas.isNotEmpty
+        ? produtosDespesas
+            .map((e) => e.serValor * e.serQuantidade)
+            .reduce((value, element) => value + element)
+        : 0;
+    valorTotalServicos = valorServicos;
+    valorOutrasDespesas = valorProdutos;
+    valorTotal = valorServicos + valorProdutos + valorHospedagem;
+    valorPorPessoa =
+        dividirComunidade ? valorTotal : (valorTotal / pagantesEvento);
+    valorComunidade =
+        dividirComunidade ? valorPorPessoa : (valorPorPessoa * cobrantesEvento);
     valorExtraEvento = calcularValorTotalComunidade();
   }
 
@@ -133,31 +148,31 @@ class _AcertoEventoState extends State<AcertoEvento> {
         erro: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Erro ao buscar despesas do evento"))));
     //// Buscar Despesas Cozinha do Evento
-    await acertoEventoData.buscarCustoCozinha(
-        codigoEvento: widget.codigoEvento,
-        dadosRetorno: (dados) {
-          valorCozinha = double.parse(dados);
-          valorCozinhaController.text = NumberFormat.currency(
-            locale: 'pt_BR',
-            symbol: 'R\$',
-            decimalDigits: 2,
-          ).format(valorCozinha);
-        },
-        erro: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Erro ao buscar despesas da cozinha do evento"))));
+    // await acertoEventoData.buscarCustoCozinha(
+    //     codigoEvento: widget.codigoEvento,
+    //     dadosRetorno: (dados) {
+    //       valorCozinha = double.parse(dados);
+    //       valorCozinhaController.text = NumberFormat.currency(
+    //         locale: 'pt_BR',
+    //         symbol: 'R\$',
+    //         decimalDigits: 2,
+    //       ).format(valorCozinha);
+    //     },
+    //     erro: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    //         content: Text("Erro ao buscar despesas da cozinha do evento"))));
     //// Buscar Despesas Hostiária do Evento
-    await acertoEventoData.buscarCustoHostiaria(
-        codigoEvento: widget.codigoEvento,
-        dadosRetorno: (dados) {
-          valorHostiaria = double.parse(dados);
-          valorHostiariaController.text = NumberFormat.currency(
-            locale: 'pt_BR',
-            symbol: 'R\$',
-            decimalDigits: 2,
-          ).format(valorHostiaria);
-        },
-        erro: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Erro ao buscar despesas da hostiária do evento"))));
+    // await acertoEventoData.buscarCustoHostiaria(
+    //     codigoEvento: widget.codigoEvento,
+    //     dadosRetorno: (dados) {
+    //       valorHostiaria = double.parse(dados);
+    //       valorHostiariaController.text = NumberFormat.currency(
+    //         locale: 'pt_BR',
+    //         symbol: 'R\$',
+    //         decimalDigits: 2,
+    //       ).format(valorHostiaria);
+    //     },
+    //     erro: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    //         content: Text("Erro ao buscar despesas da hostiária do evento"))));
     //// Buscar Pagantes e Cobrantes do Evento
     await acertoEventoData.buscarPessoasPagantesCobrantesEvento(
         codigoEvento: widget.codigoEvento,
@@ -177,8 +192,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Erro ao buscar despesas extras do evento")));
     });
-    //// Caclular total do evento
-    calcularValores();
     //// Buscar Servicos do Evento
     await acertoEventoData.buscarEventoDespesas(
       codigoEvento: widget.codigoEvento,
@@ -204,6 +217,9 @@ class _AcertoEventoState extends State<AcertoEvento> {
       erro: () => ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Erro ao buscar serviços do evento"))),
     );
+    //// Caclular total do evento
+    calcularValores();
+
     setState(() => carregando = false);
   }
 
@@ -352,6 +368,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                         setState(() =>
                                                             dividirComunidade =
                                                                 value);
+                                                        calcularValores();
                                                       }),
                                                 ),
                                                 Textos.textoPequeno(
@@ -423,7 +440,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                         locale: 'pt_BR',
                                                         symbol: 'R\$',
                                                         decimalDigits: 2)
-                                                    .format(valorTotal),
+                                                    .format(valorTotalServicos),
                                                 cor: Cores.preto),
                                           ],
                                         ),
@@ -443,7 +460,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                                         locale: 'pt_BR',
                                                         symbol: 'R\$',
                                                         decimalDigits: 2)
-                                                    .format(valorTotal),
+                                                    .format(
+                                                        valorOutrasDespesas),
                                                 cor: Cores.preto),
                                           ],
                                         ),
@@ -483,9 +501,13 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
                                     child: CardDespesasComunidade(
-                                        valorPorPessoa: valorPorPessoa,
-                                        pagante: pagantesComunidade,
-                                        cobrante: cobrantesComunidade,
+                                        valorPorPessoa: valorPorPessoa /
+                                            widget.comunidades[index]
+                                                .pagantesCobrantes.cobrantes,
+                                        pagante: widget.comunidades[index]
+                                            .pagantesCobrantes.pagantes,
+                                        cobrante: widget.comunidades[index]
+                                            .pagantesCobrantes.cobrantes,
                                         nomeComunidade:
                                             widget.comunidades[index].comNome));
                               },
@@ -530,7 +552,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
               ),
             ),
             //TODO: Menu Lateral
-            produtosDespesas.isNotEmpty && eventosDespesas.isNotEmpty
+            produtosDespesas.isNotEmpty || eventosDespesas.isNotEmpty
                 ? AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     width: alturaBtnProdutos == 50 && alturaBtnServicos == 50
@@ -542,6 +564,12 @@ class _AcertoEventoState extends State<AcertoEvento> {
                       children: [
                         eventosDespesas.isNotEmpty
                             ? menuLateral(
+                                dados: eventosDespesas
+                                    .map((e) => (
+                                          e.serNome,
+                                          (e.serValor * e.serQuantidade)
+                                        ))
+                                    .toList(),
                                 onPressed: () {
                                   setState(() {
                                     if (alturaBtnServicos == 50) {
@@ -575,10 +603,16 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                 icone: CupertinoIcons.wrench,
                                 altura: alturaBtnServicos,
                                 largura: larguraBtnServicos)
-                            : null,
+                            : const SizedBox(),
                         const SizedBox(height: 10),
                         produtosDespesas.isNotEmpty
                             ? menuLateral(
+                                dados: produtosDespesas
+                                    .map((e) => (
+                                          e.serNome,
+                                          (e.serValor * e.serQuantidade)
+                                        ))
+                                    .toList(),
                                 onPressed: () {
                                   setState(() {
                                     if (alturaBtnProdutos == 50) {
@@ -612,7 +646,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                 icone: CupertinoIcons.cube_box,
                                 altura: alturaBtnProdutos,
                                 largura: larguraBtnProdutos)
-                            : null,
+                            : const SizedBox(),
                       ],
                     ),
                   )
@@ -623,13 +657,25 @@ class _AcertoEventoState extends State<AcertoEvento> {
     );
   }
 
-  menuLateral({
-    required Function onPressed,
-    required Function(PointerHoverEvent evento) onHover,
-    IconData? icone,
-    required double altura,
-    required double largura,
-  }) {
+  menuLateral(
+      {required Function onPressed,
+      required Function(PointerHoverEvent evento) onHover,
+      IconData? icone,
+      required double altura,
+      required double largura,
+      required List<(String, double)> dados}) {
+    List<DataRow> linhas = [];
+    linhas.clear();
+    for (var item in dados) {
+      linhas.add(DataRow(cells: [
+        DataCell(Textos.textoMuitoPequeno(texto: item.$1, cor: Cores.branco)),
+        DataCell(Textos.textoMuitoPequeno(
+            texto: NumberFormat.currency(
+                    locale: 'pt_BR', symbol: 'R\$', decimalDigits: 2)
+                .format(item.$2),
+            cor: Cores.branco)),
+      ]));
+    }
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onHover: (event) => onHover(event),
@@ -653,59 +699,88 @@ class _AcertoEventoState extends State<AcertoEvento> {
                   child: SingleChildScrollView(
                     child: DataTable(
                       columns: [
-                        DataColumn(label: Textos.textoPequeno(texto: "Nome")),
-                        DataColumn(label: Textos.textoPequeno(texto: "Valor")),
+                        DataColumn(
+                            label: Textos.textoMedio(
+                                texto: "Nome", cor: Cores.branco)),
+                        DataColumn(
+                            label: Textos.textoMedio(
+                                texto: "Valor", cor: Cores.branco)),
                       ],
-                      rows: [
-                        DataRow(cells: [
-                          DataCell(Textos.textoMuitoPequeno(
-                              texto: "Cozinha", cor: Cores.branco)),
-                          DataCell(Textos.textoMuitoPequeno(
-                              texto: NumberFormat.currency(
-                                      locale: 'pt_BR',
-                                      symbol: 'R\$',
-                                      decimalDigits: 2)
-                                  .format(valorCozinha),
-                              cor: Cores.branco)),
-                          // DataCell(Text("R\$ 0,00")),
-                        ]),
-                        DataRow(cells: [
-                          DataCell(Textos.textoMuitoPequeno(
-                              texto: "Hostiária", cor: Cores.branco)),
-                          DataCell(Textos.textoMuitoPequeno(
-                              texto: NumberFormat.currency(
-                                      locale: 'pt_BR',
-                                      symbol: 'R\$',
-                                      decimalDigits: 2)
-                                  .format(valorHostiaria),
-                              cor: Cores.branco)),
-                          // DataCell(Text("R\$ 0,00")),
-                        ]),
-                        DataRow(cells: [
-                          DataCell(Textos.textoMuitoPequeno(
-                              texto: "Hospedagem", cor: Cores.branco)),
-                          DataCell(Textos.textoMuitoPequeno(
-                              texto: NumberFormat.currency(
-                                      locale: 'pt_BR',
-                                      symbol: 'R\$',
-                                      decimalDigits: 2)
-                                  .format(valorHospedagem),
-                              cor: Cores.branco)),
-                          // DataCell(Text("R\$ 0,00")),
-                        ]),
-                        DataRow(cells: [
-                          DataCell(Textos.textoMuitoPequeno(
-                              texto: "Total", cor: Cores.branco)),
-                          DataCell(Textos.textoMuitoPequeno(
-                              texto: NumberFormat.currency(
-                                      locale: 'pt_BR',
-                                      symbol: 'R\$',
-                                      decimalDigits: 2)
-                                  .format(valorTotal),
-                              cor: Cores.branco)),
-                          // DataCell(Text("R\$ 0,00")),
-                        ]),
-                      ],
+                      rows: linhas.isNotEmpty
+                          ? [...linhas]
+                          : [
+                              DataRow(cells: [
+                                DataCell(Textos.textoMuitoPequeno(
+                                    texto: "Sem dados", cor: Cores.branco)),
+                                DataCell(Textos.textoMuitoPequeno(
+                                    texto: "R\$ 0,00", cor: Cores.branco)),
+                              ]),
+                              // ? DataRow(cells: [
+                              //     DataCell(Textos.textoMuitoPequeno(
+                              //         texto: item.item1, cor: Cores.branco)),
+                              //     DataCell(Textos.textoMuitoPequeno(
+                              //         texto: NumberFormat.currency(
+                              //                 locale: 'pt_BR',
+                              //                 symbol: 'R\$',
+                              //                 decimalDigits: 2)
+                              //             .format(item.item2),
+                              //         cor: Cores.branco)),
+                              //   ])
+                              // : DataRow(cells: [
+                              //     DataCell(Textos.textoMuitoPequeno(
+                              //         texto: "Sem dados", cor: Cores.branco)),
+                              //     DataCell(Textos.textoMuitoPequeno(
+                              //         texto: "R\$ 0,00", cor: Cores.branco)),
+                              //   ]),
+                              // DataRow(cells: [
+                              //   DataCell(Textos.textoMuitoPequeno(
+                              //       texto: "Cozinha", cor: Cores.branco)),
+                              //   DataCell(Textos.textoMuitoPequeno(
+                              //       texto: NumberFormat.currency(
+                              //               locale: 'pt_BR',
+                              //               symbol: 'R\$',
+                              //               decimalDigits: 2)
+                              //           .format(valorCozinha),
+                              //       cor: Cores.branco)),
+                              //   // DataCell(Text("R\$ 0,00")),
+                              // ]),
+                              // DataRow(cells: [
+                              //   DataCell(Textos.textoMuitoPequeno(
+                              //       texto: "Hostiária", cor: Cores.branco)),
+                              //   DataCell(Textos.textoMuitoPequeno(
+                              //       texto: NumberFormat.currency(
+                              //               locale: 'pt_BR',
+                              //               symbol: 'R\$',
+                              //               decimalDigits: 2)
+                              //           .format(valorHostiaria),
+                              //       cor: Cores.branco)),
+                              //   // DataCell(Text("R\$ 0,00")),
+                              // ]),
+                              // DataRow(cells: [
+                              //   DataCell(Textos.textoMuitoPequeno(
+                              //       texto: "Hospedagem", cor: Cores.branco)),
+                              //   DataCell(Textos.textoMuitoPequeno(
+                              //       texto: NumberFormat.currency(
+                              //               locale: 'pt_BR',
+                              //               symbol: 'R\$',
+                              //               decimalDigits: 2)
+                              //           .format(valorHospedagem),
+                              //       cor: Cores.branco)),
+                              //   // DataCell(Text("R\$ 0,00")),
+                              // ]),
+                              // DataRow(cells: [
+                              //   DataCell(Textos.textoMuitoPequeno(
+                              //       texto: "Total", cor: Cores.branco)),
+                              //   DataCell(Textos.textoMuitoPequeno(
+                              //       texto: NumberFormat.currency(
+                              //               locale: 'pt_BR',
+                              //               symbol: 'R\$',
+                              //               decimalDigits: 2)
+                              //           .format(valorTotal),
+                              //       cor: Cores.branco)),
+                              //   // DataCell(Text("R\$ 0,00")),
+                              // ]),
+                            ],
                     ),
                   ),
                 ),

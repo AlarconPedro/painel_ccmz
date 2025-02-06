@@ -650,10 +650,7 @@ class _AlocacaoEventoState extends State<AlocacaoEvento> {
             color: Cores.cinzaClaro,
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 5,
-              vertical: 5,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             child: ListView.builder(
               itemCount: comunidades.isNotEmpty ? pessoas.length : 0,
               itemBuilder: (context, index) {
