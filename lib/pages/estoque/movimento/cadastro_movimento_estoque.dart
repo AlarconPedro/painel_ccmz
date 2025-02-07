@@ -311,7 +311,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                             ],
                           ),
                           Produtos(
-                            selecionarProduto: (codigo, produto) {
+                            selecionarProduto: (codigo, produto, valor) {
                               // setState(() {
                               //   nomeProdutoSelecionado = produto.proNome;
                               //   codigoBarrasController.text =
@@ -324,7 +324,7 @@ class _CadastroMovimentoEstoqueState extends State<CadastroMovimentoEstoque> {
                               //   curve: Curves.easeIn,
                               // );
                             },
-                            selecionar: false,
+                            selecionado: false,
                           ),
                         ],
                       ),

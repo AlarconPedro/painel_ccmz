@@ -9,12 +9,12 @@ import '../../../classes/classes.dart';
 import '../../../data/api/hospedagem/api_produtos.dart';
 
 class Produtos extends StatefulWidget {
-  bool? selecionar;
-  Function(int, String)? selecionarProduto;
+  bool selecionado;
+  Function(int, String, double)? selecionarProduto;
 
   Produtos({
     super.key,
-    this.selecionar = false,
+    this.selecionado = false,
     this.selecionarProduto,
   });
 
@@ -160,25 +160,27 @@ class _ProdutosState extends State<Produtos> {
                             itemCount: produtos.length,
                             itemBuilder: (context, index) {
                               return MouseRegion(
-                                cursor: widget.selecionar!
+                                cursor: widget.selecionado
                                     ? SystemMouseCursors.click
                                     : SystemMouseCursors.basic,
                                 child: GestureDetector(
                                   onTap: () {
-                                    if (widget.selecionar!) {
-                                      if (widget.selecionar != null) {
-                                        widget.selecionarProduto!(
-                                            produtos[index].proCodigo,
-                                            produtos[index].proNome);
-                                        setState(() {
-                                          produtoSelecionado =
-                                              produtos[index].proCodigo;
-                                        });
-                                      } else {
-                                        Navigator.pop(context, produtos[index]);
-                                      }
-                                      // Navigator.pop(context, produtos[index]);
+                                    if (widget.selecionado) {
+                                      // if (widget.selecionado != null) {
+                                      widget.selecionarProduto!(
+                                          produtos[index].proCodigo,
+                                          produtos[index].proNome,
+                                          produtos[index].proValor);
+                                      setState(() {
+                                        produtoSelecionado =
+                                            produtos[index].proCodigo;
+                                      });
                                     }
+                                    // else {
+                                    //   Navigator.pop(context, produtos[index]);
+                                    // }
+                                    // Navigator.pop(context, produtos[index]);
+                                    // }
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(

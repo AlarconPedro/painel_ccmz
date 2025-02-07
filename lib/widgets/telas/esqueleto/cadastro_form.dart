@@ -82,7 +82,7 @@ class CadastroForm extends StatelessWidget {
                               onPressed: () {
                                 cancelar();
                               },
-                              texto: "Cancelar"),
+                              texto: "Fechar"),
                           // CupertinoButton(
                           //   onPressed: () {
                           //     cancelar();

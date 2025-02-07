@@ -69,7 +69,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
 
   buscarServicosEvento() async {
     setState(() => carregando = true);
-    await acertoEventoData.buscarEventoDespesas(
+    await acertoEventoData.buscarServicosEvento(
       codigoEvento: widget.codigoEvento,
       dadosRetorno: (dados) {
         servicos.clear();

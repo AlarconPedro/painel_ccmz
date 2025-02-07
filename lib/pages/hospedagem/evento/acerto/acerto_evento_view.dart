@@ -74,6 +74,7 @@ class _AcertoEventoViewState extends State<AcertoEventoView> {
                     curve: Curves.easeIn)),
             AcertoEventoProdutos(
                 comunidades: comunidadesEvento,
+                codigoEvento: widget.codigoEvento,
                 voltarTela: () => pageController.animateToPage(0,
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeIn)),

@@ -18,6 +18,30 @@ class AcertoEventoData {
     }
   }
 
+  buscarServicosEvento(
+      {required int codigoEvento,
+      required Function(dynamic) dadosRetorno,
+      required Function() erro}) async {
+    var retorno = await ApiEventoDespesa().getServicosEvento(codigoEvento);
+    if (retorno.statusCode == 200) {
+      dadosRetorno(json.decode(retorno.body));
+    } else {
+      erro();
+    }
+  }
+
+  buscarProdutosEvento(
+      {required int codigoEvento,
+      required Function(dynamic) dadosRetorno,
+      required Function() erro}) async {
+    var retorno = await ApiEventoDespesa().getProdutosEvento(codigoEvento);
+    if (retorno.statusCode == 200) {
+      dadosRetorno(json.decode(retorno.body));
+    } else {
+      erro();
+    }
+  }
+
   buscarComunidadesEvento({
     required int codigoEvento,
     required Function(dynamic) dadosRetorno,

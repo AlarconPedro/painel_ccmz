@@ -1,24 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:painel_ccmn/pages/estoque/produtos/produtos.dart';
+import 'package:flutter/services.dart';
+import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_primario.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
 
 import '../../../../classes/classes.dart';
 import '../../../../data/data.dart';
-import '../../../../widgets/form/campo_texto.dart';
+import '../../../../data/models/web/hospedagem/evento_despesas_model.dart';
+import '../../../../data/models/web/hospedagem/servico_evento_model.dart';
+import '../../../../funcoes/funcoes_mascara.dart';
 import '../../../../widgets/separador.dart';
+import '../../../../widgets/snack_notification.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../pages.dart';
 
 class AcertoEventoProdutos extends StatefulWidget {
   List<AcertoModel> comunidades;
   Function voltarTela;
+  int codigoEvento;
   AcertoEventoProdutos({
     super.key,
     required this.comunidades,
     required this.voltarTela,
+    required this.codigoEvento,
   });
 
   @override
@@ -29,28 +34,86 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
   final controlador = TextEditingController();
   final quantidadeController = TextEditingController();
 
+  List<ServicoEventoModel> produtos = [];
+
+  TextEditingController quantidadeProduto = TextEditingController();
+
   PageController pageController = PageController();
 
   bool carregando = false;
 
   int comunidadeSelecionada = 0;
-  (int, String) produtoSelecionado = (0, "");
+  (int, String, double) produtoSelecionado = (0, "", 0.0);
 
-  List<String> produtos = [];
-  List<DropdownMenuItem> comunidades = [];
+  List<DropdownMenuItem> comunidadesListar = [];
+  List<Map<int, String>> comunidades = [];
+
+  AcertoEventoData acertoEventoData = AcertoEventoData();
 
   // double altura = 350;
   // double largura = 600;
 
-  buscarComunidadesEvento() async {
+  listarComunidadesEvento() async {
     setState(() => carregando = true);
-    comunidades.clear();
-    comunidades.add(const DropdownMenuItem(value: 0, child: Text("Todos")));
-    for (var comunidade in widget.comunidades) {
-      comunidades.add(DropdownMenuItem(
-          value: comunidade.comCodigo, child: Text(comunidade.comNome)));
+    comunidadesListar.clear();
+    comunidadesListar
+        .add(const DropdownMenuItem(value: 0, child: Text("Todos")));
+    for (var i = 0; i <= widget.comunidades.length; i++) {
+      comunidades.add({0: "Todos"});
+      comunidades.add(
+          {widget.comunidades[i].comCodigo + 1: widget.comunidades[i].comNome});
+      comunidadesListar.add(DropdownMenuItem(
+          value: i + 1, child: Text(widget.comunidades[i].comNome)));
     }
     setState(() => carregando = false);
+  }
+
+  buscarProdutosEvento() async {
+    setState(() => carregando = true);
+    await acertoEventoData.buscarProdutosEvento(
+      codigoEvento: widget.codigoEvento,
+      dadosRetorno: (dados) {
+        produtos.clear();
+        for (var servico in dados) {
+          produtos.add(ServicoEventoModel.fromJson(servico));
+        }
+      },
+      erro: () {
+        snackNotification(
+            context: context,
+            mensage: "Erro ao buscar serviços",
+            cor: Cores.vermelhoMedio);
+      },
+    );
+    setState(() => carregando = false);
+  }
+
+  gravarProdutosEvento() async {
+    setState(() => carregando = true);
+    await acertoEventoData.inserirDespesaEvento(
+      despesa: EventoDespesasModel(
+        edpCodigo: 0,
+        eveCodigo: widget.codigoEvento,
+        edpCodigoDespesa: produtoSelecionado.$1,
+        edpQuantidade: int.parse(quantidadeProduto.text),
+        edpComunidade: comunidadeSelecionada == 0
+            ? 0
+            : comunidades[comunidadeSelecionada].keys.first,
+        edpTipoDespesa: true,
+        edpValor: produtoSelecionado.$3,
+      ),
+      dadosRetorno: (dados) {
+        snackNotification(
+            context: context,
+            mensage: "Despesa inserida com sucesso !",
+            cor: Cores.verdeMedio);
+        buscarProdutosEvento();
+      },
+      erro: () {
+        snackNotification(
+            context: context, mensage: "Erro ao inserir despesa !");
+      },
+    );
   }
 
   // abrirTelaProdutos() {
@@ -70,6 +133,8 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
   @override
   void initState() {
     super.initState();
+    buscarProdutosEvento();
+    listarComunidadesEvento();
   }
 
   @override
@@ -86,71 +151,99 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
       titulo: "Produtos do Evento",
       campos: [
         Expanded(
+          flex: 12,
           child: Row(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Container(
                   width: 300,
-                  decoration: BoxDecoration(
-                      color: Cores.cinzaClaro,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Expanded(
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  CupertinoDialogRoute(
-                                      builder: (context) => selecionarProduto(),
-                                      // builder: (context) {
-                                      //   return Servicos();
-                                      //   // return Servicos(
-                                      //   //     servicoSelecionado:
-                                      //   //         servicoSelecionado,
-                                      //   //     onChange: (servico) => setState(
-                                      //   //         () => servicoSelecionado =
-                                      //   //             servico),
-                                      //   //     context: context);
-                                      // },
-                                      context: context)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                child: Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Cores.cinzaClaro, width: 1),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                      child: Text(produtoSelecionado.$2.isEmpty
-                                          ? "Selecione o Produto"
-                                          : produtoSelecionado.$2)),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              CupertinoDialogRoute(
+                                  builder: (context) => selecionarProduto(),
+                                  // builder: (context) {
+                                  //   return Servicos();
+                                  //   // return Servicos(
+                                  //   //     servicoSelecionado:
+                                  //   //         servicoSelecionado,
+                                  //   //     onChange: (servico) => setState(
+                                  //   //         () => servicoSelecionado =
+                                  //   //             servico),
+                                  //   //     context: context);
+                                  // },
+                                  context: context)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: produtoSelecionado.$2.isNotEmpty
+                                    ? Cores.verdeMedio
+                                    : Cores.cinzaClaro,
+                                border: Border.all(
+                                    color: Cores.cinzaMedio, width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  produtoSelecionado.$2.isEmpty
+                                      ? "Selecione o Produto"
+                                      : produtoSelecionado.$2,
+                                  style: TextStyle(
+                                      color: produtoSelecionado.$2.isEmpty
+                                          ? Cores.preto
+                                          : Cores.branco),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: DropDownForm(
-                              label: "Comunidade",
-                              itens: comunidades,
-                              selecionado: comunidadeSelecionada,
-                              onChange: (valor) =>
-                                  setState(() => comunidadeSelecionada = valor),
-                            ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          child: DropDownForm(
+                            label: "Comunidade",
+                            itens: comunidadesListar,
+                            selecionado: comunidadeSelecionada,
+                            onChange: (valor) =>
+                                setState(() => comunidadeSelecionada = valor),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextFormField(
+                          controller: quantidadeProduto,
+                          keyboardType: TextInputType.number,
+                          maxLength: 3,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                            labelText: "Quantidade",
+                            prefixIcon: const Icon(CupertinoIcons.number),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) =>
+                              value!.isEmpty ? "Informe a quantidade" : null,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -167,8 +260,45 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
                           ? const Center(child: Text("Nenhum Produto"))
                           : ListView.builder(
                               itemCount: produtos.length,
-                              itemBuilder: (context, index) =>
-                                  ListTile(title: Text(produtos[index]))),
+                              itemBuilder: (context, index) => ListTile(
+                                title: Text(produtos[index].serNome),
+                                subtitle: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                        "Valor: ${FuncoesMascara.mascaraDinheiro(produtos[index].serValor)}"),
+                                    Text(
+                                        "Quantidade: ${produtos[index].serQuantidade}"),
+                                    Text(
+                                        "Total: ${FuncoesMascara.mascaraDinheiro((produtos[index].serValor * produtos[index].serQuantidade))}"),
+                                    const SizedBox()
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(CupertinoIcons.delete,
+                                      color: Cores.vermelhoMedio),
+                                  onPressed: () =>
+                                      acertoEventoData.excluirDespesaEvento(
+                                          codigoDespesa:
+                                              produtos[index].serCodigo,
+                                          dadosRetorno: (dados) {
+                                            snackNotification(
+                                                context: context,
+                                                mensage:
+                                                    "Despesa excluída com sucesso !",
+                                                cor: Cores.verdeMedio);
+                                            buscarProdutosEvento();
+                                          },
+                                          erro: () {
+                                            snackNotification(
+                                                context: context,
+                                                mensage:
+                                                    "Erro ao excluir despesa !");
+                                          }),
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                 ),
@@ -177,7 +307,7 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
           ),
         ),
       ],
-      gravar: () => Navigator.pop(context),
+      gravar: () => gravarProdutosEvento(),
       cancelar: () => widget.voltarTela(),
     );
   }
@@ -190,7 +320,7 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
           width: 800,
           height: 600,
           decoration: BoxDecoration(
-            color: Cores.branco,
+            color: Cores.cinzaClaro,
             borderRadius: BorderRadius.circular(10),
             boxShadow: const [
               BoxShadow(
@@ -199,7 +329,12 @@ class _AcertoEventoProdutosState extends State<AcertoEventoProdutos> {
           ),
           child: Column(
             children: [
-              Expanded(child: Produtos()),
+              Expanded(
+                  child: Produtos(
+                selecionado: true,
+                selecionarProduto: (codigo, nome, valor) =>
+                    setState(() => produtoSelecionado = (codigo, nome, valor)),
+              )),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Row(

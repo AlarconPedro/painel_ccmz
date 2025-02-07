@@ -8,6 +8,12 @@ class ApiEventoDespesa {
 
   final String _urlGetEventoDespesas = "${Globais.urlBase}EventoDespesa/";
 
+  final String _urlGetServicosEvento =
+      "${Globais.urlBase}EventoDespesa/servicos/";
+
+  final String _urlGetProdutosEvento =
+      "${Globais.urlBase}EventoDespesa/produtos/";
+
   final String _urlPostEventoDespesa = "${Globais.urlBase}EventoDespesa/";
 
   final String _urlPutEventoDespesa = "${Globais.urlBase}EventoDespesa/";
@@ -16,6 +22,14 @@ class ApiEventoDespesa {
 
   Future<dynamic> getEventoDespesas(int codigoEvento) async {
     return await _request.getJson("$_urlGetEventoDespesas$codigoEvento");
+  }
+
+  Future<dynamic> getServicosEvento(int codigoEvento) async {
+    return await _request.getJson("$_urlGetServicosEvento$codigoEvento");
+  }
+
+  Future<dynamic> getProdutosEvento(int codigoEvento) async {
+    return await _request.getJson("$_urlGetProdutosEvento$codigoEvento");
   }
 
   Future<dynamic> postEventoDespesa(EventoDespesasModel despesa) async {
