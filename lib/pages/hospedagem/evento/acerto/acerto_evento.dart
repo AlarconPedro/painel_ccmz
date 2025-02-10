@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:painel_ccmn/data/data.dart';
-import 'package:painel_ccmn/data/models/web/hospedagem/evento_despesas_model.dart';
 import 'package:painel_ccmn/data/models/web/hospedagem/servico_evento_model.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_data.dart';
 import 'package:painel_ccmn/widgets/botoes/btn_mini.dart';
@@ -100,8 +99,10 @@ class _AcertoEventoState extends State<AcertoEvento> {
     // double valorTotal = 0;
     // valorTotal += (valorPorPessoa * cobrantesComunidade);
     double valorExtra = 0;
-    for (var item in despesasExtra) {
-      valorExtra += item.dseValor;
+    if (despesasExtra.isNotEmpty) {
+      for (var item in despesasExtra) {
+        valorExtraEvento += item.dseValor;
+      }
     }
     return valorExtra;
   }
@@ -132,6 +133,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     valorComunidade =
         dividirComunidade ? valorPorPessoa : (valorPorPessoa * cobrantesEvento);
     valorExtraEvento = calcularValorTotalComunidade();
+    // valorExtraEvento = 0;
   }
 
   AcertoEventoData acertoEventoData = AcertoEventoData();
@@ -537,7 +539,18 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                 onPressed: () => Navigator.pop(context)),
                             btnPrimario(
                                 texto: "Gerar",
-                                onPressed: () {},
+                                onPressed: () {
+                                  acertoEventoData.criarPaginasPDF(
+                                    widget.nomeEvento,
+                                    valorTotalServicos,
+                                    valorOutrasDespesas,
+                                    valorEvento,
+                                    valorPorPessoa,
+                                    // () => calcularValores(),
+                                    () => {},
+                                    widget.comunidades,
+                                  );
+                                },
                                 icon: const Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 5),
