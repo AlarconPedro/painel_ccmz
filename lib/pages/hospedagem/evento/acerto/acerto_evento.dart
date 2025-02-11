@@ -544,11 +544,11 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                     widget.nomeEvento,
                                     valorTotalServicos,
                                     valorOutrasDespesas,
-                                    valorEvento,
+                                    (valorEvento * cobrantesEvento),
                                     valorPorPessoa,
-                                    // () => calcularValores(),
-                                    () => {},
+                                    valorTotal,
                                     widget.comunidades,
+                                    dividirComunidade,
                                   );
                                 },
                                 icon: const Padding(

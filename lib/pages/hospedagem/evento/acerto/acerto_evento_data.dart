@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 import 'package:painel_ccmn/data/api/hospedagem/api_evento_despesa.dart';
-
 import 'package:pdf/pdf.dart';
+
 import 'package:pdf/widgets.dart' as pw;
-import 'package:universal_html/html.dart' as html;
+import 'package:universal_html/html.dart';
 
 import '../../../../data/data.dart';
 import '../../../../data/models/web/hospedagem/evento_despesas_model.dart';
@@ -226,11 +226,11 @@ class AcertoEventoData {
   //         double.parse((valorEvento / pagantesEvento).toStringAsFixed(2));
   //   });
   // }
-  gerarPDF() async {
-    final pdf = pw.Document();
-    var savedFile = await pdf.save();
+  gerarPDF(pw.Document documento) async {
+    // final pdf = pw.Document();
+    var savedFile = await documento.save();
     List<int> fileInts = List.from(savedFile);
-    html.AnchorElement(
+    AnchorElement(
         href:
             "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(fileInts)}")
       ..setAttribute("download",
@@ -244,21 +244,24 @@ class AcertoEventoData {
     double valorProdutos,
     double valorEvento,
     double valorPorPessoa,
-    Function() calcularValorTotalEvento,
+    // Function() calcularValorTotalEvento,
+    double valorTotal,
     List<dynamic> comunidadesEvento,
+    bool dividirPorPessoa,
   ) {
     final pdf = pw.Document();
     pdf.addPage(
+      // pw.Page(
+      //   build: (pw.Context context) =>
+      //       pw.Center(child: pw.Text('Hello World!')),
+      // ),
       pw.MultiPage(
         margin: const pw.EdgeInsets.all(10),
         build: (context) => [
           pw.Container(
             padding: const pw.EdgeInsets.all(15),
             decoration: pw.BoxDecoration(
-              border: pw.Border.all(
-                color: PdfColors.black,
-                width: 1,
-              ),
+              border: pw.Border.all(color: PdfColors.black, width: 1),
               borderRadius: pw.BorderRadius.circular(10),
             ),
             child: pw.Column(children: [
@@ -266,21 +269,13 @@ class AcertoEventoData {
                 padding: const pw.EdgeInsets.only(bottom: 20),
                 child: pw.Row(
                   children: [
-                    pw.Text(
-                      "Acerto do Evento",
-                      style: pw.TextStyle(
-                        fontSize: 16,
-                        fontWeight: pw.FontWeight.bold,
-                      ),
-                    ),
+                    pw.Text("Acerto do Evento",
+                        style: pw.TextStyle(
+                            fontSize: 16, fontWeight: pw.FontWeight.bold)),
                     pw.Spacer(),
-                    pw.Text(
-                      nomeEvento,
-                      style: pw.TextStyle(
-                        fontSize: 16,
-                        fontWeight: pw.FontWeight.bold,
-                      ),
-                    ),
+                    pw.Text(nomeEvento,
+                        style: pw.TextStyle(
+                            fontSize: 16, fontWeight: pw.FontWeight.bold)),
                   ],
                 ),
               ),
@@ -292,10 +287,7 @@ class AcertoEventoData {
                         style: const pw.TextStyle(fontSize: 10)),
                     pw.Flexible(
                       fit: pw.FlexFit.tight,
-                      child: pw.Divider(
-                        color: PdfColors.black,
-                        thickness: 1,
-                      ),
+                      child: pw.Divider(color: PdfColors.black, thickness: 1),
                     ),
                     pw.SizedBox(width: 10),
                     pw.Text(
@@ -316,10 +308,7 @@ class AcertoEventoData {
                         style: const pw.TextStyle(fontSize: 10)),
                     pw.Flexible(
                       fit: pw.FlexFit.tight,
-                      child: pw.Divider(
-                        color: PdfColors.black,
-                        thickness: 1,
-                      ),
+                      child: pw.Divider(color: PdfColors.black, thickness: 1),
                     ),
                     pw.SizedBox(width: 10),
                     pw.Text(
@@ -340,10 +329,7 @@ class AcertoEventoData {
                         style: const pw.TextStyle(fontSize: 10)),
                     pw.Flexible(
                       fit: pw.FlexFit.tight,
-                      child: pw.Divider(
-                        color: PdfColors.black,
-                        thickness: 1,
-                      ),
+                      child: pw.Divider(color: PdfColors.black, thickness: 1),
                     ),
                     pw.SizedBox(width: 10),
                     pw.Text(
@@ -370,13 +356,13 @@ class AcertoEventoData {
               //         ),
               //       ),
               //       pw.SizedBox(width: 10),
-              //       pw.Text(
-              //           despesasExtra.isNotEmpty
-              //               ? FuncoesMascara.mascaraDinheiro(despesasExtra
-              //                   .map((e) => e.dseValor * e.dseQuantidade)
-              //                   .reduce((value, element) => value + element))
-              //               : "R\$ 0,00",
-              //           style: const pw.TextStyle(fontSize: 10)),
+              //       // pw.Text(
+              //       //     despesasExtra.isNotEmpty
+              //       //         ? FuncoesMascara.mascaraDinheiro(despesasExtra
+              //       //             .map((e) => e.dseValor * e.dseQuantidade)
+              //       //             .reduce((value, element) => value + element))
+              //       //         : "R\$ 0,00",
+              //       //     style: const pw.TextStyle(fontSize: 10)),
               //       // ),
               //     ],
               //   ),
@@ -395,22 +381,18 @@ class AcertoEventoData {
                       ),
                     ),
                     pw.SizedBox(width: 10),
-                    pw.Text(
-                        FuncoesMascara.mascaraDinheiro(
-                            calcularValorTotalEvento() ?? 0),
+                    pw.Text(FuncoesMascara.mascaraDinheiro(valorTotal),
                         style: const pw.TextStyle(fontSize: 10)),
                   ],
                 ),
               ),
-              pw.Padding(
-                padding: const pw.EdgeInsets.only(bottom: 10),
-                child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.center,
-                  children: [
-                    pw.Text("Despesas Adicionais"),
-                  ],
-                ),
-              ),
+              // pw.Padding(
+              //   padding: const pw.EdgeInsets.only(bottom: 10),
+              //   child: pw.Row(
+              //     mainAxisAlignment: pw.MainAxisAlignment.center,
+              //     children: [pw.Text("Despesas Adicionais")],
+              //   ),
+              // ),
               // pw.Table.fromTextArray(
               //   context: context,
               //   cellAlignments: {
@@ -432,16 +414,57 @@ class AcertoEventoData {
               // ),
             ]),
           ),
-          pw.Padding(
-            padding: const pw.EdgeInsets.symmetric(vertical: 10),
-            child: pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.center,
-                children: [
-                  pw.Text("Rateio Por Comunidade",
-                      style: pw.TextStyle(
-                          fontSize: 16, fontWeight: pw.FontWeight.bold))
-                ]),
-          ),
+          dividirPorPessoa
+              ? pw.Container(
+                  padding: const pw.EdgeInsets.all(15),
+                  decoration: pw.BoxDecoration(
+                      border: pw.Border.all(color: PdfColors.black, width: 1),
+                      borderRadius: pw.BorderRadius.circular(10)),
+                  child: pw.Column(children: [
+                    pw.Padding(
+                        padding: const pw.EdgeInsets.only(bottom: 10),
+                        child: pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.center,
+                            children: [pw.Text("Rateio Por Pessoa")])),
+                    pw.Table.fromTextArray(
+                      context: context,
+                      cellAlignments: {
+                        0: pw.Alignment.centerLeft,
+                        1: pw.Alignment.center,
+                        2: pw.Alignment.center,
+                        3: pw.Alignment.center,
+                        4: pw.Alignment.center,
+                      },
+                      data: [
+                        [
+                          "Comunidade",
+                          "Cobrantes",
+                          "Pagantes",
+                          "Valor por Pessoa",
+                          "Total",
+                        ],
+                        ...comunidadesEvento.map((e) => [
+                              e.comNome,
+                              e.pagantesCobrantes.cobrantes.toString(),
+                              e.pagantesCobrantes.pagantes.toString(),
+                              FuncoesMascara.mascaraDinheiro(valorPorPessoa),
+                              FuncoesMascara.mascaraDinheiro(valorPorPessoa *
+                                  e.pagantesCobrantes.cobrantes)
+                            ]),
+                      ],
+                    ),
+                  ]),
+                )
+              : pw.Padding(
+                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                  child: pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.center,
+                      children: [
+                        pw.Text("Rateio Por Comunidade",
+                            style: pw.TextStyle(
+                                fontSize: 16, fontWeight: pw.FontWeight.bold))
+                      ]),
+                ),
           pw.Container(
             padding: const pw.EdgeInsets.all(15),
             decoration: pw.BoxDecoration(
@@ -480,16 +503,14 @@ class AcertoEventoData {
                       ]),
                 ],
               ),
-              pw.SizedBox(height: 10),
-              pw.Padding(
-                padding: const pw.EdgeInsets.only(bottom: 10),
-                child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.center,
-                  children: [
-                    pw.Text("Despesas Adicionais por Comunidade"),
-                  ],
-                ),
-              ),
+              // pw.SizedBox(height: 10),
+              // pw.Padding(
+              //   padding: const pw.EdgeInsets.only(bottom: 10),
+              //   child: pw.Row(
+              //     mainAxisAlignment: pw.MainAxisAlignment.center,
+              //     children: [pw.Text("Despesas Adicionais por Comunidade")],
+              //   ),
+              // ),
               // pw.Table.fromTextArray(
               //   context: context,
               //   columnWidths: {
@@ -520,13 +541,13 @@ class AcertoEventoData {
               //           FuncoesMascara.mascaraDinheiro(e.values.first),
               //           FuncoesMascara.mascaraDinheiro(e.values.first)
               //         ]),
-              //   ],
+              // ],
               // ),
             ]),
           ),
         ],
       ),
     );
-    gerarPDF();
+    gerarPDF(pdf);
   }
 }
