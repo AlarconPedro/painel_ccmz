@@ -129,9 +129,11 @@ class _AcertoEventoState extends State<AcertoEvento> {
     valorOutrasDespesas = valorProdutos;
     valorTotal = valorServicos + valorProdutos + valorHospedagem;
     valorPorPessoa =
-        dividirComunidade ? valorTotal : (valorTotal / pagantesEvento);
+        // dividirComunidade ? valorTotal : (valorTotal / pagantesEvento);
+        (valorTotal / pagantesEvento);
     valorComunidade =
-        dividirComunidade ? valorPorPessoa : (valorPorPessoa * cobrantesEvento);
+        // dividirComunidade ? valorPorPessoa : (valorPorPessoa * cobrantesEvento);
+        (valorPorPessoa * cobrantesEvento);
     valorExtraEvento = calcularValorTotalComunidade();
     // valorExtraEvento = 0;
   }
@@ -503,9 +505,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
                                     child: CardDespesasComunidade(
-                                        valorPorPessoa: valorPorPessoa /
-                                            widget.comunidades[index]
-                                                .pagantesCobrantes.cobrantes,
+                                        // valorPorPessoa: valorPorPessoa /
+                                        valorPorPessoa: valorPorPessoa,
                                         pagante: widget.comunidades[index]
                                             .pagantesCobrantes.pagantes,
                                         cobrante: widget.comunidades[index]

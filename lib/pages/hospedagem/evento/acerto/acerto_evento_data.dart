@@ -414,6 +414,69 @@ class AcertoEventoData {
               // ),
             ]),
           ),
+          // dividirPorPessoa
+          //     ? pw.Container(
+          //         padding: const pw.EdgeInsets.all(15),
+          //         decoration: pw.BoxDecoration(
+          //             border: pw.Border.all(color: PdfColors.black, width: 1),
+          //             borderRadius: pw.BorderRadius.circular(10)),
+          //         child: pw.Column(children: [
+          //           pw.Padding(
+          //               padding: const pw.EdgeInsets.only(bottom: 10),
+          //               child: pw.Row(
+          //                   mainAxisAlignment: pw.MainAxisAlignment.center,
+          //                   children: [pw.Text("Rateio Por Pessoa")])),
+          //           pw.Table.fromTextArray(
+          //             context: context,
+          //             cellAlignments: {
+          //               0: pw.Alignment.centerLeft,
+          //               1: pw.Alignment.center,
+          //               2: pw.Alignment.center,
+          //               3: pw.Alignment.center,
+          //               4: pw.Alignment.center,
+          //             },
+          //             data: [
+          //               [
+          //                 "Comunidade",
+          //                 "Cobrantes",
+          //                 "Pagantes",
+          //                 "Valor por Pessoa",
+          //                 "Total",
+          //               ],
+          //               ...comunidadesEvento.map((e) => [
+          //                     e.comNome,
+          //                     e.pagantesCobrantes.cobrantes.toString(),
+          //                     e.pagantesCobrantes.pagantes.toString(),
+          //                     FuncoesMascara.mascaraDinheiro(valorPorPessoa),
+          //                     FuncoesMascara.mascaraDinheiro(valorPorPessoa *
+          //                         e.pagantesCobrantes.cobrantes)
+          //                   ]),
+          //             ],
+          //           ),
+          //         ]),
+          //       )
+          //     :
+          !dividirPorPessoa
+              ? pw.Padding(
+                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                  child: pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.center,
+                      children: [
+                        pw.Text("Rateio Por Pessoa",
+                            style: pw.TextStyle(
+                                fontSize: 16, fontWeight: pw.FontWeight.bold))
+                      ]),
+                )
+              : pw.Padding(
+                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                  child: pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.center,
+                      children: [
+                        pw.Text("Rateio Por Comunidade",
+                            style: pw.TextStyle(
+                                fontSize: 16, fontWeight: pw.FontWeight.bold))
+                      ]),
+                ),
           dividirPorPessoa
               ? pw.Container(
                   padding: const pw.EdgeInsets.all(15),
@@ -425,7 +488,7 @@ class AcertoEventoData {
                         padding: const pw.EdgeInsets.only(bottom: 10),
                         child: pw.Row(
                             mainAxisAlignment: pw.MainAxisAlignment.center,
-                            children: [pw.Text("Rateio Por Pessoa")])),
+                            children: [pw.Text("Comunidades")])),
                     pw.Table.fromTextArray(
                       context: context,
                       cellAlignments: {
@@ -453,98 +516,106 @@ class AcertoEventoData {
                             ]),
                       ],
                     ),
+                    // pw.SizedBox(height: 10),
+                    // pw.Padding(
+                    //   padding: const pw.EdgeInsets.only(bottom: 10),
+                    //   child: pw.Row(
+                    //     mainAxisAlignment: pw.MainAxisAlignment.center,
+                    //     children: [pw.Text("Despesas Adicionais por Comunidade")],
+                    //   ),
+                    // ),
+                    // pw.Table.fromTextArray(
+                    //   context: context,
+                    //   columnWidths: {
+                    //     0: const pw.FlexColumnWidth(1.25),
+                    //     1: const pw.FlexColumnWidth(1.25),
+                    //     2: const pw.FlexColumnWidth(1),
+                    //     3: const pw.FlexColumnWidth(1),
+                    //     4: const pw.FlexColumnWidth(1),
+                    //   },
+                    //   cellAlignments: {
+                    //     0: pw.Alignment.centerLeft,
+                    //     1: pw.Alignment.center,
+                    //     2: pw.Alignment.center,
+                    //     3: pw.Alignment.center,
+                    //   },
+                    //   data: [
+                    //     [
+                    //       "Comunidade",
+                    //       "Nome",
+                    //       "Quantidade",
+                    //       "Valor Unitário",
+                    //       "Valor Total"
+                    //     ],
+                    //     ...despesasExtraComunidade.map((e) => [
+                    //           e.keys.first,
+                    //           e.values.first,
+                    //           "1",
+                    //           FuncoesMascara.mascaraDinheiro(e.values.first),
+                    //           FuncoesMascara.mascaraDinheiro(e.values.first)
+                    //         ]),
+                    // ],
+                    // ),
                   ]),
                 )
-              : pw.Padding(
-                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
-                  child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.center,
-                      children: [
-                        pw.Text("Rateio Por Comunidade",
-                            style: pw.TextStyle(
-                                fontSize: 16, fontWeight: pw.FontWeight.bold))
-                      ]),
-                ),
-          pw.Container(
-            padding: const pw.EdgeInsets.all(15),
-            decoration: pw.BoxDecoration(
-                border: pw.Border.all(color: PdfColors.black, width: 1),
-                borderRadius: pw.BorderRadius.circular(10)),
-            child: pw.Column(children: [
-              pw.Padding(
-                  padding: const pw.EdgeInsets.only(bottom: 10),
-                  child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.center,
-                      children: [pw.Text("Comunidades")])),
-              pw.Table.fromTextArray(
-                context: context,
-                cellAlignments: {
-                  0: pw.Alignment.centerLeft,
-                  1: pw.Alignment.center,
-                  2: pw.Alignment.center,
-                  3: pw.Alignment.center,
-                  4: pw.Alignment.center,
-                },
-                data: [
-                  [
-                    "Comunidade",
-                    "Cobrantes",
-                    "Pagantes",
-                    "Valor por Pessoa",
-                    "Total",
-                  ],
-                  ...comunidadesEvento.map((e) => [
-                        e.comNome,
-                        e.pagantesCobrantes.cobrantes.toString(),
-                        e.pagantesCobrantes.pagantes.toString(),
+              : pw.Container(
+                  padding: const pw.EdgeInsets.all(15),
+                  decoration: pw.BoxDecoration(
+                      border: pw.Border.all(color: PdfColors.black, width: 1),
+                      borderRadius: pw.BorderRadius.circular(10)),
+                  child: pw.Column(children: [
+                    pw.Padding(
+                        padding: const pw.EdgeInsets.only(bottom: 10),
+                        child: pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.center,
+                            children: [pw.Text("Pessoas")])),
+                    pw.Table.fromTextArray(context: context, cellAlignments: {
+                      0: pw.Alignment.centerLeft,
+                      1: pw.Alignment.center,
+                      2: pw.Alignment.center,
+                      3: pw.Alignment.center,
+                      4: pw.Alignment.center,
+                    }, data: [
+                      [
+                        "Qtd. Comunidades",
+                        "Cobrantes",
+                        "Pagantes",
+                        "Valor por Pessoa",
+                        "Total",
+                      ],
+                      [
+                        comunidadesEvento.length,
+                        comunidadesEvento
+                            .map((e) => e.pagantesCobrantes.cobrantes)
+                            .reduce((value, element) => value + element),
+                        comunidadesEvento
+                            .map((e) => e.pagantesCobrantes.pagantes)
+                            .reduce((value, element) => value + element),
                         FuncoesMascara.mascaraDinheiro(valorPorPessoa),
-                        FuncoesMascara.mascaraDinheiro(
-                            valorPorPessoa * e.pagantesCobrantes.cobrantes)
-                      ]),
-                ],
-              ),
-              // pw.SizedBox(height: 10),
-              // pw.Padding(
-              //   padding: const pw.EdgeInsets.only(bottom: 10),
-              //   child: pw.Row(
-              //     mainAxisAlignment: pw.MainAxisAlignment.center,
-              //     children: [pw.Text("Despesas Adicionais por Comunidade")],
-              //   ),
-              // ),
-              // pw.Table.fromTextArray(
-              //   context: context,
-              //   columnWidths: {
-              //     0: const pw.FlexColumnWidth(1.25),
-              //     1: const pw.FlexColumnWidth(1.25),
-              //     2: const pw.FlexColumnWidth(1),
-              //     3: const pw.FlexColumnWidth(1),
-              //     4: const pw.FlexColumnWidth(1),
-              //   },
-              //   cellAlignments: {
-              //     0: pw.Alignment.centerLeft,
-              //     1: pw.Alignment.center,
-              //     2: pw.Alignment.center,
-              //     3: pw.Alignment.center,
-              //   },
-              //   data: [
-              //     [
-              //       "Comunidade",
-              //       "Nome",
-              //       "Quantidade",
-              //       "Valor Unitário",
-              //       "Valor Total"
-              //     ],
-              //     ...despesasExtraComunidade.map((e) => [
-              //           e.keys.first,
-              //           e.values.first,
-              //           "1",
-              //           FuncoesMascara.mascaraDinheiro(e.values.first),
-              //           FuncoesMascara.mascaraDinheiro(e.values.first)
-              //         ]),
-              // ],
-              // ),
-            ]),
-          ),
+                        FuncoesMascara.mascaraDinheiro(valorPorPessoa *
+                            comunidadesEvento
+                                .map((e) => e.pagantesCobrantes.cobrantes)
+                                .reduce((value, element) => value + element))
+                      ],
+                    ]
+                        // ...comunidadesEvento.map((e) => [
+                        //       comunidadesEvento.length,
+                        //       comunidadesEvento
+                        //           .map((e) => e.pagantesCobrantes.cobrantes)
+                        //           .reduce((value, element) => value + element),
+                        //       comunidadesEvento
+                        //           .map((e) => e.pagantesCobrantes.pagantes)
+                        //           .reduce((value, element) => value + element),
+                        //       // e.pagantesCobrantes.cobrantes.toString(),
+                        //       // e.pagantesCobrantes.pagantes.toString(),
+                        //       FuncoesMascara.mascaraDinheiro(valorPorPessoa),
+                        //       FuncoesMascara.mascaraDinheiro(valorPorPessoa *
+                        //           e.pagantesCobrantes.cobrantes)
+                        //     ]),
+                        // ],
+                        ),
+                  ]),
+                ),
         ],
       ),
     );
