@@ -244,9 +244,10 @@ class AcertoEventoData {
     double valorProdutos,
     double valorEvento,
     double valorPorPessoa,
-    // Function() calcularValorTotalEvento,
     double valorTotal,
     List<dynamic> comunidadesEvento,
+    List<dynamic> servicosEvento,
+    List<dynamic> produtosEvento,
     bool dividirPorPessoa,
   ) {
     final pdf = pw.Document();
@@ -342,31 +343,6 @@ class AcertoEventoData {
                   ],
                 ),
               ),
-              // pw.Padding(
-              //   padding: const pw.EdgeInsets.only(bottom: 10),
-              //   child: pw.Row(
-              //     children: [
-              //       pw.Text("Valor Total Despesas Adicionais Evento: ",
-              //           style: const pw.TextStyle(fontSize: 10)),
-              //       pw.Flexible(
-              //         fit: pw.FlexFit.tight,
-              //         child: pw.Divider(
-              //           color: PdfColors.black,
-              //           thickness: 1,
-              //         ),
-              //       ),
-              //       pw.SizedBox(width: 10),
-              //       // pw.Text(
-              //       //     despesasExtra.isNotEmpty
-              //       //         ? FuncoesMascara.mascaraDinheiro(despesasExtra
-              //       //             .map((e) => e.dseValor * e.dseQuantidade)
-              //       //             .reduce((value, element) => value + element))
-              //       //         : "R\$ 0,00",
-              //       //     style: const pw.TextStyle(fontSize: 10)),
-              //       // ),
-              //     ],
-              //   ),
-              // ),
               pw.Padding(
                 padding: const pw.EdgeInsets.only(bottom: 10),
                 child: pw.Row(
@@ -386,32 +362,6 @@ class AcertoEventoData {
                   ],
                 ),
               ),
-              // pw.Padding(
-              //   padding: const pw.EdgeInsets.only(bottom: 10),
-              //   child: pw.Row(
-              //     mainAxisAlignment: pw.MainAxisAlignment.center,
-              //     children: [pw.Text("Despesas Adicionais")],
-              //   ),
-              // ),
-              // pw.Table.fromTextArray(
-              //   context: context,
-              //   cellAlignments: {
-              //     0: pw.Alignment.centerLeft,
-              //     1: pw.Alignment.center,
-              //     2: pw.Alignment.center,
-              //     3: pw.Alignment.center,
-              //   },
-              //   data: [
-              //     ["Nome", "Quantidade", "Valor Unitário", "Valor Total"],
-              //     ...despesasExtra.map((e) => [
-              //           e.dseNome,
-              //           e.dseQuantidade.toString(),
-              //           FuncoesMascara.mascaraDinheiro(e.dseValor),
-              //           FuncoesMascara.mascaraDinheiro(
-              //               e.dseValor * e.dseQuantidade)
-              //         ]),
-              //   ],
-              // ),
             ]),
           ),
           // dividirPorPessoa
@@ -456,6 +406,109 @@ class AcertoEventoData {
           //         ]),
           //       )
           //     :
+          servicosEvento.isNotEmpty
+              ? pw.Padding(
+                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                  child: pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.center,
+                      children: [
+                        pw.Text("Serviços do Evento",
+                            style: pw.TextStyle(
+                                fontSize: 16, fontWeight: pw.FontWeight.bold))
+                      ]),
+                )
+              : pw.SizedBox(),
+
+          servicosEvento.isNotEmpty
+              ? pw.Container(
+                  padding: const pw.EdgeInsets.all(15),
+                  decoration: pw.BoxDecoration(
+                      border: pw.Border.all(color: PdfColors.black, width: 1),
+                      borderRadius: pw.BorderRadius.circular(10)),
+                  child: pw.Column(children: [
+                    pw.Padding(
+                        padding: const pw.EdgeInsets.only(bottom: 10),
+                        child: pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.center,
+                            children: [pw.Text("Serviços")])),
+                    pw.Table.fromTextArray(
+                      context: context,
+                      cellAlignments: {
+                        0: pw.Alignment.centerLeft,
+                        1: pw.Alignment.center,
+                        2: pw.Alignment.center,
+                        3: pw.Alignment.center,
+                      },
+                      data: [
+                        [
+                          "Nome",
+                          "Valor",
+                          "Quantidade",
+                          "Total",
+                        ],
+                        ...servicosEvento.map((e) => [
+                              e.serNome,
+                              FuncoesMascara.mascaraDinheiro(e.serValor),
+                              e.serQuantidade.toString(),
+                              FuncoesMascara.mascaraDinheiro(
+                                  e.serValor * e.serQuantidade)
+                            ]),
+                      ],
+                    ),
+                  ]),
+                )
+              : pw.SizedBox(),
+          produtosEvento.isNotEmpty
+              ? pw.Padding(
+                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                  child: pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.center,
+                      children: [
+                        pw.Text("Produtos do Evento",
+                            style: pw.TextStyle(
+                                fontSize: 16, fontWeight: pw.FontWeight.bold))
+                      ]),
+                )
+              : pw.SizedBox(),
+          produtosEvento.isNotEmpty
+              ? pw.Container(
+                  padding: const pw.EdgeInsets.all(15),
+                  decoration: pw.BoxDecoration(
+                      border: pw.Border.all(color: PdfColors.black, width: 1),
+                      borderRadius: pw.BorderRadius.circular(10)),
+                  child: pw.Column(children: [
+                    pw.Padding(
+                        padding: const pw.EdgeInsets.only(bottom: 10),
+                        child: pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.center,
+                            children: [pw.Text("Produtos")])),
+                    pw.Table.fromTextArray(
+                      context: context,
+                      cellAlignments: {
+                        0: pw.Alignment.centerLeft,
+                        1: pw.Alignment.center,
+                        2: pw.Alignment.center,
+                        3: pw.Alignment.center,
+                      },
+                      data: [
+                        [
+                          "Nome",
+                          "Valor",
+                          "Quantidade",
+                          "Total",
+                        ],
+                        ...produtosEvento.map((e) => [
+                              e.serNome,
+                              FuncoesMascara.mascaraDinheiro(e.serValor),
+                              e.serQuantidade.toString(),
+                              FuncoesMascara.mascaraDinheiro(
+                                  e.serValor * e.serQuantidade)
+                            ]),
+                      ],
+                    ),
+                  ]),
+                )
+              : pw.SizedBox(),
           !dividirPorPessoa
               ? pw.Padding(
                   padding: const pw.EdgeInsets.symmetric(vertical: 10),
@@ -516,46 +569,6 @@ class AcertoEventoData {
                             ]),
                       ],
                     ),
-                    // pw.SizedBox(height: 10),
-                    // pw.Padding(
-                    //   padding: const pw.EdgeInsets.only(bottom: 10),
-                    //   child: pw.Row(
-                    //     mainAxisAlignment: pw.MainAxisAlignment.center,
-                    //     children: [pw.Text("Despesas Adicionais por Comunidade")],
-                    //   ),
-                    // ),
-                    // pw.Table.fromTextArray(
-                    //   context: context,
-                    //   columnWidths: {
-                    //     0: const pw.FlexColumnWidth(1.25),
-                    //     1: const pw.FlexColumnWidth(1.25),
-                    //     2: const pw.FlexColumnWidth(1),
-                    //     3: const pw.FlexColumnWidth(1),
-                    //     4: const pw.FlexColumnWidth(1),
-                    //   },
-                    //   cellAlignments: {
-                    //     0: pw.Alignment.centerLeft,
-                    //     1: pw.Alignment.center,
-                    //     2: pw.Alignment.center,
-                    //     3: pw.Alignment.center,
-                    //   },
-                    //   data: [
-                    //     [
-                    //       "Comunidade",
-                    //       "Nome",
-                    //       "Quantidade",
-                    //       "Valor Unitário",
-                    //       "Valor Total"
-                    //     ],
-                    //     ...despesasExtraComunidade.map((e) => [
-                    //           e.keys.first,
-                    //           e.values.first,
-                    //           "1",
-                    //           FuncoesMascara.mascaraDinheiro(e.values.first),
-                    //           FuncoesMascara.mascaraDinheiro(e.values.first)
-                    //         ]),
-                    // ],
-                    // ),
                   ]),
                 )
               : pw.Container(

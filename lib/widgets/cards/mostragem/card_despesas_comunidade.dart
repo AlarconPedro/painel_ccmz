@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:painel_ccmn/data/models/web/hospedagem/servico_evento_model.dart';
 
 import '../../../classes/classes.dart';
 
@@ -8,9 +9,12 @@ class CardDespesasComunidade extends StatelessWidget {
   // TextEditingController valorDespesaController;
 
   double valorPorPessoa;
+  List<ServicoEventoModel>? servicosComunidade;
+  List<ServicoEventoModel>? produtosComunidade;
 
   int pagante;
   int cobrante;
+  int codigoComunidade;
 
   String nomeComunidade;
 
@@ -19,8 +23,11 @@ class CardDespesasComunidade extends StatelessWidget {
     // required this.nomeDespesaController,
     // required this.valorDespesaController,
     required this.valorPorPessoa,
+    this.servicosComunidade,
+    this.produtosComunidade,
     required this.pagante,
     required this.cobrante,
+    required this.codigoComunidade,
     required this.nomeComunidade,
   });
 
@@ -30,12 +37,33 @@ class CardDespesasComunidade extends StatelessWidget {
 
   TextEditingController valorDespesaController = TextEditingController();
 
+  List<ServicoEventoModel> listaServicos = [];
+  List<ServicoEventoModel> listaProdutos = [];
+
   calcularValorTotalComunidade() {
     double valorTotal = 0;
-    valorTotal += (valorPorPessoa * cobrante);
-    for (var item in despesasExtra) {
-      valorTotal += item.values.first;
+    if (servicosComunidade != null) {
+      for (var item in servicosComunidade!) {
+        if (item.serComunidade == codigoComunidade) {
+          listaServicos.add(item);
+        }
+      }
     }
+    if (produtosComunidade != null) {
+      for (var item in produtosComunidade!) {
+        if (item.serComunidade == codigoComunidade) {
+          listaProdutos.add(item);
+        }
+      }
+    }
+    valorTotal += ((valorPorPessoa * cobrante) +
+        listaServicos.fold(
+            0, (previousValue, element) => previousValue + element.serValor) +
+        listaProdutos.fold(
+            0, (previousValue, element) => previousValue + element.serValor));
+    // for (var item in despesasExtra) {
+    //   valorTotal += item.values.first;
+    // }
     return valorTotal;
   }
 
@@ -48,7 +76,6 @@ class CardDespesasComunidade extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: SizedBox(
-        height: 100,
         child: Column(
           children: [
             Container(
@@ -90,7 +117,7 @@ class CardDespesasComunidade extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Row(
                 children: [
                   const Text(
@@ -137,7 +164,116 @@ class CardDespesasComunidade extends StatelessWidget {
                   )
                 ],
               ),
-            )
+            ),
+            listaServicos.isNotEmpty
+                ? Column(
+                    children: [
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        child: Divider(
+                          color: Cores.cinzaEscuro,
+                          thickness: 1,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        "Despesas/Serviços Adicionais:",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      ...listaServicos
+                          .map((e) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Text(e.serNome,
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold)),
+                                    const Spacer(),
+                                    Text(
+                                        NumberFormat.currency(
+                                                locale: 'pt_BR',
+                                                symbol: 'R\$',
+                                                decimalDigits: 2)
+                                            .format(e.serValor),
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                    ],
+                  )
+                // Expanded(
+                //     child: ListView.builder(
+                //       itemCount: servicosComunidade!.length,
+                //       itemBuilder: (context, index) {
+                //         return Padding(
+                //           padding: const EdgeInsets.symmetric(
+                //               vertical: 5, horizontal: 10),
+                //           child: Row(
+                //             children: [
+                //               Text(servicosComunidade![index].serNome,
+                //                   style: const TextStyle(
+                //                       fontSize: 18,
+                //                       fontWeight: FontWeight.bold)),
+                //               const Spacer(),
+                //               Text(
+                //                   NumberFormat.currency(
+                //                           locale: 'pt_BR',
+                //                           symbol: 'R\$',
+                //                           decimalDigits: 2)
+                //                       .format(servicosComunidade![index]
+                //                           .serValor),
+                //                   style: const TextStyle(
+                //                       fontSize: 18,
+                //                       fontWeight: FontWeight.bold)),
+                //             ],
+                //           ),
+                //         );
+                //       },
+                //     ),
+                //   )
+                : const SizedBox(),
+            // produtosComunidade != null
+            //     ? produtosComunidade!.isNotEmpty
+            //         ? Expanded(
+            //             child: ListView.builder(
+            //               itemCount: produtosComunidade!.length,
+            //               itemBuilder: (context, index) {
+            //                 return Padding(
+            //                   padding: const EdgeInsets.symmetric(
+            //                       vertical: 5, horizontal: 10),
+            //                   child: Row(
+            //                     children: [
+            //                       Text(produtosComunidade![index].serNome,
+            //                           style: const TextStyle(
+            //                               fontSize: 18,
+            //                               fontWeight: FontWeight.bold)),
+            //                       const Spacer(),
+            //                       Text(
+            //                           NumberFormat.currency(
+            //                                   locale: 'pt_BR',
+            //                                   symbol: 'R\$',
+            //                                   decimalDigits: 2)
+            //                               .format(produtosComunidade![index]
+            //                                   .serValor),
+            //                           style: const TextStyle(
+            //                               fontSize: 18,
+            //                               fontWeight: FontWeight.bold)),
+            //                     ],
+            //                   ),
+            //                 );
+            //               },
+            //             ),
+            //           )
+            //         : const SizedBox()
+            //     : const SizedBox(),
           ],
         ),
       ),

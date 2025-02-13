@@ -107,7 +107,7 @@ class _AcertoEventoState extends State<AcertoEvento> {
     return valorExtra;
   }
 
-  calcularValores() {
+  calcularValoresPessoas() {
     valorHospedagem = valorEvento * cobrantesEvento;
     valorhHospedagemController.text = NumberFormat.currency(
       locale: 'pt_BR',
@@ -136,6 +136,44 @@ class _AcertoEventoState extends State<AcertoEvento> {
         (valorPorPessoa * cobrantesEvento);
     valorExtraEvento = calcularValorTotalComunidade();
     // valorExtraEvento = 0;
+  }
+
+  calcularValoresComunidade() {
+    valorHospedagem = valorEvento * cobrantesEvento;
+    valorhHospedagemController.text = NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: 'R\$',
+      decimalDigits: 2,
+    ).format(valorHospedagem);
+    double valorServicos = eventosDespesas.isNotEmpty
+        ? eventosDespesas
+            .map((e) => e.serValor * e.serQuantidade)
+            .reduce((value, element) => value + element)
+        : 0;
+    double valorProdutos = produtosDespesas.isNotEmpty
+        ? produtosDespesas
+            .map((e) => e.serValor * e.serQuantidade)
+            .reduce((value, element) => value + element)
+        : 0;
+    valorTotalServicos = valorServicos;
+    valorOutrasDespesas = valorProdutos;
+    valorTotal = valorServicos + valorProdutos + valorHospedagem;
+    double valorTotalComunidade = valorHospedagem +
+        (eventosDespesas.any((element) => element.serComunidade == 0)
+            ? (eventosDespesas
+                .where((element) => element.serComunidade == 0)
+                .map((e) => e.serValor * e.serQuantidade)
+                .reduce((value, element) => value + element))
+            : 0) +
+        (produtosDespesas.any((element) => element.serComunidade == 0)
+            ? (produtosDespesas
+                .where((element) => element.serComunidade == 0)
+                .map((e) => e.serValor * e.serQuantidade)
+                .reduce((value, element) => value + element))
+            : 0);
+    valorPorPessoa = (valorTotalComunidade / pagantesEvento);
+    valorComunidade = (valorPorPessoa * cobrantesEvento);
+    // valorExtraEvento = calcularValorTotalComunidade();
   }
 
   AcertoEventoData acertoEventoData = AcertoEventoData();
@@ -215,14 +253,25 @@ class _AcertoEventoState extends State<AcertoEvento> {
           eventosDespesas = eventoDespesas
               .where((element) => element.tipoServico == false)
               .toList();
+          print("Produtos: ${produtosDespesas[0].serNome}");
+          print("Produtos: ${produtosDespesas[1].serNome}");
+          print("Serviços: ${eventosDespesas[0].serNome}");
+          print("Serviços: ${eventosDespesas[1].serNome}");
           // });
+        }
+        if (eventosDespesas.any((element) => element.serComunidade != 0)) {
+          dividirComunidade = true;
+          alterarAlturaFormulario();
+          calcularValoresComunidade();
+        } else {
+          dividirComunidade = false;
+          //// Caclular total do evento
+          calcularValoresPessoas();
         }
       },
       erro: () => ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Erro ao buscar serviços do evento"))),
     );
-    //// Caclular total do evento
-    calcularValores();
 
     setState(() => carregando = false);
   }
@@ -350,35 +399,56 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                               child: const Icon(Icons.save,
                                                   color: Cores.branco)),
                                           separador(),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 10),
-                                            child: Row(
-                                              children: [
-                                                Textos.textoPequeno(
-                                                    texto: "Divisão :",
-                                                    cor: Cores.preto),
-                                                const SizedBox(width: 10),
-                                                Textos.textoPequeno(
-                                                    texto: "Pessoa",
-                                                    cor: Cores.preto),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
-                                                  child: CupertinoSwitch(
-                                                      value: dividirComunidade,
-                                                      onChanged: (value) {
-                                                        alterarAlturaFormulario();
-                                                        setState(() =>
-                                                            dividirComunidade =
-                                                                value);
-                                                        calcularValores();
-                                                      }),
+                                          AbsorbPointer(
+                                            absorbing: eventosDespesas.any(
+                                                (element) =>
+                                                    element.serComunidade != 0),
+                                            child: Opacity(
+                                              opacity: eventosDespesas.any(
+                                                      (element) =>
+                                                          element
+                                                              .serComunidade !=
+                                                          0)
+                                                  ? 0.5
+                                                  : 1,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
+                                                child: Row(
+                                                  children: [
+                                                    Textos.textoPequeno(
+                                                        texto: "Divisão :",
+                                                        cor: Cores.preto),
+                                                    const SizedBox(width: 10),
+                                                    Textos.textoPequeno(
+                                                        texto: "Pessoa",
+                                                        cor: Cores.preto),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 5),
+                                                      child: CupertinoSwitch(
+                                                          //verificar se o campo serComunidade está diferente de 0
+                                                          value:
+                                                              dividirComunidade,
+                                                          onChanged: (value) {
+                                                            alterarAlturaFormulario();
+                                                            setState(() =>
+                                                                dividirComunidade =
+                                                                    value);
+                                                            if (dividirComunidade) {
+                                                              calcularValoresComunidade();
+                                                            } else {
+                                                              calcularValoresPessoas();
+                                                            }
+                                                          }),
+                                                    ),
+                                                    Textos.textoPequeno(
+                                                        texto: "Comunidade",
+                                                        cor: Cores.preto),
+                                                  ],
                                                 ),
-                                                Textos.textoPequeno(
-                                                    texto: "Comunidade",
-                                                    cor: Cores.preto),
-                                              ],
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -507,10 +577,14 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                     child: CardDespesasComunidade(
                                         // valorPorPessoa: valorPorPessoa /
                                         valorPorPessoa: valorPorPessoa,
+                                        servicosComunidade: eventosDespesas,
+                                        produtosComunidade: produtosDespesas,
                                         pagante: widget.comunidades[index]
                                             .pagantesCobrantes.pagantes,
                                         cobrante: widget.comunidades[index]
                                             .pagantesCobrantes.cobrantes,
+                                        codigoComunidade:
+                                            widget.comunidades[index].comCodigo,
                                         nomeComunidade:
                                             widget.comunidades[index].comNome));
                               },
@@ -549,6 +623,8 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                     valorPorPessoa,
                                     valorTotal,
                                     widget.comunidades,
+                                    eventosDespesas,
+                                    produtosDespesas,
                                     dividirComunidade,
                                   );
                                 },

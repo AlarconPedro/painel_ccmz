@@ -3,6 +3,7 @@ class ServicoEventoModel {
   String serNome;
   double serValor;
   int serQuantidade;
+  int serComunidade;
   bool tipoServico;
 
   ServicoEventoModel({
@@ -10,6 +11,7 @@ class ServicoEventoModel {
     required this.serNome,
     required this.serValor,
     required this.serQuantidade,
+    required this.serComunidade,
     required this.tipoServico,
   });
 
@@ -19,6 +21,7 @@ class ServicoEventoModel {
       serNome: json['serNome'] ?? '',
       serValor: json['serValor'] ?? 0,
       serQuantidade: json['serQuantidade'] ?? 0,
+      serComunidade: json['serComunidade'] ?? 0,
       tipoServico: json['tipoServico'] ?? false,
     );
   }
