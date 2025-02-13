@@ -57,7 +57,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
     for (var i = 0; i <= widget.comunidades.length; i++) {
       comunidades.add({0: "Todos"});
       comunidades.add(
-          {widget.comunidades[i].comCodigo + 1: widget.comunidades[i].comNome});
+          {widget.comunidades[i].comCodigo: widget.comunidades[i].comNome});
       comunidadesListar.add(DropdownMenuItem(
           value: i + 1, child: Text(widget.comunidades[i].comNome)));
     }
@@ -101,6 +101,7 @@ class _AcertoEventoServicosState extends State<AcertoEventoServicos> {
 
   gravarDespesaEvento() async {
     setState(() => carregando = true);
+    print(comunidades[comunidadeSelecionada].keys.first);
     await acertoEventoData.inserirDespesaEvento(
       despesa: EventoDespesasModel(
         edpCodigo: 0,

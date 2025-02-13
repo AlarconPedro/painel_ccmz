@@ -253,10 +253,6 @@ class _AcertoEventoState extends State<AcertoEvento> {
           eventosDespesas = eventoDespesas
               .where((element) => element.tipoServico == false)
               .toList();
-          print("Produtos: ${produtosDespesas[0].serNome}");
-          print("Produtos: ${produtosDespesas[1].serNome}");
-          print("Serviços: ${eventosDespesas[0].serNome}");
-          print("Serviços: ${eventosDespesas[1].serNome}");
           // });
         }
         if (eventosDespesas.any((element) => element.serComunidade != 0)) {

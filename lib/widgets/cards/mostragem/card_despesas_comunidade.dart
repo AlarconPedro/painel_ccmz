@@ -41,7 +41,6 @@ class CardDespesasComunidade extends StatelessWidget {
   List<ServicoEventoModel> listaProdutos = [];
 
   calcularValorTotalComunidade() {
-    double valorTotal = 0;
     if (servicosComunidade != null) {
       for (var item in servicosComunidade!) {
         if (item.serComunidade == codigoComunidade) {
@@ -56,15 +55,15 @@ class CardDespesasComunidade extends StatelessWidget {
         }
       }
     }
-    valorTotal += ((valorPorPessoa * cobrante) +
-        listaServicos.fold(
-            0, (previousValue, element) => previousValue + element.serValor) +
-        listaProdutos.fold(
-            0, (previousValue, element) => previousValue + element.serValor));
+    double servicos = listaServicos.fold(
+        0, (previousValue, element) => previousValue + element.serValor);
+    double produtos = listaProdutos.fold(
+        0, (previousValue, element) => previousValue + element.serValor);
+    double valoresExtras = ((servicos + produtos) / pagante);
+    return ((valorPorPessoa + valoresExtras) * cobrante);
     // for (var item in despesasExtra) {
     //   valorTotal += item.values.first;
     // }
-    return valorTotal;
   }
 
   @override
@@ -207,6 +206,28 @@ class CardDespesasComunidade extends StatelessWidget {
                                 ),
                               ))
                           .toList(),
+                      ...listaProdutos.map((e) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            child: Row(
+                              children: [
+                                Text(e.serNome,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold)),
+                                const Spacer(),
+                                Text(
+                                    NumberFormat.currency(
+                                            locale: 'pt_BR',
+                                            symbol: 'R\$',
+                                            decimalDigits: 2)
+                                        .format(e.serValor),
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ))
                     ],
                   )
                 // Expanded(
