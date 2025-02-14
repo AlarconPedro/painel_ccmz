@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
 import 'package:painel_ccmn/pages/pages.dart';
@@ -152,7 +151,7 @@ class _CadastroBlocoState extends State<CadastroBloco> {
         }
       },
       cancelar: () {
-        // Navigator.pop(context);
+        Navigator.pop(context);
       },
     );
   }

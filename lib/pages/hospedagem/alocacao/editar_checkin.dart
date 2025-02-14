@@ -29,6 +29,7 @@ class Editar_CheckinState extends State<EditarCheckin> {
       qupCodigo: checkin.qupCodigo,
       pesCodigo: checkin.pesCodigo,
       quaCodigo: checkin.quaCodigo,
+      eveCodigo: checkin.eveCodigo,
       pesChave: checkin.pesChave,
       pesCheckin: checkin.pesCheckin,
       pesNaovem: checkin.pesNaovem,
@@ -62,7 +63,7 @@ class Editar_CheckinState extends State<EditarCheckin> {
     return CadastroForm(
       titulo: "Checkin",
       altura: 2.8,
-      largura: 2.7,
+      largura: 2.5,
       gravar: () {
         // for (var element in widget.dadosQuarto.pessoasQuarto) {
         //   setState(() {
@@ -77,6 +78,7 @@ class Editar_CheckinState extends State<EditarCheckin> {
             element.pesCheckin = false;
           });
         }
+        Navigator.pop(context);
       },
       formKey: GlobalKey<FormState>(),
       campos: carregando
@@ -138,7 +140,16 @@ class Editar_CheckinState extends State<EditarCheckin> {
                   ),
                   CupertinoCheckbox(
                     value: pessoa.pesChave,
-                    onChanged: (value) {},
+                    onChanged: (value) async {
+                      pessoa.pesChave = value!;
+                      var retorno = await editarCheckin(pessoa);
+                      if (retorno.statusCode == 200) {
+                        setState(() {
+                          pessoa.pesChave = value;
+                        });
+                      }
+                      widget.refresh();
+                    },
                   ),
                   const Text(
                     "Não Vem:",

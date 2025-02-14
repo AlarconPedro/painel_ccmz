@@ -26,9 +26,10 @@ Future<void> main() async {
       locale: const Locale('pt', 'BR'),
       routes: Globais.rotas,
       title: 'Painel CCMN',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      themeMode: ThemeMode.light,
+      color: Cores.branco,
+      onGenerateTitle: (context) => 'Painel CCMN',
+      theme: ThemeData(primarySwatch: Colors.blue),
       // home: PageTeste(),
       home: const LoginPage(),
       // home: const EstruturaPage(),

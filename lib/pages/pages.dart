@@ -22,7 +22,7 @@ export 'hospedagem/evento/evento.dart';
 export 'hospedagem/evento/cadastro_evento.dart';
 export 'hospedagem/evento/quartos_evento.dart';
 export 'hospedagem/evento/pessoas_evento.dart';
-export 'hospedagem/evento/acerto_evento.dart';
+export 'hospedagem/evento/acerto/acerto_evento.dart';
 
 export 'hospedagem/alocacao/alocacao.dart';
 export 'hospedagem/alocacao/checkin_quartos.dart';

@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:painel_ccmn/widgets/botoes/btn_secundario.dart';
+import 'package:painel_ccmn/widgets/separador.dart';
 
 import '../../../classes/classes.dart';
+import '../../botoes/btn_primario.dart';
 
 class CadastroForm extends StatelessWidget {
   GlobalKey<FormState> formKey;
@@ -37,11 +40,10 @@ class CadastroForm extends StatelessWidget {
             color: Cores.branco,
             elevation: 10,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            child: SizedBox(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: Cores.branco),
               height: altura == null
                   ? MediaQuery.of(context).size.height / 2
                   : MediaQuery.of(context).size.height / altura!,
@@ -68,7 +70,7 @@ class CadastroForm extends StatelessWidget {
                       ),
                     ),
                     ...campos,
-                    const Spacer(),
+                    separador(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
@@ -76,41 +78,62 @@ class CadastroForm extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          CupertinoButton(
-                            onPressed: () {
-                              cancelar();
-                              Navigator.pop(context);
-                            },
-                            color: Cores.vermelhoMedio,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 30,
-                            ),
-                            child: const Text("Cancelar"),
-                          ),
+                          btnSecundario(
+                              onPressed: () {
+                                cancelar();
+                              },
+                              texto: "Fechar"),
+                          // CupertinoButton(
+                          //   onPressed: () {
+                          //     cancelar();
+                          //     Navigator.pop(context);
+                          //   },
+                          //   color: Cores.vermelhoMedio,
+                          //   padding: const EdgeInsets.symmetric(
+                          //     vertical: 5,
+                          //     horizontal: 30,
+                          //   ),
+                          //   child: const Text("Cancelar"),
+                          // ),
                           const Spacer(),
-                          CupertinoButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                gravar();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    backgroundColor: Cores.vermelhoMedio,
-                                    content: Text(
-                                      'Preencha os campos corretamente',
+                          btnPrimario(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  gravar();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      backgroundColor: Cores.vermelhoMedio,
+                                      content: Text(
+                                        'Preencha os campos corretamente',
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }
-                            },
-                            color: Cores.verdeMedio,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 30,
-                            ),
-                            child: const Text("Salvar"),
-                          ),
+                                  );
+                                }
+                              },
+                              texto: "Salvar"),
+                          // CupertinoButton(
+                          //   onPressed: () {
+                          //     if (formKey.currentState!.validate()) {
+                          //       gravar();
+                          //     } else {
+                          //       ScaffoldMessenger.of(context).showSnackBar(
+                          //         const SnackBar(
+                          //           backgroundColor: Cores.vermelhoMedio,
+                          //           content: Text(
+                          //             'Preencha os campos corretamente',
+                          //           ),
+                          //         ),
+                          //       );
+                          //     }
+                          //   },
+                          //   color: Cores.verdeMedio,
+                          //   padding: const EdgeInsets.symmetric(
+                          //     vertical: 5,
+                          //     horizontal: 30,
+                          //   ),
+                          //   child: const Text("Salvar"),
+                          // ),
                         ],
                       ),
                     ),

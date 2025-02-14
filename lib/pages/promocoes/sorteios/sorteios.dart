@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/data/api/promocao/api_promocao.dart';
-import 'package:painel_ccmn/models/sorteios_model.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/cards/sorteio/card_cupons.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
 
+import '../../../data/models/web/sorteios_model.dart';
 import '../../../widgets/cards/sorteio/card_sorteio.dart';
 import 'cadastro_sorteios.dart';
 import '../promocoes/sortear.dart';

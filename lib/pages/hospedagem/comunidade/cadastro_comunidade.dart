@@ -1,6 +1,3 @@
-import 'dart:html';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
 import 'package:painel_ccmn/pages/pages.dart';
@@ -226,7 +223,7 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
         widget.comunidade == null ? gravarComunidade() : atualizarComunidade();
       },
       cancelar: () {
-        // Navigator.pop(context);
+        Navigator.pop(context);
       },
     );
   }

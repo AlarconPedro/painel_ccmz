@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/pages/hospedagem/evento/acerto/acerto_evento_view.dart';
 import 'package:painel_ccmn/pages/hospedagem/evento/alocacao/alocacao_evento.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/widgets.dart';
@@ -222,28 +223,24 @@ class _EventoState extends State<Evento> {
                               Navigator.push(
                                 context,
                                 CupertinoDialogRoute(
-                                  builder: (context) {
-                                    return PessoasEvento(
-                                      codigoEvento: eventos[index].eveCodigo,
-                                      // evento: eventos[index],
-                                    );
-                                  },
-                                  context: context,
-                                ),
+                                    builder: (context) {
+                                      return PessoasEvento(
+                                          codigoEvento:
+                                              eventos[index].eveCodigo);
+                                    },
+                                    context: context),
                               );
                             },
                             alocacao: () {
                               Navigator.push(
                                 context,
                                 CupertinoDialogRoute(
-                                  builder: (context) {
-                                    return AlocacaoEvento(
-                                      codigoEvento: eventos[index].eveCodigo,
-                                      // evento: eventos[index],
-                                    );
-                                  },
-                                  context: context,
-                                ),
+                                    builder: (context) {
+                                      return AlocacaoEvento(
+                                          codigoEvento:
+                                              eventos[index].eveCodigo);
+                                    },
+                                    context: context),
                               );
                               // Rotas.navController.animateToPage(
                               //   6,
@@ -256,10 +253,10 @@ class _EventoState extends State<Evento> {
                                 context,
                                 CupertinoDialogRoute(
                                     builder: (context) {
-                                      return AcertoEvento(
-                                        codigoEvento: eventos[index].eveCodigo,
-                                        nomeEvento: eventos[index].eveNome,
-                                      );
+                                      return AcertoEventoView(
+                                          codigoEvento:
+                                              eventos[index].eveCodigo,
+                                          nomeEvento: eventos[index].eveNome);
                                     },
                                     context: context),
                               );

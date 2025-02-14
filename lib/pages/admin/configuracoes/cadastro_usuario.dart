@@ -137,7 +137,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       largura: 2,
       altura: 3.5,
       cancelar: () {
-        // Navigator.pop(context);
+        Navigator.pop(context);
       },
       gravar: () {
         // Navigator.pop(context);

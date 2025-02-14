@@ -137,7 +137,9 @@ class _CadastroProdutosState extends State<CadastroProdutos> {
       gravar: () {
         gravarProduto();
       },
-      cancelar: () {},
+      cancelar: () {
+        Navigator.pop(context);
+      },
       campos: carregando
           ? [const Expanded(child: Center(child: CarregamentoIOS()))]
           : [

@@ -159,7 +159,9 @@ class _CadastroQuartoState extends State<CadastroQuarto> {
           );
         }
       },
-      cancelar: () {},
+      cancelar: () {
+        Navigator.pop(context);
+      },
       campos: [
         Row(
           children: [

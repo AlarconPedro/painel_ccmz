@@ -110,24 +110,15 @@ class _SeletorModuloState extends State<SeletorModulo> {
             width: 150,
             height: 150,
             decoration: const BoxDecoration(
-              color: Cores.azulMedio,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
+                color: Cores.azulMedio,
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  CupertinoIcons.money_dollar,
-                  size: 50,
-                  color: Cores.branco,
-                ),
-                Text(
-                  "Financeiro",
-                  style: TextStyle(
-                    color: Cores.branco,
-                    fontSize: 18,
-                  ),
-                ),
+                Icon(CupertinoIcons.money_dollar,
+                    size: 50, color: Cores.branco),
+                Text("Financeiro",
+                    style: TextStyle(color: Cores.branco, fontSize: 18)),
               ],
             ),
           ),
@@ -229,10 +220,7 @@ class _SeletorModuloState extends State<SeletorModulo> {
             borderRadius: BorderRadius.all(Radius.circular(10)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                offset: Offset(0, 5),
-              ),
+                  color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))
             ],
           ),
           child: Column(
@@ -241,10 +229,7 @@ class _SeletorModuloState extends State<SeletorModulo> {
               const SizedBox(height: 20),
               const Text(
                 "Selecione o módulo",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 30),
               Row(

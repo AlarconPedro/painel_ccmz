@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:painel_ccmn/pages/formularios/formulario_cadastro.dart';
+import 'package:painel_ccmn/pages/admin/formularios/formulario_cadastro.dart';
 
-import '../../classes/classes.dart';
-import '../../estrutura/estrutura.dart';
+import '../../../classes/classes.dart';
+import '../../../estrutura/estrutura.dart';
 
 class PageTeste extends StatefulWidget {
   const PageTeste({super.key});

@@ -9,14 +9,13 @@ import '../../../classes/classes.dart';
 import '../../../data/api/hospedagem/api_produtos.dart';
 
 class Produtos extends StatefulWidget {
-  bool? selecionarProduto;
-
-  Function? selecionar;
+  bool selecionado;
+  Function(int, String, double)? selecionarProduto;
 
   Produtos({
     super.key,
-    this.selecionarProduto = false,
-    this.selecionar,
+    this.selecionado = false,
+    this.selecionarProduto,
   });
 
   @override
@@ -161,23 +160,27 @@ class _ProdutosState extends State<Produtos> {
                             itemCount: produtos.length,
                             itemBuilder: (context, index) {
                               return MouseRegion(
-                                cursor: widget.selecionarProduto!
+                                cursor: widget.selecionado
                                     ? SystemMouseCursors.click
                                     : SystemMouseCursors.basic,
                                 child: GestureDetector(
                                   onTap: () {
-                                    if (widget.selecionarProduto!) {
-                                      if (widget.selecionar != null) {
-                                        widget.selecionar!(produtos[index]);
-                                        setState(() {
-                                          produtoSelecionado =
-                                              produtos[index].proCodigo;
-                                        });
-                                      } else {
-                                        Navigator.pop(context, produtos[index]);
-                                      }
-                                      // Navigator.pop(context, produtos[index]);
+                                    if (widget.selecionado) {
+                                      // if (widget.selecionado != null) {
+                                      widget.selecionarProduto!(
+                                          produtos[index].proCodigo,
+                                          produtos[index].proNome,
+                                          produtos[index].proValor);
+                                      setState(() {
+                                        produtoSelecionado =
+                                            produtos[index].proCodigo;
+                                      });
                                     }
+                                    // else {
+                                    //   Navigator.pop(context, produtos[index]);
+                                    // }
+                                    // Navigator.pop(context, produtos[index]);
+                                    // }
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -268,9 +271,8 @@ class _ProdutosState extends State<Produtos> {
                                             elevation: 5,
                                             child: CupertinoButton(
                                               child: const Icon(
-                                                CupertinoIcons.trash,
-                                                color: Cores.vermelhoMedio,
-                                              ),
+                                                  CupertinoIcons.trash,
+                                                  color: Cores.vermelhoMedio),
                                               onPressed: () {
                                                 showDialog(
                                                   context: context,

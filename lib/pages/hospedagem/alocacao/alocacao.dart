@@ -26,18 +26,9 @@ class _AlocacaoState extends State<Alocacao> {
   bool exibirCabecalho = true;
 
   List<DropdownMenuItem> statuEvento = [
-    const DropdownMenuItem(
-      value: 1,
-      child: Text("Vigentes"),
-    ),
-    const DropdownMenuItem(
-      value: 2,
-      child: Text("Realizados"),
-    ),
-    const DropdownMenuItem(
-      value: 3,
-      child: Text("Todos"),
-    ),
+    const DropdownMenuItem(value: 1, child: Text("Vigentes")),
+    const DropdownMenuItem(value: 2, child: Text("Realizados")),
+    const DropdownMenuItem(value: 3, child: Text("Todos")),
   ];
   List<CheckinListagemQuartosModel> quartos = [];
   List<BlocoModel> blocos = [];
@@ -59,6 +50,7 @@ class _AlocacaoState extends State<Alocacao> {
         await ApiCheckin().getCheckinQuartosBusca(codigoEvento, busca);
     if (retorno.statusCode == 200) {
       quartosBusca.clear();
+      quartos.clear();
       var dados = json.decode(retorno.body);
       for (var dado in dados) {
         quartosBusca.add(QuartoPessoasModel.fromJson(dado));
@@ -108,10 +100,10 @@ class _AlocacaoState extends State<Alocacao> {
 
   buscarQuartos({int? codigo}) async {
     setState(() => carregando = true);
-    quartosBusca.clear();
     var retorno = await ApiCheckin().getCheckinQuartos(codigo ?? codigoEvento);
     print(retorno.body);
     if (retorno.statusCode == 200) {
+      quartosBusca.clear();
       quartos.clear();
       var dados = json.decode(retorno.body);
       for (var dado in dados) {
@@ -261,9 +253,9 @@ class _AlocacaoState extends State<Alocacao> {
                                   //   ),
                                   // );
                                   await buscarQuartos();
+                                } else {
+                                  await buscarQuartoBusca(buscaController.text);
                                 }
-                                await buscarQuartoBusca(buscaController.text);
-
                                 // await buscarQuartoBusca(value);
                               },
                             ),
@@ -287,9 +279,7 @@ class _AlocacaoState extends State<Alocacao> {
                             // await buscarQuartoBusca(buscaController.text);
                           },
                           padding: const EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 16,
-                          ),
+                              vertical: 16, horizontal: 16),
                           child: const Icon(CupertinoIcons.search),
                         ),
                       ],
@@ -301,13 +291,9 @@ class _AlocacaoState extends State<Alocacao> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          "Check-In",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        const Text("Check-In",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
                         // const Expanded(child: SizedBox()),
                         SizedBox(
                           width: 500,
@@ -316,9 +302,8 @@ class _AlocacaoState extends State<Alocacao> {
                             decoration: const InputDecoration(
                               labelText: 'Eventos',
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
                                   color: Cores.cinzaEscuro,
                                 ),
@@ -334,9 +319,7 @@ class _AlocacaoState extends State<Alocacao> {
                                 ? eventoSelecionado
                                 : null,
                             onChanged: (value) async {
-                              setState(() {
-                                eventoSelecionado = value;
-                              });
+                              setState(() => eventoSelecionado = value);
                               await buscarEventos();
                               // buscarBlocos();
                             },
@@ -346,12 +329,8 @@ class _AlocacaoState extends State<Alocacao> {
                     ),
                   ),
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Divider(
-                      thickness: 1,
-                      color: Cores.preto,
-                    ),
-                  ),
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Divider(thickness: 1, color: Cores.preto)),
                   exibirCabecalho
                       ? const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -465,7 +444,7 @@ class _AlocacaoState extends State<Alocacao> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 5),
                                   child: ListView.builder(
-                                      itemCount: 1,
+                                      itemCount: quartosBusca.length,
                                       itemBuilder: (context, index) {
                                         return Column(
                                           children: [
@@ -500,10 +479,9 @@ class _AlocacaoState extends State<Alocacao> {
                                                         CupertinoDialogRoute(
                                                           builder: (context) {
                                                             return EditarCheckin(
-                                                              dadosQuarto:
-                                                                  quarto,
-                                                              refresh: () {},
-                                                            );
+                                                                dadosQuarto:
+                                                                    quarto,
+                                                                refresh: () {});
                                                           },
                                                           context: context,
                                                         ),
@@ -514,17 +492,14 @@ class _AlocacaoState extends State<Alocacao> {
                                                       cursor: SystemMouseCursors
                                                           .click,
                                                       child: CardQuartoAlocacao(
-                                                        quarto: quarto,
-                                                      ),
+                                                          quarto: quarto),
                                                     ),
                                                   ),
                                               ],
                                             ),
                                             const Padding(
                                               padding: EdgeInsets.symmetric(
-                                                vertical: 10,
-                                                horizontal: 20,
-                                              ),
+                                                  vertical: 10, horizontal: 20),
                                               child: Divider(
                                                   color: Cores.cinzaMedio),
                                             ),

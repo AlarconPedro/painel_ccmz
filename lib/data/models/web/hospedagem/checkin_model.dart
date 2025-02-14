@@ -2,6 +2,7 @@ class CheckinModel {
   int qupCodigo;
   int pesCodigo;
   int quaCodigo;
+  int eveCodigo;
   bool pesChave;
   bool pesCheckin;
   bool pesNaovem;
@@ -11,6 +12,7 @@ class CheckinModel {
     required this.qupCodigo,
     required this.pesCodigo,
     required this.quaCodigo,
+    required this.eveCodigo,
     required this.pesChave,
     required this.pesCheckin,
     required this.pesNaovem,
@@ -21,6 +23,7 @@ class CheckinModel {
         qupCodigo: json["qupCodigo"] ?? 0,
         pesCodigo: json["pesCodigo"] ?? 0,
         quaCodigo: json["quaCodigo"] ?? 0,
+        eveCodigo: json["eveCodigo"] ?? 0,
         pesChave: json["pesChave"] ?? false,
         pesCheckin: json["pesCheckin"] ?? false,
         pesNaovem: json["pesNaovem"] ?? false,
@@ -31,6 +34,7 @@ class CheckinModel {
         "qupCodigo": qupCodigo,
         "pesCodigo": pesCodigo,
         "quaCodigo": quaCodigo,
+        "eveCodigo": eveCodigo,
         "pesChave": pesChave,
         "pesCheckin": pesCheckin,
         "pesNaovem": pesNaovem,

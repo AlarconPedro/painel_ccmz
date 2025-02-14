@@ -5,6 +5,7 @@ import 'package:painel_ccmn/pages/estoque/relatorios/relatorios.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/pages/promocoes/sorteios/lista_ganhador_cupon.dart';
 
+import '../pages/financeiro/servicos/servicos.dart';
 import '../pages/promocoes/promocoes/promocoes.dart';
 import '../pages/promocoes/sorteios/sorteios.dart';
 
@@ -41,15 +42,7 @@ class _PageControlState extends State<PageControl> {
         }
       case 'Financeiro':
         {
-          return [
-            const DashBoard(),
-            const Pessoas(),
-            const Comunidade(),
-            const Bloco(),
-            const Quartos(),
-            const Evento(),
-            const Alocacao(),
-          ];
+          return [Servicos()];
         }
       case 'Sorteios':
         {
@@ -61,18 +54,11 @@ class _PageControlState extends State<PageControl> {
         }
       case 'Admin':
         {
-          return [
-            const Usuarios(),
-            const Formularios(),
-          ];
+          return [const Usuarios(), const Formularios()];
         }
       default:
         if (Globais.isAdmin) {
-          return [
-            const Usuarios(),
-            const Formularios(),
-            const Sorteios(),
-          ];
+          return [const Usuarios(), const Formularios(), const Sorteios()];
         } else {
           return [
             const DashBoard(),

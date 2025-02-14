@@ -1,35 +1,43 @@
 class EventoDespesasModel {
-  int dseCodigo;
+  int edpCodigo;
   int eveCodigo;
-  String dseNome;
-  int dseQuantidade;
-  double dseValor;
+  int edpCodigoDespesa;
+  int edpQuantidade;
+  int edpComunidade;
+  bool edpTipoDespesa;
+  double edpValor;
 
   EventoDespesasModel({
-    required this.dseCodigo,
+    required this.edpCodigo,
     required this.eveCodigo,
-    required this.dseNome,
-    required this.dseQuantidade,
-    required this.dseValor,
+    required this.edpCodigoDespesa,
+    required this.edpQuantidade,
+    required this.edpComunidade,
+    required this.edpTipoDespesa,
+    required this.edpValor,
   });
 
   factory EventoDespesasModel.fromJson(Map<String, dynamic> json) {
     return EventoDespesasModel(
-      dseCodigo: json['dseCodigo'] ?? 0,
-      eveCodigo: json['eveCodigo'] ?? 0,
-      dseNome: json['dseNome'] ?? '',
-      dseQuantidade: json['dseQuantidade'] ?? 0,
-      dseValor: json['dseValor'] ?? 0.0,
+      edpCodigo: json['edpCodigo'],
+      eveCodigo: json['eveCodigo'],
+      edpCodigoDespesa: json['edpCodigoDespesa'],
+      edpQuantidade: json['edpQuantidade'],
+      edpComunidade: json['edpComunidade'],
+      edpTipoDespesa: json['edpTipoDespesa'],
+      edpValor: json['edpValor'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'dseCodigo': dseCodigo,
+      'edpCodigo': edpCodigo,
       'eveCodigo': eveCodigo,
-      'dseNome': dseNome,
-      'dseQuantidade': dseQuantidade,
-      'dseValor': dseValor,
+      'edpCodigoDespesa': edpCodigoDespesa,
+      'edpQuantidade': edpQuantidade,
+      'edpComunidade': edpComunidade,
+      'edpTipoDespesa': edpTipoDespesa,
+      'edpValor': edpValor,
     };
   }
 }

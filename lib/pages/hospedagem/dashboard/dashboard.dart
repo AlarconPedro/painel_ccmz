@@ -239,7 +239,7 @@ class _DashBoardState extends State<DashBoard> {
     setState(() {
       listaPessoasBusca.clear();
       for (var item in listaPessoas) {
-        if (item.pesNome.contains(nome)) {
+        if (item.pesNome.toUpperCase().contains(nome.toUpperCase())) {
           listaPessoasBusca.add(item);
         }
       }
@@ -386,7 +386,7 @@ class _DashBoardState extends State<DashBoard> {
                                               setState(() {
                                                 telaDashboard = CheckinQuartos(
                                                   codigoEvento: eventoAtivo,
-                                                  quartosBusca: const [],
+                                                  quartosBusca: quartos,
                                                   voltar: () {
                                                     dashBoardController
                                                         .animateToPage(
@@ -432,9 +432,8 @@ class _DashBoardState extends State<DashBoard> {
                         color: Cores.branco,
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Cores.branco,
-                          ),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Cores.branco),
                           child: Column(
                             children: [
                               const Row(

@@ -5,7 +5,6 @@ import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/pages/login/seletor_modulo.dart';
 
 import '../classes/classes.dart';
-import '../classes/cores.dart';
 import '../pages/pages.dart';
 
 class EstruturaPage extends StatefulWidget {
@@ -63,7 +62,7 @@ class _EstruturaPageState extends State<EstruturaPage> {
               buttonStyleData: const ButtonStyleData(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 elevation: 5,
-                overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                // overlayColor: WidgetStatePropertyAll(Colors.transparent),
                 // WidgetStatePropertyAll(Colors.transparent),
               ),
               isExpanded: false,
