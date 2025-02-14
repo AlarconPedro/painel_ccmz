@@ -13,7 +13,8 @@ import '../../../data/models/web/sorteios_model.dart';
 
 class CadastroSorteio extends StatefulWidget {
   SorteiosModel? sorteio;
-  CadastroSorteio({super.key, this.sorteio});
+  int? codigoSorteio;
+  CadastroSorteio({super.key, this.sorteio, this.codigoSorteio});
 
   @override
   State<CadastroSorteio> createState() => _CadastroSorteioState();
@@ -23,6 +24,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   final formKey = GlobalKey<FormState>();
 
   final nomeController = TextEditingController();
+  final videoController = TextEditingController();
   final dataController = TextEditingController();
 
   SorteiosModel sorteio = SorteiosModel(
@@ -32,6 +34,8 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     preCodigo: 0,
     preNome: '',
     sorData: '',
+    proCodigo: 0,
+    proVideo: '',
   );
 
   int promocaoSelecionada = 0;
@@ -41,6 +45,27 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   List<DropdownMenuItem> premios = [];
 
   bool carregando = false;
+
+  alimentarCampos(SorteiosModel sorteio) {
+    nomeController.text = sorteio.preNome;
+    dataController.text = FuncoesData.dataFormatada(sorteio.sorData);
+    promocaoSelecionada = sorteio.proCodigo;
+    premioSelecionado = sorteio.preCodigo;
+    videoController.text = sorteio.proVideo;
+  }
+
+  buscarDadosSorteio() async {
+    setState(() => carregando = true);
+    await buscarPromocoes();
+    var retorno = await ApiPromocao().getSorteio(widget.codigoSorteio!);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      sorteio = SorteiosModel.fromJson(decoded);
+      await buscarPremios(sorteio.proCodigo);
+      alimentarCampos(sorteio);
+    }
+    setState(() => carregando = false);
+  }
 
   buscarPromocoes() async {
     var retorno = await ApiPromocao().getPromocoes("V");
@@ -58,6 +83,16 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
           ),
         );
       }
+    }
+  }
+
+  buscarDadosPromocao(int codigoPromocao) async {
+    var retorno = await ApiPromocao().getPromocao(codigoPromocao);
+    if (retorno.statusCode == 200) {
+      var decoded = json.decode(retorno.body);
+      setState(() {
+        nomeController.text = decoded['proNome'];
+      });
     }
   }
 
@@ -80,6 +115,17 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
   }
 
   SorteioModel preparaDados() {
+    if (widget.codigoSorteio != null) {
+      return SorteioModel(
+        sorCodigo: sorteio.sorCodigo,
+        cupCodigo: 0,
+        parCodigo: 0,
+        sorData: FuncoesData.stringToDateTime(dataController.text),
+        proCodigo: promocaoSelecionada,
+        preCodigo: premioSelecionado,
+        proVideo: videoController.text,
+      );
+    }
     return SorteioModel(
       sorCodigo: 0,
       cupCodigo: 0,
@@ -87,6 +133,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
       sorData: FuncoesData.stringToDateTime(dataController.text),
       proCodigo: promocaoSelecionada,
       preCodigo: premioSelecionado,
+      proVideo: videoController.text,
     );
   }
 
@@ -94,17 +141,7 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     setState(() => carregando = true);
     dynamic retorno = await ApiPromocao().addSorteioPromocao(preparaDados());
     if (retorno.statusCode == 200) {
-      Navigator.pop(
-        context,
-        // SorteiosModel(
-        //   sorCodigo: 0,
-        //   cupNumero: '',
-        //   parNome: '',
-        //   preCodigo: 0,
-        //   preNome: '',
-        //   sorData: dataController.text,
-        // ),
-      );
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Sorteio cadastrado com sucesso!'),
@@ -122,11 +159,34 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
     setState(() => carregando = false);
   }
 
+  updateSorteio() async {
+    setState(() => carregando = true);
+    dynamic retorno = await ApiPromocao().updateSorteioPromocao(preparaDados());
+    if (retorno.statusCode == 200) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sorteio atualizado com sucesso!'),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao atualizar o Sorteio!'),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     buscarPromocoes();
+    if (widget.codigoSorteio != null) buscarDadosSorteio();
   }
 
   @override
@@ -211,6 +271,40 @@ class _CadastroSorteioState extends State<CadastroSorteio> {
                 premioSelecionado = value;
               });
             },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: videoController,
+                  decoration: const InputDecoration(
+                    labelText: 'Vídeo',
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      borderSide: BorderSide(
+                        color: Cores.cinzaEscuro,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ],
