@@ -40,6 +40,9 @@ class CardDespesasComunidade extends StatelessWidget {
   List<ServicoEventoModel> listaServicos = [];
   List<ServicoEventoModel> listaProdutos = [];
 
+  double valoresExtras = 0;
+  double valorTotalComunidade = 0;
+
   calcularValorTotalComunidade() {
     if (servicosComunidade != null) {
       for (var item in servicosComunidade!) {
@@ -59,8 +62,9 @@ class CardDespesasComunidade extends StatelessWidget {
         0, (previousValue, element) => previousValue + element.serValor);
     double produtos = listaProdutos.fold(
         0, (previousValue, element) => previousValue + element.serValor);
-    double valoresExtras = ((servicos + produtos) / pagante);
-    return ((valorPorPessoa + valoresExtras) * cobrante);
+    valoresExtras = ((servicos + produtos) / pagante);
+    valorPorPessoa += valoresExtras;
+    valorTotalComunidade = (valorPorPessoa * cobrante);
     // for (var item in despesasExtra) {
     //   valorTotal += item.values.first;
     // }
@@ -68,6 +72,7 @@ class CardDespesasComunidade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    calcularValorTotalComunidade();
     return Card(
       elevation: 5,
       color: Cores.branco,
@@ -155,7 +160,7 @@ class CardDespesasComunidade extends StatelessWidget {
                                     locale: 'pt_BR',
                                     symbol: 'R\$',
                                     name: 'R\$')
-                                .format(calcularValorTotalComunidade()),
+                                .format(valorTotalComunidade),
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold))
                       ],

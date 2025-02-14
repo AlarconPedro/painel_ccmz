@@ -612,16 +612,17 @@ class _AcertoEventoState extends State<AcertoEvento> {
                                 texto: "Gerar",
                                 onPressed: () {
                                   acertoEventoData.criarPaginasPDF(
-                                    widget.nomeEvento,
-                                    valorTotalServicos,
-                                    valorOutrasDespesas,
-                                    (valorEvento * cobrantesEvento),
-                                    valorPorPessoa,
-                                    valorTotal,
-                                    widget.comunidades,
-                                    eventosDespesas,
-                                    produtosDespesas,
-                                    dividirComunidade,
+                                    nomeEvento: widget.nomeEvento,
+                                    valorServicos: valorTotalServicos,
+                                    valorProdutos: valorOutrasDespesas,
+                                    valorEvento:
+                                        (valorEvento * cobrantesEvento),
+                                    valorPorPessoa: valorPorPessoa,
+                                    valorTotal: valorTotal,
+                                    comunidadesEvento: widget.comunidades,
+                                    servicosEvento: eventosDespesas,
+                                    produtosEvento: produtosDespesas,
+                                    dividirPorPessoa: dividirComunidade,
                                   );
                                 },
                                 icon: const Padding(
