@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:painel_ccmn/data/api/hospedagem/api_evento_despesa.dart';
 import 'package:pdf/pdf.dart';
@@ -272,6 +273,44 @@ class AcertoEventoData {
     }
   }
 
+  adicionarServicosComunidades(
+      List<dynamic> servicosEvento, List<dynamic> comunidadesEvento) {
+    List<Map<dynamic, dynamic>> servicosComunidades = [];
+    for (var item in servicosEvento) {
+      for (var comunidade in comunidadesEvento) {
+        if (item.serComunidade == comunidade.comCodigo) {
+          servicosComunidades.add({
+            "comunidade": comunidade.comNome,
+            "servico": item.serNome,
+            "valor": item.serValor,
+            "quantidade": item.serQuantidade,
+            "total": item.serValor * item.serQuantidade,
+          });
+        }
+      }
+    }
+    return servicosComunidades;
+  }
+
+  adicionarProdutosComunidades(
+      List<dynamic> produtosEvento, List<dynamic> comunidadesEvento) {
+    List<Map<dynamic, dynamic>> produtosComunidades = [];
+    for (var item in produtosEvento) {
+      for (var comunidade in comunidadesEvento) {
+        if (item.serComunidade == comunidade.comCodigo) {
+          produtosComunidades.add({
+            "comunidade": comunidade.comNome,
+            "produto": item.serNome,
+            "valor": item.serValor,
+            "quantidade": item.serQuantidade,
+            "total": item.serValor * item.serQuantidade,
+          });
+        }
+      }
+    }
+    return produtosComunidades;
+  }
+
   criarPaginasPDF({
     required String nomeEvento,
     required double valorServicos,
@@ -401,7 +440,7 @@ class AcertoEventoData {
           servicosEvento.any((element) => element.serComunidade == 0)
               ? servicosEvento.isNotEmpty
                   ? pw.Padding(
-                      padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                      padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
                       child: pw.Row(
                           mainAxisAlignment: pw.MainAxisAlignment.center,
                           children: [
@@ -458,10 +497,61 @@ class AcertoEventoData {
                     )
                   : pw.SizedBox()
               : pw.SizedBox(),
+          dividirPorPessoa
+              ? pw.Padding(
+                  padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
+                  child: pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.center,
+                      children: [
+                        pw.Text("Servicos por Comunidade",
+                            style: pw.TextStyle(
+                                fontSize: 16, fontWeight: pw.FontWeight.bold))
+                      ]),
+                )
+              : pw.SizedBox(),
+          dividirPorPessoa
+              ? pw.Container(
+                  padding: const pw.EdgeInsets.all(15),
+                  decoration: pw.BoxDecoration(
+                      border: pw.Border.all(color: PdfColors.black, width: 1),
+                      borderRadius: pw.BorderRadius.circular(10)),
+                  child: pw.Column(children: [
+                    pw.Padding(
+                        padding: const pw.EdgeInsets.only(bottom: 10),
+                        child: pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.center,
+                            children: [pw.Text("Servicos")])),
+                    pw.Table.fromTextArray(context: context, cellAlignments: {
+                      0: pw.Alignment.centerLeft,
+                      1: pw.Alignment.center,
+                      2: pw.Alignment.center,
+                      3: pw.Alignment.center,
+                      4: pw.Alignment.center,
+                    }, data: [
+                      [
+                        "Comunidade",
+                        "Nome",
+                        "Valor",
+                        "Quantidade",
+                        "Total",
+                      ],
+                      ...adicionarServicosComunidades(
+                              servicosEvento, comunidadesEvento)
+                          .map((e) => [
+                                e["comunidade"],
+                                e["servico"],
+                                FuncoesMascara.mascaraDinheiro(e["valor"]),
+                                e["quantidade"].toString(),
+                                FuncoesMascara.mascaraDinheiro(e["total"])
+                              ]),
+                    ]),
+                  ]),
+                )
+              : pw.SizedBox(),
           produtosEvento.any((element) => element.serComunidade == 0)
               ? produtosEvento.isNotEmpty
                   ? pw.Padding(
-                      padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                      padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
                       child: pw.Row(
                           mainAxisAlignment: pw.MainAxisAlignment.center,
                           children: [
@@ -518,9 +608,61 @@ class AcertoEventoData {
                     )
                   : pw.SizedBox()
               : pw.SizedBox(),
+          dividirPorPessoa
+              ? pw.Padding(
+                  padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
+                  child: pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.center,
+                      children: [
+                        pw.Text("Produtos por Comunidade",
+                            style: pw.TextStyle(
+                                fontSize: 16, fontWeight: pw.FontWeight.bold))
+                      ]),
+                )
+              : pw.SizedBox(),
+          dividirPorPessoa
+              ? pw.Container(
+                  padding: const pw.EdgeInsets.all(15),
+                  decoration: pw.BoxDecoration(
+                      border: pw.Border.all(color: PdfColors.black, width: 1),
+                      borderRadius: pw.BorderRadius.circular(10)),
+                  child: pw.Column(children: [
+                    pw.Padding(
+                        padding: const pw.EdgeInsets.only(bottom: 10),
+                        child: pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.center,
+                            children: [pw.Text("Produtos")])),
+                    pw.Table.fromTextArray(context: context, cellAlignments: {
+                      0: pw.Alignment.centerLeft,
+                      1: pw.Alignment.center,
+                      2: pw.Alignment.center,
+                      3: pw.Alignment.center,
+                      4: pw.Alignment.center,
+                    }, data: [
+                      [
+                        "Comunidade",
+                        "Nome",
+                        "Valor",
+                        "Quantidade",
+                        "Total",
+                      ],
+                      ...adicionarProdutosComunidades(
+                              produtosEvento, comunidadesEvento)
+                          .map((e) => [
+                                e["comunidade"],
+                                e["produto"],
+                                FuncoesMascara.mascaraDinheiro(e["valor"]),
+                                e["quantidade"].toString(),
+                                FuncoesMascara.mascaraDinheiro(e["total"])
+                              ]),
+                    ]),
+                  ]),
+                )
+              : pw.SizedBox(),
+          //verificar se não está maior que a tela do pdf
           !dividirPorPessoa
               ? pw.Padding(
-                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                  padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
                   child: pw.Row(
                       mainAxisAlignment: pw.MainAxisAlignment.center,
                       children: [
@@ -530,7 +672,7 @@ class AcertoEventoData {
                       ]),
                 )
               : pw.Padding(
-                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                  padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
                   child: pw.Row(
                       mainAxisAlignment: pw.MainAxisAlignment.center,
                       children: [
