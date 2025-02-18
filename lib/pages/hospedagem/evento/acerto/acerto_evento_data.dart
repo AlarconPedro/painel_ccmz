@@ -323,6 +323,10 @@ class AcertoEventoData {
     required List<dynamic> produtosEvento,
     required bool dividirPorPessoa,
   }) {
+    List<dynamic> servicosComunidades =
+        adicionarServicosComunidades(servicosEvento, comunidadesEvento);
+    List<dynamic> produtosComunidades =
+        adicionarProdutosComunidades(produtosEvento, comunidadesEvento);
     final pdf = pw.Document();
     pdf.addPage(
       // pw.Page(
@@ -498,55 +502,62 @@ class AcertoEventoData {
                   : pw.SizedBox()
               : pw.SizedBox(),
           dividirPorPessoa
-              ? pw.Padding(
-                  padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
-                  child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.center,
-                      children: [
-                        pw.Text("Servicos por Comunidade",
-                            style: pw.TextStyle(
-                                fontSize: 16, fontWeight: pw.FontWeight.bold))
-                      ]),
-                )
+              ? servicosComunidades.isNotEmpty
+                  ? pw.Padding(
+                      padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
+                      child: pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.center,
+                          children: [
+                            pw.Text("Servicos por Comunidade",
+                                style: pw.TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: pw.FontWeight.bold))
+                          ]),
+                    )
+                  : pw.SizedBox()
               : pw.SizedBox(),
           dividirPorPessoa
-              ? pw.Container(
-                  padding: const pw.EdgeInsets.all(15),
-                  decoration: pw.BoxDecoration(
-                      border: pw.Border.all(color: PdfColors.black, width: 1),
-                      borderRadius: pw.BorderRadius.circular(10)),
-                  child: pw.Column(children: [
-                    pw.Padding(
-                        padding: const pw.EdgeInsets.only(bottom: 10),
-                        child: pw.Row(
-                            mainAxisAlignment: pw.MainAxisAlignment.center,
-                            children: [pw.Text("Servicos")])),
-                    pw.Table.fromTextArray(context: context, cellAlignments: {
-                      0: pw.Alignment.centerLeft,
-                      1: pw.Alignment.center,
-                      2: pw.Alignment.center,
-                      3: pw.Alignment.center,
-                      4: pw.Alignment.center,
-                    }, data: [
-                      [
-                        "Comunidade",
-                        "Nome",
-                        "Valor",
-                        "Quantidade",
-                        "Total",
-                      ],
-                      ...adicionarServicosComunidades(
-                              servicosEvento, comunidadesEvento)
-                          .map((e) => [
-                                e["comunidade"],
-                                e["servico"],
-                                FuncoesMascara.mascaraDinheiro(e["valor"]),
-                                e["quantidade"].toString(),
-                                FuncoesMascara.mascaraDinheiro(e["total"])
-                              ]),
-                    ]),
-                  ]),
-                )
+              ? servicosComunidades.isNotEmpty
+                  ? pw.Container(
+                      padding: const pw.EdgeInsets.all(15),
+                      decoration: pw.BoxDecoration(
+                          border:
+                              pw.Border.all(color: PdfColors.black, width: 1),
+                          borderRadius: pw.BorderRadius.circular(10)),
+                      child: pw.Column(children: [
+                        pw.Padding(
+                            padding: const pw.EdgeInsets.only(bottom: 10),
+                            child: pw.Row(
+                                mainAxisAlignment: pw.MainAxisAlignment.center,
+                                children: [pw.Text("Servicos")])),
+                        pw.Table
+                            .fromTextArray(context: context, cellAlignments: {
+                          0: pw.Alignment.centerLeft,
+                          1: pw.Alignment.center,
+                          2: pw.Alignment.center,
+                          3: pw.Alignment.center,
+                          4: pw.Alignment.center,
+                        }, data: [
+                          [
+                            "Comunidade",
+                            "Nome",
+                            "Valor",
+                            "Quantidade",
+                            "Total",
+                          ],
+                          ...adicionarServicosComunidades(
+                                  servicosEvento, comunidadesEvento)
+                              .map((e) => [
+                                    e["comunidade"],
+                                    e["servico"],
+                                    FuncoesMascara.mascaraDinheiro(e["valor"]),
+                                    e["quantidade"].toString(),
+                                    FuncoesMascara.mascaraDinheiro(e["total"])
+                                  ]),
+                        ]),
+                      ]),
+                    )
+                  : pw.SizedBox()
               : pw.SizedBox(),
           produtosEvento.any((element) => element.serComunidade == 0)
               ? produtosEvento.isNotEmpty
@@ -609,55 +620,62 @@ class AcertoEventoData {
                   : pw.SizedBox()
               : pw.SizedBox(),
           dividirPorPessoa
-              ? pw.Padding(
-                  padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
-                  child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.center,
-                      children: [
-                        pw.Text("Produtos por Comunidade",
-                            style: pw.TextStyle(
-                                fontSize: 16, fontWeight: pw.FontWeight.bold))
-                      ]),
-                )
+              ? produtosComunidades.isNotEmpty
+                  ? pw.Padding(
+                      padding: const pw.EdgeInsets.only(top: 20, bottom: 8),
+                      child: pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.center,
+                          children: [
+                            pw.Text("Produtos por Comunidade",
+                                style: pw.TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: pw.FontWeight.bold))
+                          ]),
+                    )
+                  : pw.SizedBox()
               : pw.SizedBox(),
           dividirPorPessoa
-              ? pw.Container(
-                  padding: const pw.EdgeInsets.all(15),
-                  decoration: pw.BoxDecoration(
-                      border: pw.Border.all(color: PdfColors.black, width: 1),
-                      borderRadius: pw.BorderRadius.circular(10)),
-                  child: pw.Column(children: [
-                    pw.Padding(
-                        padding: const pw.EdgeInsets.only(bottom: 10),
-                        child: pw.Row(
-                            mainAxisAlignment: pw.MainAxisAlignment.center,
-                            children: [pw.Text("Produtos")])),
-                    pw.Table.fromTextArray(context: context, cellAlignments: {
-                      0: pw.Alignment.centerLeft,
-                      1: pw.Alignment.center,
-                      2: pw.Alignment.center,
-                      3: pw.Alignment.center,
-                      4: pw.Alignment.center,
-                    }, data: [
-                      [
-                        "Comunidade",
-                        "Nome",
-                        "Valor",
-                        "Quantidade",
-                        "Total",
-                      ],
-                      ...adicionarProdutosComunidades(
-                              produtosEvento, comunidadesEvento)
-                          .map((e) => [
-                                e["comunidade"],
-                                e["produto"],
-                                FuncoesMascara.mascaraDinheiro(e["valor"]),
-                                e["quantidade"].toString(),
-                                FuncoesMascara.mascaraDinheiro(e["total"])
-                              ]),
-                    ]),
-                  ]),
-                )
+              ? produtosComunidades.isNotEmpty
+                  ? pw.Container(
+                      padding: const pw.EdgeInsets.all(15),
+                      decoration: pw.BoxDecoration(
+                          border:
+                              pw.Border.all(color: PdfColors.black, width: 1),
+                          borderRadius: pw.BorderRadius.circular(10)),
+                      child: pw.Column(children: [
+                        pw.Padding(
+                            padding: const pw.EdgeInsets.only(bottom: 10),
+                            child: pw.Row(
+                                mainAxisAlignment: pw.MainAxisAlignment.center,
+                                children: [pw.Text("Produtos")])),
+                        pw.Table
+                            .fromTextArray(context: context, cellAlignments: {
+                          0: pw.Alignment.centerLeft,
+                          1: pw.Alignment.center,
+                          2: pw.Alignment.center,
+                          3: pw.Alignment.center,
+                          4: pw.Alignment.center,
+                        }, data: [
+                          [
+                            "Comunidade",
+                            "Nome",
+                            "Valor",
+                            "Quantidade",
+                            "Total",
+                          ],
+                          ...adicionarProdutosComunidades(
+                                  produtosEvento, comunidadesEvento)
+                              .map((e) => [
+                                    e["comunidade"],
+                                    e["produto"],
+                                    FuncoesMascara.mascaraDinheiro(e["valor"]),
+                                    e["quantidade"].toString(),
+                                    FuncoesMascara.mascaraDinheiro(e["total"])
+                                  ]),
+                        ]),
+                      ]),
+                    )
+                  : pw.SizedBox()
               : pw.SizedBox(),
           //verificar se não está maior que a tela do pdf
           !dividirPorPessoa
