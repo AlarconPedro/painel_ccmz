@@ -1,5 +1,6 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 List<SideMenuItem> navHospedagem() => [
       SideMenuItem(
@@ -15,6 +16,10 @@ List<SideMenuItem> navHospedagem() => [
           //   style: TextStyle(color: Colors.white),
           // ),
           ),
+      SideMenuItem(
+          title: 'Paróquia',
+          onTap: (index, sideMenu) => sideMenu.changePage(index),
+          icon: const Icon(Icons.church_outlined)),
       SideMenuItem(
           title: 'Comunidades',
           onTap: (index, sideMenu) => sideMenu.changePage(index),
