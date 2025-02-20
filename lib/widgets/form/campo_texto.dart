@@ -10,6 +10,7 @@ Widget campoTexto({
   required Function(String) validador,
   Function()? enviarDados,
   TextInputType? tipo,
+  int? maxLength,
   required TextEditingController controlador,
 }) {
   return Padding(
@@ -18,6 +19,7 @@ Widget campoTexto({
       controller: controlador,
       keyboardType: tipo ?? TextInputType.text,
       onChanged: (value) => enviarDados!(),
+      maxLength: maxLength,
       inputFormatters: temMascara
           ? [mascara]
           : tipo == TextInputType.number

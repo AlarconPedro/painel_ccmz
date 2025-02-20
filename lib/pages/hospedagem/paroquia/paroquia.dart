@@ -32,6 +32,7 @@ class _ParoquiaState extends State<Paroquia> {
     var retorno = await ApiParoquia().buscarParoquias();
     if (retorno.statusCode == 200) {
       var dados = json.decode(retorno.body);
+      print(dados);
       listaParoquias =
           dados.map<ParoquiaModel>((e) => ParoquiaModel.fromJson(e)).toList();
     } else {
@@ -56,12 +57,13 @@ class _ParoquiaState extends State<Paroquia> {
   Widget build(BuildContext context) {
     return modeloListagemCadastro(
       fncBusca: () => {},
-      fncAbrirCadastro: () => {
-        Navigator.push(
+      fncAbrirCadastro: () async => {
+        await Navigator.push(
           context,
           CupertinoDialogRoute(
               builder: (context) => const CadastroParoquia(), context: context),
-        )
+        ),
+        buscarParoquias()
       },
       ctlrBusca: ctlrBusca,
       listaDados: listaParoquias,
@@ -79,12 +81,12 @@ class _ParoquiaState extends State<Paroquia> {
         ],
         camposCard: Row(
           children: [
-            const SizedBox(width: 30),
+            const SizedBox(width: 10),
             Textos.textoPequeno(texto: dados.prqNome),
             const Spacer(),
             Textos.textoPequeno(texto: dados.prqCidade),
             const Spacer(),
-            Textos.textoPequeno(texto: dados.prqParoquia),
+            Textos.textoPequeno(texto: dados.prqUF),
             const Spacer(),
           ],
         ),
@@ -96,10 +98,10 @@ class _ParoquiaState extends State<Paroquia> {
           const Spacer(),
           Textos.textoPequeno(texto: 'Cidade'),
           const Spacer(),
-          Textos.textoPequeno(texto: 'Paróquia'),
+          Textos.textoPequeno(texto: 'UF'),
           const Spacer(),
           Textos.textoPequeno(texto: 'Excluir'),
-          const SizedBox(width: 30),
+          const SizedBox(width: 20),
         ],
       ),
       titulo: "Paróquias",

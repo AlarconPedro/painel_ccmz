@@ -18,6 +18,7 @@ class CadastroParoquia extends StatefulWidget {
 class _CadastroParoquiaState extends State<CadastroParoquia> {
   TextEditingController ctlrNome = TextEditingController();
   TextEditingController ctlrCidade = TextEditingController();
+  TextEditingController ctlrUF = TextEditingController();
 
   bool carregando = false;
 
@@ -26,6 +27,7 @@ class _CadastroParoquiaState extends State<CadastroParoquia> {
       prqCodigo: 0,
       prqNome: ctlrNome.text,
       prqCidade: ctlrCidade.text,
+      prqUF: ctlrUF.text,
     );
   }
 
@@ -39,6 +41,7 @@ class _CadastroParoquiaState extends State<CadastroParoquia> {
           backgroundColor: Colors.green,
         ),
       );
+      Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -69,15 +72,48 @@ class _CadastroParoquiaState extends State<CadastroParoquia> {
           validador: (String) {},
           controlador: ctlrNome,
         ),
-        campoTexto(
-          titulo: "Cidade",
-          dica: "Cidade da Paróquia",
-          icone: CupertinoIcons.location_solid,
-          temMascara: false,
-          mascara: MaskTextInputFormatter(
-              mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
-          validador: (String) {},
-          controlador: ctlrCidade,
+        Row(
+          children: [
+            Expanded(
+              child: campoTexto(
+                titulo: "Cidade",
+                dica: "Cidade da Paróquia",
+                icone: CupertinoIcons.location_solid,
+                temMascara: false,
+                maxLength: 50,
+                mascara: MaskTextInputFormatter(
+                    mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
+                validador: (dados) {},
+                controlador: ctlrCidade,
+              ),
+            ),
+            //Criar mascara q transforma tudo em maiusculo e limita a 2 caracteres
+            Expanded(
+              child: campoTexto(
+                titulo: "UF",
+                dica: "UF da Paróquia",
+                icone: CupertinoIcons.location_solid,
+                temMascara: false,
+                maxLength: 2,
+                //mascara somente para letras
+                tipo: TextInputType.text,
+                mascara: MaskTextInputFormatter(
+                    mask: "", filter: {"": RegExp(r'[a-zA-Z]')}),
+                // mask: "AA",
+                // filter: {"": RegExp('[a-zA-Z]')}),
+                // mascara: MaskTextInputFormatter(
+                //     mask: "##", filter: {"##": RegExp(r'[a-zA-Z]')}),
+                validador: (dados) {
+                  if (dados.length != 2) {
+                    return "UF inválida!";
+                  } else {
+                    ctlrUF.text = ctlrUF.text.toUpperCase();
+                  }
+                },
+                controlador: ctlrUF,
+              ),
+            ),
+          ],
         ),
       ],
       titulo: "Cadastro de Paróquia",
