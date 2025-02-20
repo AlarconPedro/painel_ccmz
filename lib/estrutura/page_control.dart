@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:painel_ccmn/classes/classes.dart';
 import 'package:painel_ccmn/estrutura/estrutura.dart';
 import 'package:painel_ccmn/pages/estoque/relatorios/relatorios.dart';
+import 'package:painel_ccmn/pages/hospedagem/paroquia/paroquia.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/pages/promocoes/sorteios/lista_ganhador_cupon.dart';
 
@@ -24,7 +25,7 @@ class _PageControlState extends State<PageControl> {
           return [
             const DashBoard(),
             const Pessoas(),
-            const Comunidade(),
+            const Paroquia(),
             const Comunidade(),
             const Bloco(),
             const Quartos(),
