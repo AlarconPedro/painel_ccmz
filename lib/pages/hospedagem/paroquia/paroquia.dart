@@ -12,6 +12,7 @@ import 'package:painel_ccmn/widgets/telas/modelo_listagem_cadastro.dart';
 
 import '../../../classes/classes.dart';
 import '../../../data/api/hospedagem/api_paroquia.dart';
+import '../../../data/data.dart';
 import '../../../widgets/textos/textos.dart';
 
 class Paroquia extends StatefulWidget {
@@ -31,6 +32,9 @@ class _ParoquiaState extends State<Paroquia> {
   List<ParoquiaModel> listaParoquias = [];
 
   List<DropdownMenuItem> listaUfs = [];
+  List<DropdownMenuItem> cidades = [];
+
+  List<Map<int, String>> cidadesList = [];
 
   int paroquiaSelecionada = 0;
   int ufSelecinado = 0;
@@ -55,25 +59,32 @@ class _ParoquiaState extends State<Paroquia> {
   }
 
   buscarCidades() async {
-    setState(() => carregando = true);
-    var retorno = await ApiParoquia().buscarCidades(ufSelecinado);
+    setState(() {
+      carregando = true;
+    });
+    var retorno = await ApiComunidade().getCidades();
     if (retorno.statusCode == 200) {
-      var dados = json.decode(retorno.body);
-      listaUfs = dados
-          .map<DropdownMenuItem>((e) => DropdownMenuItem(
-                child: Text(e['cidNome']),
-                value: e['cidCodigo'],
-              ))
-          .toList();
+      cidades.clear();
+      cidades.add(const DropdownMenuItem(value: 0, child: Text("Todos")));
+      var decoded = json.decode(retorno.body);
+      for (var item in decoded) {
+        setState(() {
+          cidades.add(DropdownMenuItem(
+              value: decoded.indexOf(item) + 1, child: Text(item)));
+          cidadesList.add({decoded.indexOf(item) + 1: item});
+        });
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Erro ao carregar as Cidades!"),
-          backgroundColor: Colors.red,
+          backgroundColor: Cores.vermelhoMedio,
+          content: Text("Erro ao trazer cidades !"),
         ),
       );
     }
-    setState(() => carregando = false);
+    setState(() {
+      carregando = false;
+    });
   }
 
   excluirParoquia(int codigoParoquia) async {
@@ -120,9 +131,12 @@ class _ParoquiaState extends State<Paroquia> {
       },
       ctlrBusca: ctlrBusca,
       listaDados: listaParoquias,
-      filtros: Row(
-        children: [
-          DropDownForm(
+      filtros: SizedBox(
+        width: double.infinity,
+        height: 50,
+        child: SizedBox(
+          width: 100,
+          child: DropDownForm(
             label: "UF",
             itens: listaUfs,
             selecionado: ufSelecinado,
@@ -133,9 +147,29 @@ class _ParoquiaState extends State<Paroquia> {
                 buscarParoquias();
               });
             },
-          )
-        ],
+          ),
+        ),
       ),
+      // filtros: SizedBox(
+      //   height: 50,
+      //   width: double.infinity,
+      //   child: Row(
+      //     children: [
+      //       DropDownForm(
+      //         label: "UF",
+      //         itens: listaUfs,
+      //         selecionado: ufSelecinado,
+      //         onChange: (value) {
+      //           setState(() {
+      //             ufSelecinado = value;
+      //             buscarCidades();
+      //             buscarParoquias();
+      //           });
+      //         },
+      //       )
+      //     ],
+      //   ),
+      // ),
       cardListagem: (dados) => widget.selecionado
           ? MouseRegion(
               cursor: SystemMouseCursors.click,
