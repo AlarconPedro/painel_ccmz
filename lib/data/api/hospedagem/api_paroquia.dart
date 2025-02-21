@@ -6,8 +6,8 @@ class ApiParoquia {
 
   final String _urlBase = "${Globais.urlBase}paroquia";
 
-  Future<dynamic> buscarParoquias() async {
-    return await _request.getJson(_urlBase);
+  Future<dynamic> buscarParoquias(String busca) async {
+    return await _request.getJson("$_urlBase/$busca");
   }
 
   Future<dynamic> gravarParoquia(Map<String, dynamic> dados) async {
@@ -18,7 +18,7 @@ class ApiParoquia {
     return await _request.putJson(_urlBase, dados);
   }
 
-  Future<dynamic> excluirParoquia(String id) async {
+  Future<dynamic> excluirParoquia(int id) async {
     return await _request.deleteJson("$_urlBase/$id");
   }
 }

@@ -3,6 +3,7 @@ class ComunidadeModel {
   String comNome;
   String comCidade;
   String comUF;
+  int prqCodigo;
   int qtdPessoas;
 
   ComunidadeModel({
@@ -10,6 +11,7 @@ class ComunidadeModel {
     required this.comNome,
     required this.comCidade,
     required this.comUF,
+    required this.prqCodigo,
     required this.qtdPessoas,
   });
 
@@ -19,6 +21,7 @@ class ComunidadeModel {
       comNome: json['comNome'] ?? "",
       comCidade: json['comCidade'] ?? "",
       comUF: json['comUf'] ?? "",
+      prqCodigo: json['prqCodigo'] ?? 0,
       qtdPessoas: json['qtdPessoas'] ?? 0,
     );
   }
@@ -27,8 +30,9 @@ class ComunidadeModel {
     return {
       'comCodigo': comCodigo,
       'comNome': comNome,
+      'prqCodigo': prqCodigo,
       'comCidade': comCidade,
-      'comUF': comUF,
+      // 'comUF': comUF,
     };
   }
 }

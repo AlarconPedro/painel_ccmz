@@ -25,7 +25,7 @@ class _PageControlState extends State<PageControl> {
           return [
             const DashBoard(),
             const Pessoas(),
-            const Paroquia(),
+            Paroquia(),
             const Comunidade(),
             const Bloco(),
             const Quartos(),

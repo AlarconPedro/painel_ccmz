@@ -8,8 +8,11 @@ import 'package:painel_ccmn/data/models/web/hospedagem/paroquia_model.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/form/campo_texto.dart';
 
+import '../../../classes/classes.dart';
+
 class CadastroParoquia extends StatefulWidget {
-  const CadastroParoquia({super.key});
+  ParoquiaModel? paroquia;
+  CadastroParoquia({super.key, this.paroquia});
 
   @override
   State<CadastroParoquia> createState() => _CadastroParoquiaState();
@@ -19,10 +22,19 @@ class _CadastroParoquiaState extends State<CadastroParoquia> {
   TextEditingController ctlrNome = TextEditingController();
   TextEditingController ctlrCidade = TextEditingController();
   TextEditingController ctlrUF = TextEditingController();
+  int ctlrCodigo = 0;
 
   bool carregando = false;
 
   ParoquiaModel preparaDados() {
+    if (widget.paroquia != null) {
+      return ParoquiaModel(
+        prqCodigo: widget.paroquia!.prqCodigo,
+        prqNome: ctlrNome.text,
+        prqCidade: ctlrCidade.text,
+        prqUF: ctlrUF.text,
+      );
+    }
     return ParoquiaModel(
       prqCodigo: 0,
       prqNome: ctlrNome.text,
@@ -38,21 +50,62 @@ class _CadastroParoquiaState extends State<CadastroParoquia> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Paróquia cadastrada com sucesso!"),
-          backgroundColor: Colors.green,
+          backgroundColor: Cores.verdeMedio,
         ),
       );
       Navigator.pop(context);
+    } else if (retorno.statusCode == 400) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Paróquia já Cadastrada!"),
+          backgroundColor: Cores.amareloEscuro,
+        ),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Erro ao cadastrar a Paróquia!"),
-          backgroundColor: Colors.red,
+          backgroundColor: Cores.vermelhoMedio,
         ),
       );
     }
     setState(() => carregando = false);
     // ParoquiaModel paroquia = preparaDados();
     // print(paroquia.toJson());
+  }
+
+  updateParoquia() async {
+    setState(() => carregando = true);
+    var retorno =
+        await ApiParoquia().atualizarParoquia(preparaDados().toJson());
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Paróquia atualizada com sucesso!"),
+          backgroundColor: Cores.verdeMedio,
+        ),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao atualizar a Paróquia!"),
+          backgroundColor: Cores.vermelhoMedio,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  @override
+  initState() {
+    super.initState();
+    if (widget.paroquia != null) {
+      ctlrCodigo = widget.paroquia!.prqCodigo;
+      ctlrNome.text = widget.paroquia!.prqNome;
+      ctlrCidade.text = widget.paroquia!.prqCidade;
+      ctlrUF.text = widget.paroquia!.prqUF;
+    }
   }
 
   @override
@@ -117,7 +170,8 @@ class _CadastroParoquiaState extends State<CadastroParoquia> {
         ),
       ],
       titulo: "Cadastro de Paróquia",
-      gravar: () => adicionarParoquia(),
+      gravar: () =>
+          widget.paroquia != null ? updateParoquia() : adicionarParoquia(),
       cancelar: () => Navigator.pop(context),
     );
   }

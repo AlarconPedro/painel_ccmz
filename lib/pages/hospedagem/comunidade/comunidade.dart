@@ -146,11 +146,8 @@ class _ComunidadeState extends State<Comunidade> {
                 await Navigator.push(
                   context,
                   CupertinoDialogRoute(
-                    builder: (context) {
-                      return CadastroComunidade(
-                        comunidade: comunidade,
-                      );
-                    },
+                    builder: (context) =>
+                        CadastroComunidade(comunidade: comunidade),
                     context: context,
                   ),
                 );

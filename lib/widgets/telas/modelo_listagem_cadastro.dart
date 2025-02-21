@@ -78,7 +78,8 @@ Widget modeloListagemCadastro({
                         },
                         padding: const EdgeInsets.symmetric(
                             vertical: 16, horizontal: 16),
-                        child: const Icon(CupertinoIcons.search),
+                        child: const Icon(CupertinoIcons.search,
+                            color: Cores.branco),
                       ),
                     ],
                   ),

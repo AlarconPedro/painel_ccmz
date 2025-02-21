@@ -342,9 +342,9 @@ class _PessoasState extends State<Pessoas> {
               flex: 2,
               child: Text("Catequista",
                   style: TextStyle(fontWeight: FontWeight.bold))),
-          Expanded(
-              child: Text("Catequizando",
-                  style: TextStyle(fontWeight: FontWeight.bold))),
+          // Expanded(
+          //     child: Text("Catequizando",
+          //         style: TextStyle(fontWeight: FontWeight.bold))),
           Text("Excluir", style: TextStyle(fontWeight: FontWeight.bold)),
           SizedBox(width: 25),
         ],

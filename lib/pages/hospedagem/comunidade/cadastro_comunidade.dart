@@ -3,10 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:painel_ccmn/data/data.dart';
+import 'package:painel_ccmn/pages/hospedagem/paroquia/paroquia.dart';
 import 'package:painel_ccmn/pages/pages.dart';
 import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 
 import '../../../classes/classes.dart';
+import '../../../widgets/botoes/btn_primario.dart';
+import '../../../widgets/botoes/btn_secundario.dart';
+import '../../../widgets/separador.dart';
 
 class CadastroComunidade extends StatefulWidget {
   ComunidadeModel? comunidade;
@@ -26,12 +30,19 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
 
   bool carregando = false;
 
+  List<DropdownMenuItem<dynamic>> paroquiaListar = [];
+
+  int codigoParoquiaSelecionada = 0;
+
+  (int, String, String) paroquiaSelecionada = (0, "", "");
+
   preparaDados() {
     if (widget.comunidade != null) {
       return ComunidadeModel(
         comCodigo: widget.comunidade!.comCodigo,
         comNome: nomeController.text,
-        comCidade: cidadeController.text,
+        prqCodigo: paroquiaSelecionada.$1,
+        comCidade: paroquiaSelecionada.$3,
         comUF: ufController.text,
         qtdPessoas: widget.comunidade!.qtdPessoas,
       );
@@ -40,7 +51,8 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
     return ComunidadeModel(
       comCodigo: 0,
       comNome: nomeController.text,
-      comCidade: cidadeController.text,
+      prqCodigo: codigoParoquiaSelecionada,
+      comCidade: paroquiaSelecionada.$3,
       comUF: ufController.text,
       qtdPessoas: 0,
     );
@@ -93,9 +105,60 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
   alimentaCampos() {
     setState(() {
       nomeController.text = widget.comunidade!.comNome;
-      cidadeController.text = widget.comunidade!.comCidade;
-      ufController.text = widget.comunidade!.comUF;
+      codigoParoquiaSelecionada = widget.comunidade!.prqCodigo;
+      paroquiaSelecionada = (
+        widget.comunidade!.prqCodigo,
+        widget.comunidade!.comNome,
+        widget.comunidade!.comCidade
+      );
+      // cidadeController.text = widget.comunidade!.comCidade;
+      // ufController.text = widget.comunidade!.comUF;
     });
+  }
+
+  selecionarParoquia() {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: Container(
+          width: 800,
+          height: 600,
+          decoration: BoxDecoration(
+            color: Cores.cinzaClaro,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                  color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))
+            ],
+          ),
+          child: Column(children: [
+            Expanded(
+              child: Paroquia(
+                  selecionado: true,
+                  selecionarparoquia: (codigo, nome, cidade) {
+                    setState(
+                        () => paroquiaSelecionada = (codigo, nome, cidade));
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  btnSecundario(
+                      texto: "Fechar", onPressed: () => Navigator.pop(context)),
+                  separador(),
+                  btnPrimario(
+                    texto: "Selecionar",
+                    onPressed: () =>
+                        Navigator.pop(context, codigoParoquiaSelecionada),
+                  ),
+                ],
+              ),
+            )
+          ]),
+        ),
+      ),
+    );
   }
 
   @override
@@ -107,7 +170,6 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
 
   @override
   Widget build(BuildContext context) {
-    (int, String) paroquiaSelecionada = (0, "");
     return CadastroForm(
       formKey: _formKey,
       titulo: "Cadastro de comunidade",
@@ -125,7 +187,7 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
                 ),
                 child: TextFormField(
                   controller: nomeController,
-                  maxLength: 255,
+                  // maxLength: 255,
                   decoration: const InputDecoration(
                     labelText: 'Nome da comunidade',
                     enabledBorder: OutlineInputBorder(
@@ -164,7 +226,7 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
                       onTap: () => Navigator.push(
                         context,
                         CupertinoDialogRoute(
-                          builder: (context) => selecionarServico(),
+                          builder: (context) => selecionarParoquia(),
                           context: context,
                         ),
                       ),
@@ -172,168 +234,56 @@ class _CadastroComunidadeState extends State<CadastroComunidade> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 10),
                         child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: paroquiaSelecionada.$2.isNotEmpty
-                                ? Cores.verdeMedio
-                                : Cores.cinzaClaro,
-                            border:
-                                Border.all(color: Cores.cinzaMedio, width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              paroquiaSelecionada.$2.isEmpty
-                                  ? "Selecione a Paróquia"
-                                  : paroquiaSelecionada.$2,
-                              style: TextStyle(
-                                  color: paroquiaSelecionada.$2.isEmpty
-                                      ? Cores.preto
-                                      : Cores.branco),
+                            height: 50,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: paroquiaSelecionada.$2.isNotEmpty
+                                  ? Cores.verdeMedio
+                                  : Cores.cinzaClaro,
+                              border:
+                                  Border.all(color: Cores.cinzaMedio, width: 1),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                        ),
+                            child: paroquiaSelecionada.$2.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      "Selecione a Paróquia",
+                                      style: TextStyle(
+                                          color: paroquiaSelecionada.$2.isEmpty
+                                              ? Cores.preto
+                                              : Cores.branco),
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          paroquiaSelecionada.$2,
+                                          style: TextStyle(
+                                              color:
+                                                  paroquiaSelecionada.$2.isEmpty
+                                                      ? Cores.preto
+                                                      : Cores.branco),
+                                        ),
+                                        Text(
+                                          paroquiaSelecionada.$3,
+                                          style: TextStyle(
+                                              color:
+                                                  paroquiaSelecionada.$2.isEmpty
+                                                      ? Cores.preto
+                                                      : Cores.branco),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: DropDownForm(
-                        label: "Paróquia",
-                        itens: comunidadesListar,
-                        selecionado: comunidadeSelecionada,
-                        onChange: (valor) {
-                          setState(() {
-                            comunidadeSelecionada = valor;
-                          });
-                        }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      controller: valorServico,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        CurrencyTextInputFormatter.currency(
-                            locale: "pt_BR",
-                            symbol: "R\$",
-                            decimalDigits: 2,
-                            name: "Real"),
-                      ],
-                      decoration: const InputDecoration(
-                        labelText: 'Valor',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                          borderSide: BorderSide(
-                            color: Cores.cinzaEscuro,
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, digite o valor do Evento !';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      controller: quantidadeServico,
-                      keyboardType: TextInputType.number,
-                      maxLength: 3,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      decoration: InputDecoration(
-                        labelText: "Quantidade",
-                        prefixIcon: const Icon(CupertinoIcons.number),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) =>
-                          value!.isEmpty ? "Informe a quantidade" : null,
                     ),
                   ),
                 ],
               ),
             ),
-            // Expanded(
-            //   flex: 5,
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(
-            //       horizontal: 10,
-            //       vertical: 10,
-            //     ),
-            //     child: TextFormField(
-            //       controller: cidadeController,
-            //       maxLength: 255,
-            //       decoration: const InputDecoration(
-            //         labelText: 'Cidade',
-            //         enabledBorder: OutlineInputBorder(
-            //           borderRadius: BorderRadius.all(
-            //             Radius.circular(10),
-            //           ),
-            //           borderSide: BorderSide(
-            //             color: Cores.cinzaEscuro,
-            //           ),
-            //         ),
-            //         border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.all(
-            //             Radius.circular(10),
-            //           ),
-            //         ),
-            //       ),
-            //       validator: (value) {
-            //         if (value == null || value.isEmpty) {
-            //           return 'Por favor, digite o nome da cidade da comunidade';
-            //         }
-            //         return null;
-            //       },
-            //     ),
-            //   ),
-            // ),
-            // Expanded(
-            //   flex: 2,
-            //   child: Padding(
-            //     padding:
-            //         const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            //     child: TextFormField(
-            //       controller: ufController,
-            //       maxLength: 2,
-            //       decoration: const InputDecoration(
-            //         labelText: 'UF',
-            //         enabledBorder: OutlineInputBorder(
-            //           borderRadius: BorderRadius.all(
-            //             Radius.circular(10),
-            //           ),
-            //           borderSide: BorderSide(
-            //             color: Cores.cinzaEscuro,
-            //           ),
-            //         ),
-            //         border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.all(
-            //             Radius.circular(10),
-            //           ),
-            //         ),
-            //       ),
-            //       validator: (value) {
-            //         if (value == null || value.isEmpty) {
-            //           return 'Por favor, digite o UF comunidade';
-            //         }
-            //         return null;
-            //       },
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ],

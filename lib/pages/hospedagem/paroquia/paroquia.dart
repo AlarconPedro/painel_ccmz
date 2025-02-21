@@ -7,6 +7,7 @@ import 'package:painel_ccmn/pages/hospedagem/paroquia/cadastro_paroquia.dart';
 import 'package:painel_ccmn/widgets/cards/base/card_base_listagem.dart';
 import 'package:painel_ccmn/widgets/cards/btn_opcoes_card.dart';
 import 'package:painel_ccmn/widgets/dialogs/delete_dialog.dart';
+import 'package:painel_ccmn/widgets/form/dropdown_form.dart';
 import 'package:painel_ccmn/widgets/telas/modelo_listagem_cadastro.dart';
 
 import '../../../classes/classes.dart';
@@ -14,7 +15,9 @@ import '../../../data/api/hospedagem/api_paroquia.dart';
 import '../../../widgets/textos/textos.dart';
 
 class Paroquia extends StatefulWidget {
-  const Paroquia({super.key});
+  bool selecionado;
+  Function(int, String, String)? selecionarparoquia;
+  Paroquia({super.key, this.selecionado = false, this.selecionarparoquia});
 
   @override
   State<Paroquia> createState() => _ParoquiaState();
@@ -27,18 +30,67 @@ class _ParoquiaState extends State<Paroquia> {
 
   List<ParoquiaModel> listaParoquias = [];
 
+  List<DropdownMenuItem> listaUfs = [];
+
+  int paroquiaSelecionada = 0;
+  int ufSelecinado = 0;
+
   buscarParoquias() async {
     setState(() => carregando = true);
-    var retorno = await ApiParoquia().buscarParoquias();
+    var retorno = await ApiParoquia()
+        .buscarParoquias(ctlrBusca.text.isEmpty ? "Todos" : ctlrBusca.text);
     if (retorno.statusCode == 200) {
       var dados = json.decode(retorno.body);
-      print(dados);
       listaParoquias =
           dados.map<ParoquiaModel>((e) => ParoquiaModel.fromJson(e)).toList();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Erro ao carregar as Paróquias!"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  buscarCidades() async {
+    setState(() => carregando = true);
+    var retorno = await ApiParoquia().buscarCidades(ufSelecinado);
+    if (retorno.statusCode == 200) {
+      var dados = json.decode(retorno.body);
+      listaUfs = dados
+          .map<DropdownMenuItem>((e) => DropdownMenuItem(
+                child: Text(e['cidNome']),
+                value: e['cidCodigo'],
+              ))
+          .toList();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao carregar as Cidades!"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+    setState(() => carregando = false);
+  }
+
+  excluirParoquia(int codigoParoquia) async {
+    setState(() => carregando = true);
+    var retorno = await ApiParoquia().excluirParoquia(codigoParoquia);
+    if (retorno.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Paróquia excluída com sucesso!"),
+          backgroundColor: Colors.green,
+        ),
+      );
+      buscarParoquias();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao excluir a Paróquia!"),
           backgroundColor: Colors.red,
         ),
       );
@@ -56,50 +108,125 @@ class _ParoquiaState extends State<Paroquia> {
   @override
   Widget build(BuildContext context) {
     return modeloListagemCadastro(
-      fncBusca: () => {},
+      fncBusca: () => buscarParoquias(),
       fncAbrirCadastro: () async => {
         await Navigator.push(
           context,
           CupertinoDialogRoute(
-              builder: (context) => const CadastroParoquia(), context: context),
+              builder: (context) => CadastroParoquia(paroquia: null),
+              context: context),
         ),
         buscarParoquias()
       },
       ctlrBusca: ctlrBusca,
       listaDados: listaParoquias,
-      cardListagem: (dados) => CardBaseListagem(
-        btnsOpcoes: [
-          BtnOpcoesCard(
-            dialog: () => deleteDialog(
-                context: context,
-                excluir: () => {},
-                titulo: 'Excluir Paróquia',
-                mensagem: 'Deseja realmente excluir a Paróquia?'),
-            icone: CupertinoIcons.delete,
-            cor: Cores.vermelhoMedio,
+      filtros: Row(
+        children: [
+          DropDownForm(
+            label: "UF",
+            itens: listaUfs,
+            selecionado: ufSelecinado,
+            onChange: (value) {
+              setState(() {
+                ufSelecinado = value;
+                buscarCidades();
+                buscarParoquias();
+              });
+            },
           )
         ],
-        camposCard: Row(
-          children: [
-            const SizedBox(width: 10),
-            Textos.textoPequeno(texto: dados.prqNome),
-            const Spacer(),
-            Textos.textoPequeno(texto: dados.prqCidade),
-            const Spacer(),
-            Textos.textoPequeno(texto: dados.prqUF),
-            const Spacer(),
-          ],
-        ),
       ),
+      cardListagem: (dados) => widget.selecionado
+          ? MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () async {
+                  setState(() {
+                    paroquiaSelecionada = dados.prqCodigo;
+                    widget.selecionarparoquia!(dados.prqCodigo, dados.prqNome,
+                        "${dados.prqCidade} - ${dados.prqUF}");
+                  });
+                  // await Navigator.push(
+                  //   context,
+                  //   CupertinoDialogRoute(
+                  //       builder: (context) => CadastroParoquia(
+                  //             paroquia: dados,
+                  //           ),
+                  //       context: context),
+                  // );
+                  // buscarParoquias();
+                },
+                child: CardBaseListagem(
+                  cor: paroquiaSelecionada == dados.prqCodigo
+                      ? Cores.verdeMedio
+                      : null,
+                  btnsOpcoes: [
+                    BtnOpcoesCard(
+                      dialog: () => deleteDialog(
+                          context: context,
+                          excluir: () => excluirParoquia(dados.prqCodigo),
+                          titulo: 'Excluir Paróquia',
+                          mensagem: 'Deseja realmente excluir a Paróquia?'),
+                      icone: CupertinoIcons.delete,
+                      cor: Cores.vermelhoMedio,
+                    )
+                  ],
+                  camposCard: Row(
+                    children: [
+                      const SizedBox(width: 10),
+                      Expanded(
+                          child: Textos.textoPequeno(texto: dados.prqNome)),
+                      Expanded(
+                          child: Textos.textoPequeno(texto: dados.prqCidade)),
+                      Expanded(child: Textos.textoPequeno(texto: dados.prqUF)),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          : MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    CupertinoDialogRoute(
+                        builder: (context) => CadastroParoquia(paroquia: dados),
+                        context: context),
+                  );
+                  buscarParoquias();
+                },
+                child: CardBaseListagem(
+                  btnsOpcoes: [
+                    BtnOpcoesCard(
+                      dialog: () => deleteDialog(
+                          context: context,
+                          excluir: () => excluirParoquia(dados.prqCodigo),
+                          titulo: 'Excluir Paróquia',
+                          mensagem: 'Deseja realmente excluir a Paróquia?'),
+                      icone: CupertinoIcons.delete,
+                      cor: Cores.vermelhoMedio,
+                    )
+                  ],
+                  camposCard: Row(
+                    children: [
+                      const SizedBox(width: 10),
+                      Expanded(
+                          child: Textos.textoPequeno(texto: dados.prqNome)),
+                      Expanded(
+                          child: Textos.textoPequeno(texto: dados.prqCidade)),
+                      Expanded(child: Textos.textoPequeno(texto: dados.prqUF)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
       tituloColunas: Row(
         children: [
           const SizedBox(width: 30),
-          Textos.textoPequeno(texto: 'Nome'),
-          const Spacer(),
-          Textos.textoPequeno(texto: 'Cidade'),
-          const Spacer(),
-          Textos.textoPequeno(texto: 'UF'),
-          const Spacer(),
+          Expanded(child: Textos.textoPequeno(texto: 'Nome')),
+          Expanded(child: Textos.textoPequeno(texto: 'Cidade')),
+          Expanded(child: Textos.textoPequeno(texto: 'UF')),
           Textos.textoPequeno(texto: 'Excluir'),
           const SizedBox(width: 20),
         ],

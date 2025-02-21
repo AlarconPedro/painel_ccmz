@@ -6,13 +6,17 @@ import '../../../classes/cores.dart';
 class CardBaseListagem extends StatelessWidget {
   List<BtnOpcoesCard> btnsOpcoes;
   Row camposCard;
+  Color? cor;
   CardBaseListagem(
-      {super.key, required this.btnsOpcoes, required this.camposCard});
+      {super.key,
+      required this.btnsOpcoes,
+      required this.camposCard,
+      this.cor = Colors.transparent});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.transparent,
+      color: cor,
       child: Row(
         children: [
           Expanded(
