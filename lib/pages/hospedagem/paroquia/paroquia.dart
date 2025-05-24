@@ -131,22 +131,30 @@ class _ParoquiaState extends State<Paroquia> {
       },
       ctlrBusca: ctlrBusca,
       listaDados: listaParoquias,
-      filtros: SizedBox(
-        width: double.infinity,
-        height: 50,
+      filtros: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SizedBox(
-          width: 100,
-          child: DropDownForm(
-            label: "UF",
-            itens: listaUfs,
-            selecionado: ufSelecinado,
-            onChange: (value) {
-              setState(() {
-                ufSelecinado = value;
-                buscarCidades();
-                buscarParoquias();
-              });
-            },
+          width: double.infinity,
+          height: 50,
+          child: Row(
+            children: [
+              SizedBox(
+                width: 100,
+                child: DropDownForm(
+                  label: "UF",
+                  itens: listaUfs,
+                  selecionado: ufSelecinado,
+                  onChange: (value) {
+                    setState(() {
+                      ufSelecinado = value;
+                      buscarCidades();
+                      buscarParoquias();
+                    });
+                  },
+                ),
+              ),
+              const Spacer(),
+            ],
           ),
         ),
       ),
